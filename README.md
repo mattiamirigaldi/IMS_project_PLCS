@@ -15,7 +15,7 @@ To create the table run the following code : \
 *)* 
 \
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-Then to get servers info needed to connect to it, just click on "connect" button and this window pops up: \
+Then to get servers info needed to connect to it, just click on "connect" button and this window will pop up: 
 
 ![image](https://user-images.githubusercontent.com/63643172/167146440-8d7e4908-b535-49e9-96f9-52c515e14175.png)
 ## FLASK
