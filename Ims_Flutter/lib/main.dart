@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget{
     // MaterialApp is the starting point of the app, says that the app will follow material design and will use material components.
     // Then the top level container in a material app is described by Scaffold, that gives different functionalites like AppBar, Drawer ...
     return MaterialApp(
+      //debugShowCheckedModeBanner: false,
       title: 'Inventory Management System',
       theme: ThemeData( primarySwatch: Colors.blueGrey),
       home: const WelcomeHome(),

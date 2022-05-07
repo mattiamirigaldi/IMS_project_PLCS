@@ -38,4 +38,27 @@ class Httpservices {
           "Error Code : ${response.statusCode.toString()}");   
       }
   }
+
+  static login(userName, password, context) async {
+    http.Response response = await _client.post(
+      _loginUrl,
+     body: {
+          "userName": userName,
+          "password":password
+        }
+    );
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == 'user not registered') {
+        await EasyLoading.showError(json[0]);
+      } else {
+        await EasyLoading.showSuccess("Welcome back!");
+        // Navigator.pushReplacement(
+        //     context, MaterialPageRoute(builder: (context) => Dashboard()));
+      }
+    } else {
+      EasyLoading.showError(
+        "Error Code : ${response.statusCode.toString()}");
+    }
+  } 
 }

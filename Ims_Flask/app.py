@@ -3,16 +3,24 @@ import pyodbc
 # __name__ means that is referencing this file
 app = Flask(__name__)
 
-@app.route("/register", methods=["GET","POST"])
-def register():
-
-    ## 1 SECTION : Connection to the database
+def connection():
+    ## Connection to the database
     # server and database names are given by SQL
     server = 'DESKTOP-I7POIMI\SQLEXPRESS'
     database = 'SQLTest'
     # Cnxn : is the connection string
-    #If trusted connection is 'yes' then we log using our windows authentication
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';Trusted_Connection=yes;')
+    # If trusted connection is 'yes' then we log using our windows authentication
+    cnxn = pyodbc.connect(
+        'DRIVER={ODBC Driver 17 for SQL Server}; \
+         SERVER=' + server + '; \
+         DATABASE=' + database + '; \
+        Trusted_Connection=yes;')
+    return cnxn
+
+@app.route("/register", methods=["GET","POST"])
+def register():
+    ## 1 SECTION: Connection to the database
+    cnxn = connection()
     #create the connection cursor, to do queries in the database
     cursor = cnxn.cursor()
 
@@ -32,7 +40,7 @@ def register():
     ## 3 SECTION : Interaction with database, used the pyodbc library
     # Inserted register credentials in the table
     # insert_query is a variable, is a multiline string
-    insert_query = '''INSERT INTO LibraryClients VALUES (?,?,?,?,?);'''    # the '?' are placeholders
+    insert_query = '''INSERT INTO Library_Clients VALUES (?,?,?,?,?);'''    # the '?' are placeholders
     # Then to execute the query is use the method execute(), it can take as argument directly the line of code
     # to execute or a the variable query and the values to be used
     value = (firstName,lastName,userName,mail,password)
@@ -42,6 +50,35 @@ def register():
     # Then the connection can be closed
     cnxn.close()
     return jsonify(["Register success"])
+
+@app.route("/login", methods=["GET","POST"])
+def login():
+    cnxn = connection()
+    cursor = cnxn.cursor()
+    if request.method == 'POST':
+        userName = request.form["userName"]
+        print("Username is "+userName)
+        password = request.form["password"]
+        print("Password is "+password)
+    # check if user is registered
+    check_query = '''SELECT CASE WHEN EXISTS (SELECT * FROM [Library_Clients] WHERE userName = (?) ) 
+                    THEN CAST(1 AS BIT) 
+                    ELSE CAST(0 AS BIT) 
+                    END'''  # the '?' are placeholders
+    value = (userName)
+    cursor.execute(check_query,value)
+    # the returned output is a cursor object
+    checked = cursor.fetchone()
+    print(checked)
+    if checked[0]:
+        # Then the connection can be closed
+        cnxn.close()
+        return jsonify(["valid user"])
+    else:
+        # Then the connection can be closed
+        cnxn.close()
+        return jsonify(["user not registered"])
+
 @app.route("/")
 def welcomhome():
     return "welcome"

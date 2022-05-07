@@ -24,44 +24,49 @@ class WelcomeHome extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold),
               textScaleFactor: 2)
           ),
-          const Center (child : Image(
-            image: AssetImage('images/ims.jpg'))
+          const Padding (
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+            child: Center (child : Image(
+              image: AssetImage('images/ims.jpg'))
+            )
           ),
           InkWell(
-              //  onTap: () {
-              //   Navigator.push(context,
-              //         MaterialPageRoute(builder: (context) => LoginPage()));
-              // },
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+               onTap: () {
+                Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginPage()));
+              },
+              child: Center ( child : Container(
+                margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
                 child: const Center(
                    child : Text("LOGIN", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black))
                 ),
                 height: 50,
-                width: double.infinity,
+                width: 800,
                 decoration: BoxDecoration(
                   color: Colors.blue,
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
             ),
+          ),
           InkWell(
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterPage()));
             } ,
-            child : Container(
+            child : Center (child:  Container(
               margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
               child: const Center(
                 child: Text("REGISTER", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black))
               ),
               height: 50,
-              width: double.infinity,
+              width: 800,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: Colors.deepOrange
               ),
           )
           )
+          ),
         ]
       )
     );

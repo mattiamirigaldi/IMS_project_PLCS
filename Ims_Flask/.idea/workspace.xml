@@ -3,6 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="1c0fe7fc-4b70-4f13-828c-0dcd61a577d3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/services/http_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/services/http_services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/views/Login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/views/Login.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/views/WelcomPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/views/WelcomPage.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,16 +56,17 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app.py" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager">
     <configuration name="flaskProject" type="Python.FlaskServer">
       <module name="flaskProject" />
-      <option name="target" value="$PROJECT_DIR$/app.py" />
+      <option name="target" value="C:\Users\Matti\Desktop\Polito\PLCS\IMS_project_PLCS\Ims_Flask\app.py" />
       <option name="targetType" value="PATH" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="C:\Users\Matti\Desktop\Polito\PLCS\flaskProject\venv\Scripts\python.exe" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -90,6 +96,12 @@
       <workItem from="1651086290358" duration="611000" />
       <workItem from="1651571241403" duration="51000" />
       <workItem from="1651574902163" duration="75000" />
+      <workItem from="1651745007611" duration="2215000" />
+      <workItem from="1651823697342" duration="6007000" />
+      <workItem from="1651833992611" duration="991000" />
+      <workItem from="1651835270283" duration="1001000" />
+      <workItem from="1651842588393" duration="6261000" />
+      <workItem from="1651914212753" duration="2007000" />
     </task>
     <servers />
   </component>
@@ -108,7 +120,7 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/app_py$flaskProject.coverage" NAME="flaskProject Coverage Results" MODIFIED="1651574926657" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/app_py$flaskProject.coverage" NAME="flaskProject Coverage Results" MODIFIED="1651916104223" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/flaskProject$flaskProject.coverage" NAME="flaskProject Coverage Results" MODIFIED="1651571246353" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>
