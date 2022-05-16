@@ -6,8 +6,8 @@ app = Flask(__name__)
 def connection():
     ## Connection to the database
     # server and database names are given by SQL
-    server = 'DESKTOP-I7POIMI\SQLEXPRESS'
-    database = 'SQLTest'
+    server = 'POUYAN'
+    database = 'my_db'
     # Cnxn : is the connection string
     # If trusted connection is 'yes' then we log using our windows authentication
     cnxn = pyodbc.connect(
@@ -61,24 +61,95 @@ def login():
         password = request.form["password"]
         print("Password is "+password)
     # check if user is registered
-    check_query = '''SELECT CASE WHEN EXISTS (SELECT * FROM [Library_Clients] WHERE userName = (?) ) 
+    check_query = '''SELECT CASE WHEN EXISTS (SELECT * FROM [Library_Clients] WHERE userName = (?) AND pwd = (?)) 
                     THEN CAST(1 AS BIT) 
                     ELSE CAST(0 AS BIT) 
                     END'''  # the '?' are placeholders
-    value = (userName)
+    value = (userName,password)
     cursor.execute(check_query,value)
     # the returned output is a cursor object
     checked = cursor.fetchone()
     print(checked)
     if checked[0]:
         # Then the connection can be closed
+        check_query = "SELECT * FROM [Library_Clients] WHERE userName = (?) "
+        value = (userName)
+        cursor.execute(check_query,value)
+        row = cursor.fetchone() 
         cnxn.close()
-        return jsonify(["valid user"])
+        print("Access to Login url : Successful")
+        return jsonify(row.firstName,row.mail)
+        #return jsonify(["valid user"])
     else:
         # Then the connection can be closed
         cnxn.close()
         return jsonify(["user not registered"])
 
+@app.route("/settings/<usr>", methods=["GET","POST"])
+def settings(usr):
+    cnxn = connection()
+    cursor = cnxn.cursor()
+    if request.method == 'POST':
+        userName = request.form["userName"]
+    check_query = "SELECT * FROM [Library_Clients] WHERE userName = (?) "
+    value = (usr)
+    cursor.execute(check_query,value)
+    row = cursor.fetchone() 
+    print("SETTINGS : FIRSTNAME is "+row.firstName)
+    print("Access to Settings url : Successful")
+    cnxn.close()
+    return jsonify(row.firstName,row.lastName,row.userName,row.mail,row.pwd)
+
+@app.route("/settings_ch/<usr>", methods=["GET","POST"])
+def settings_ch(usr):
+    cnxn = connection()
+    cursor = cnxn.cursor()
+
+    if request.method == 'POST':
+        firstName = request.form["firstName"]
+        lastName = request.form["lastName"]
+        userName = request.form["userName"]
+        mail = request.form["email"]
+        password = request.form["password"]
+
+    print("SETTINGS : FIRSTNAME is "+firstName)
+    print("Access to Settings_ch url : Successful_1")
+
+    insert_query = "UPDATE Library_Clients SET firstName = (?), lastName = (?), userName = (?), mail= (?), pwd= (?) WHERE userName = (?)"
+    value = (firstName,lastName,userName,mail,password,usr)
+    cursor.execute(insert_query, value)
+    cnxn.commit()
+    
+    print("Access to Settings_ch url : Successful_2")
+    
+    check_query = "SELECT * FROM [Library_Clients] WHERE userName = (?) "
+    value = (userName)
+    cursor.execute(check_query,value)
+    row = cursor.fetchone()
+    
+    cnxn.close()
+
+    print("Access to Settings_ch url : Successful_3")
+    
+    return jsonify(firstName,mail)
+
+#@app.route("/test/<string:id>")
+#def test(id):
+#    cnxn = connection()
+#    cursor = cnxn.cursor()
+#    check_query = "SELECT * FROM [Library_Clients] WHERE userName = (?) "
+#    value = (id)
+#    cursor.execute(check_query,value)
+#    row = cursor.fetchone() 
+#    #return('id = '+id+'|| Firstname: '+row.firstName
+#    #+'|| Lastname: '+row.lastName
+#    #+'|| Username: '+row.userName
+#    #+'|| Email: '+row.mail)
+#
+#    return jsonify(
+#            firstName=row.firstName, mail=row.mail,
+#        )
+#       
 @app.route("/")
 def welcomhome():
     return "welcome"
