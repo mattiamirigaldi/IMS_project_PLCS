@@ -120,9 +120,9 @@ class Httpservices {
           MaterialPageRoute(
               builder: (context) => ItemsList(
                     //bookid: json[0],
-                    bookTitle: json['datat'],
-                    bookAuthor: json['dataa'],
-                    bookGenre: json['datag'],
+                    bookTitle: json[0],
+                    bookAuthor: json[1],
+                    bookGenre: json[2],
                     // bookRFID: json[4],
                   )));
     } else {
