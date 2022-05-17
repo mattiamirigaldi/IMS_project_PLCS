@@ -1,5 +1,6 @@
 from asyncio.windows_events import NULL
 from contextlib import nullcontext
+from turtle import title
 from flask import Flask, render_template, Blueprint, request, json, jsonify
 import pyodbc
 # __name__ means that is referencing this file
@@ -150,22 +151,24 @@ def items(id):
     check_query = 'SELECT * FROM [Items]'
     cursor.execute(check_query)
     j = 0
-    datat = []
-    dataa = []
-    datag = []
+    tit = []
+    aut = []
+    gen = []
+    data = []
     for row in cursor :
         print("Access to items url : Successful_3") 
-        btitle = {"Title":row[1]}
-        datat.append(btitle)
-        bauthor= { "Author":row[2]}
-        dataa.append(bauthor)
-        bgenre = {"Genre":row[3]}
-        datag.append(bgenre)
-    print(datat)
-    print(dataa)
-    print(datag)
+        books = {"Title":row[1], "Author":row[2], "Genre":row[3]}
+        data.append(books)
+    for i in data :
+        tit.append(data[j]["Title"])
+        aut.append(data[j]["Author"])
+        gen.append(data[j]["Genre"])
+        j+=1
     cnxn.close()
-    return jsonify (datat,dataa,datag)
+    print(tit)
+    print(aut)
+    print(gen)
+    return jsonify (tit,aut,gen)
         #row = cursor.fetchone()
     
 
