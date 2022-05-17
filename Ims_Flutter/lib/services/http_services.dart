@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/views/HomePage.dart';
 import '../views/UserSettings.dart';
+import '../views/ItemsList.dart';
 
 class Httpservices {
   static final _client = http.Client();
@@ -102,6 +103,27 @@ class Httpservices {
                     userName: userName,
                     myname: json[0],
                     myemail: json[1],
+                  )));
+    } else {
+      await EasyLoading?.showError(
+          "Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  static items(bkid, context) async {
+    http.Response response = await _client
+        .post(Uri.parse(baseUrl + "items/" + bkid), body: {"bkid": bkid});
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ItemsList(
+                    //bookid: json[0],
+                    bookTitle: json['datat'],
+                    bookAuthor: json['dataa'],
+                    bookGenre: json['datag'],
+                    // bookRFID: json[4],
                   )));
     } else {
       await EasyLoading?.showError(
