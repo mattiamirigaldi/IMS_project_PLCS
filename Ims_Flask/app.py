@@ -9,8 +9,8 @@ app = Flask(__name__)
 def connection():
     ## Connection to the database
     # server and database names are given by SQL
-    server = 'DESKTOP-CK2AQQI'
-    database = 'mydb'
+    server = 'POUYAN'
+    database = 'my_db'
     # Cnxn : is the connection string
     # If trusted connection is 'yes' then we log using our windows authentication
     cnxn = pyodbc.connect(
@@ -151,24 +151,28 @@ def items(id):
     check_query = 'SELECT * FROM [Items]'
     cursor.execute(check_query)
     j = 0
+    id = []
     tit = []
     aut = []
     gen = []
+    rfid = []
     data = []
     for row in cursor :
         print("Access to items url : Successful_3") 
-        books = {"Title":row[1], "Author":row[2], "Genre":row[3]}
+        books = {"id":row[0], "Title":row[1], "Author":row[2], "Genre":row[3],"RFID":row[4],}
         data.append(books)
     for i in data :
+        id.append(data[j]["id"])
         tit.append(data[j]["Title"])
         aut.append(data[j]["Author"])
         gen.append(data[j]["Genre"])
+        rfid.append(data[j]["RFID"])
         j+=1
     cnxn.close()
-    print(tit)
-    print(aut)
-    print(gen)
-    return jsonify (tit,aut,gen)
+    #print(tit)
+    #print(aut)
+    #print(gen)
+    return jsonify (id,tit,aut,gen,rfid)
         #row = cursor.fetchone()
     
 

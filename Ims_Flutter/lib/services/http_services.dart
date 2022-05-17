@@ -119,11 +119,11 @@ class Httpservices {
           context,
           MaterialPageRoute(
               builder: (context) => ItemsList(
-                    //bookid: json[0],
-                    bookTitle: json[0],
-                    bookAuthor: json[1],
-                    bookGenre: json[2],
-                    // bookRFID: json[4],
+                    bookid: json[0],
+                    bookTitle: json[1],
+                    bookAuthor: json[2],
+                    bookGenre: json[3],
+                    bookRFID: json[4],
                   )));
     } else {
       await EasyLoading?.showError(

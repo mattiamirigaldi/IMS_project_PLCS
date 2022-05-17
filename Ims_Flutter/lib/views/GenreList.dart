@@ -1,5 +1,6 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
-import 'ItemsList.dart';
 import './../services/http_services.dart';
 
 class GenreList extends StatefulWidget {
@@ -62,7 +63,7 @@ class _GenreListState extends State<GenreList> {
                         horizontal: 20, vertical: 10),
                     child: Container(
                         height: 200,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             color: Colors.purple,
                             image: DecorationImage(
                               image: AssetImage('images/Horror.png'),
@@ -74,7 +75,7 @@ class _GenreListState extends State<GenreList> {
                         horizontal: 20, vertical: 10),
                     child: Container(
                         height: 200,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             color: Colors.purple,
                             image: DecorationImage(
                               image: AssetImage('images/Mystery.png'),
@@ -86,7 +87,7 @@ class _GenreListState extends State<GenreList> {
                         horizontal: 20, vertical: 10),
                     child: Container(
                         height: 200,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             color: Colors.purple,
                             image: DecorationImage(
                               image: AssetImage('images/Romance.png'),
@@ -98,7 +99,7 @@ class _GenreListState extends State<GenreList> {
                         horizontal: 20, vertical: 10),
                     child: Container(
                         height: 200,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             color: Colors.purple,
                             image: DecorationImage(
                               image: AssetImage('images/Si-Fi.png'),
