@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 import 'package:flutter/material.dart';
 import './../services/http_services.dart';
+import 'GenreList.dart';
 
 class HomePage extends StatelessWidget {
   final String userName;
@@ -50,6 +51,28 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               ),
+              InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const GenreList()));
+                  },
+                  child: Center(
+                      child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 50, vertical: 10),
+                    child: const Center(
+                        child: Text("Feeling like reading a book?",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black))),
+                    height: 50,
+                    width: 800,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.deepOrange),
+                  ))),
             ]));
   }
 }
