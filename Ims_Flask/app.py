@@ -1,3 +1,5 @@
+from asyncio.windows_events import NULL
+from contextlib import nullcontext
 from flask import Flask, render_template, Blueprint, request, json, jsonify
 import pyodbc
 # __name__ means that is referencing this file
@@ -6,8 +8,8 @@ app = Flask(__name__)
 def connection():
     ## Connection to the database
     # server and database names are given by SQL
-    server = 'POUYAN'
-    database = 'my_db'
+    server = 'DESKTOP-CK2AQQI'
+    database = 'mydb'
     # Cnxn : is the connection string
     # If trusted connection is 'yes' then we log using our windows authentication
     cnxn = pyodbc.connect(
@@ -132,6 +134,42 @@ def settings_ch(usr):
     print("Access to Settings_ch url : Successful_3")
     
     return jsonify(firstName,mail)
+
+
+@app.route("/items/<id>", methods=["GET","POST"])
+def items(id):
+    cnxn = connection()
+    cursor = cnxn.cursor()
+
+    if request.method == 'POST':
+        bkid = request.form["bkid"]
+
+    print("SETTINGS : ID is "+bkid)
+    print("Access to items url : Successful_1")
+    
+    check_query = 'SELECT * FROM [Items]'
+    cursor.execute(check_query)
+    j = 0
+    datat = []
+    dataa = []
+    datag = []
+    for row in cursor :
+        print("Access to items url : Successful_3") 
+        btitle = {"Title":row[1]}
+        datat.append(btitle)
+        bauthor= { "Author":row[2]}
+        dataa.append(bauthor)
+        bgenre = {"Genre":row[3]}
+        datag.append(bgenre)
+    print(datat)
+    print(dataa)
+    print(datag)
+    cnxn.close()
+    return jsonify (datat,dataa,datag)
+        #row = cursor.fetchone()
+    
+
+
 
 #@app.route("/test/<string:id>")
 #def test(id):
