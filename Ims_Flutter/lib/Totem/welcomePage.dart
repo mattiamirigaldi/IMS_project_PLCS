@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'homePage.dart';
+import 'loginPage.dart';
 
 class TWelcome extends StatelessWidget {
   const TWelcome({Key? key}) : super(key: key);
@@ -37,8 +37,10 @@ class TWelcome extends StatelessWidget {
                       child: Image(image: AssetImage('images/bookies.png')))),
               InkWell(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const hmpage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const loginPage()));
                 },
                 child: Center(
                   child: Container(
