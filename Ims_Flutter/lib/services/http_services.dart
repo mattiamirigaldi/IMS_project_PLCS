@@ -10,9 +10,9 @@ import '../views/ItemsList.dart';
 
 class Httpservices {
   static final _client = http.Client();
-  static final _loginUrl = Uri.parse('http://127.0.0.1:5000/login');
-  static final _registerUrl = Uri.parse('http://127.0.0.1:5000/register');
-  static String baseUrl = 'http://127.0.0.1:5000/';
+  static final _loginUrl = Uri.parse('http://172.22.171.23:5000/login');
+  static final _registerUrl = Uri.parse('http://172.22.171.23:5000/register');
+  static String baseUrl = 'http://172.22.171.23:5000/';
 
   static register(
       firstName, lastName, userName, email, password, context) async {

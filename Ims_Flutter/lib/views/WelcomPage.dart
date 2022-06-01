@@ -73,7 +73,7 @@ class WelcomeHome extends StatelessWidget {
                     width: 800,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Colors.deepOrange),
+                        color: const Color.fromARGB(255, 1, 154, 16)),
                   ))),
             ]));
   }

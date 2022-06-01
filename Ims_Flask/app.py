@@ -3,6 +3,8 @@ from contextlib import nullcontext
 from turtle import title
 from flask import Flask, render_template, Blueprint, request, json, jsonify
 import pyodbc
+import requests
+
 # __name__ means that is referencing this file
 app = Flask(__name__)
 
@@ -195,9 +197,26 @@ def items(id):
 #            firstName=row.firstName, mail=row.mail,
 #        )
 #       
-@app.route("/")
-def welcomhome():
-    return "welcome"
+
+ccc = 1
+user_rfid = 1
+
+@app.route("/", methods=["GET","POST"])
+def welcomhome(user_rfid):
+    #global user_rfid
+    return "welcome dear : "+str(user_rfid)
+
+@app.route("/totem", methods=["GET","POST"])
+def totem():
+    global user_rfid
+    if request.method == 'POST':
+        user_rfid = request.form['rfid']
+        print(str(user_rfid))
+    return welcomhome(user_rfid)
+    
+@app.route("/get", methods=["GET","POST"])
+def getdata(iiid):
+    return "welcome dear : "+str(iiid)
 
 if __name__=="__main__":
     app.run(host='0.0.0.0')
