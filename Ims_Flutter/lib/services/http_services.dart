@@ -4,15 +4,36 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:ims/Totem/homePage.dart';
 import 'package:ims/views/HomePage.dart';
 import '../views/UserSettings.dart';
 import '../views/ItemsList.dart';
+import './../Totem/homePage.dart';
 
 class Httpservices {
   static final _client = http.Client();
-  static final _loginUrl = Uri.parse('http://172.22.171.23:5000/login');
-  static final _registerUrl = Uri.parse('http://172.22.171.23:5000/register');
-  static String baseUrl = 'http://172.22.171.23:5000/';
+  static final _loginUrl = Uri.parse('http://192.168.1.6:5000/login');
+  static final _registerUrl = Uri.parse('http://192.168.1.6:5000/register');
+  static final _totemLoginUrl = Uri.parse('http://192.168.1.6:5000/totem');
+  static String baseUrl = 'http://192.168.1.6:5000/';
+
+  static totemLogin(context) async {
+    http.Response response = await _client.get(_totemLoginUrl);
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == 'user not registered') {
+        await EasyLoading.showError('Error');
+      } else {
+        await EasyLoading.showSuccess(json[0]);
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => hmpage(rfid: json['key1'])));
+      }
+    } else {
+      EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+    }
+  }
 
   static register(
       firstName, lastName, userName, email, password, context) async {

@@ -1,11 +1,13 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, camel_case_types
 
 import 'package:flutter/material.dart';
 import 'rentPage.dart';
 import 'returnPage.dart';
 
 class hmpage extends StatelessWidget {
-  const hmpage({Key? key}) : super(key: key);
+  final String rfid;
+  const hmpage({Key? key, required this.rfid}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,11 +24,7 @@ class hmpage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const Center(
-                  child: Text("Please select a service",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                      textScaleFactor: 4)),
+              Center(child: Text("Please select a service" + rfid)),
               InkWell(
                 onTap: () {
                   Navigator.push(

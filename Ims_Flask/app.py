@@ -1,7 +1,7 @@
 from asyncio.windows_events import NULL
 from contextlib import nullcontext
 from turtle import title
-from flask import Flask, render_template, Blueprint, request, json, jsonify
+from flask import Flask, redirect, render_template, Blueprint, request, json, jsonify, url_for, send_from_directory
 import pyodbc
 import requests
 
@@ -21,6 +21,34 @@ def connection():
          DATABASE=' + database + '; \
         Trusted_Connection=yes;')
     return cnxn
+
+
+
+FLUTTER_WEB_APP = 'templates'
+
+@app.route('/web/')
+def render_page_web():
+    return render_template('index.html')
+
+@app.route('/web/<path:name>')
+def return_flutter_doc(name):
+
+    datalist = str(name).split('/')
+    DIR_NAME = FLUTTER_WEB_APP
+
+    if len(datalist) > 1:
+        for i in range(0, len(datalist) - 1):
+            DIR_NAME += '/' + datalist[i]
+
+    return send_from_directory(DIR_NAME, datalist[-1])
+
+@app.route('/')
+def render_page():
+    return render_template('/index.html')
+
+#@app.route("/", methods=["GET","POST"])
+#def welcomhome():
+#    return "welcome!"
 
 @app.route("/register", methods=["GET","POST"])
 def register():
@@ -201,19 +229,25 @@ def items(id):
 ccc = 1
 user_rfid = 1
 
-@app.route("/", methods=["GET","POST"])
-def welcomhome(user_rfid):
-    #global user_rfid
-    return "welcome dear : "+str(user_rfid)
 
 @app.route("/totem", methods=["GET","POST"])
 def totem():
     global user_rfid
     if request.method == 'POST':
         user_rfid = request.form['rfid']
-        print(str(user_rfid))
-    return welcomhome(user_rfid)
-    
+        print(user_rfid)
+    #return jsonify( key1 = user_rfid )
+    return redirect(url_for('test'))
+
+@app.route("/test", methods=["GET","POST"])
+def test():
+    global user_rfid
+    if request.method == 'POST':
+        user_rfid = request.form['rfid']
+        print(user_rfid)
+        return redirect(url_for('totem'))
+    return "welcome dear : "+str(user_rfid)
+
 @app.route("/get", methods=["GET","POST"])
 def getdata(iiid):
     return "welcome dear : "+str(iiid)
