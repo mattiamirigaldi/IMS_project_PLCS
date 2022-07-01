@@ -3,19 +3,24 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+// to display loading animation
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+// to route 
+import './../views/DashBoard.dart';
 import 'package:ims/Totem/homePage.dart';
-import 'package:ims/views/HomePage.dart';
 import '../views/UserSettings.dart';
 import '../views/ItemsList.dart';
 import './../Totem/homePage.dart';
 
+String baseUrl= 'http://127.0.0.1:5000';
+
+
 class Httpservices {
+  
   static final _client = http.Client();
-  static final _loginUrl = Uri.parse('http://192.168.1.6:5000/login');
-  static final _registerUrl = Uri.parse('http://192.168.1.6:5000/register');
-  static final _totemLoginUrl = Uri.parse('http://192.168.1.6:5000/totem');
-  static String baseUrl = 'http://192.168.1.6:5000/';
+  static final _loginUrl = Uri.parse( baseUrl+'/login');
+  static final _registerUrl = Uri.parse(baseUrl+'/register');
+  static final _totemLoginUrl = Uri.parse(baseUrl+'/totem');
 
   static totemLogin(context) async {
     http.Response response = await _client.get(_totemLoginUrl);
@@ -50,8 +55,8 @@ class Httpservices {
         await EasyLoading.showError(json[0]);
       } else {
         await EasyLoading.showSuccess(json[0]);
-        // Navigator.pushReplacement(
-        //     context, MaterialPageRoute(builder: (context) => Dashboard()));
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => DashBoard(userName: userName, myname: firstName, myemail: email,)));
       }
     } else {
       await EasyLoading?.showError(
@@ -72,7 +77,7 @@ class Httpservices {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => HomePage(
+                builder: (context) => DashBoard(
                       userName: userName,
                       myname: json[0],
                       myemail: json[1],
@@ -85,7 +90,7 @@ class Httpservices {
 
   static settings(userName, context) async {
     http.Response response = await _client.post(
-        Uri.parse(baseUrl + "settings/" + userName),
+        Uri.parse(baseUrl + "/settings/" + userName),
         body: {"userName": userName});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
@@ -120,7 +125,7 @@ class Httpservices {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => HomePage(
+              builder: (context) =>DashBoard(
                     userName: userName,
                     myname: json[0],
                     myemail: json[1],

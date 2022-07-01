@@ -1,23 +1,20 @@
-// ignore_for_file: file_names
 import 'package:flutter/material.dart';
-import './../services/http_services.dart';
-import 'GenreList.dart';
+import './../GenreList.dart';
+import './../../services/http_services.dart';
 
-class HomePage extends StatelessWidget {
+class UserDashBoard extends StatelessWidget {
   final String userName;
   final String myname;
   final String myemail;
-  const HomePage(
+  const UserDashBoard(
       {Key? key,
       required this.userName,
       required this.myname,
       required this.myemail})
       : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: const Text("HOME Page")),
-        body: Column(
+  @override 
+  Widget build(BuildContext context){
+    return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -73,6 +70,6 @@ class HomePage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.deepOrange),
                   ))),
-            ]));
+            ]);
   }
 }

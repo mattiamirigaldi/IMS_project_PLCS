@@ -3,7 +3,6 @@ from contextlib import nullcontext
 from turtle import title
 from flask import Flask, redirect, render_template, Blueprint, request, json, jsonify, url_for, send_from_directory
 import pyodbc
-import requests
 
 # __name__ means that is referencing this file
 app = Flask(__name__)
@@ -11,8 +10,8 @@ app = Flask(__name__)
 def connection():
     ## Connection to the database
     # server and database names are given by SQL
-    server = 'POUYAN'
-    database = 'my_db'
+    server = 'DESKTOP-I7POIMI\SQLEXPRESS'
+    database = 'SQLTest'
     # Cnxn : is the connection string
     # If trusted connection is 'yes' then we log using our windows authentication
     cnxn = pyodbc.connect(
