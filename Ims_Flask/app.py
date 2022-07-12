@@ -249,16 +249,16 @@ def totem():
     cnxn.close()
     print (row)
     if row != None :
-        user_found_flag = 'found'
+        user_found_flag = "found"
         print("User Found : FIRSTNAME is "+row.firstName)
-        return jsonify(user_found_flag,row.firstName,row.lastName,row.userName,row.mail,row.pwd)
+        return jsonify([user_found_flag],row.firstName,row.lastName,row.userName,row.mail,row.pwd)
     else :
-        user_found_flag = 'not_found'
+        user_found_flag = "not_found"
         #row.firstName = "hichi"
         #row.lastName = "hichi"
         #row.userName = "hichi"
         print("User Not found")
-        return jsonify(user_found_flag)
+        return jsonify([user_found_flag])
     
     
     #return jsonify(user_found_flag,row.firstName,row.lastName,row.userName,row.mail,row.pwd)

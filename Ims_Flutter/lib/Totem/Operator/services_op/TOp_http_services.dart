@@ -1,4 +1,4 @@
-// ignore_for_file: import_of_legacy_library_into_null_safe, non_constant_identifier_names
+// ignore_for_file: import_of_legacy_library_into_null_safe, non_constant_identifier_names, file_names
 
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -8,7 +8,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 // to route
 
 import 'package:ims/Totem/User/THomePage_us.dart';
-import '../THomePage_op.dart';
 
 String baseUrl = 'http://172.22.143.8:5000';
 
@@ -29,7 +28,7 @@ class Httpservices {
     http.Response response = await _client.get(_totemLoginUrl);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == 'not_found') {
+      if (json[0] == "not_found") {
         await EasyLoading.showError(json[0]);
       } else {
         await EasyLoading.showSuccess(json[4]);
@@ -47,13 +46,13 @@ class Httpservices {
         .post(_loginUrl, body: {"userName": userName, "password": password});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == 'not_found') {
+      if (json[0] == "not_found") {
         await EasyLoading.showError(json[0]);
       } else {
         await EasyLoading.showSuccess("Welcome Back " + userName);
         var json = jsonDecode(response.body);
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => hmpage_us()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const hmpage_us()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");

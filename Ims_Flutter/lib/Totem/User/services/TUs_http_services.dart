@@ -1,4 +1,4 @@
-// ignore_for_file: import_of_legacy_library_into_null_safe, non_constant_identifier_names
+// ignore_for_file: import_of_legacy_library_into_null_safe, non_constant_identifier_names, file_names
 
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -14,7 +14,7 @@ String baseUrl = 'http://172.22.143.8:5000';
 
 class Httpservices {
   static final _client = http.Client();
-  static final _totemLoginUrl = Uri.parse(baseUrl + '/totem/User');
+  static final _totemLoginUrl = Uri.parse(baseUrl + '/totem');
   static final _loginUrl = Uri.parse(baseUrl + '/login');
   static final _totemRentUrl = Uri.parse(baseUrl + '/totem/User/RentBook');
   static final _totemReturnUrl = Uri.parse(baseUrl + '/totem/User/ReturnBook');
@@ -24,7 +24,7 @@ class Httpservices {
     http.Response response = await _client.get(_totemLoginUrl);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == 'not_found') {
+      if (json[0] == "not_found") {
         await EasyLoading.showError(json[0]);
       } else {
         await EasyLoading.showSuccess(json[4]);
