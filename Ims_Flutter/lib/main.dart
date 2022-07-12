@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:ims/Totem/TWelcomePage.dart';
 import 'package:ims/views/WelcomPage.dart';
 
 void main() {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       //debugShowCheckedModeBanner: false,
       title: 'Inventory Management System',
       theme: ThemeData(primarySwatch: Colors.blueGrey),
-      home: const WelcomeHome(),
+      home: const TWelcome(),
       builder: EasyLoading.init(),
     );
   }
