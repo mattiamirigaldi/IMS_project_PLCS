@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ims/data/book_data.dart';
-import 'package:ims/model/book.dart';
+import 'package:ims/web/data/book_data.dart';
+import 'package:ims/web/model/book.dart';
 
 class SearchBar extends StatefulWidget {
   const SearchBar({Key? key}) : super(key: key);

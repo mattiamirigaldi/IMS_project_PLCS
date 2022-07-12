@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/Totem/TWelcomePage.dart';
-import 'package:ims/views/WelcomPage.dart';
+import 'package:ims/web/views/WelcomPage.dart';
 
 void main() {
   runApp(const MyApp());

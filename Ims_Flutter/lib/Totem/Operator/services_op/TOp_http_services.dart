@@ -84,7 +84,7 @@ class Httpservices {
     // Remove customer method 
   static totemRemoveCustomer(rfid) async {
     http.Response response = await _client
-      .post(_totemAddCustomer, body: {"rfid": rfid});
+      .post(_totemRemoveCustomer, body: {"rfid": rfid});
       if (response.statusCode == 200){
         var json = jsonDecode(response.body);
         if(json[0] == "Customer not in db"){
@@ -100,7 +100,7 @@ class Httpservices {
     // Add book method 
   static totemAddBook (rfid) async {
     http.Response response = await _client
-      .post(_totemAddCustomer, body: {"rfid": rfid});
+      .post(_totemAddBook, body: {"rfid": rfid});
       if (response.statusCode == 200){
         var json = jsonDecode(response.body);
         if(json[0] == "Book already in db"){
@@ -114,7 +114,7 @@ class Httpservices {
   }  // Remove book method 
   static totemRemoveBook (rfid) async {
     http.Response response = await _client
-      .post(_totemAddCustomer, body: {"rfid": rfid});
+      .post(_totemRemoveBook, body: {"rfid": rfid});
       if (response.statusCode == 200){
         var json = jsonDecode(response.body);
         if(json[0] == "Book not found in db"){

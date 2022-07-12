@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ims/views/components/FeedDashBoard.dart';
-import 'package:ims/views/components/UserDashboard.dart';
+import 'package:ims/web/views/components/FeedDashBoard.dart';
+import 'package:ims/web/views/components/UserDashboard.dart';
 import './components/App_bar.dart';
 
 class DashBoard extends StatelessWidget {

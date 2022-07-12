@@ -15,10 +15,13 @@ String baseUrl = 'http://127.0.0.1:5000';
 class Httpservices {
   
   static final _client = http.Client();
-  static final _totemLoginUrl = Uri.parse(baseUrl+'/totem');
+  static final _totemLoginUrl = Uri.parse(baseUrl+'/totem/User');
   static final _loginUrl = Uri.parse( baseUrl+'/login');
-
-  static totemLogin(context) async {
+  static final _totemRentUrl = Uri.parse(baseUrl +'/totem/User/RentBook');
+  static final _totemReturnUrl = Uri.parse(baseUrl +'/totem/User/ReturnBook');
+  
+  // Login with rfid method
+  static totemLoginUs(context) async {
     http.Response response = await _client.get(_totemLoginUrl);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
@@ -36,7 +39,8 @@ class Httpservices {
     }
   }
 
-  static totemLoginCredential (userName, password, context) async {
+  // Login with credentials method
+  static totemLoginCredentialUs (userName, password, context) async {
     http.Response response = await _client
         .post(_loginUrl, body: {"userName": userName, "password": password});
     if (response.statusCode == 200) {
@@ -45,7 +49,6 @@ class Httpservices {
         await EasyLoading.showError(json[0]);
       } else {
         await EasyLoading.showSuccess("Welcome Back " + userName);
-        var json = jsonDecode(response.body);
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -58,13 +61,35 @@ class Httpservices {
     }
   }
 
-  // rent book method 
-  static totemRentBook (rfid){
-
+  // Rent book method 
+  static totemRentBook (rfid) async {
+    http.Response response = await _client
+      .post(_totemRentUrl, body: {"rfid": rfid});
+      if (response.statusCode == 200){
+        var json = jsonDecode(response.body);
+        if(json[0] == "Book not found"){
+          await EasyLoading.showError(json[0]);
+        } else {
+          await EasyLoading.showSuccess("Book successfully rented");
+        }
+      } else {
+        EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+      }
   }
-  // return book method
-  static totemReturnBook (rfid){
-    
+  
+  // Return book method
+  static totemReturnBook (rfid) async {
+    http.Response response = await _client
+      .post(_totemReturnUrl, body: {"rfid": rfid});
+      if (response.statusCode == 200){
+        var json = jsonDecode(response.body);
+        if(json[0] == "Book not found"){
+          await EasyLoading.showError(json[0]);
+        } else {
+          await EasyLoading.showSuccess("Book successfully returned");
+        }
+      } else {
+        EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+      }
   }
-
 }
