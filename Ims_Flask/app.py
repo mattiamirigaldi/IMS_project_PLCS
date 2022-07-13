@@ -23,7 +23,6 @@ def connection():
     return cnxn
 
 
-
 FLUTTER_WEB_APP = 'templates'
 
 @app.route('/web/')
@@ -254,17 +253,78 @@ def totem():
         return jsonify([user_found_flag],row.firstName,row.lastName,row.userName,row.mail,row.pwd)
     else :
         user_found_flag = "not_found"
-        #row.firstName = "hichi"
-        #row.lastName = "hichi"
-        #row.userName = "hichi"
         print("User Not found")
         return jsonify([user_found_flag])
-    
-    
-    #return jsonify(user_found_flag,row.firstName,row.lastName,row.userName,row.mail,row.pwd)
-    #return jsonify( key1 = user_rfid )
-    #return redirect(url_for('test'))
 
+
+@app.route("/totem/Operator/AddCustomer", methods=["GET","POST"])
+def totem_op_add_customer():
+    cnxn = connection()
+    cursor = cnxn.cursor()
+    global user_add_flag
+    
+    if request.method == 'POST':
+        firstName = request.form["firstName"]
+        lastName = request.form["lastName"]
+        username = request.form["username"]
+        mail = request.form["email"]
+        password = request.form["password"]
+    
+    check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
+    value = (user_rfid)
+    cursor.execute(check_query,value)
+    row = cursor.fetchone()
+
+    if row == None :
+        insert_query = '''INSERT INTO Library_Clients VALUES (?,?,?,?,?,?);'''    # the '?' are placeholders
+        value = (firstName,lastName,username,mail,password,user_rfid)
+        cursor.execute(insert_query,value)
+        cnxn.commit()
+        cnxn.close()
+        user_add_flag = "new User added to the database successfully"
+        print(user_add_flag)
+        return jsonify([user_add_flag])
+    else :
+        user_add_flag = "RFID is already in the db"
+        print(user_add_flag)
+        return jsonify([user_add_flag])
+
+@app.route("/totemlogin", methods=["GET","POST"]) 
+def totemlogin(): 
+   cnxn = connection() 
+   cursor = cnxn.cursor() 
+   global user_rfid_login
+   if request.method == 'GET': 
+     user_rfid_login = request.form['rfid'] 
+   check_query = "SELECT lastName,rfid_i FROM [Library_Clients] WHERE rfid_i = (?) " 
+   value = (user_rfid_login) 
+   cursor.execute(check_query,value) 
+   row = cursor.fetchone() 
+   if (row != None): 
+        found_flag = "user found" 
+        print(row.lastName,row.rfid_i) 
+        return jsonify([row.lastName ,row.rfid_i]) 
+   else: 
+        print("User not found") 
+        found_flag = "user not found" 
+        return jsonify([found_flag]) 
+ 
+ 
+@app.route("/RemoveCustomer", methods=["GET","POST"]) 
+def RemoveCustomer(): 
+   cnxn = connection() 
+   cursor = cnxn.cursor() 
+   global user_rfid_login 
+   cnxn = connection() 
+   cursor = cnxn.cursor() 
+   check_query = "DELETE FROM [Library_Clients] WHERE rfid_i = (?) " 
+   value = (user_rfid_login) 
+   cursor.execute(check_query,value) 
+   cnxn.commit() 
+   cnxn.close() 
+   remove_flag = "Customer removed successfully" 
+   print("Customer removed successfully") 
+   return jsonify([remove_flag])
 
 
 @app.route("/get", methods=["GET","POST"])
