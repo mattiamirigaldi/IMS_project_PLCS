@@ -4,6 +4,7 @@ from turtle import title
 from flask import Flask, redirect, render_template, Blueprint, request, json, jsonify, url_for, send_from_directory
 import pyodbc
 from totem_methods import totem_methods
+import requests
 
 # __name__ means that is referencing this file
 app = Flask(__name__)
@@ -199,14 +200,9 @@ def items(id):
         rfid.append(data[j]["RFID"])
         j+=1
     cnxn.close()
-    #print(tit)
-    #print(aut)
-    #print(gen)
     return jsonify (id,tit,aut,gen,rfid)
         #row = cursor.fetchone()
     
-
-
 
 #@app.route("/test/<string:id>")
 #def test(id):
@@ -226,8 +222,50 @@ def items(id):
 #        )
 #       
 
-ccc = 1
-user_rfid = 1
+@app.route("/test", methods=["GET","POST"])
+def test():
+    global user_rfid
+    if request.method == 'POST':
+        user_rfid = request.form['rfid']
+        print(user_rfid)
+        return redirect(url_for('totem'))
+    return "welcome dear : "+str(user_rfid)
+
+user_rfid = 1    
+user_found_flag = 0
+
+@app.route("/totem", methods=["GET","POST"])
+def totem():
+    cnxn = connection()
+    cursor = cnxn.cursor()
+    global user_found_flag
+    global user_rfid
+    if request.method == 'POST':
+        user_rfid = request.form['rfid']
+        print(user_rfid)
+    check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
+    value = (user_rfid)
+    cursor.execute(check_query,value)
+    row = cursor.fetchone()
+    cnxn.close()
+    print (row)
+    if row != None :
+        user_found_flag = "found"
+        print("User Found : FIRSTNAME is "+row.firstName)
+        return jsonify([user_found_flag],row.firstName,row.lastName,row.userName,row.mail,row.pwd)
+    else :
+        user_found_flag = "not_found"
+        #row.firstName = "hichi"
+        #row.lastName = "hichi"
+        #row.userName = "hichi"
+        print("User Not found")
+        return jsonify([user_found_flag])
+    
+    
+    #return jsonify(user_found_flag,row.firstName,row.lastName,row.userName,row.mail,row.pwd)
+    #return jsonify( key1 = user_rfid )
+    #return redirect(url_for('test'))
+
 
 
 @app.route("/get", methods=["GET","POST"])
@@ -240,3 +278,4 @@ app.register_blueprint(totem_methods)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
+    #app.run(host='192.168.137.1')

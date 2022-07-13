@@ -16,20 +16,23 @@ class _TLoginPageState extends State<TLoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  const Image(
-              image: AssetImage('images/logo.png'),
-              height: 50,
-            ),
-        backgroundColor: Colors.green,),
+        title: const Image(
+          image: AssetImage('images/logo.png'),
+          height: 50,
+        ),
+        backgroundColor: Colors.green,
+      ),
       body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-              child : Center(
-                      child: Image(image: AssetImage('images/ims.jpg'), height: 200, width: 200))
-            ),
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                child: Center(
+                    child: Image(
+                        image: AssetImage('images/ims.jpg'),
+                        height: 200,
+                        width: 200))),
             const Center(
                 child: Text("Welcome ",
                     textAlign: TextAlign.center,
@@ -38,10 +41,10 @@ class _TLoginPageState extends State<TLoginPage> {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
               child: Center(
-                child: Text("Please scan your RFID then click LOGIN button",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                    textScaleFactor: 2)),
+                  child: Text("Please scan your RFID then click LOGIN button",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                      textScaleFactor: 2)),
             ),
             // If wanted to implement with inf loop :
             // Padding(
@@ -52,21 +55,21 @@ class _TLoginPageState extends State<TLoginPage> {
             //                   AlwaysStoppedAnimation<Color>(Colors.green)))),
             InkWell(
                 child: Center(
-                  child: Container(
-                    margin:
+                    child: Container(
+                  margin:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                    child: const Center(
+                  child: const Center(
                       child: Text("LOGIN",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold))),
-                    height: 50,
-                    width: 800,
-                    decoration: BoxDecoration(
+                  height: 50,
+                  width: 800,
+                  decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: Colors.green),
-                  )),
+                )),
                 onTap: () async {
                   // if(_formKey.currentState != null) {
                   //   if (_formKey.currentState!.validate()){
@@ -78,35 +81,39 @@ class _TLoginPageState extends State<TLoginPage> {
 
                   // }
                 }),
-               Align( 
-                alignment: Alignment.bottomLeft,
-                child:  InkWell(
-                  child: const Text("> Login with credentials", style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    fontSize: 25,
-                    color: Colors.blue)),
-                  onTap: (){ Navigator.push(
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: InkWell(
+                child: const Text("> Login with credentials",
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        fontSize: 25,
+                        color: Colors.blue)),
+                onTap: () {
+                  Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const TLoginCredentials()));},
-                  
-                  ),),
-               const SizedBox(height: 20),
-               Align(
-                 alignment: Alignment.bottomLeft,
-                 child: InkWell(
-                    child: const Text("> Login as operator", style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      fontSize: 25,
-                      color: Colors.blue)),
-                    onTap: (){
-                      Navigator.push(
+                          builder: (context) => const TLoginCredentials()));
+                },
+              ),
+            ),
+            const SizedBox(height: 20),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: InkWell(
+                child: const Text("> Login as operator",
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        fontSize: 25,
+                        color: Colors.blue)),
+                onTap: () {
+                  Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const TLoginOperator()));
-                    },
-                    ),
-               )   
+                },
+              ),
+            )
           ]),
     );
   }

@@ -1,4 +1,4 @@
-// ignore_for_file: import_of_legacy_library_into_null_safe, non_constant_identifier_names
+// ignore_for_file: import_of_legacy_library_into_null_safe, non_constant_identifier_names, file_names
 
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -15,7 +15,6 @@ import '../THomePage_us.dart';
 String baseUrl = 'http://127.0.0.1:5000';
 
 class Httpservices {
-  
   static final _client = http.Client();
   static final _totemWelcomeUrl = Uri.parse(baseUrl+'/totem');
   static final _totemLoginUrl = Uri.parse(baseUrl+'/totem/User');
@@ -38,14 +37,12 @@ class Httpservices {
     http.Response response = await _client.get(_totemLoginUrl);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == 'user not registered') {
-        await EasyLoading.showError('Error');
+      if (json[0] == "not_found") {
+        await EasyLoading.showError(json[0]);
       } else {
-        await EasyLoading.showSuccess(json[0]);
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => hmpage_us( )));
+        await EasyLoading.showSuccess(json[4]);
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const hmpage_us()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
@@ -53,56 +50,52 @@ class Httpservices {
   }
 
   // Login with credentials method
-  static totemLoginCredentialUs (userName, password, context) async {
+  static totemLoginCredentialUs(userName, password, context) async {
     http.Response response = await _client
         .post(_loginUrl, body: {"userName": userName, "password": password});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == 'user not registered') {
+      if (json[0] == 'not_found') {
         await EasyLoading.showError(json[0]);
       } else {
         await EasyLoading.showSuccess("Welcome Back " + userName);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => hmpage_us()
-            )
-        );
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const hmpage_us()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
     }
   }
 
-  // Rent book method 
-  static totemRentBook (rfid) async {
-    http.Response response = await _client
-      .post(_totemRentUrl, body: {"rfid": rfid});
-      if (response.statusCode == 200){
-        var json = jsonDecode(response.body);
-        if(json[0] == "Book not found"){
-          await EasyLoading.showError(json[0]);
-        } else {
-          await EasyLoading.showSuccess("Book successfully rented");
-        }
+  // Rent book method
+  static totemRentBook(rfid) async {
+    http.Response response =
+        await _client.post(_totemRentUrl, body: {"rfid": rfid});
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == "Book not found") {
+        await EasyLoading.showError(json[0]);
       } else {
-        EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+        await EasyLoading.showSuccess("Book successfully rented");
       }
+    } else {
+      EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+    }
   }
-  
+
   // Return book method
-  static totemReturnBook (rfid) async {
-    http.Response response = await _client
-      .post(_totemReturnUrl, body: {"rfid": rfid});
-      if (response.statusCode == 200){
-        var json = jsonDecode(response.body);
-        if(json[0] == "Book not found"){
-          await EasyLoading.showError(json[0]);
-        } else {
-          await EasyLoading.showSuccess("Book successfully returned");
-        }
+  static totemReturnBook(rfid) async {
+    http.Response response =
+        await _client.post(_totemReturnUrl, body: {"rfid": rfid});
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == "Book not found") {
+        await EasyLoading.showError(json[0]);
       } else {
-        EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+        await EasyLoading.showSuccess("Book successfully returned");
       }
+    } else {
+      EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+    }
   }
 }

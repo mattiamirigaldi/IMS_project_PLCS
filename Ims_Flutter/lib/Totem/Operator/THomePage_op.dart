@@ -8,7 +8,7 @@ class hmpage_op extends StatelessWidget {
   //final String name ;
   // final String email;
   // final String userName;
- const hmpage_op({Key? key}) : super(key: key);
+  const hmpage_op({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +26,13 @@ class hmpage_op extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Center(child: Text("Please select a service")),
+              const Center(child: Text("Please select a service")),
               InkWell(
                 onTap: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => modifyCustomer()));
+                          builder: (context) => const modifyCustomer()));
                 },
                 child: Center(
                   child: Container(
