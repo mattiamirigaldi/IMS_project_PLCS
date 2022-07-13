@@ -1,5 +1,5 @@
 
-import 'package:ims/web/model/book.dart';
+import './../model/book.dart';
 //local books list
 final allBooks = <Book> [
   const Book(

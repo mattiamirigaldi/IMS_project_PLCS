@@ -3,6 +3,7 @@ from contextlib import nullcontext
 from turtle import title
 from flask import Flask, redirect, render_template, Blueprint, request, json, jsonify, url_for, send_from_directory
 import pyodbc
+from totem_methods import totem_methods
 
 # __name__ means that is referencing this file
 app = Flask(__name__)
@@ -97,7 +98,7 @@ def login():
                     THEN CAST(1 AS BIT) 
                     ELSE CAST(0 AS BIT) 
                     END'''  # the '?' are placeholders
-    value = (userName,password)
+    value = (userName, password)
     cursor.execute(check_query,value)
     # the returned output is a cursor object
     checked = cursor.fetchone()
@@ -106,11 +107,11 @@ def login():
         # Then the connection can be closed
         check_query = "SELECT * FROM [Library_Clients] WHERE userName = (?) "
         value = (userName)
-        cursor.execute(check_query,value)
+        cursor.execute(check_query, value)
         row = cursor.fetchone() 
         cnxn.close()
         print("Access to Login url : Successful")
-        return jsonify(row.firstName,row.mail)
+        return jsonify(row.firstName, row.mail)
         #return jsonify(["valid user"])
     else:
         # Then the connection can be closed
@@ -125,7 +126,7 @@ def settings(usr):
         userName = request.form["userName"]
     check_query = "SELECT * FROM [Library_Clients] WHERE userName = (?) "
     value = (usr)
-    cursor.execute(check_query,value)
+    cursor.execute(check_query, value)
     row = cursor.fetchone() 
     print("SETTINGS : FIRSTNAME is "+row.firstName)
     print("Access to Settings url : Successful")
@@ -229,27 +230,13 @@ ccc = 1
 user_rfid = 1
 
 
-@app.route("/totem", methods=["GET","POST"])
-def totem():
-    global user_rfid
-    if request.method == 'POST':
-        user_rfid = request.form['rfid']
-        print(user_rfid)
-    #return jsonify( key1 = user_rfid )
-    return redirect(url_for('test'))
-
-@app.route("/test", methods=["GET","POST"])
-def test():
-    global user_rfid
-    if request.method == 'POST':
-        user_rfid = request.form['rfid']
-        print(user_rfid)
-        return redirect(url_for('totem'))
-    return "welcome dear : "+str(user_rfid)
-
 @app.route("/get", methods=["GET","POST"])
 def getdata(iiid):
     return "welcome dear : "+str(iiid)
 
-if __name__=="__main__":
+
+# imported applications in totem_methods into app
+app.register_blueprint(totem_methods)
+
+if __name__ == "__main__":
     app.run(host='0.0.0.0')
