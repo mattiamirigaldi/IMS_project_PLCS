@@ -11,8 +11,8 @@ app = Flask(__name__)
 def connection():
     ## Connection to the database
     # server and database names are given by SQL
-    server = 'POUYAN'
-    database = 'my_db'
+    server = 'DESKTOP-CK2AQQI'
+    database = 'mydb'
     # Cnxn : is the connection string
     # If trusted connection is 'yes' then we log using our windows authentication
     cnxn = pyodbc.connect(
@@ -250,12 +250,13 @@ def totem():
     if row != None :
         user_found_flag = "found"
         print("User Found : FIRSTNAME is "+row.firstName)
-        return jsonify([user_found_flag],row.firstName,row.lastName,row.userName,row.mail,row.pwd)
+        return jsonify([user_found_flag],row.firstName,row.lastName,row.userName,row.mail,row.pwd,row.RFID_i)
     else :
         user_found_flag = "not_found"
         print("User Not found")
         return jsonify([user_found_flag])
 
+#add customer
 
 @app.route("/totem/Operator/AddCustomer", methods=["GET","POST"])
 def totem_op_add_customer():
@@ -276,7 +277,7 @@ def totem_op_add_customer():
     row = cursor.fetchone()
 
     if row == None :
-        insert_query = '''INSERT INTO Library_Clients VALUES (?,?,?,?,?,?);'''    # the '?' are placeholders
+        insert_query = '''INSERT INTO Library_Clients VALUES (?,?,?,?,?,?,'usr');'''    # the '?' are placeholders
         value = (firstName,lastName,username,mail,password,user_rfid)
         cursor.execute(insert_query,value)
         cnxn.commit()
@@ -289,36 +290,16 @@ def totem_op_add_customer():
         print(user_add_flag)
         return jsonify([user_add_flag])
 
-@app.route("/totemlogin", methods=["GET","POST"]) 
-def totemlogin(): 
-   cnxn = connection() 
-   cursor = cnxn.cursor() 
-   global user_rfid_login
-   if request.method == 'GET': 
-     user_rfid_login = request.form['rfid'] 
-   check_query = "SELECT lastName,rfid_i FROM [Library_Clients] WHERE rfid_i = (?) " 
-   value = (user_rfid_login) 
-   cursor.execute(check_query,value) 
-   row = cursor.fetchone() 
-   if (row != None): 
-        found_flag = "user found" 
-        print(row.lastName,row.rfid_i) 
-        return jsonify([row.lastName ,row.rfid_i]) 
-   else: 
-        print("User not found") 
-        found_flag = "user not found" 
-        return jsonify([found_flag]) 
- 
- 
-@app.route("/RemoveCustomer", methods=["GET","POST"]) 
+#Remove Customer 
+@app.route("/totem/Operator/RemoveCustomer", methods=["GET","POST"]) 
 def RemoveCustomer(): 
    cnxn = connection() 
    cursor = cnxn.cursor() 
-   global user_rfid_login 
+   global user_rfid 
    cnxn = connection() 
    cursor = cnxn.cursor() 
    check_query = "DELETE FROM [Library_Clients] WHERE rfid_i = (?) " 
-   value = (user_rfid_login) 
+   value = (user_rfid) 
    cursor.execute(check_query,value) 
    cnxn.commit() 
    cnxn.close() 

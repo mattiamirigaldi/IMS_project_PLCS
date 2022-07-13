@@ -8,8 +8,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 // to route
 
 import '../THomePage_op.dart';
+import '../TRemoveCustomer.dart';
 
-String baseUrl = 'http://172.21.137.2:5000';
+String baseUrl = 'http://172.22.32.112:5000';
 
 class Httpservices {
   static final _client = http.Client();
@@ -90,19 +91,31 @@ class Httpservices {
     }
   }
 
-  // Remove customer method
-  static totemRemoveCustomer(rfid) async {
-    http.Response response =
-        await _client.post(_totemRemoveCustomer, body: {"rfid": rfid});
+  // Remove customer check
+  static RemoveCheck(context) async {
+    http.Response response = await _client.get(_totemLoginUrl);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == "Customer not in db") {
-        await EasyLoading.showError(json[0]);
+      var rfid = 0;
+      if (json[0] == "not_found") {
+        await EasyLoading.showError('User Not Found');
       } else {
-        await EasyLoading.showSuccess("Customer removed successfully");
+        rfid = json[6];
+        await Httpservices.totemRemoveCustomer(rfid, context);
       }
     } else {
-      EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+      EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  // Remove customer method
+  static totemRemoveCustomer(rfid, context) async {
+    http.Response response = await _client.get(_totemRemoveCustomer);
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      await EasyLoading.showSuccess(json[0]);
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const TRemoveCustomer()));
     }
   }
 
