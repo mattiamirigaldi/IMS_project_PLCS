@@ -1,2 +1,2 @@
-insert into Library_Clients
-values('mid','wd','god','f','d','1234','m')
+insert into Items
+values('5','fsgg','segdrh','rewwr','7777','777')

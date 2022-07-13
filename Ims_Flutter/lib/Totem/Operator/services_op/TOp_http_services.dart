@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 // to display loading animation
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:ims/Totem/Operator/TRemoveBook.dart';
 // to route
 
 import '../THomePage_op.dart';
@@ -14,8 +15,9 @@ String baseUrl = 'http://172.22.32.112:5000';
 
 class Httpservices {
   static final _client = http.Client();
-  static final _totemLoginUrl = Uri.parse(baseUrl + '/totem');
+  static final _totemLoginUrl = Uri.parse(baseUrl + '/totem/login');
   static final _loginUrl = Uri.parse(baseUrl + '/login');
+  static final _bookcheckurl = Uri.parse(baseUrl + '/totem/BookCheck');
   static final _totemAddCustomer =
       Uri.parse(baseUrl + '/totem/Operator/AddCustomer');
   static final _totemRemoveCustomer =
@@ -135,18 +137,31 @@ class Httpservices {
     }
   } // Remove book method
 
-  static totemRemoveBook(rfid) async {
-    http.Response response =
-        await _client.post(_totemRemoveBook, body: {"rfid": rfid});
+  // Remove book check
+  static RemoveCheck_b(context) async {
+    http.Response response = await _client.get(_bookcheckurl);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == "Book not found in db") {
-        await EasyLoading.showError(json[0]);
+      var rfid = 0;
+      if (json[0] == "not_found") {
+        await EasyLoading.showError('Book Not Found');
       } else {
-        await EasyLoading.showSuccess("Book added successfully");
+        rfid = json[5];
+        await Httpservices.totemRemoveBook(rfid, context);
       }
     } else {
-      EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+      EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  // Remove book method
+  static totemRemoveBook(rfid, context) async {
+    http.Response response = await _client.get(_totemRemoveBook);
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      await EasyLoading.showSuccess(json[0]);
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const TRemoveBook()));
     }
   }
 }

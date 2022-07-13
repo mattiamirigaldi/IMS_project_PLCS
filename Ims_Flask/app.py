@@ -241,6 +241,13 @@ def totem():
     if request.method == 'POST':
         user_rfid = request.form['rfid']
         print(user_rfid)
+    return ("nunn")
+
+@app.route("/totem/login", methods=["GET","POST"])
+def totem_op_login():
+    cnxn = connection()
+    cursor = cnxn.cursor()
+    global user_rfid
     check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
     value = (user_rfid)
     cursor.execute(check_query,value)
@@ -255,6 +262,28 @@ def totem():
         user_found_flag = "not_found"
         print("User Not found")
         return jsonify([user_found_flag])
+
+#book check
+
+@app.route("/totem/BookCheck", methods=["GET","POST"])
+def totem_op_bc():
+    cnxn = connection()
+    cursor = cnxn.cursor()
+    global user_rfid
+    check_query = "SELECT * FROM [Items] WHERE RFID = (?) "
+    value = (user_rfid)
+    cursor.execute(check_query,value)
+    row = cursor.fetchone()
+    cnxn.close()
+    print (row)
+    if row != None :
+        book_found_flag = "found"
+        print("Book Found : TITLE is "+row.Title)
+        return jsonify([book_found_flag],row.id,row.Title,row.Author,row.Genre,row.RFID,row.RFID_i)
+    else :
+        book_found_flag = "not_found"
+        print("Book Not found")
+        return jsonify([book_found_flag])
 
 #add customer
 
@@ -305,6 +334,25 @@ def RemoveCustomer():
    cnxn.close() 
    remove_flag = "Customer removed successfully" 
    print("Customer removed successfully") 
+   return jsonify([remove_flag])
+
+
+#Remove Book 
+@app.route("/totem/Operator/RemoveBook", methods=["GET","POST"]) 
+def RemoveBook(): 
+   cnxn = connection() 
+   cursor = cnxn.cursor() 
+   global user_rfid 
+   cnxn = connection() 
+   cursor = cnxn.cursor() 
+   print(user_rfid)
+   check_query = "DELETE FROM [Items] WHERE RFID = (?) " 
+   value = (user_rfid) 
+   cursor.execute(check_query,value) 
+   cnxn.commit() 
+   cnxn.close() 
+   remove_flag = "Book removed successfully" 
+   print("Book removed successfully") 
    return jsonify([remove_flag])
 
 
