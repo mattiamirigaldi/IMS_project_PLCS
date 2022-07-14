@@ -15,27 +15,30 @@ String baseUrl = Myroutes.baseUrl;
 
 class Httpservices {
   static final _client = http.Client();
-  static final _totemLoginUrl = Uri.parse(baseUrl + '/totem/login');
+  static final _totemLoginUrl = Uri.parse(baseUrl + '/totem/OprLogin');
   static final _loginUrl = Uri.parse(baseUrl + '/login');
   static final _bookcheckurl = Uri.parse(baseUrl + '/totem/BookCheck');
-  static final _totemAddCustomer = Uri.parse(baseUrl + '/totem/Operator/AddCustomer');
-  static final _totemRemoveCustomer = Uri.parse(baseUrl + '/totem/Operator/RemoveCustomer');
+  static final _totemAddCustomer =
+      Uri.parse(baseUrl + '/totem/Operator/AddCustomer');
   static final _totemAddCustomerCheck =
       Uri.parse(baseUrl + '/totem/Operator/AddCustomerCheck');
   static final _totemRemoveCustomer =
       Uri.parse(baseUrl + '/totem/Operator/RemoveCustomer');
   static final _totemAddBook = Uri.parse(baseUrl + '/totem/Operator/AddBook');
-  static final _totemRemoveBook = Uri.parse(baseUrl + '/totem/Operator/RemoveBook');
+  static final _totemRemoveBook =
+      Uri.parse(baseUrl + '/totem/Operator/RemoveBook');
 
   // Login with rfid method
   static totemLoginOp(context) async {
     http.Response response = await _client.get(_totemLoginUrl);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == "not_found") {
+      if (json[0] == "User") {
+        await EasyLoading.showError("Dear User, you are not an Operator");
+      } else if (json[0] == "Operator_not_found") {
         await EasyLoading.showError(json[0]);
       } else {
-        await EasyLoading.showSuccess(json[4]);
+        await EasyLoading.showSuccess("Welcome dear Operator");
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const hmpage_op()));
       }

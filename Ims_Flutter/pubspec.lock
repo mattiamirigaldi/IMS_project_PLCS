@@ -146,7 +146,7 @@ packages:
       name: js
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.4"
+    version: "0.6.3"
   lints:
     dependency: transitive
     description:
@@ -263,7 +263,7 @@ packages:
       name: vector_math
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.2"
+    version: "2.1.1"
   velocity_x:
     dependency: "direct main"
     description:
@@ -278,8 +278,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.0"
-
-    version: "2.1.1"
 sdks:
   dart: ">=2.16.2 <3.0.0"
   flutter: ">=2.0.0"

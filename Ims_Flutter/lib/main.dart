@@ -6,7 +6,7 @@ import 'package:ims/web_app/views/WelcomPage.dart';
 import 'routes.dart';
 
 void main() {
-  setPathUrlStrategy();   //to remove # in url
+  setPathUrlStrategy(); //to remove # in url
   runApp(const MyApp());
 }
 
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       title: 'Inventory Management System',
       theme: ThemeData(primarySwatch: Colors.blueGrey),
       builder: EasyLoading.init(),
-      initialRoute: '/web',
+      initialRoute: '/totem',
       routes: {
         Myroutes.WebWelcomePage: (context) => const WelcomeHome(),
         Myroutes.TotemWelcomePage: (context) => const TWelcome(),

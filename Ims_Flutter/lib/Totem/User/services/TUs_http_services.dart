@@ -6,34 +6,31 @@ import 'package:http/http.dart' as http;
 // to display loading animation
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/Totem/TWelcomePage.dart';
-// to route 
+// to route
 import '../../../routes.dart';
 import 'package:ims/Totem/User/THomePage_us.dart';
 import 'package:ims/Totem/User/TRentPage.dart';
 import 'package:ims/Totem/User/TReturnPage.dart';
-import 'package:ims/web_app/views/WelcomPage.dart';
 import '../THomePage_us.dart';
 
 String baseUrl = Myroutes.baseUrl;
 
 class Httpservices {
   static final _client = http.Client();
-  static final _totemWelcomeUrl = Uri.parse(baseUrl+'/totem');
-  static final _totemLoginUrl = Uri.parse(baseUrl+'/totem/User');
-  static final _loginUrl = Uri.parse( baseUrl+'/login');
-  static final _totemRentUrl = Uri.parse(baseUrl +'/totem/User/RentBook');
-  static final _totemReturnUrl = Uri.parse(baseUrl +'/totem/User/ReturnBook');
+  static final _totemWelcomeUrl = Uri.parse(baseUrl + '/totem');
+  static final _totemLoginUrl = Uri.parse(baseUrl + '/totem/UsrLogin');
+  static final _loginUrl = Uri.parse(baseUrl + '/login');
+  static final _totemRentUrl = Uri.parse(baseUrl + '/totem/User/RentBook');
+  static final _totemReturnUrl = Uri.parse(baseUrl + '/totem/User/ReturnBook');
   static final _bookcheckurl = Uri.parse(baseUrl + '/totem/BookCheck');
-  
+
   // Redirect to Welcome page method
-  static totemWelcome (context) async{
-      http.Response response = await _client.get(_totemWelcomeUrl);
-      if (response.statusCode == 200){
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>const TWelcome()));
-      }
+  static totemWelcome(context) async {
+    http.Response response = await _client.get(_totemWelcomeUrl);
+    if (response.statusCode == 200) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const TWelcome()));
+    }
   }
 
   // Login with rfid method
@@ -42,9 +39,11 @@ class Httpservices {
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "not_found") {
-        await EasyLoading.showError(json[0]);
+        await EasyLoading.showError("User not fount");
+      } else if (json[0] == "operator") {
+        await EasyLoading.showError("Dear Operator, you are not a User");
       } else {
-        await EasyLoading.showSuccess(json[4]);
+        await EasyLoading.showSuccess("Welcome dear " + json[1]);
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const hmpage_us()));
       }

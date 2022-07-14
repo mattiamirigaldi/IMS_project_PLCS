@@ -6,15 +6,16 @@ totem_methods = Blueprint('totem_methods', __name__)
 #Totem RFID read
 
 rfid = 1
-opr_found_flag = 0
+global opr_found_flag
 user_rfid = 1
-user_found_flag = 0
+global user_found_flag
+global role
 
 def connection():
     ## Connection to the database
     # server and database names are given by SQL
-    server = 'DESKTOP-I7POIMI\SQLEXPRESS'
-    database = 'SQLTest'
+    server = 'POUYAN'
+    database = 'my_db'
     # Cnxn : is the connection string
     # If trusted connection is 'yes' then we log using our windows authentication
     cnxn = pyodbc.connect(
@@ -30,76 +31,58 @@ def totem():
     if request.method == 'GET':
         return render_template('index.html')
     else :
-        cnxn = connection()
-        cursor = cnxn.cursor()
         global rfid
         if request.method == 'POST':
             rfid = request.form['rfid']
             print(rfid)
         return ("nunn")
 
-@totem_methods.route("/test", methods=["GET","POST"])
-def test():
-    global user_rfid
-    if request.method == 'POST':
-        user_rfid = request.form['rfid']
-        print(user_rfid)
-        return redirect(url_for('totem/User'))
-    return "welcome dear : " + str(user_rfid)
-
-
-@totem_methods.route('/totem/User', methods=["GET", "POST"])
+# User login
+@totem_methods.route('/totem/UsrLogin', methods=["GET", "POST"])
 def totem_login():
     cnxn = connection()
     cursor = cnxn.cursor()
-    global user_found_flag
-    global user_rfid
-    if request.method == 'POST':
-        user_rfid = request.form['rfid']
-        print(user_rfid)
     check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
-    value = user_rfid
+    value = rfid
     cursor.execute(check_query, value)
     row = cursor.fetchone()
     cnxn.close()
-    print(row)
     if row != None:
-        user_found_flag = "found"
-        print("User Found : FIRSTNAME is " + row.firstName)
-        return jsonify([user_found_flag], row.firstName, row.lastName, row.userName, row.mail, row.pwd)
+        if row.role_i == "usr":
+            user_found_flag = "found"
+            print("User Found : FIRSTNAME is " + row.firstName)
+            return jsonify([user_found_flag], row.firstName, row.lastName, row.userName, row.mail, row.pwd)
+        else:
+            user_found_flag = "operator"
+            return jsonify([user_found_flag])
     else:
         user_found_flag = "not_found"
-        # row.firstName = "hichi"
-        # row.lastName = "hichi"
-        # row.userName = "hichi"
         print("User Not found")
         return jsonify([user_found_flag])
 
-    # return jsonify(user_found_flag,row.firstName,row.lastName,row.userName,row.mail,row.pwd)
-    # return jsonify( key1 = user_rfid )
-    # return redirect(url_for('test'))
 
 # Operator login
-@totem_methods.route("/totem/login", methods=["GET", "POST"])
+@totem_methods.route("/totem/OprLogin", methods=["GET", "POST"])
 def totem_op_login():
     cnxn = connection()
-    cursor = cnxn.cursor()
-    global rfid
-    global role
+    cursor = cnxn.cursor()  
     check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
     value = (rfid)
     cursor.execute(check_query, value)
     row = cursor.fetchone()
     cnxn.close()
-    role = row.role_i
-    print(role)
     if row != None:
-        opr_found_flag = "found"
-        print("Operator Found : Email is " + row.mail)
-        return jsonify([opr_found_flag], row.firstName, row.lastName, row.userName, row.mail, row.pwd, row.RFID_i)
+        if row.role_i == "opr":
+            opr_found_flag = "found"
+            print("Operator Found : Email is " + row.mail)
+            return jsonify([opr_found_flag], row.firstName, row.lastName, row.userName, row.mail, row.pwd, row.RFID_i)
+        else:
+            opr_found_flag = "dear "+row.firstName+", you are not an Operator"
+            print(opr_found_flag)
+            return jsonify(["User"])
     else:
-        opr_found_flag = "not_found"
-        print("Operator Not found")
+        opr_found_flag = "Operator_not_found"
+        print(opr_found_flag)
         return jsonify([opr_found_flag])
 
 # User login
@@ -149,6 +132,24 @@ def totem_op_bc():
         book_found_flag = "not_found"
         print("Book Not found")
         return jsonify([book_found_flag])
+
+# add customer check
+@totem_methods.route("/totem/Operator/AddCustomerCheck", methods=["GET", "POST"])
+def totem_op_add_customer_check():
+    cnxn = connection()
+    cursor = cnxn.cursor()
+    if request.method == 'POST':
+        username = request.form["username"]
+    check_query = "SELECT * FROM [Library_Clients] WHERE username = (?) "
+    value = (username)
+    cursor.execute(check_query, value)
+    row = cursor.fetchone()
+    cnxn.close()
+    if row != None:
+        return jsonify(["the entered username is used before"])
+    else:
+        return jsonify(["username is valid"])
+
 
 # add customer
 @totem_methods.route("/totem/Operator/AddCustomer", methods=["GET", "POST"])
@@ -263,5 +264,3 @@ def totem_book_return():
 @totem_methods.route("/get", methods=["GET", "POST"])
 def getdata(iiid):
     return "welcome dear : " + str(iiid)
-
-

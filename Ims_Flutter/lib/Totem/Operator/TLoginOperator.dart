@@ -19,11 +19,12 @@ class _TLoginOperatorState extends State<TLoginOperator> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  const Image(
-              image: AssetImage('images/logo.png'),
-              height: 50,
-            ),
-        backgroundColor: Colors.green,),
+        title: const Image(
+          image: AssetImage('images/logo.png'),
+          height: 50,
+        ),
+        backgroundColor: Colors.green,
+      ),
       body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -36,10 +37,10 @@ class _TLoginOperatorState extends State<TLoginOperator> {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
               child: Center(
-                child: Text("Please scan your RFID then click LOGIN button",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                    textScaleFactor: 2)),
+                  child: Text("Please scan your RFID then click LOGIN button",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                      textScaleFactor: 2)),
             ),
             // If wanted to implement with inf loop :
             // Padding(
@@ -50,31 +51,29 @@ class _TLoginOperatorState extends State<TLoginOperator> {
             //                   AlwaysStoppedAnimation<Color>(Colors.green)))),
             InkWell(
                 child: Center(
-                  child: Container(
-                    margin:
+                    child: Container(
+                  margin:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                    child: const Center(
+                  child: const Center(
                       child: Text("LOGIN",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold))),
-                    height: 50,
-                    width: 800,
-                    decoration: BoxDecoration(
+                  height: 50,
+                  width: 800,
+                  decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: Colors.green),
-                  )),
+                )),
                 onTap: () async {
-                  // if(_formKey.currentState != null) {
-                  //   if (_formKey.currentState!.validate()){
+                  //if (_formKey.currentState != null) {
+                  //  if (_formKey.currentState!.validate()) {
                   await Httpservices.totemLoginOp(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Login Success")));
-                  //   }
-                  //   } else {
-
-                  // }
+                  //ScaffoldMessenger.of(context).showSnackBar(
+                  //    const SnackBar(content: Text("Login Success")));
+                  //  }
+                  //} else {}
                 }),
             Form(
               key: _formKey,
@@ -83,81 +82,82 @@ class _TLoginOperatorState extends State<TLoginOperator> {
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                     child: Center(
-                      child: Text("Or sign with your credentials",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
-                        textAlign: TextAlign.center,
-                        textScaleFactor: 2)),
+                        child: Text("Or sign with your credentials",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                            textAlign: TextAlign.center,
+                            textScaleFactor: 2)),
                   ),
                   Padding(
-                    padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                        hintText: "Enter your username",
-                        labelText: "Username",
-                        border: OutlineInputBorder()),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 10),
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                          hintText: "Enter your username",
+                          labelText: "Username",
+                          border: OutlineInputBorder()),
                       onChanged: (value) {
                         setState(() {
                           username = value;
                         });
                       },
-                  validator: (String? value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: "Enter your password",
-                    labelText: "Password",
-                    border: OutlineInputBorder(),
+                      validator: (String? value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                    ),
                   ),
-                  onChanged: (value) {
-                    password = value;
-                  },
-                  validator: (String? value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              InkWell(
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
                         horizontal: 30, vertical: 20),
-                    child: const Center(
-                        child: Text("SUBMIT CREDENTIALS",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold))),
-                    height: 50,
-                    width: 800,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.green),
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: "Enter your password",
+                        labelText: "Password",
+                        border: OutlineInputBorder(),
+                      ),
+                      onChanged: (value) {
+                        password = value;
+                      },
+                      validator: (String? value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                    ),
                   ),
-                  onTap: () async {
-                    if (_formKey.currentState != null) {
-                      if (_formKey.currentState!.validate()) {
-                        await Httpservices.totemLoginCredentialOp(username, password, context);
-                        // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Login Success")));
-                      }
-                    } else {}
-                  })
-            ],
-          ),
-        )
+                  InkWell(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 20),
+                        child: const Center(
+                            child: Text("SUBMIT CREDENTIALS",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold))),
+                        height: 50,
+                        width: 800,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.green),
+                      ),
+                      onTap: () async {
+                        if (_formKey.currentState != null) {
+                          if (_formKey.currentState!.validate()) {
+                            await Httpservices.totemLoginCredentialOp(
+                                username, password, context);
+                            // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Login Success")));
+                          }
+                        } else {}
+                      })
+                ],
+              ),
+            )
           ]),
     );
   }
