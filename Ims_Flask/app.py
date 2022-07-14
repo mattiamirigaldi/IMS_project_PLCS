@@ -278,15 +278,16 @@ def totem_usr_login():
     cnxn = connection()
     cursor = cnxn.cursor()
     global rfid
-    global role
     check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
     value = (rfid)
     cursor.execute(check_query,value)
     row = cursor.fetchone()
     cnxn.close()
-    role = row.role_i
-    print (role)
     if row != None:
+        global role
+        global user_rfid
+        role = row.role_i
+        user_rfid = row.RFID_i
         usr_found_flag = "found"
         print("User Found : Email is "+row.mail)
         return jsonify([usr_found_flag],row.firstName,row.lastName,row.userName,row.mail,row.pwd,row.RFID_i)
@@ -303,6 +304,7 @@ def totem_op_bc():
     cnxn = connection()
     cursor = cnxn.cursor()
     global rfid
+    global book_rfid
     check_query = "SELECT * FROM [Items] WHERE RFID = (?) "
     value = (rfid)
     cursor.execute(check_query,value)
@@ -310,6 +312,7 @@ def totem_op_bc():
     cnxn.close()
     print (row)
     if row != None :
+        book_rfid = row.RFID
         book_found_flag = "found"
         print("Book Found : TITLE is "+row.Title)
         return jsonify([book_found_flag],row.id,row.Title,row.Author,row.Genre,row.RFID,row.RFID_i)
@@ -387,6 +390,48 @@ def RemoveBook():
    remove_flag = "Book removed successfully" 
    print("Book removed successfully") 
    return jsonify([remove_flag])
+
+
+   #Rent book
+
+@app.route("/totem/User/RentBook", methods=["GET","POST"])
+def totem_book_rent():
+   cnxn = connection() 
+   cursor = cnxn.cursor() 
+   global rfid 
+   global user_rfid
+   cnxn = connection() 
+   cursor = cnxn.cursor() 
+   print(rfid)
+   check_query = "UPDATE [Items] SET RFID_i = (?) WHERE RFID = (?) " 
+   value = (user_rfid,rfid) 
+   cursor.execute(check_query,value) 
+   cnxn.commit() 
+   cnxn.close() 
+   rent_flag = "Book rented successfully" 
+   print("Book rented successfully") 
+   return jsonify([rent_flag])
+
+
+#Return book
+
+@app.route("/totem/User/ReturnBook", methods=["GET","POST"])
+def totem_book_return():
+   cnxn = connection() 
+   cursor = cnxn.cursor() 
+   global rfid 
+   global user_rfid
+   cnxn = connection() 
+   cursor = cnxn.cursor() 
+   print(rfid)
+   check_query = "UPDATE [Items] SET RFID_i = (?) WHERE RFID = (?) " 
+   value = ('-1',rfid) 
+   cursor.execute(check_query,value) 
+   cnxn.commit() 
+   cnxn.close() 
+   return_flag = "Book returned successfully" 
+   print("Book returned successfully") 
+   return jsonify([return_flag])
 
 
 @app.route("/get", methods=["GET","POST"])
