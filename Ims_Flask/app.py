@@ -23,7 +23,6 @@ def connection():
     return cnxn
 
 
-
 FLUTTER_WEB_APP = 'templates'
 
 @app.route('/')
@@ -218,6 +217,219 @@ def items(id):
 #            firstName=row.firstName, mail=row.mail,
 #        )
 #       
+
+@app.route("/test", methods=["GET","POST"])
+def test():
+    global rfid
+    if request.method == 'POST':
+        rfid = request.form['rfid']
+        print(rfid)
+        return redirect(url_for('totem'))
+    return "welcome dear : "+str(rfid)
+
+
+#Totem RFID read
+
+rfid = 1    
+opr_found_flag = 0
+
+@app.route("/totem", methods=["GET","POST"])
+def totem():
+    cnxn = connection()
+    cursor = cnxn.cursor()
+    global rfid
+    if request.method == 'POST':
+        rfid = request.form['rfid']
+        print(rfid)
+    return ("nunn")
+
+
+#Operator login
+
+@app.route("/totem/login", methods=["GET","POST"])
+def totem_op_login():
+    cnxn = connection()
+    cursor = cnxn.cursor()
+    global rfid
+    global role
+    check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
+    value = (rfid)
+    cursor.execute(check_query,value)
+    row = cursor.fetchone()
+    cnxn.close()
+    role = row.role_i
+    print (role)
+    if row != None:
+        opr_found_flag = "found"
+        print("Operator Found : Email is "+row.mail)
+        return jsonify([opr_found_flag],row.firstName,row.lastName,row.userName,row.mail,row.pwd,row.RFID_i)
+    else :
+        opr_found_flag = "not_found"
+        print("Operator Not found")
+        return jsonify([opr_found_flag])
+
+
+#User login
+
+@app.route("/totem/user/login", methods=["GET","POST"])
+def totem_usr_login():
+    cnxn = connection()
+    cursor = cnxn.cursor()
+    global rfid
+    check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
+    value = (rfid)
+    cursor.execute(check_query,value)
+    row = cursor.fetchone()
+    cnxn.close()
+    if row != None:
+        global role
+        global user_rfid
+        role = row.role_i
+        user_rfid = row.RFID_i
+        usr_found_flag = "found"
+        print("User Found : Email is "+row.mail)
+        return jsonify([usr_found_flag],row.firstName,row.lastName,row.userName,row.mail,row.pwd,row.RFID_i)
+    else :
+        usr_found_flag = "not_found"
+        print("User Not found")
+        return jsonify([usr_found_flag])
+
+
+#book check
+
+@app.route("/totem/BookCheck", methods=["GET","POST"])
+def totem_op_bc():
+    cnxn = connection()
+    cursor = cnxn.cursor()
+    global rfid
+    global book_rfid
+    check_query = "SELECT * FROM [Items] WHERE RFID = (?) "
+    value = (rfid)
+    cursor.execute(check_query,value)
+    row = cursor.fetchone()
+    cnxn.close()
+    print (row)
+    if row != None :
+        book_rfid = row.RFID
+        book_found_flag = "found"
+        print("Book Found : TITLE is "+row.Title)
+        return jsonify([book_found_flag],row.id,row.Title,row.Author,row.Genre,row.RFID,row.RFID_i)
+    else :
+        book_found_flag = "not_found"
+        print("Book Not found")
+        return jsonify([book_found_flag])
+
+#add customer
+
+@app.route("/totem/Operator/AddCustomer", methods=["GET","POST"])
+def totem_op_add_customer():
+    cnxn = connection()
+    cursor = cnxn.cursor()
+    global user_add_flag
+    
+    if request.method == 'POST':
+        firstName = request.form["firstName"]
+        lastName = request.form["lastName"]
+        username = request.form["username"]
+        mail = request.form["email"]
+        password = request.form["password"]
+    
+    check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
+    value = (rfid)
+    cursor.execute(check_query,value)
+    row = cursor.fetchone()
+
+    if row == None :
+        insert_query = '''INSERT INTO Library_Clients VALUES (?,?,?,?,?,?,'usr');'''    # the '?' are placeholders
+        value = (firstName,lastName,username,mail,password,rfid)
+        cursor.execute(insert_query,value)
+        cnxn.commit()
+        cnxn.close()
+        user_add_flag = "new User added to the database successfully"
+        print(user_add_flag)
+        return jsonify([user_add_flag])
+    else :
+        user_add_flag = "RFID is already in the db"
+        print(user_add_flag)
+        return jsonify([user_add_flag])
+
+#Remove Customer 
+@app.route("/totem/Operator/RemoveCustomer", methods=["GET","POST"]) 
+def RemoveCustomer(): 
+   cnxn = connection() 
+   cursor = cnxn.cursor() 
+   global rfid 
+   cnxn = connection() 
+   cursor = cnxn.cursor() 
+   check_query = "DELETE FROM [Library_Clients] WHERE rfid_i = (?) " 
+   value = (rfid) 
+   cursor.execute(check_query,value) 
+   cnxn.commit() 
+   cnxn.close() 
+   remove_flag = "Customer removed successfully" 
+   print("Customer removed successfully") 
+   return jsonify([remove_flag])
+
+
+#Remove Book 
+@app.route("/totem/Operator/RemoveBook", methods=["GET","POST"]) 
+def RemoveBook(): 
+   cnxn = connection() 
+   cursor = cnxn.cursor() 
+   global rfid 
+   cnxn = connection() 
+   cursor = cnxn.cursor() 
+   print(rfid)
+   check_query = "DELETE FROM [Items] WHERE RFID = (?) " 
+   value = (rfid) 
+   cursor.execute(check_query,value) 
+   cnxn.commit() 
+   cnxn.close() 
+   remove_flag = "Book removed successfully" 
+   print("Book removed successfully") 
+   return jsonify([remove_flag])
+
+
+   #Rent book
+
+@app.route("/totem/User/RentBook", methods=["GET","POST"])
+def totem_book_rent():
+   cnxn = connection() 
+   cursor = cnxn.cursor() 
+   global rfid 
+   global user_rfid
+   cnxn = connection() 
+   cursor = cnxn.cursor() 
+   print(rfid)
+   check_query = "UPDATE [Items] SET RFID_i = (?) WHERE RFID = (?) " 
+   value = (user_rfid,rfid) 
+   cursor.execute(check_query,value) 
+   cnxn.commit() 
+   cnxn.close() 
+   rent_flag = "Book rented successfully" 
+   print("Book rented successfully") 
+   return jsonify([rent_flag])
+
+
+#Return book
+
+@app.route("/totem/User/ReturnBook", methods=["GET","POST"])
+def totem_book_return():
+   cnxn = connection() 
+   cursor = cnxn.cursor() 
+   global rfid 
+   global user_rfid
+   cnxn = connection() 
+   cursor = cnxn.cursor() 
+   print(rfid)
+   check_query = "UPDATE [Items] SET RFID_i = (?) WHERE RFID = (?) " 
+   value = ('-1',rfid) 
+   cursor.execute(check_query,value) 
+   cnxn.commit() 
+   cnxn.close() 
+   return_flag = "Book returned successfully" 
+   print("Book returned successfully") 
+   return jsonify([return_flag])
 
 @app.route("/get", methods=["GET","POST"])
 def getdata(iiid):

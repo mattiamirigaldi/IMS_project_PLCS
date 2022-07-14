@@ -5,20 +5,23 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 // to display loading animation
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:ims/Totem/Operator/TRemoveBook.dart';
 // to route
 
-import 'package:ims/Totem/User/THomePage_us.dart';
+import '../THomePage_op.dart';
+import '../TRemoveCustomer.dart';
 
-String baseUrl = 'http://172.22.143.8:5000';
+String baseUrl = 'http://172.22.79.9:5000';
 
 class Httpservices {
   static final _client = http.Client();
-  static final _totemLoginUrl = Uri.parse(baseUrl + '/totem/Operator');
-  static final _loginUrl = Uri.parse(baseUrl + 'Operator/login');
+  static final _totemLoginUrl = Uri.parse(baseUrl + '/totem/login');
+  static final _loginUrl = Uri.parse(baseUrl + '/login');
+  static final _bookcheckurl = Uri.parse(baseUrl + '/totem/BookCheck');
   static final _totemAddCustomer =
-      Uri.parse(baseUrl + 'totem/Operator/AddCustomer');
+      Uri.parse(baseUrl + '/totem/Operator/AddCustomer');
   static final _totemRemoveCustomer =
-      Uri.parse(baseUrl + 'totem/Operator/RemoveCustomer');
+      Uri.parse(baseUrl + '/totem/Operator/RemoveCustomer');
   static final _totemAddBook = Uri.parse(baseUrl + '/totem/Operator/AddBook');
   static final _totemRemoveBook =
       Uri.parse(baseUrl + '/totem/Operator/RemoveBook');
@@ -33,7 +36,7 @@ class Httpservices {
       } else {
         await EasyLoading.showSuccess(json[4]);
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const hmpage_us()));
+            MaterialPageRoute(builder: (context) => const hmpage_op()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
@@ -52,7 +55,7 @@ class Httpservices {
         await EasyLoading.showSuccess("Welcome Back " + userName);
         var json = jsonDecode(response.body);
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const hmpage_us()));
+            MaterialPageRoute(builder: (context) => const hmpage_op()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
@@ -60,34 +63,61 @@ class Httpservices {
   }
 
   // Add customer method
-  static totemAddCustomer(rfid) async {
-    http.Response response =
-        await _client.post(_totemAddCustomer, body: {"rfid": rfid});
+  static totemAddCustomer(
+    firstName,
+    lastName,
+    username,
+    email,
+    password,
+    context,
+  ) async {
+    await EasyLoading.showSuccess("entered in http services");
+    http.Response response = await _client.post(_totemAddCustomer, body: {
+      "firstName": firstName,
+      "lastName": lastName,
+      "email": email,
+      "username": username,
+      "password": password
+    });
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == "Customer already in db") {
-        await EasyLoading.showError(json[0]);
+      if (json[0] == "new User added to the database successfully") {
+        await EasyLoading.showSuccess(json[0]);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const hmpage_op()));
       } else {
-        await EasyLoading.showSuccess("Customer registered successfully");
+        await EasyLoading.showError(json[0]);
       }
     } else {
       EasyLoading.showError("Error code : ${response.statusCode.toString()}");
     }
   }
 
-  // Remove customer method
-  static totemRemoveCustomer(rfid) async {
-    http.Response response =
-        await _client.post(_totemRemoveCustomer, body: {"rfid": rfid});
+  // Remove customer check
+  static RemoveCheck(context) async {
+    http.Response response = await _client.get(_totemLoginUrl);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == "Customer not in db") {
-        await EasyLoading.showError(json[0]);
+      var rfid = 0;
+      if (json[0] == "not_found") {
+        await EasyLoading.showError('User Not Found');
       } else {
-        await EasyLoading.showSuccess("Customer removed successfully");
+        rfid = json[6];
+        await Httpservices.totemRemoveCustomer(rfid, context);
       }
     } else {
-      EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+      EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  // Remove customer method
+  static totemRemoveCustomer(rfid, context) async {
+    http.Response response = await _client.get(_totemRemoveCustomer);
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      await EasyLoading.showSuccess(json[0]);
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const TRemoveCustomer()));
     }
   }
 
@@ -107,18 +137,31 @@ class Httpservices {
     }
   } // Remove book method
 
-  static totemRemoveBook(rfid) async {
-    http.Response response =
-        await _client.post(_totemRemoveBook, body: {"rfid": rfid});
+  // Remove book check
+  static RemoveCheck_b(context) async {
+    http.Response response = await _client.get(_bookcheckurl);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == "Book not found in db") {
-        await EasyLoading.showError(json[0]);
+      var rfid = 0;
+      if (json[0] == "not_found") {
+        await EasyLoading.showError('Book Not Found');
       } else {
-        await EasyLoading.showSuccess("Book added successfully");
+        rfid = json[5];
+        await Httpservices.totemRemoveBook(rfid, context);
       }
     } else {
-      EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+      EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  // Remove book method
+  static totemRemoveBook(rfid, context) async {
+    http.Response response = await _client.get(_totemRemoveBook);
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      await EasyLoading.showSuccess(json[0]);
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const TRemoveBook()));
     }
   }
 }
