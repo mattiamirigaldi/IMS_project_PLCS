@@ -18,11 +18,15 @@ String baseUrl = Myroutes.baseUrl;
 class Httpservices {
   static final _client = http.Client();
   static final _totemWelcomeUrl = Uri.parse(baseUrl + '/totem');
-  static final _totemLoginUrl = Uri.parse(baseUrl + '/totem/UsrLogin');
-  static final _loginUrl = Uri.parse(baseUrl + '/login');
+  static final _totemUsrLoginRFIDUrl =
+      Uri.parse(baseUrl + '/totem/UsrLoginRFID');
+  static final _totemUsrLoginCredentialUrl =
+      Uri.parse(baseUrl + '/totem/UsrLoginCredential');
   static final _totemRentUrl = Uri.parse(baseUrl + '/totem/User/RentBook');
   static final _totemReturnUrl = Uri.parse(baseUrl + '/totem/User/ReturnBook');
-  static final _bookcheckurl = Uri.parse(baseUrl + '/totem/BookCheck');
+  static final _bookcheckRenturl = Uri.parse(baseUrl + '/totem/BookCheckRent');
+  static final _bookcheckReturnurl =
+      Uri.parse(baseUrl + '/totem/BookCheckReturn');
 
   // Redirect to Welcome page method
   static totemWelcome(context) async {
@@ -35,7 +39,7 @@ class Httpservices {
 
   // Login with rfid method
   static totemLoginUs(context) async {
-    http.Response response = await _client.get(_totemLoginUrl);
+    http.Response response = await _client.get(_totemUsrLoginRFIDUrl);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "not_found") {
@@ -54,14 +58,14 @@ class Httpservices {
 
   // Login with credentials method
   static totemLoginCredentialUs(userName, password, context) async {
-    http.Response response = await _client
-        .post(_loginUrl, body: {"userName": userName, "password": password});
+    http.Response response = await _client.post(_totemUsrLoginCredentialUrl,
+        body: {"userName": userName, "password": password});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == 'not_found') {
         await EasyLoading.showError(json[0]);
       } else {
-        await EasyLoading.showSuccess("Welcome Back " + userName);
+        await EasyLoading.showSuccess("Welcome Back " + json[1]);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const hmpage_us()));
       }
@@ -70,59 +74,48 @@ class Httpservices {
     }
   }
 
-  // Rent book check
+  // book check Rent
   static Book_check_rent(context) async {
-    http.Response response = await _client.get(_bookcheckurl);
+    http.Response response = await _client.get(_bookcheckRenturl);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       var rfid = 0;
       if (json[0] == "not_found") {
         await EasyLoading.showError('Book Not Found');
+      } else if (json[0] == "Book_not_available") {
+        await EasyLoading.showError("Book_not_available");
       } else {
-        rfid = json[5];
-        await Httpservices.totemRentBook(rfid, context);
+        //await Httpservices.totemRentBook(rfid, context);
+        http.Response response = await _client.get(_totemRentUrl);
+        if (response.statusCode == 200) {
+          await EasyLoading.showSuccess("Book rented successfully");
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const TRentPage()));
+        }
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
     }
   }
 
-//Return book Check
+  // book Check Return
   static Book_check_return(context) async {
-    http.Response response = await _client.get(_bookcheckurl);
+    http.Response response = await _client.get(_bookcheckReturnurl);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      var rfid = 0;
       if (json[0] == "not_found") {
         await EasyLoading.showError('Book Not Found');
       } else {
-        rfid = json[5];
-        await Httpservices.totemReturnBook(rfid, context);
+        //await Httpservices.totemReturnBook(context);
+        http.Response response = await _client.get(_totemReturnUrl);
+        if (response.statusCode == 200) {
+          await EasyLoading.showSuccess("Book returned successfully");
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const TReturnPage()));
+        }
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
-    }
-  }
-
-  // Rent book method
-  static totemRentBook(rfid, context) async {
-    http.Response response = await _client.get(_totemRentUrl);
-    if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
-      await EasyLoading.showSuccess(json[0]);
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const TRentPage()));
-    }
-  }
-
-  // Return book method
-  static totemReturnBook(rfid, context) async {
-    http.Response response = await _client.get(_totemReturnUrl);
-    if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
-      await EasyLoading.showSuccess(json[0]);
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => const TReturnPage()));
     }
   }
 }

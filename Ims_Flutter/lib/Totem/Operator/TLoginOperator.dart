@@ -67,13 +67,9 @@ class _TLoginOperatorState extends State<TLoginOperator> {
                       color: Colors.green),
                 )),
                 onTap: () async {
-                  //if (_formKey.currentState != null) {
-                  //  if (_formKey.currentState!.validate()) {
                   await Httpservices.totemLoginOp(context);
                   //ScaffoldMessenger.of(context).showSnackBar(
                   //    const SnackBar(content: Text("Login Success")));
-                  //  }
-                  //} else {}
                 }),
             Form(
               key: _formKey,

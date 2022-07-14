@@ -7,9 +7,10 @@ totem_methods = Blueprint('totem_methods', __name__)
 
 rfid = 1
 global opr_found_flag
-user_rfid = 1
+global user_username
 global user_found_flag
 global role
+global book_rfid
 
 def connection():
     ## Connection to the database
@@ -37,9 +38,9 @@ def totem():
             print(rfid)
         return ("nunn")
 
-# User login
-@totem_methods.route('/totem/UsrLogin', methods=["GET", "POST"])
-def totem_login():
+# User login RFID
+@totem_methods.route('/totem//UsrLoginRFID', methods=["GET", "POST"])
+def UsrLoginRFID():
     cnxn = connection()
     cursor = cnxn.cursor()
     check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
@@ -47,10 +48,12 @@ def totem_login():
     cursor.execute(check_query, value)
     row = cursor.fetchone()
     cnxn.close()
+    global useruser
     if row != None:
         if row.role_i == "usr":
             user_found_flag = "found"
             print("User Found : FIRSTNAME is " + row.firstName)
+            useruser = row.userName
             return jsonify([user_found_flag], row.firstName, row.lastName, row.userName, row.mail, row.pwd)
         else:
             user_found_flag = "operator"
@@ -60,10 +63,33 @@ def totem_login():
         print("User Not found")
         return jsonify([user_found_flag])
 
+# User login Credentials
+@totem_methods.route('/totem//UsrLoginCredential', methods=["GET", "POST"])
+def UsrLoginCredential():
+    cnxn = connection()
+    cursor = cnxn.cursor()
+    if request.method == 'POST':
+        username = request.form["userName"]
+        password = request.form["password"]
+    check_query = "SELECT * FROM [Library_Clients] WHERE username = (?) and pwd = (?) and role_i = 'usr'"
+    value = (username,password)
+    cursor.execute(check_query, value)
+    row = cursor.fetchone()
+    cnxn.close()
+    global useruser
+    if row != None:
+        user_found_flag = "found"
+        print("User Found : FIRSTNAME is " + row.firstName)
+        useruser = row.userName
+        return jsonify([user_found_flag], row.firstName, row.lastName, row.userName, row.mail, row.pwd)
+    else:
+        user_found_flag = "not_found"
+        print("User Not found")
+        return jsonify([user_found_flag])
 
-# Operator login
-@totem_methods.route("/totem/OprLogin", methods=["GET", "POST"])
-def totem_op_login():
+# Operator login RFID
+@totem_methods.route("/totem/OprLoginRFID", methods=["GET", "POST"])
+def OprLoginRFID():
     cnxn = connection()
     cursor = cnxn.cursor()  
     check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
@@ -85,53 +111,106 @@ def totem_op_login():
         print(opr_found_flag)
         return jsonify([opr_found_flag])
 
-# User login
-@totem_methods.route("/totem/user/login", methods=["GET", "POST"])
-def totem_usr_login():
+# Operator login Credentials
+@totem_methods.route('/totem/OprLoginCredential', methods=["GET", "POST"])
+def OprLoginCredential():
     cnxn = connection()
     cursor = cnxn.cursor()
-    global rfid
-    check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
-    value = (rfid)
+    if request.method == 'POST':
+        username = request.form["userName"]
+        password = request.form["password"]
+    check_query = "SELECT * FROM [Library_Clients] WHERE username = (?) and pwd = (?) and role_i = 'opr'"
+    value = (username,password)
     cursor.execute(check_query, value)
     row = cursor.fetchone()
     cnxn.close()
     if row != None:
-        global role
-        global user_rfid
-        role = row.role_i
-        user_rfid = row.RFID_i
-        usr_found_flag = "found"
-        print("User Found : Email is " + row.mail)
-        return jsonify([usr_found_flag], row.firstName, row.lastName, row.userName, row.mail, row.pwd, row.RFID_i)
+        opr_found_flag = "found"
+        print("User Found : FIRSTNAME is " + row.firstName)
+        return jsonify([opr_found_flag], row.firstName, row.lastName, row.userName, row.mail, row.pwd)
     else:
-        usr_found_flag = "not_found"
+        opr_found_flag = "not_found"
         print("User Not found")
-        return jsonify([usr_found_flag])
+        return jsonify([opr_found_flag])
 
+#############################################################    
 
-# book check
-@totem_methods.route("/totem/BookCheck", methods=["GET", "POST"])
-def totem_op_bc():
+# book check Rent
+@totem_methods.route("/totem/BookCheckRent", methods=["GET", "POST"])
+def totem_BookCheckRent():
     cnxn = connection()
     cursor = cnxn.cursor()
-    global rfid
-    global book_rfid
     check_query = "SELECT * FROM [Items] WHERE RFID = (?) "
     value = (rfid)
     cursor.execute(check_query, value)
     row = cursor.fetchone()
     cnxn.close()
-    print(row)
     if row != None:
-        book_rfid = row.RFID
-        book_found_flag = "found"
-        print("Book Found : TITLE is " + row.Title)
-        return jsonify([book_found_flag], row.id, row.Title, row.Author, row.Genre, row.RFID, row.RFID_i)
+        if row.userName == "-1" :
+            book_found_flag = "found"
+            print("Book Found : TITLE is " + row.Title)
+            return jsonify([book_found_flag], row.Location, row.Title, row.Author, row.Genre, row.RFID, row.userName)
+        else:
+            return jsonify(["Book_not_available"])
     else:
         book_found_flag = "not_found"
         print("Book Not found")
         return jsonify([book_found_flag])
+
+# Rent book
+@totem_methods.route("/totem/User/RentBook", methods=["GET", "POST"])
+def totem_book_rent():
+    cnxn = connection()
+    cursor = cnxn.cursor()
+    cnxn = connection()
+    cursor = cnxn.cursor()
+    global useruser
+    check_query = "UPDATE [Items] SET userName = (?) WHERE RFID = (?) "
+    value = (useruser, rfid)
+    cursor.execute(check_query, value)
+    cnxn.commit()
+    cnxn.close()
+    rent_flag = "Book rented successfully"
+    print("Book rented successfully")
+    return jsonify([rent_flag])
+
+#############################################################
+
+# book check Return
+@totem_methods.route("/totem/BookCheckReturn", methods=["GET", "POST"])
+def totem_BookCheckReturn():
+    cnxn = connection()
+    cursor = cnxn.cursor()
+    check_query = "SELECT * FROM [Items] WHERE RFID = (?) and userName = (?)"
+    value = (rfid,useruser)
+    cursor.execute(check_query, value)
+    row = cursor.fetchone()
+    cnxn.close()
+    if row != None:
+        book_found_flag = "found"
+        print("Book Found : TITLE is " + row.Title)
+        return jsonify([book_found_flag], row.Location, row.Title, row.Author, row.Genre, row.RFID, row.userName)
+    else:
+        book_found_flag = "not_found"
+        print("Book Not found")
+        return jsonify([book_found_flag])
+
+# Return book
+@totem_methods.route("/totem/User/ReturnBook", methods=["GET", "POST"])
+def totem_book_return():
+    cnxn = connection()
+    cursor = cnxn.cursor()
+    global rfid
+    cnxn = connection()
+    cursor = cnxn.cursor()
+    check_query = "UPDATE [Items] SET userName = (?) WHERE RFID = (?) "
+    value = ('-1', rfid)
+    cursor.execute(check_query, value)
+    cnxn.commit()
+    cnxn.close()
+    return ("panir")
+
+#############################################################
 
 # add customer check
 @totem_methods.route("/totem/Operator/AddCustomerCheck", methods=["GET", "POST"])
@@ -184,82 +263,88 @@ def totem_op_add_customer():
         print(user_add_flag)
         return jsonify([user_add_flag])
 
+#############################################################
 
 # Remove Customer
 @totem_methods.route("/totem/Operator/RemoveCustomer", methods=["GET", "POST"])
 def RemoveCustomer():
     cnxn = connection()
     cursor = cnxn.cursor()
-    global rfid
+    check_query = "SELECT * FROM [Library_Clients] WHERE rfid_i = (?) and role_i = (?)"
+    value = (rfid,'usr')
+    cursor.execute(check_query, value)
+    row = cursor.fetchone()
+    if row != None :
+        check_query = "DELETE FROM [Library_Clients] WHERE rfid_i = (?)"
+        value = (rfid)
+        cursor.execute(check_query, value)
+        cnxn.commit()
+        cnxn.close()
+        print("Operator removed a User successfully")
+        return jsonify(["Done"])
+    else:
+        cnxn.close()
+        print("user not found")
+        return jsonify(["no"])
+
+#############################################################
+
+# Add Book
+@totem_methods.route("/totem/Operator/AddBook", methods=["GET", "POST"])
+def totem_AddBook():
     cnxn = connection()
     cursor = cnxn.cursor()
-    check_query = "DELETE FROM [Library_Clients] WHERE rfid_i = (?) "
-    value = (rfid)
-    cursor.execute(check_query, value)
-    cnxn.commit()
-    cnxn.close()
-    remove_flag = "Customer removed successfully"
-    print("Customer removed successfully")
-    return jsonify([remove_flag])
+    if request.method == 'POST':
+        Title = request.form["Title"]
+        Author = request.form["Author"]
+        Genre = request.form["Genre"]
+        Location = request.form["Location"]
+        check_query = "SELECT * FROM [Items] WHERE RFID = (?)"
+        value = (rfid)
+        cursor.execute(check_query, value)
+        row = cursor.fetchone()
+        print("1111111")
+        if row == None :
+            check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?)"
+            value = (rfid)
+            cursor.execute(check_query, value)
+            row = cursor.fetchone()
+            if row == None :
+                insert_query = '''INSERT INTO Items VALUES (?,?,?,?,'-1',?);'''  # the '?' are placeholders
+                value = (Title, Author, Genre, rfid, Location)
+                cursor.execute(insert_query, value)
+                cnxn.commit()
+                cnxn.close()
+                print("222222222")
+                return jsonify(["done"])
+            return jsonify(["The Scanned RFID is a USER"])
+        print("33333333333")
+        cnxn.close()
+        return jsonify(["The book is already in the database"])
+    else :
+        return (["nano panir"])
 
 
 # Remove Book
 @totem_methods.route("/totem/Operator/RemoveBook", methods=["GET", "POST"])
-def RemoveBook():
+def totem_RemoveBook():
     cnxn = connection()
     cursor = cnxn.cursor()
-    global rfid
-    cnxn = connection()
-    cursor = cnxn.cursor()
-    print(rfid)
-    check_query = "DELETE FROM [Items] WHERE RFID = (?) "
+    check_query = "SELECT * FROM [Items] WHERE RFID = (?)"
     value = (rfid)
     cursor.execute(check_query, value)
-    cnxn.commit()
+    row = cursor.fetchone()
+    if row != None :
+        delete_query = "DELETE FROM [Items] WHERE RFID = (?) "
+        value = (rfid)
+        cursor.execute(delete_query, value)
+        cnxn.commit()
+        cnxn.close()
+        return jsonify(["Done"])
     cnxn.close()
-    remove_flag = "Book removed successfully"
-    print("Book removed successfully")
-    return jsonify([remove_flag])
+    return jsonify(["no"])
 
-# Rent book
-@totem_methods.route("/totem/User/RentBook", methods=["GET", "POST"])
-def totem_book_rent():
-    cnxn = connection()
-    cursor = cnxn.cursor()
-    global rfid
-    global user_rfid
-    cnxn = connection()
-    cursor = cnxn.cursor()
-    print(rfid)
-    check_query = "UPDATE [Items] SET RFID_i = (?) WHERE RFID = (?) "
-    value = (user_rfid, rfid)
-    cursor.execute(check_query, value)
-    cnxn.commit()
-    cnxn.close()
-    rent_flag = "Book rented successfully"
-    print("Book rented successfully")
-    return jsonify([rent_flag])
-
-
-# Return book
-@totem_methods.route("/totem/User/ReturnBook", methods=["GET", "POST"])
-def totem_book_return():
-    cnxn = connection()
-    cursor = cnxn.cursor()
-    global rfid
-    global user_rfid
-    cnxn = connection()
-    cursor = cnxn.cursor()
-    print(rfid)
-    check_query = "UPDATE [Items] SET RFID_i = (?) WHERE RFID = (?) "
-    value = ('-1', rfid)
-    cursor.execute(check_query, value)
-    cnxn.commit()
-    cnxn.close()
-    return_flag = "Book returned successfully"
-    print("Book returned successfully")
-    return jsonify([return_flag])
-
+#############################################################
 
 @totem_methods.route("/get", methods=["GET", "POST"])
 def getdata(iiid):

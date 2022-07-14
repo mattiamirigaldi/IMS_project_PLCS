@@ -5,10 +5,7 @@ import './TRentPage.dart';
 import './TReturnPage.dart';
 
 class hmpage_us extends StatelessWidget {
-  //final String name ;
-  // final String email;
-  // final String userName;
- const hmpage_us({Key? key}) : super(key: key);
+  const hmpage_us({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +13,6 @@ class hmpage_us extends StatelessWidget {
         appBar: AppBar(
             backgroundColor: Colors.green,
             title:
-
                 //Text("HELLO DEAR BOOK LOVER!"),
                 const Image(
               image: AssetImage('images/logo.png'),
@@ -51,7 +47,7 @@ class hmpage_us extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => const TRentPage()));
-                },  
+                },
               ),
               InkWell(
                 child: Center(
