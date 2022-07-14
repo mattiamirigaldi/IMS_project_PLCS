@@ -11,8 +11,8 @@ app = Flask(__name__)
 def connection():
     ## Connection to the database
     # server and database names are given by SQL
-    server = 'DESKTOP-CK2AQQI'
-    database = 'mydb'
+    server = 'POUYAN'
+    database = 'my_db'
     # Cnxn : is the connection string
     # If trusted connection is 'yes' then we log using our windows authentication
     cnxn = pyodbc.connect(
@@ -259,9 +259,8 @@ def totem_op_login():
     cursor.execute(check_query,value)
     row = cursor.fetchone()
     cnxn.close()
-    role = row.role_i
-    print (role)
     if row != None:
+        print (row.role_i)
         opr_found_flag = "found"
         print("Operator Found : Email is "+row.mail)
         return jsonify([opr_found_flag],row.firstName,row.lastName,row.userName,row.mail,row.pwd,row.RFID_i)
@@ -321,8 +320,25 @@ def totem_op_bc():
         print("Book Not found")
         return jsonify([book_found_flag])
 
-#add customer
 
+#add customer check
+@app.route("/totem/Operator/AddCustomerCheck", methods=["GET","POST"])
+def totem_op_add_customer_check():
+    cnxn = connection()
+    cursor = cnxn.cursor()
+    if request.method == 'POST':
+        username = request.form["username"]
+    check_query = "SELECT * FROM [Library_Clients] WHERE username = (?) "
+    value = (username)
+    cursor.execute(check_query,value)
+    row = cursor.fetchone()
+    cnxn.close()
+    if row != None :
+        return jsonify(["the entered username is used before"])
+    else :
+        return jsonify(["username is valid"])
+
+#add customer
 @app.route("/totem/Operator/AddCustomer", methods=["GET","POST"])
 def totem_op_add_customer():
     cnxn = connection()
