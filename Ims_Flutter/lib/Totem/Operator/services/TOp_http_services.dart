@@ -20,6 +20,10 @@ class Httpservices {
   static final _bookcheckurl = Uri.parse(baseUrl + '/totem/BookCheck');
   static final _totemAddCustomer = Uri.parse(baseUrl + '/totem/Operator/AddCustomer');
   static final _totemRemoveCustomer = Uri.parse(baseUrl + '/totem/Operator/RemoveCustomer');
+  static final _totemAddCustomerCheck =
+      Uri.parse(baseUrl + '/totem/Operator/AddCustomerCheck');
+  static final _totemRemoveCustomer =
+      Uri.parse(baseUrl + '/totem/Operator/RemoveCustomer');
   static final _totemAddBook = Uri.parse(baseUrl + '/totem/Operator/AddBook');
   static final _totemRemoveBook = Uri.parse(baseUrl + '/totem/Operator/RemoveBook');
 
@@ -56,6 +60,17 @@ class Httpservices {
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  static totemAddCustomerCheck(username) async {
+    http.Response response = await _client
+        .post(_totemAddCustomerCheck, body: {"username": username});
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      return json[0];
+    } else {
+      EasyLoading.showError("Error code : ${response.statusCode.toString()}");
     }
   }
 

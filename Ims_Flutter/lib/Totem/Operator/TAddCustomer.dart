@@ -1,6 +1,8 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:ims/Totem/Operator/services/TOp_http_services.dart';
 import 'TAddCustomerRFID.dart';
 
 class TAddCustomer extends StatefulWidget {
@@ -20,6 +22,7 @@ class _GenreListState extends State<TAddCustomer> {
   late String lastName;
   late String username;
   late String password;
+  late String user_chk_flag;
 
   @override
   Widget build(BuildContext context) {
@@ -96,15 +99,24 @@ class _GenreListState extends State<TAddCustomer> {
                         hintText: "Enter username",
                         labelText: 'Username',
                         border: OutlineInputBorder()),
-                    onChanged: (value) {
+                    onChanged: (value) async {
                       setState(() {
                         username = value;
                       });
+                      user_chk_flag =
+                          await Httpservices.totemAddCustomerCheck(username);
+                      //if (user_chk_flag ==
+                      //    "the entered username is used before") {
+                      //  await EasyLoading.showInfo(user_chk_flag);
+                      //}
                     },
                     validator: (String? value) {
                       if (value!.isEmpty) {
                         return 'Please enter some text';
-                      }
+                      } else if (user_chk_flag ==
+                          "the entered username is used before") {
+                        return user_chk_flag;
+                      } else {}
                       return null;
                     },
                   ),
@@ -186,20 +198,26 @@ class _GenreListState extends State<TAddCustomer> {
                     onTap: () async {
                       if (_formKey.currentState != null) {
                         if (_formKey.currentState!.validate()) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => TAddCustomerRFID(
-                                        firstName: firstName,
-                                        lastName: lastName,
-                                        username: username,
-                                        email: email,
-                                        password: password,
-                                        context: context,
-                                      )));
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text("Register user data success")));
+                          if (user_chk_flag == "username is valid") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TAddCustomerRFID(
+                                          firstName: firstName,
+                                          lastName: lastName,
+                                          username: username,
+                                          email: email,
+                                          password: password,
+                                          context: context,
+                                        )));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content:
+                                        Text("Register user data success")));
+                          } else {
+                            await EasyLoading.showError(
+                                "please change the entered username");
+                          }
                         }
                       } else {}
                     })
