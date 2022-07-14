@@ -26,12 +26,21 @@ class Httpservices {
   static totemWelcome (context) async{
       http.Response response = await _client.get(_totemWelcomeUrl);
       if (response.statusCode == 200){
+        Navigator.pushReplacement<void, void>(
+          context,
+          MaterialPageRoute<void>(
+          builder: (BuildContext context) => const TWelcome(),
+        ),
+  );
+
+
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) =>TWelcome()));
+                builder: (context) =>const TWelcome()));
       }
   }
+
   // Login with rfid method
   static totemLoginUs(context) async {
     http.Response response = await _client.get(_totemLoginUrl);

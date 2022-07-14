@@ -4,7 +4,6 @@ from turtle import title
 from flask import Flask, redirect, render_template, Blueprint, request, json, jsonify, url_for, send_from_directory
 import pyodbc
 from totem_methods import totem_methods
-import requests
 
 # __name__ means that is referencing this file
 app = Flask(__name__)
@@ -27,13 +26,15 @@ def connection():
 
 FLUTTER_WEB_APP = 'templates'
 
-@app.route('/web/')
+@app.route('/')
 def render_page_web():
     return render_template('index.html')
 
-@app.route('/web/<path:name>')
+@app.route('/<path:name>')
 def return_flutter_doc(name):
-
+    # the path to the requested files in the templates directory is embedded in the URL of the request.
+    # Hence, the return_flutter_doc function extracts the path to the requested files from the request URL
+    #  and serves the files from the templates folder over HTTP.
     datalist = str(name).split('/')
     DIR_NAME = FLUTTER_WEB_APP
 
@@ -46,10 +47,6 @@ def return_flutter_doc(name):
 @app.route('/')
 def render_page():
     return render_template('/index.html')
-
-#@app.route("/", methods=["GET","POST"])
-#def welcomhome():
-#    return "welcome!"
 
 @app.route("/register", methods=["GET","POST"])
 def register():
@@ -150,7 +147,7 @@ def settings_ch(usr):
     print("Access to Settings_ch url : Successful_1")
 
     insert_query = "UPDATE Library_Clients SET firstName = (?), lastName = (?), userName = (?), mail= (?), pwd= (?) WHERE userName = (?)"
-    value = (firstName,lastName,userName,mail,password,usr)
+    value = (firstName, lastName, userName, mail, password, usr)
     cursor.execute(insert_query, value)
     cnxn.commit()
     
@@ -221,52 +218,6 @@ def items(id):
 #            firstName=row.firstName, mail=row.mail,
 #        )
 #       
-
-@app.route("/test", methods=["GET","POST"])
-def test():
-    global user_rfid
-    if request.method == 'POST':
-        user_rfid = request.form['rfid']
-        print(user_rfid)
-        return redirect(url_for('totem'))
-    return "welcome dear : "+str(user_rfid)
-
-user_rfid = 1    
-user_found_flag = 0
-
-@app.route("/totem", methods=["GET","POST"])
-def totem():
-    cnxn = connection()
-    cursor = cnxn.cursor()
-    global user_found_flag
-    global user_rfid
-    if request.method == 'POST':
-        user_rfid = request.form['rfid']
-        print(user_rfid)
-    check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
-    value = (user_rfid)
-    cursor.execute(check_query,value)
-    row = cursor.fetchone()
-    cnxn.close()
-    print (row)
-    if row != None :
-        user_found_flag = "found"
-        print("User Found : FIRSTNAME is "+row.firstName)
-        return jsonify([user_found_flag],row.firstName,row.lastName,row.userName,row.mail,row.pwd)
-    else :
-        user_found_flag = "not_found"
-        #row.firstName = "hichi"
-        #row.lastName = "hichi"
-        #row.userName = "hichi"
-        print("User Not found")
-        return jsonify([user_found_flag])
-    
-    
-    #return jsonify(user_found_flag,row.firstName,row.lastName,row.userName,row.mail,row.pwd)
-    #return jsonify( key1 = user_rfid )
-    #return redirect(url_for('test'))
-
-
 
 @app.route("/get", methods=["GET","POST"])
 def getdata(iiid):
