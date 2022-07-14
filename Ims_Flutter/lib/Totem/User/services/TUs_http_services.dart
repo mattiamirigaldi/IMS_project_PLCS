@@ -10,11 +10,11 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/Totem/User/THomePage_us.dart';
 import '../THomePage_us.dart';
 
-String baseUrl = 'http://172.22.143.8:5000';
+String baseUrl = 'http://172.22.79.9:5000';
 
 class Httpservices {
   static final _client = http.Client();
-  static final _totemLoginUrl = Uri.parse(baseUrl + '/totem');
+  static final _totemLoginUrl = Uri.parse(baseUrl + '/totem/user/login');
   static final _loginUrl = Uri.parse(baseUrl + '/login');
   static final _totemRentUrl = Uri.parse(baseUrl + '/totem/User/RentBook');
   static final _totemReturnUrl = Uri.parse(baseUrl + '/totem/User/ReturnBook');
