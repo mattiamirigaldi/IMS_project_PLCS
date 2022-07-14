@@ -7,24 +7,21 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/Totem/Operator/TRemoveBook.dart';
 // to route
-
+import '../../../routes.dart';
 import '../THomePage_op.dart';
 import '../TRemoveCustomer.dart';
 
-String baseUrl = 'http://172.22.79.9:5000';
+String baseUrl = Myroutes.baseUrl;
 
 class Httpservices {
   static final _client = http.Client();
   static final _totemLoginUrl = Uri.parse(baseUrl + '/totem/login');
   static final _loginUrl = Uri.parse(baseUrl + '/login');
   static final _bookcheckurl = Uri.parse(baseUrl + '/totem/BookCheck');
-  static final _totemAddCustomer =
-      Uri.parse(baseUrl + '/totem/Operator/AddCustomer');
-  static final _totemRemoveCustomer =
-      Uri.parse(baseUrl + '/totem/Operator/RemoveCustomer');
+  static final _totemAddCustomer = Uri.parse(baseUrl + '/totem/Operator/AddCustomer');
+  static final _totemRemoveCustomer = Uri.parse(baseUrl + '/totem/Operator/RemoveCustomer');
   static final _totemAddBook = Uri.parse(baseUrl + '/totem/Operator/AddBook');
-  static final _totemRemoveBook =
-      Uri.parse(baseUrl + '/totem/Operator/RemoveBook');
+  static final _totemRemoveBook = Uri.parse(baseUrl + '/totem/Operator/RemoveBook');
 
   // Login with rfid method
   static totemLoginOp(context) async {

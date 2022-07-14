@@ -4,22 +4,20 @@
     <list default="true" id="1c0fe7fc-4b70-4f13-828c-0dcd61a577d3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/.last_build_id" beforeDir="false" afterPath="$PROJECT_DIR$/templates/.last_build_id" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/assets/NOTICES" beforeDir="false" afterPath="$PROJECT_DIR$/templates/assets/NOTICES" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/assets/fonts/MaterialIcons-Regular.otf" beforeDir="false" afterPath="$PROJECT_DIR$/templates/assets/fonts/MaterialIcons-Regular.otf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/canvaskit/canvaskit.js" beforeDir="false" afterPath="$PROJECT_DIR$/templates/canvaskit/canvaskit.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/canvaskit/profiling/canvaskit.js" beforeDir="false" afterPath="$PROJECT_DIR$/templates/canvaskit/profiling/canvaskit.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/flutter_service_worker.js" beforeDir="false" afterPath="$PROJECT_DIR$/templates/flutter_service_worker.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/main.dart.js" beforeDir="false" afterPath="$PROJECT_DIR$/templates/main.dart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/ngrok.exe" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/totem_methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/totem_methods.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TLoginOperator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TLoginOperator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TAddCustomerRFID.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TAddCustomerRFID.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TRemoveBook.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TRemoveBook.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TRemoveCustomer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TRemoveCustomer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/services/TOp_http_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/services/TOp_http_services.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/User/services/TUs_http_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/User/services/TUs_http_services.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/windows/flutter/generated_plugins.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/routes_name/routes_name.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/routes.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/todo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/todo.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/services/http_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/services/http_services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/WelcomPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/WelcomPage.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -186,6 +184,9 @@
       <workItem from="1657727770482" duration="320000" />
       <workItem from="1657728104919" duration="653000" />
       <workItem from="1657791046951" duration="2501000" />
+      <workItem from="1657795453145" duration="1939000" />
+      <workItem from="1657797419786" duration="874000" />
+      <workItem from="1657807798085" duration="288000" />
     </task>
     <servers />
   </component>
@@ -204,9 +205,9 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/app_py$flaskProject.coverage" NAME="flaskProject Coverage Results" MODIFIED="1657724601065" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/app_py$flaskProject.coverage" NAME="flaskProject Coverage Results" MODIFIED="1657796470675" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/flaskProject$flaskProject.coverage" NAME="flaskProject Coverage Results" MODIFIED="1651571246353" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/app_py$app.coverage" NAME="app Coverage Results" MODIFIED="1657793575956" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/app_py$app.coverage" NAME="app Coverage Results" MODIFIED="1657807809358" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/app_py$totem_methods.coverage" NAME="totem_methods Coverage Results" MODIFIED="1657722470164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

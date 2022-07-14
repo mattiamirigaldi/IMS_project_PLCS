@@ -7,12 +7,14 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/Totem/TWelcomePage.dart';
 // to route 
-
+import '../../../routes.dart';
 import 'package:ims/Totem/User/THomePage_us.dart';
+import 'package:ims/Totem/User/TRentPage.dart';
+import 'package:ims/Totem/User/TReturnPage.dart';
 import 'package:ims/web_app/views/WelcomPage.dart';
 import '../THomePage_us.dart';
 
-String baseUrl = 'http://127.0.0.1:5000';
+String baseUrl = Myroutes.baseUrl;
 
 class Httpservices {
   static final _client = http.Client();

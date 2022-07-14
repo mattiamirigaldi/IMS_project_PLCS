@@ -24,10 +24,10 @@ class WelcomeHome extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(fontWeight: FontWeight.bold),
                       textScaleFactor: 2)),
-              const Padding(
+              Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
                   child: Center(
-                      child: Image(image: AssetImage('images/ims.jpg')))),
+                      child: Image.asset('images/ims.jpg', width: 200, height: 200,))),
               InkWell(
                 onTap: () {
                   Navigator.push(

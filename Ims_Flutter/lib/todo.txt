@@ -1,8 +1,0 @@
---> Implement services user
-^ login with rfid flask and let the others test
-^ Aggiustare urls
-^ Return a book method flask
-^ Rent a book method flask
-^ Add cu
---> Implement services operator
-^ 

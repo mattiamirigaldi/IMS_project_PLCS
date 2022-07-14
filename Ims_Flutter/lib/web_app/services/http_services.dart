@@ -6,11 +6,12 @@ import 'package:http/http.dart' as http;
 // to display loading animation
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 // to route 
+import '../../routes.dart';
 import './../views/DashBoard.dart';
 import '../views/UserSettings.dart';
 import '../views/ItemsList.dart';
 
-String baseUrl = 'http://127.0.0.1:5000';
+String baseUrl = Myroutes.baseUrl;
 
 
 class Httpservices {
