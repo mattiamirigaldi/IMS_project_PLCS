@@ -150,6 +150,24 @@ def totem_op_bc():
         print("Book Not found")
         return jsonify([book_found_flag])
 
+# add customer check
+@totem_methods.route("/totem/Operator/AddCustomerCheck", methods=["GET", "POST"])
+def totem_op_add_customer_check():
+    cnxn = connection()
+    cursor = cnxn.cursor()
+    if request.method == 'POST':
+        username = request.form["username"]
+    check_query = "SELECT * FROM [Library_Clients] WHERE username = (?) "
+    value = (username)
+    cursor.execute(check_query, value)
+    row = cursor.fetchone()
+    cnxn.close()
+    if row != None:
+        return jsonify(["the entered username is used before"])
+    else:
+        return jsonify(["username is valid"])
+
+
 # add customer
 @totem_methods.route("/totem/Operator/AddCustomer", methods=["GET", "POST"])
 def totem_op_add_customer():
