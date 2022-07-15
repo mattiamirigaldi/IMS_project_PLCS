@@ -2,22 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c0fe7fc-4b70-4f13-828c-0dcd61a577d3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TAddBookRFID.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/connectionToDb.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/totem_methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/totem_methods.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TAddBook.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TAddBook.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TLoginOperator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TLoginOperator.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TRemoveBook.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TRemoveBook.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/services/TOp_http_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/services/TOp_http_services.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/User/THomePage_us.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/User/THomePage_us.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/User/services/TUs_http_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/User/services/TUs_http_services.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/routes.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/services/http_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/services/http_services.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/UserSettings.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/UserSettings.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Totem/RFID/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Totem/RFID/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webApp_methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/webApp_methods.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,6 +179,7 @@
       <workItem from="1657813753335" duration="597000" />
       <workItem from="1657874949017" duration="1850000" />
       <workItem from="1657881703290" duration="513000" />
+      <workItem from="1657902665283" duration="549000" />
     </task>
     <servers />
   </component>

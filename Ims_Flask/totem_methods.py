@@ -1,5 +1,6 @@
 from flask import Flask, Blueprint, render_template, redirect, json, jsonify, url_for, request
 import pyodbc
+import connectionToDb as db
 
 totem_methods = Blueprint('totem_methods', __name__)
 
@@ -11,20 +12,6 @@ global user_username
 global user_found_flag
 global role
 global book_rfid
-
-def connection():
-    ## Connection to the database
-    # server and database names are given by SQL
-    server = 'POUYAN'
-    database = 'my_db'
-    # Cnxn : is the connection string
-    # If trusted connection is 'yes' then we log using our windows authentication
-    cnxn = pyodbc.connect(
-        'DRIVER={ODBC Driver 17 for SQL Server}; \
-         SERVER=' + server + '; \
-         DATABASE=' + database + '; \
-        Trusted_Connection=yes;')
-    return cnxn
 
 # RFID reader with POST method
 @totem_methods.route("/totem", methods=["GET", "POST"])
@@ -41,7 +28,7 @@ def totem():
 # User login RFID
 @totem_methods.route('/totem//UsrLoginRFID', methods=["GET", "POST"])
 def UsrLoginRFID():
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
     value = rfid
@@ -66,7 +53,7 @@ def UsrLoginRFID():
 # User login Credentials
 @totem_methods.route('/totem//UsrLoginCredential', methods=["GET", "POST"])
 def UsrLoginCredential():
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     if request.method == 'POST':
         username = request.form["userName"]
@@ -90,7 +77,7 @@ def UsrLoginCredential():
 # Operator login RFID
 @totem_methods.route("/totem/OprLoginRFID", methods=["GET", "POST"])
 def OprLoginRFID():
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()  
     check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
     value = (rfid)
@@ -114,7 +101,7 @@ def OprLoginRFID():
 # Operator login Credentials
 @totem_methods.route('/totem/OprLoginCredential', methods=["GET", "POST"])
 def OprLoginCredential():
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     if request.method == 'POST':
         username = request.form["userName"]
@@ -137,7 +124,7 @@ def OprLoginCredential():
 # book check Rent
 @totem_methods.route("/totem/BookCheckRent", methods=["GET", "POST"])
 def totem_BookCheckRent():
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     check_query = "SELECT * FROM [Items] WHERE RFID = (?) "
     value = (rfid)
@@ -159,9 +146,9 @@ def totem_BookCheckRent():
 # Rent book
 @totem_methods.route("/totem/User/RentBook", methods=["GET", "POST"])
 def totem_book_rent():
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     global useruser
     check_query = "UPDATE [Items] SET userName = (?) WHERE RFID = (?) "
@@ -178,7 +165,7 @@ def totem_book_rent():
 # book check Return
 @totem_methods.route("/totem/BookCheckReturn", methods=["GET", "POST"])
 def totem_BookCheckReturn():
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     check_query = "SELECT * FROM [Items] WHERE RFID = (?) and userName = (?)"
     value = (rfid,useruser)
@@ -197,10 +184,10 @@ def totem_BookCheckReturn():
 # Return book
 @totem_methods.route("/totem/User/ReturnBook", methods=["GET", "POST"])
 def totem_book_return():
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     global rfid
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     check_query = "UPDATE [Items] SET userName = (?) WHERE RFID = (?) "
     value = ('-1', rfid)
@@ -214,7 +201,7 @@ def totem_book_return():
 # add customer check
 @totem_methods.route("/totem/Operator/AddCustomerCheck", methods=["GET", "POST"])
 def totem_op_add_customer_check():
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     if request.method == 'POST':
         username = request.form["username"]
@@ -232,7 +219,7 @@ def totem_op_add_customer_check():
 # add customer
 @totem_methods.route("/totem/Operator/AddCustomer", methods=["GET", "POST"])
 def totem_op_add_customer():
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     global user_add_flag
 
@@ -267,7 +254,7 @@ def totem_op_add_customer():
 # Remove Customer
 @totem_methods.route("/totem/Operator/RemoveCustomer", methods=["GET", "POST"])
 def RemoveCustomer():
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     check_query = "SELECT * FROM [Library_Clients] WHERE rfid_i = (?) and role_i = (?)"
     value = (rfid,'usr')
@@ -291,7 +278,7 @@ def RemoveCustomer():
 # Add Book
 @totem_methods.route("/totem/Operator/AddBook", methods=["GET", "POST"])
 def totem_AddBook():
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     if request.method == 'POST':
         Title = request.form["Title"]
@@ -327,7 +314,7 @@ def totem_AddBook():
 # Remove Book
 @totem_methods.route("/totem/Operator/RemoveBook", methods=["GET", "POST"])
 def totem_RemoveBook():
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     check_query = "SELECT * FROM [Items] WHERE RFID = (?)"
     value = (rfid)
