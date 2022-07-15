@@ -14,7 +14,9 @@ class CustomAppBar extends StatelessWidget {
   ];
   static const _MoreItems = ["Request book", "Help & support"];
   static const _UserItems = ["My profile", "My loans", "Favorites", "Logout"];
+  final String userName;
 
+  const CustomAppBar({Key? key, required this.userName}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,27 +40,30 @@ class CustomAppBar extends StatelessWidget {
                   //width: 50,
                   alignment: Alignment.topCenter)),
           const SizedBox(width: 5),
-          Text("Welcome".toUpperCase(),
+          Text("Welcome ".toUpperCase()+userName,
               style:
                   const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
           const Spacer(),
           SearchBar(),
-          const MenuItems(
+          MenuItems(
             title: "Browse",
             icon: Icons.arrow_drop_down_rounded,
-            DropDownItems: _BrowseItems,
+            DropDownItems: _BrowseItems, 
+            userName: userName,
           ),
-          const MenuItems(
+          MenuItems(
             title: "More",
             icon: Icons.arrow_drop_down_rounded,
             DropDownItems: _MoreItems,
+            userName: userName,
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(right: 70),
             child: MenuItems(
                 title: "",
                 icon: Icons.manage_accounts,
-                DropDownItems: _UserItems),
+                DropDownItems: _UserItems,
+                userName: userName,),
           )
         ],
       ),

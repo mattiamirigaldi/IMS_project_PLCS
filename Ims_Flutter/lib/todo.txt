@@ -1,0 +1,11 @@
+1) finish the profile customization
+2) Feed dashboard
+3) finish web services
+Isn't easier to retrieve all the user data once al login and then use it in all the functions instead of always calling the httpservices ??
+
+--> Change paradigm of user using the mycustomer function
+--> Change registration adding possibility of putting picture
+--> Implementare tutti i servizi in dashboard
+
+optional :
+--> adding in user info the numbers of read book,number of book booked

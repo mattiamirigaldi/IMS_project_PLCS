@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:ims/Web_app/model/customer.dart';
 import './components/FeedDashBoard.dart';
 import './components/UserDashboard.dart';
 import './components/App_bar.dart';
 
 class DashBoard extends StatelessWidget {
-  final String userName;
-  final String myname;
-  final String myemail;
+  final Customer customer;
   const DashBoard(
       {Key? key,
-      required this.userName,
-      required this.myname,
-      required this.myemail})
+      required this.customer})
       : super(key: key);
   @override 
   Widget build(BuildContext context){
@@ -20,7 +17,7 @@ class DashBoard extends StatelessWidget {
         children: <Widget>[
           Container(
               padding: const EdgeInsets.all(10),
-              child: CustomAppBar(),
+              child: CustomAppBar(userName: customer.userName),
               //alignment: Alignment.topCenter,
               width: double.infinity,
               height: 150,
@@ -31,8 +28,8 @@ class DashBoard extends StatelessWidget {
               child: Row(children: <Widget>[
                 Container(
                   height: double.infinity,
-                  width: 300,
-                  child: UserDashBoard(userName: userName,myname: myname, myemail: myemail,)
+                  width: 500,
+                  child: UserDashBoard(customer: customer,)
                 ),
                 Container(
                   height: double.infinity,

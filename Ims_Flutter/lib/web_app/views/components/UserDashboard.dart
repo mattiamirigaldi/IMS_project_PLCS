@@ -1,75 +1,71 @@
 import 'package:flutter/material.dart';
+import 'package:ims/Web_app/views/components/profile_widget.dart';
 import './../GenreList.dart';
 import './../../services/http_services.dart';
+import 'package:ims/Web_app/model/customer.dart';
 
 class UserDashBoard extends StatelessWidget {
-  final String userName;
-  final String myname;
-  final String myemail;
+  final Customer customer;
   const UserDashBoard(
       {Key? key,
-      required this.userName,
-      required this.myname,
-      required this.myemail})
+      required this.customer})
       : super(key: key);
   @override 
   Widget build(BuildContext context){
+    String name = customer.name;
+    String userName = customer.userName;
+    String email = customer.email;
+    String news = customer.news;
     return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Center(
                   child: Text(
-                      "Welcome Dear $myname  -  your Email is : $myemail",
+                      "Welcome dear $name",
                       textAlign: TextAlign.center,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                       textScaleFactor: 2)),
-              InkWell(
-                onTap: () async {
-                  await Httpservices.settings(userName, context);
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(const SnackBar(content: Text("SeTtInGs")));
-                },
-                child: Center(
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 30),
-                    child: const Center(
-                        child: Text("Settings",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black))),
-                    height: 50,
-                    width: 800,
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
+              // Icon pic
+              ProfileWidget(
+                imagePath : customer.imagePath,
+                onClicked: () async {},
               ),
-              InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const GenreList()));
-                  },
-                  child: Center(
-                      child: Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 10),
-                    child: const Center(
-                        child: Text("Feeling like reading a book?",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black))),
-                    height: 50,
-                    width: 800,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.deepOrange),
-                  ))),
+              const SizedBox(height: 40),
+              // 
+              buildName(customer),
+              const SizedBox(height: 40),
+              buildNews(customer),
             ]);
   }
-}
+  
+ Widget buildName(Customer customer) => Center(
+   child: Column( 
+    children: [
+      Text(
+      customer.name,
+      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24 ),
+      ),
+      Text(
+        customer.email,
+        style: TextStyle(color: Colors.grey),
+      ),
+    ],
+   ),
+ );
+
+
+ Widget buildNews(Customer customer) => Container(
+  padding: EdgeInsets.symmetric(horizontal: 48),
+   child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text('News',
+      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.amber),
+      ),
+      Text(
+        customer.news,
+        style: TextStyle(fontSize: 16, height: 1.4),)
+    ],
+   ),
+ );}

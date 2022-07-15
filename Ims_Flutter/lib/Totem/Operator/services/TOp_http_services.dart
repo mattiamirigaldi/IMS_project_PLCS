@@ -20,10 +20,7 @@ class Httpservices {
   static final _bookcheckurl = Uri.parse(baseUrl + '/totem/BookCheck');
   static final _totemAddCustomer = Uri.parse(baseUrl + '/totem/Operator/AddCustomer');
   static final _totemRemoveCustomer = Uri.parse(baseUrl + '/totem/Operator/RemoveCustomer');
-  static final _totemAddCustomerCheck =
-      Uri.parse(baseUrl + '/totem/Operator/AddCustomerCheck');
-  static final _totemRemoveCustomer =
-      Uri.parse(baseUrl + '/totem/Operator/RemoveCustomer');
+  static final _totemAddCustomerCheck = Uri.parse(baseUrl + '/totem/Operator/AddCustomerCheck');
   static final _totemAddBook = Uri.parse(baseUrl + '/totem/Operator/AddBook');
   static final _totemRemoveBook = Uri.parse(baseUrl + '/totem/Operator/RemoveBook');
 

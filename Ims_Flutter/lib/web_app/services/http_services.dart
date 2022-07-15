@@ -7,6 +7,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 // to route 
 import '../../routes.dart';
+// parameters
+import '../model/customer.dart';
+import 'package:ims/Web_app/data/user_data.dart';
 import './../views/DashBoard.dart';
 import '../views/UserSettings.dart';
 import '../views/ItemsList.dart';
@@ -29,6 +32,13 @@ class Httpservices {
       "email": email,
       "password": password
     });
+    //Customer myCustomer
+    // myCustomer.userName = userName;
+    // myCustomer.name = json[0];
+    // myCustomer.email = json[1];
+    // myCustomer.imagePath = json[2];
+    // myCustomer.news = json[3];
+        
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == 'user already exist') {
@@ -36,7 +46,7 @@ class Httpservices {
       } else {
         await EasyLoading.showSuccess(json[0]);
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => DashBoard(userName: userName, myname: firstName, myemail: email,)));
+            context, MaterialPageRoute(builder: (context) => DashBoard(customer: user_data.myCustomer)));
       }
     } else {
       await EasyLoading?.showError(
@@ -45,6 +55,7 @@ class Httpservices {
   }
 
   static login(userName, password, context) async {
+    //Customer myCustomer = user_data.myCustomer;
     http.Response response = await _client
         .post(_loginUrl, body: {"userName": userName, "password": password});
     if (response.statusCode == 200) {
@@ -54,13 +65,17 @@ class Httpservices {
       } else {
         await EasyLoading.showSuccess("Welcome Back " + userName);
         var json = jsonDecode(response.body);
+        // myCustomer.userName = userName;
+        // myCustomer.name = json[0];
+        // myCustomer.email = json[1];
+        // myCustomer.imagePath = json[2];
+        // myCustomer.news = json[3];
+        
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => DashBoard(
-                      userName: userName,
-                      myname: json[0],
-                      myemail: json[1],
+                      customer: user_data.myCustomer,
                     )));
       }
     } else {
@@ -100,16 +115,20 @@ class Httpservices {
       "email": email,
       "password": password
     });
+    //Customer myCustomer = user_data.myCustomer;
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
+      // myCustomer.userName = userName;
+      // myCustomer.name = json[0];
+      // myCustomer.email = json[1];
+      // myCustomer.imagePath = json[2];
+      // myCustomer.news = json[3];
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) =>DashBoard(
-                    userName: userName,
-                    myname: json[0],
-                    myemail: json[1],
-                  )));
+                    customer : user_data.myCustomer
+              )));
     } else {
       await EasyLoading?.showError(
           "Error Code : ${response.statusCode.toString()}");

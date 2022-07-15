@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:ims/Web_app/services/http_services.dart';
+import 'package:ims/Web_app/views/GenreList.dart';
 
 class MenuItems extends StatefulWidget {
   final String title;
   final IconData icon;
+  final String userName;
   //final void Function() press;
   final List<String> DropDownItems;
   const MenuItems({
@@ -10,22 +13,27 @@ class MenuItems extends StatefulWidget {
     required this.title,
     required this.icon,
     required this.DropDownItems,
+    required this.userName,
+    //required this.press,
   }) : super(key: key);
 
   @override
   State<MenuItems> createState() =>
-      _MenuItemsState(title: title, icon: icon, DropDownItems: DropDownItems);
+      _MenuItemsState(title: title, icon: icon, DropDownItems: DropDownItems, userName: userName);
 }
 
 class _MenuItemsState extends State<MenuItems> {
   final String title;
   final IconData icon;
-  // final void Function() press;
+  final String userName;
+  //final void Function() press;
   final List<String> DropDownItems;
   _MenuItemsState({
     required this.title,
     required this.icon,
     required this.DropDownItems,
+    required this.userName
+    //required this.press,
   });
 
   @override
@@ -47,16 +55,28 @@ class _MenuItemsState extends State<MenuItems> {
             Icon(icon, color: Colors.black, size: 20),
           ],
         ),
-        onSelected: (value) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text('selected ' + value)));
-        },
+        onSelected: (choice) => choiceAction(choice, userName, context),
         itemBuilder: (BuildContext context) => DropDownItems.map(
-            (e) => PopupMenuItem<String>(
-              value: e, 
-              child: Text(e))
+            (choice) => PopupMenuItem<String>(
+              value: choice, 
+              child: Text(choice))
               ).toList()
     );
   }
 }
     
+
+void choiceAction (String choice, String userName, BuildContext context) async {
+      if (choice == "My profile"){
+          await Httpservices.settings(userName, context);
+          ScaffoldMessenger.of(context)
+             .showSnackBar(const SnackBar(content: Text("Settings")));
+      } else if (choice == "Subjects"){
+         ScaffoldMessenger.of(context)
+             .showSnackBar(SnackBar(content: Text(choice)));
+        Navigator.push( context, MaterialPageRoute( builder: (context) => const GenreList()));
+      } else {
+        ScaffoldMessenger.of(context)
+             .showSnackBar(SnackBar(content: Text(choice)));
+      }
+}
