@@ -1,4 +1,4 @@
-// ignore_for_file: import_of_legacy_library_into_null_safe, non_constant_identifier_names, file_names
+// ignore_for_file: import_of_legacy_library_into_null_safe, non_constant_identifier_names, file_names, avoid_types_as_parameter_names
 
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -15,24 +15,32 @@ String baseUrl = Myroutes.baseUrl;
 
 class Httpservices {
   static final _client = http.Client();
-  static final _totemLoginUrl = Uri.parse(baseUrl + '/totem/login');
-  static final _loginUrl = Uri.parse(baseUrl + '/login');
+  static final _totemOprLoginRFIDUrl =
+      Uri.parse(baseUrl + '/totem/OprLoginRFID');
+  static final _totemOprLoginCredentialUrl =
+      Uri.parse(baseUrl + '/totem/OprLoginCredential');
   static final _bookcheckurl = Uri.parse(baseUrl + '/totem/BookCheck');
-  static final _totemAddCustomer = Uri.parse(baseUrl + '/totem/Operator/AddCustomer');
-  static final _totemRemoveCustomer = Uri.parse(baseUrl + '/totem/Operator/RemoveCustomer');
-  static final _totemAddCustomerCheck = Uri.parse(baseUrl + '/totem/Operator/AddCustomerCheck');
+  static final _totemAddCustomer =
+      Uri.parse(baseUrl + '/totem/Operator/AddCustomer');
+  static final _totemAddCustomerCheck =
+      Uri.parse(baseUrl + '/totem/Operator/AddCustomerCheck');
+  static final _totemRemoveCustomer =
+      Uri.parse(baseUrl + '/totem/Operator/RemoveCustomer');
   static final _totemAddBook = Uri.parse(baseUrl + '/totem/Operator/AddBook');
-  static final _totemRemoveBook = Uri.parse(baseUrl + '/totem/Operator/RemoveBook');
+  static final _totemRemoveBook =
+      Uri.parse(baseUrl + '/totem/Operator/RemoveBook');
 
   // Login with rfid method
   static totemLoginOp(context) async {
-    http.Response response = await _client.get(_totemLoginUrl);
+    http.Response response = await _client.get(_totemOprLoginRFIDUrl);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == "not_found") {
+      if (json[0] == "User") {
+        await EasyLoading.showError("Dear User, you are not an Operator");
+      } else if (json[0] == "Operator_not_found") {
         await EasyLoading.showError(json[0]);
       } else {
-        await EasyLoading.showSuccess(json[4]);
+        await EasyLoading.showSuccess("Welcome dear Operator");
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const hmpage_op()));
       }
@@ -43,15 +51,14 @@ class Httpservices {
 
   // Login with credentials method
   static totemLoginCredentialOp(userName, password, context) async {
-    http.Response response = await _client
-        .post(_loginUrl, body: {"userName": userName, "password": password});
+    http.Response response = await _client.post(_totemOprLoginCredentialUrl,
+        body: {"userName": userName, "password": password});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "not_found") {
         await EasyLoading.showError(json[0]);
       } else {
-        await EasyLoading.showSuccess("Welcome Back " + userName);
-        var json = jsonDecode(response.body);
+        await EasyLoading.showSuccess("Welcome Back " + json[1]);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const hmpage_op()));
       }
@@ -60,6 +67,7 @@ class Httpservices {
     }
   }
 
+  // Add customer check
   static totemAddCustomerCheck(username) async {
     http.Response response = await _client
         .post(_totemAddCustomerCheck, body: {"username": username});
@@ -102,75 +110,57 @@ class Httpservices {
     }
   }
 
-  // Remove customer check
+  // Remove customer
   static RemoveCheck(context) async {
-    http.Response response = await _client.get(_totemLoginUrl);
-    if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
-      var rfid = 0;
-      if (json[0] == "not_found") {
-        await EasyLoading.showError('User Not Found');
-      } else {
-        rfid = json[6];
-        await Httpservices.totemRemoveCustomer(rfid, context);
-      }
-    } else {
-      EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
-    }
-  }
-
-  // Remove customer method
-  static totemRemoveCustomer(rfid, context) async {
     http.Response response = await _client.get(_totemRemoveCustomer);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      await EasyLoading.showSuccess(json[0]);
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => const TRemoveCustomer()));
+      if (json[0] == "no") {
+        await EasyLoading.showError('User Not Found');
+      } else {
+        await EasyLoading.showSuccess('User removed successfully');
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const TRemoveCustomer()));
+      }
+    } else {
+      EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
     }
   }
 
   // Add book method
-  static totemAddBook(rfid) async {
-    http.Response response =
-        await _client.post(_totemAddBook, body: {"rfid": rfid});
+  static totemAddbook(Title, Author, Genre, Location, context) async {
+    http.Response response = await _client.post(_totemAddBook, body: {
+      "Title": Title,
+      "Author": Author,
+      "Genre": Genre,
+      "Location": Location,
+    });
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == "Book already in db") {
-        await EasyLoading.showError(json[0]);
+      if (json[0] == "done") {
+        await EasyLoading.showSuccess("Book added successfully");
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const hmpage_op()));
       } else {
-        await EasyLoading.showSuccess("Book added correctly");
+        await EasyLoading.showError(json[0]);
       }
     } else {
       EasyLoading.showError("Error code : ${response.statusCode.toString()}");
     }
-  } // Remove book method
-
-  // Remove book check
-  static RemoveCheck_b(context) async {
-    http.Response response = await _client.get(_bookcheckurl);
-    if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
-      var rfid = 0;
-      if (json[0] == "not_found") {
-        await EasyLoading.showError('Book Not Found');
-      } else {
-        rfid = json[5];
-        await Httpservices.totemRemoveBook(rfid, context);
-      }
-    } else {
-      EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
-    }
   }
 
   // Remove book method
-  static totemRemoveBook(rfid, context) async {
+  static totemRemoveBook(context) async {
     http.Response response = await _client.get(_totemRemoveBook);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      await EasyLoading.showSuccess(json[0]);
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => const TRemoveBook()));
+      if (json[0] == "Done") {
+        await EasyLoading.showSuccess("Book removed successfully");
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const TRemoveBook()));
+      } else {
+        await EasyLoading.showError("The Book is not in the database");
+      }
     }
   }
 }

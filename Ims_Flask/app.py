@@ -9,21 +9,6 @@ from webApp_methods import webApp_methods
 # __name__ means that is referencing this file
 app = Flask(__name__)
 
-def connection():
-    ## Connection to the database
-    # server and database names are given by SQL
-    server = 'DESKTOP-I7POIMI\SQLEXPRESS'
-    database = 'SQLTest'
-    # Cnxn : is the connection string
-    # If trusted connection is 'yes' then we log using our windows authentication
-    cnxn = pyodbc.connect(
-        'DRIVER={ODBC Driver 17 for SQL Server}; \
-         SERVER=' + server + '; \
-         DATABASE=' + database + '; \
-        Trusted_Connection=yes;')
-    return cnxn
-
-
 FLUTTER_WEB_APP = 'templates'
 
 #imported applications in webApp methods into app
@@ -49,25 +34,6 @@ def return_flutter_doc(name):
 
     return send_from_directory(DIR_NAME, datalist[-1])
 
-
-#@app.route("/test/<string:id>")
-#def test(id):
-#    cnxn = connection()
-#    cursor = cnxn.cursor()
-#    check_query = "SELECT * FROM [Library_Clients] WHERE userName = (?) "
-#    value = (id)
-#    cursor.execute(check_query,value)
-#    row = cursor.fetchone() 
-#    #return('id = '+id+'|| Firstname: '+row.firstName
-#    #+'|| Lastname: '+row.lastName
-#    #+'|| Username: '+row.userName
-#    #+'|| Email: '+row.mail)
-#
-#    return jsonify(
-#            firstName=row.firstName, mail=row.mail,
-#        )
-#
-
 @app.route("/test", methods=["GET", "POST"])
 def test():
     global rfid
@@ -76,7 +42,6 @@ def test():
         print(rfid)
         return redirect(url_for('totem'))
     return "welcome dear : "+str(rfid)
-
 
 @app.route("/get", methods=["GET","POST"])
 def getdata(iiid):

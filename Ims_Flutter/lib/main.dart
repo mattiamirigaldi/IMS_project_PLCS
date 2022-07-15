@@ -6,7 +6,7 @@ import 'package:ims/web_app/views/WelcomPage.dart';
 import 'routes.dart';
 
 void main() {
-  setPathUrlStrategy();   //to remove # in url
+  setPathUrlStrategy(); //to remove # in url
   runApp(const MyApp());
 }
 

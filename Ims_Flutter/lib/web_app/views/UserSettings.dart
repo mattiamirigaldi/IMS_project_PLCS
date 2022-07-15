@@ -10,7 +10,8 @@ class SettingPage extends StatelessWidget {
       required this.myLastName,
       required this.myEmail,
       required this.myPwd,
-      required this.myUserName})
+      required this.myUserName,
+      })
       : super(key: key);
 
   String myUserName;
@@ -18,6 +19,7 @@ class SettingPage extends StatelessWidget {
   String myLastName;
   String myEmail;
   String myPwd;
+  
 
   late String email = myEmail;
   late String firstName = myFirstName;

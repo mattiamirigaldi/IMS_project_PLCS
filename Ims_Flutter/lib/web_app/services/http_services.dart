@@ -11,7 +11,7 @@ import '../../routes.dart';
 import '../model/customer.dart';
 import 'package:ims/Web_app/data/user_data.dart';
 import './../views/DashBoard.dart';
-import '../views/UserSettings.dart';
+import 'package:ims/Web_app/views/UserSettings.dart';
 import '../views/ItemsList.dart';
 
 String baseUrl = Myroutes.baseUrl;

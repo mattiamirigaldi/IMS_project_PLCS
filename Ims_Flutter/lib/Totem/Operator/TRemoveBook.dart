@@ -52,7 +52,7 @@ class _GenreListState extends State<TRemoveBook> {
                       color: Colors.green),
                 )),
                 onTap: () async {
-                  await Httpservices.RemoveCheck_b(context);
+                  await Httpservices.totemRemoveBook(context);
                   ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text("Login Success")));
                 }),
