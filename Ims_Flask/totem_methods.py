@@ -15,8 +15,8 @@ global book_rfid
 def connection():
     ## Connection to the database
     # server and database names are given by SQL
-    server = 'DESKTOP-I7POIMI\SQLEXPRESS'
-    database = 'SQLTest'
+    server = 'POUYAN'
+    database = 'my_db'
     # Cnxn : is the connection string
     # If trusted connection is 'yes' then we log using our windows authentication
     cnxn = pyodbc.connect(

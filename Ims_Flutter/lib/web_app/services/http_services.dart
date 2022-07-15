@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 // to display loading animation
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-// to route 
+// to route
 import '../../routes.dart';
 // parameters
 import '../model/customer.dart';
@@ -16,13 +16,11 @@ import '../views/ItemsList.dart';
 
 String baseUrl = Myroutes.baseUrl;
 
-
 class Httpservices {
-  
   static final _client = http.Client();
-  static final _loginUrl = Uri.parse( baseUrl+'/login');
-  static final _registerUrl = Uri.parse(baseUrl+'/register');
- 
+  static final _loginUrl = Uri.parse(baseUrl + '/login');
+  static final _registerUrl = Uri.parse(baseUrl + '/register');
+
   static register(
       firstName, lastName, userName, email, password, context) async {
     http.Response response = await _client.post(_registerUrl, body: {
@@ -38,7 +36,7 @@ class Httpservices {
     // myCustomer.email = json[1];
     // myCustomer.imagePath = json[2];
     // myCustomer.news = json[3];
-        
+
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == 'user already exist') {
@@ -46,7 +44,10 @@ class Httpservices {
       } else {
         await EasyLoading.showSuccess(json[0]);
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => DashBoard(customer: user_data.myCustomer)));
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    DashBoard(customer: user_data.myCustomer)));
       }
     } else {
       await EasyLoading?.showError(
@@ -70,7 +71,7 @@ class Httpservices {
         // myCustomer.email = json[1];
         // myCustomer.imagePath = json[2];
         // myCustomer.news = json[3];
-        
+
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -126,29 +127,28 @@ class Httpservices {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) =>DashBoard(
-                    customer : user_data.myCustomer
-              )));
+              builder: (context) => DashBoard(customer: user_data.myCustomer)));
     } else {
       await EasyLoading?.showError(
           "Error Code : ${response.statusCode.toString()}");
     }
   }
 
-  static items(bkid, context) async {
-    http.Response response = await _client
-        .post(Uri.parse(baseUrl + "items/" + bkid), body: {"bkid": bkid});
+  static items(context) async {
+    http.Response response =
+        await _client.get(Uri.parse(baseUrl + "/web/items"));
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => ItemsList(
-                    bookid: json[0],
-                    bookTitle: json[1],
-                    bookAuthor: json[2],
-                    bookGenre: json[3],
-                    bookRFID: json[4],
+                    bookTitle: json[0],
+                    bookAuthor: json[1],
+                    bookGenre: json[2],
+                    bookRFID: json[3],
+                    bookAvalible: json[4],
+                    bookLocation: json[5],
                   )));
     } else {
       await EasyLoading?.showError(

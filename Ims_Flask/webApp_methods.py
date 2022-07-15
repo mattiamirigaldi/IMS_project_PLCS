@@ -1,3 +1,4 @@
+from tkinter.messagebox import NO
 from flask import Flask, Blueprint, render_template, redirect, json, jsonify, url_for, request
 import pyodbc
 
@@ -6,8 +7,8 @@ webApp_methods = Blueprint('webApp_methods', __name__)
 def connection():
     ## Connection to the database
     # server and database names are given by SQL
-    server = 'DESKTOP-I7POIMI\SQLEXPRESS'
-    database = 'SQLTest'
+    server = 'POUYAN'
+    database = 'my_db'
     # Cnxn : is the connection string
     # If trusted connection is 'yes' then we log using our windows authentication
     cnxn = pyodbc.connect(
@@ -92,20 +93,25 @@ def login():
         return jsonify(["user not registered"])
 
 
-@webApp_methods.route("/settings/<usr>", methods=["GET", "POST"])
-def settings(usr):
+@webApp_methods.route("/settings/<userName>", methods=["GET", "POST"])
+def settings(userName):
     cnxn = connection()
     cursor = cnxn.cursor()
     if request.method == 'POST':
         userName = request.form["userName"]
+        print(userName)
     check_query = "SELECT * FROM [Library_Clients] WHERE userName = (?) "
-    value = (usr)
+    value = (userName)
     cursor.execute(check_query, value)
     row = cursor.fetchone()
-    print("SETTINGS : FIRSTNAME is " + row.firstName)
-    print("Access to Settings url : Successful")
-    cnxn.close()
-    return jsonify(row.firstName, row.lastName, row.userName, row.mail, row.pwd)
+    if row != None :    
+        print("SETTINGS : FIRSTNAME is " + row.firstName)
+        print("Access to Settings url : Successful")
+        cnxn.close()
+        return jsonify(row.firstName, row.lastName, row.userName, row.mail, row.pwd)
+    else: 
+        cnxn.close()
+        return jsonify(["1"],["2"],["3"],["4"],["5"])
 
 @webApp_methods.route("/settings_ch/<usr>", methods=["GET", "POST"])
 def settings_ch(usr):
@@ -141,37 +147,35 @@ def settings_ch(usr):
     return jsonify(firstName, mail)
 
 
-@webApp_methods.route("/items/<id>", methods=["GET", "POST"])
-def items(id):
+@webApp_methods.route("/web/items", methods=["GET", "POST"])
+def items():
     cnxn = connection()
     cursor = cnxn.cursor()
-
-    if request.method == 'POST':
-        bkid = request.form["bkid"]
-
-    print("SETTINGS : ID is " + bkid)
+    if request.method == 'GET':
+        print("GET request")
     print("Access to items url : Successful_1")
-
     check_query = 'SELECT * FROM [Items]'
     cursor.execute(check_query)
     j = 0
-    id = []
     tit = []
     aut = []
     gen = []
     rfid = []
+    usr = []
+    loc = []
     data = []
     for row in cursor:
         print("Access to items url : Successful_3")
-        books = {"id": row[0], "Title": row[1], "Author": row[2], "Genre": row[3], "RFID": row[4], }
+        books = {"Title": row[0], "Author": row[1], "Genre": row[2], "RFID": row[3], "userName": row[4], "Location": row[5]}
         data.append(books)
     for i in data:
-        id.append(data[j]["id"])
         tit.append(data[j]["Title"])
         aut.append(data[j]["Author"])
         gen.append(data[j]["Genre"])
         rfid.append(data[j]["RFID"])
+        usr.append(data[j]["userName"])
+        loc.append(data[j]["Location"])
         j += 1
     cnxn.close()
-    return jsonify(id, tit, aut, gen, rfid)
+    return jsonify(tit, aut, gen, rfid, usr, loc)
     # row = cursor.fetchone()

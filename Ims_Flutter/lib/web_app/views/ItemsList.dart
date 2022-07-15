@@ -1,22 +1,26 @@
 // ignore_for_file: file_names, non_constant_identifier_names
 
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 
 class ItemsList extends StatelessWidget {
-  final List bookid;
   final List bookTitle;
   final List bookAuthor;
   final List bookGenre;
   final List bookRFID;
-
+  final List bookAvalible;
+  final List bookLocation;
   const ItemsList({
     Key? key,
-    required this.bookid,
     required this.bookTitle,
     required this.bookAuthor,
     required this.bookGenre,
     required this.bookRFID,
+    required this.bookAvalible,
+    required this.bookLocation,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,11 +31,12 @@ class ItemsList extends StatelessWidget {
           children: <Widget>[
             for (var i = 0; i < bookTitle.length; i++)
               ProductBox(
-                id: bookid[i],
                 name: bookTitle[i],
                 description: bookAuthor[i],
                 price: bookGenre[i],
                 RFID: bookRFID[i],
+                Avalible: bookAvalible[i],
+                Location: bookLocation[i],
               ),
           ],
         ));
@@ -39,21 +44,31 @@ class ItemsList extends StatelessWidget {
 }
 
 class ProductBox extends StatelessWidget {
-  const ProductBox(
-      {Key? key,
-      required this.id,
-      required this.name,
-      required this.description,
-      required this.price,
-      required this.RFID})
-      : super(key: key);
-  final int id;
+  const ProductBox({
+    Key? key,
+    required this.name,
+    required this.description,
+    required this.price,
+    required this.RFID,
+    required this.Avalible,
+    required this.Location,
+  }) : super(key: key);
   final String name;
   final String description;
   final String price;
   final int RFID;
+  final String Avalible;
+  final String Location;
+
   @override
   Widget build(BuildContext context) {
+    String TextToShow;
+    if (Avalible != '-1') {
+      TextToShow = "Book is not Avalible";
+    } else {
+      TextToShow = "Location is: " + Location;
+    }
+    ;
     return Container(
         padding: const EdgeInsets.all(2),
         height: 120,
@@ -74,8 +89,8 @@ class ProductBox extends StatelessWidget {
                           Text(
                             "Genre: " + price,
                           ),
-                          Text("ID: " + id.toString()),
                           Text("RFID: " + RFID.toString()),
+                          Text(TextToShow),
                         ],
                       )))
             ])));
