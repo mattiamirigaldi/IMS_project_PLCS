@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'package:ims/Web_app/model/customer.dart';
 
 class user_data {

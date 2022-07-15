@@ -5,35 +5,35 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 // to display loading animation
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:ims/Totem/TWelcomePage.dart';
+import 'package:ims/Mobile/MWelcomePage.dart';
 // to route
 import '../../../routes.dart';
-import 'package:ims/Totem/User/THomePage_us.dart';
-import 'package:ims/Totem/User/TRentPage.dart';
-import 'package:ims/Totem/User/TReturnPage.dart';
-import '../THomePage_us.dart';
+import 'package:ims/Mobile/User/MHomePage_us.dart';
+import 'package:ims/Mobile/User/MRentPage.dart';
+import 'package:ims/Mobile/User/MReturnPage.dart';
+import '../MHomePage_us.dart';
 
 String baseUrl = Myroutes.baseUrl;
 
 class Httpservices {
   static final _client = http.Client();
-  static final _totemWelcomeUrl = Uri.parse(baseUrl + '/totem');
+  static final _totemWelcomeUrl = Uri.parse(baseUrl + '/mobile');
   static final _totemUsrLoginRFIDUrl =
-      Uri.parse(baseUrl + '/totem/UsrLoginRFID');
+      Uri.parse(baseUrl + '/mobile/UsrLoginRFID');
   static final _totemUsrLoginCredentialUrl =
-      Uri.parse(baseUrl + '/totem/UsrLoginCredential');
-  static final _totemRentUrl = Uri.parse(baseUrl + '/totem/User/RentBook');
-  static final _totemReturnUrl = Uri.parse(baseUrl + '/totem/User/ReturnBook');
-  static final _bookcheckRenturl = Uri.parse(baseUrl + '/totem/BookCheckRent');
+      Uri.parse(baseUrl + '/mobile/UsrLoginCredential');
+  static final _totemRentUrl = Uri.parse(baseUrl + '/mobile/User/RentBook');
+  static final _totemReturnUrl = Uri.parse(baseUrl + '/mobile/User/ReturnBook');
+  static final _bookcheckRenturl = Uri.parse(baseUrl + '/mobile/BookCheckRent');
   static final _bookcheckReturnurl =
-      Uri.parse(baseUrl + '/totem/BookCheckReturn');
+      Uri.parse(baseUrl + '/mobile/BookCheckReturn');
 
   // Redirect to Welcome page method
   static totemWelcome(context) async {
     http.Response response = await _client.get(_totemWelcomeUrl);
     if (response.statusCode == 200) {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const TWelcome()));
+          context, MaterialPageRoute(builder: (context) => const MWelcome()));
     }
   }
 

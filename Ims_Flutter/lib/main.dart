@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/Totem/TWelcomePage.dart';
+import 'package:ims/Mobile/MWelcomePage.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:ims/web_app/views/WelcomPage.dart';
 import 'routes.dart';
@@ -22,9 +23,10 @@ class MyApp extends StatelessWidget {
       title: 'Inventory Management System',
       theme: ThemeData(primarySwatch: Colors.blueGrey),
       builder: EasyLoading.init(),
-      initialRoute: '/web',
+      initialRoute: '/mobile',
       routes: {
         Myroutes.WebWelcomePage: (context) => const WelcomeHome(),
+        Myroutes.MobileWelcomePage: (context) => const MWelcome(),
         Myroutes.TotemWelcomePage: (context) => const TWelcome(),
       },
     );

@@ -5,30 +5,30 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 // to display loading animation
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:ims/Totem/Operator/TRemoveBook.dart';
+import 'package:ims/Mobile/Operator/MRemoveBook.dart';
 // to route
 import '../../../routes.dart';
-import '../THomePage_op.dart';
-import '../TRemoveCustomer.dart';
+import '../MHomePage_op.dart';
+import '../MRemoveCustomer.dart';
 
 String baseUrl = Myroutes.baseUrl;
 
 class Httpservices {
   static final _client = http.Client();
   static final _totemOprLoginRFIDUrl =
-      Uri.parse(baseUrl + '/totem/OprLoginRFID');
+      Uri.parse(baseUrl + '/mobile/OprLoginRFID');
   static final _totemOprLoginCredentialUrl =
-      Uri.parse(baseUrl + '/totem/OprLoginCredential');
-  //static final _bookcheckurl = Uri.parse(baseUrl + '/totem/BookCheck');
+      Uri.parse(baseUrl + '/mobile/OprLoginCredential');
+  //static final _bookcheckurl = Uri.parse(baseUrl + '/mobile/BookCheck');
   static final _totemAddCustomer =
-      Uri.parse(baseUrl + '/totem/Operator/AddCustomer');
+      Uri.parse(baseUrl + '/mobile/Operator/AddCustomer');
   static final _totemAddCustomerCheck =
-      Uri.parse(baseUrl + '/totem/Operator/AddCustomerCheck');
+      Uri.parse(baseUrl + '/mobile/Operator/AddCustomerCheck');
   static final _totemRemoveCustomer =
-      Uri.parse(baseUrl + '/totem/Operator/RemoveCustomer');
-  static final _totemAddBook = Uri.parse(baseUrl + '/totem/Operator/AddBook');
+      Uri.parse(baseUrl + '/mobile/Operator/RemoveCustomer');
+  static final _totemAddBook = Uri.parse(baseUrl + '/mobile/Operator/AddBook');
   static final _totemRemoveBook =
-      Uri.parse(baseUrl + '/totem/Operator/RemoveBook');
+      Uri.parse(baseUrl + '/mobile/Operator/RemoveBook');
 
   // Login with rfid method
   static totemLoginOp(context) async {

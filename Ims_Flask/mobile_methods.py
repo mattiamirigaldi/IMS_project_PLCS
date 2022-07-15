@@ -1,7 +1,7 @@
 from flask import Flask, Blueprint, render_template, redirect, json, jsonify, url_for, request
 import pyodbc
 
-totem_methods = Blueprint('totem_methods', __name__)
+mobile_methods = Blueprint('mobile_methods', __name__)
 
 #Totem RFID read
 
@@ -10,6 +10,7 @@ global user_username
 global user_found_flag
 global role
 global book_rfid
+global rfid
 
 def connection():
     ## Connection to the database
@@ -26,24 +27,29 @@ def connection():
     return cnxn
 
 # RFID reader with POST method
-@totem_methods.route("/totem", methods=["GET", "POST"])
+@mobile_methods.route("/mobile", methods=["GET", "POST"])
 def totem():
     if request.method == 'GET':
         return render_template('index.html')
-    else :
-        global rfid
+    else :  
+        global rfid      
         if request.method == 'POST':
             rfid = request.form['rfid']
             print(rfid)
         return ("nunn")
 
 # User login RFID
-@totem_methods.route('/totem//UsrLoginRFID', methods=["GET", "POST"])
+@mobile_methods.route('/mobile/UsrLoginRFID', methods=["GET", "POST"])
 def UsrLoginRFID():
     cnxn = connection()
     cursor = cnxn.cursor()
     check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
-    value = rfid
+    if 'rfid' in globals() :
+        value = rfid
+        print("value = "+rfid)
+    else:
+        value = -1
+        print("value not found ")
     cursor.execute(check_query, value)
     row = cursor.fetchone()
     cnxn.close()
@@ -63,7 +69,7 @@ def UsrLoginRFID():
         return jsonify([user_found_flag])
 
 # User login Credentials
-@totem_methods.route('/totem//UsrLoginCredential', methods=["GET", "POST"])
+@mobile_methods.route('/mobile/UsrLoginCredential', methods=["GET", "POST"])
 def UsrLoginCredential():
     cnxn = connection()
     cursor = cnxn.cursor()
@@ -87,12 +93,17 @@ def UsrLoginCredential():
         return jsonify([user_found_flag])
 
 # Operator login RFID
-@totem_methods.route("/totem/OprLoginRFID", methods=["GET", "POST"])
+@mobile_methods.route("/mobile/OprLoginRFID", methods=["GET", "POST"])
 def OprLoginRFID():
     cnxn = connection()
     cursor = cnxn.cursor()  
     check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
-    value = (rfid)
+    if 'rfid' in globals() :
+        value = rfid
+        print("value = "+rfid)
+    else:
+        value = -1
+        print("value not found ")
     cursor.execute(check_query, value)
     row = cursor.fetchone()
     cnxn.close()
@@ -111,7 +122,7 @@ def OprLoginRFID():
         return jsonify([opr_found_flag])
 
 # Operator login Credentials
-@totem_methods.route('/totem/OprLoginCredential', methods=["GET", "POST"])
+@mobile_methods.route('/mobile/OprLoginCredential', methods=["GET", "POST"])
 def OprLoginCredential():
     cnxn = connection()
     cursor = cnxn.cursor()
@@ -134,7 +145,7 @@ def OprLoginCredential():
 
 
 # book check Rent
-@totem_methods.route("/totem/BookCheckRent", methods=["GET", "POST"])
+@mobile_methods.route("/mobile/BookCheckRent", methods=["GET", "POST"])
 def totem_BookCheckRent():
     cnxn = connection()
     cursor = cnxn.cursor()
@@ -156,7 +167,7 @@ def totem_BookCheckRent():
         return jsonify([book_found_flag])
 
 # Rent book
-@totem_methods.route("/totem/User/RentBook", methods=["GET", "POST"])
+@mobile_methods.route("/mobile/User/RentBook", methods=["GET", "POST"])
 def totem_book_rent():
     cnxn = connection()
     cursor = cnxn.cursor()
@@ -175,7 +186,7 @@ def totem_book_rent():
 #############################################################
 
 # book check Return
-@totem_methods.route("/totem/BookCheckReturn", methods=["GET", "POST"])
+@mobile_methods.route("/mobile/BookCheckReturn", methods=["GET", "POST"])
 def totem_BookCheckReturn():
     cnxn = connection()
     cursor = cnxn.cursor()
@@ -194,7 +205,7 @@ def totem_BookCheckReturn():
         return jsonify([book_found_flag])
 
 # Return book
-@totem_methods.route("/totem/User/ReturnBook", methods=["GET", "POST"])
+@mobile_methods.route("/mobile/User/ReturnBook", methods=["GET", "POST"])
 def totem_book_return():
     cnxn = connection()
     cursor = cnxn.cursor()
@@ -211,7 +222,7 @@ def totem_book_return():
 #############################################################
 
 # add customer check
-@totem_methods.route("/totem/Operator/AddCustomerCheck", methods=["GET", "POST"])
+@mobile_methods.route("/mobile/Operator/AddCustomerCheck", methods=["GET", "POST"])
 def totem_op_add_customer_check():
     cnxn = connection()
     cursor = cnxn.cursor()
@@ -229,7 +240,7 @@ def totem_op_add_customer_check():
 
 
 # add customer
-@totem_methods.route("/totem/Operator/AddCustomer", methods=["GET", "POST"])
+@mobile_methods.route("/mobile/Operator/AddCustomer", methods=["GET", "POST"])
 def totem_op_add_customer():
     cnxn = connection()
     cursor = cnxn.cursor()
@@ -264,7 +275,7 @@ def totem_op_add_customer():
 #############################################################
 
 # Remove Customer
-@totem_methods.route("/totem/Operator/RemoveCustomer", methods=["GET", "POST"])
+@mobile_methods.route("/mobile/Operator/RemoveCustomer", methods=["GET", "POST"])
 def RemoveCustomer():
     cnxn = connection()
     cursor = cnxn.cursor()
@@ -288,7 +299,7 @@ def RemoveCustomer():
 #############################################################
 
 # Add Book
-@totem_methods.route("/totem/Operator/AddBook", methods=["GET", "POST"])
+@mobile_methods.route("/mobile/Operator/AddBook", methods=["GET", "POST"])
 def totem_AddBook():
     cnxn = connection()
     cursor = cnxn.cursor()
@@ -324,7 +335,7 @@ def totem_AddBook():
 
 
 # Remove Book
-@totem_methods.route("/totem/Operator/RemoveBook", methods=["GET", "POST"])
+@mobile_methods.route("/mobile/Operator/RemoveBook", methods=["GET", "POST"])
 def totem_RemoveBook():
     cnxn = connection()
     cursor = cnxn.cursor()
@@ -344,6 +355,6 @@ def totem_RemoveBook():
 
 #############################################################
 
-@totem_methods.route("/get", methods=["GET", "POST"])
+@mobile_methods.route("/get", methods=["GET", "POST"])
 def getdata(iiid):
     return "welcome dear : " + str(iiid)

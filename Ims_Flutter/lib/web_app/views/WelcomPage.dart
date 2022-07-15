@@ -25,9 +25,14 @@ class WelcomeHome extends StatelessWidget {
                       style: TextStyle(fontWeight: FontWeight.bold),
                       textScaleFactor: 2)),
               Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
                   child: Center(
-                      child: Image.asset('images/ims.jpg', width: 200, height: 200,))),
+                      child: Image.asset(
+                    'images/ims.jpg',
+                    width: 200,
+                    height: 200,
+                  ))),
               InkWell(
                 onTap: () {
                   Navigator.push(

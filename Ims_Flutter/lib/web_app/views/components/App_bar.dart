@@ -1,9 +1,8 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'Searchbar.dart';
 import 'menu_item.dart';
-import 'dart:developer' as devlog;
 
 class CustomAppBar extends StatelessWidget {
   static const _BrowseItems = [
@@ -40,15 +39,15 @@ class CustomAppBar extends StatelessWidget {
                   //width: 50,
                   alignment: Alignment.topCenter)),
           const SizedBox(width: 5),
-          Text("Welcome ".toUpperCase()+userName,
+          Text("Welcome ".toUpperCase() + userName,
               style:
                   const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
           const Spacer(),
-          SearchBar(),
+          const SearchBar(),
           MenuItems(
             title: "Browse",
             icon: Icons.arrow_drop_down_rounded,
-            DropDownItems: _BrowseItems, 
+            DropDownItems: _BrowseItems,
             userName: userName,
           ),
           MenuItems(
@@ -58,12 +57,13 @@ class CustomAppBar extends StatelessWidget {
             userName: userName,
           ),
           Padding(
-            padding: EdgeInsets.only(right: 70),
+            padding: const EdgeInsets.only(right: 70),
             child: MenuItems(
-                title: "",
-                icon: Icons.manage_accounts,
-                DropDownItems: _UserItems,
-                userName: userName,),
+              title: "",
+              icon: Icons.manage_accounts,
+              DropDownItems: _UserItems,
+              userName: userName,
+            ),
           )
         ],
       ),

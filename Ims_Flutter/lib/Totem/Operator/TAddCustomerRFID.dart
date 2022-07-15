@@ -25,8 +25,6 @@ class TAddCustomerRFID extends StatefulWidget {
 }
 
 class _GenreListState extends State<TAddCustomerRFID> {
-  final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

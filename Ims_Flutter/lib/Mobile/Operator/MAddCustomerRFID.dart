@@ -1,27 +1,30 @@
-// ignore_for_file: file_names, camel_case_types, non_constant_identifier_names
+// ignore_for_file: file_names, camel_case_types
 
 import 'package:flutter/material.dart';
-import './services/TOp_http_services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import './services/MOp_http_services.dart';
 
-class TAddBookRFID extends StatefulWidget {
-  final String Title;
-  final String Author;
-  final String Genre;
-  final String Location;
+class TAddCustomerRFID extends StatefulWidget {
+  final String firstName;
+  final String lastName;
+  final String username;
+  final String email;
+  final String password;
 
-  const TAddBookRFID(
+  const TAddCustomerRFID(
       {Key? key,
-      required this.Title,
-      required this.Author,
-      required this.Genre,
-      required this.Location,
+      required this.firstName,
+      required this.lastName,
+      required this.username,
+      required this.email,
+      required this.password,
       context})
       : super(key: key);
   @override
   _GenreListState createState() => _GenreListState();
 }
 
-class _GenreListState extends State<TAddBookRFID> {
+class _GenreListState extends State<TAddCustomerRFID> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,15 +39,24 @@ class _GenreListState extends State<TAddBookRFID> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               const Center(
-                  child: Text("scan Book's RFID and press the button",
+                  child: Text("scan RFID and press the button",
                       style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
                           color: Colors.black))),
               InkWell(
                 onTap: () async {
-                  await Httpservices.totemAddbook(widget.Title, widget.Author,
-                      widget.Genre, widget.Location, context);
+                  await EasyLoading.showSuccess(
+                      "received first name = " + widget.firstName);
+                  await Httpservices.totemAddCustomer(
+                      widget.firstName,
+                      widget.lastName,
+                      widget.username,
+                      widget.email,
+                      widget.password,
+                      context);
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("New User added successfully")));
                 },
                 child: Center(
                   child: Container(

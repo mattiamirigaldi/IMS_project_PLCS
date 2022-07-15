@@ -8,7 +8,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 // to route
 import '../../routes.dart';
 // parameters
-import '../model/customer.dart';
 import 'package:ims/Web_app/data/user_data.dart';
 import './../views/DashBoard.dart';
 import 'package:ims/Web_app/views/UserSettings.dart';
@@ -47,7 +46,7 @@ class Httpservices {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    DashBoard(customer: user_data.myCustomer)));
+                    const DashBoard(customer: user_data.myCustomer)));
       }
     } else {
       await EasyLoading?.showError(
@@ -65,7 +64,6 @@ class Httpservices {
         await EasyLoading.showError(json[0]);
       } else {
         await EasyLoading.showSuccess("Welcome Back " + userName);
-        var json = jsonDecode(response.body);
         // myCustomer.userName = userName;
         // myCustomer.name = json[0];
         // myCustomer.email = json[1];
@@ -75,7 +73,7 @@ class Httpservices {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => DashBoard(
+                builder: (context) => const DashBoard(
                       customer: user_data.myCustomer,
                     )));
       }
@@ -118,7 +116,6 @@ class Httpservices {
     });
     //Customer myCustomer = user_data.myCustomer;
     if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
       // myCustomer.userName = userName;
       // myCustomer.name = json[0];
       // myCustomer.email = json[1];
@@ -127,7 +124,8 @@ class Httpservices {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => DashBoard(customer: user_data.myCustomer)));
+              builder: (context) =>
+                  const DashBoard(customer: user_data.myCustomer)));
     } else {
       await EasyLoading?.showError(
           "Error Code : ${response.statusCode.toString()}");
