@@ -1,6 +1,8 @@
 // ignore_for_file: file_names
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/Mobile/User/MLoginCredentials.dart';
 import 'Operator/MLoginOperator.dart';
 import './User/services/MUs_http_services.dart';
@@ -72,15 +74,11 @@ class _TLoginPageState extends State<TLoginPage> {
                       color: Colors.green),
                 )),
                 onTap: () async {
-                  // if(_formKey.currentState != null) {
-                  //   if (_formKey.currentState!.validate()){
-                  await Httpservices.totemLoginUs(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Login Success")));
-                  //   }
-                  //   } else {
+                  await EasyLoading.showError("heeeeeyyyy");
 
-                  // }
+                  //await Httpservices.totemLoginUs(context);
+                  //ScaffoldMessenger.of(context).showSnackBar(
+                  //    const SnackBar(content: Text("ey babaaaa")));
                 }),
             Align(
               alignment: Alignment.bottomLeft,
