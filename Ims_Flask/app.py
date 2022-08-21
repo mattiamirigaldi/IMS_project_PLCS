@@ -51,5 +51,6 @@ def getdata(iiid):
     return "welcome dear : "+str(iiid)
 
 if __name__=="__main__":
-    app.run(host='0.0.0.0')
+    #app.run(host='0.0.0.0')
     #app.run(host='192.168.137.1')
+    app.run(host='169.254.71.149')

@@ -26,6 +26,17 @@ def connection():
         Trusted_Connection=yes;')
     return cnxn
 
+# Connection Check
+@mobile_methods.route("/mobileurlcheck", methods=["GET", "POST"])
+def mobile_urlcheck():
+    print("---------")
+    if request.method == 'GET':
+        print("access to the server success")
+        return jsonify(["111"])
+    else : 
+        print("problem in accessing to the server")
+        return jsonify(["222"])
+
 # RFID reader with POST method
 @mobile_methods.route("/mobile", methods=["GET", "POST"])
 def totem():

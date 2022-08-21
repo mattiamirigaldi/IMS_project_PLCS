@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 // to display loading animation
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:ims/Mobile/MLogin.dart';
 import 'package:ims/Mobile/MWelcomePage.dart';
 // to route
 import '../../../routes.dart';
@@ -13,20 +14,49 @@ import 'package:ims/Mobile/User/MRentPage.dart';
 import 'package:ims/Mobile/User/MReturnPage.dart';
 import '../MHomePage_us.dart';
 
-String baseUrl = Myroutes.baseUrl;
+//import 'package:validator/validator.dart';
+
+//String baseUrlMobile = Myroutes.baseUrlMobile;
+String baseUrlMobile = 'http://' + (Myroutes.baseUrlMobile) + ':5000';
+//String baseUrlMobile = Myroutes.baseUrl;
 
 class Httpservices {
   static final _client = http.Client();
-  static final _totemWelcomeUrl = Uri.parse(baseUrl + '/mobile');
+  static final _totemWelcomeUrl = Uri.parse(baseUrlMobile + '/mobile');
   static final _totemUsrLoginRFIDUrl =
-      Uri.parse(baseUrl + '/mobile/UsrLoginRFID');
+      Uri.parse(baseUrlMobile + '/mobile/UsrLoginRFID');
   static final _totemUsrLoginCredentialUrl =
-      Uri.parse(baseUrl + '/mobile/UsrLoginCredential');
-  static final _totemRentUrl = Uri.parse(baseUrl + '/mobile/User/RentBook');
-  static final _totemReturnUrl = Uri.parse(baseUrl + '/mobile/User/ReturnBook');
-  static final _bookcheckRenturl = Uri.parse(baseUrl + '/mobile/BookCheckRent');
+      Uri.parse(baseUrlMobile + '/mobile/UsrLoginCredential');
+  static final _totemRentUrl =
+      Uri.parse(baseUrlMobile + '/mobile/User/RentBook');
+  static final _totemReturnUrl =
+      Uri.parse(baseUrlMobile + '/mobile/User/ReturnBook');
+  static final _bookcheckRenturl =
+      Uri.parse(baseUrlMobile + '/mobile/BookCheckRent');
   static final _bookcheckReturnurl =
-      Uri.parse(baseUrl + '/mobile/BookCheckReturn');
+      Uri.parse(baseUrlMobile + '/mobile/BookCheckReturn');
+  static final _urlcheck = Uri.parse(baseUrlMobile + '/mobileurlcheck');
+
+  static mobileurl(context) async {
+    http.Response response = await _client.get(_urlcheck);
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == "111") {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const TLoginPage()));
+        await EasyLoading.showSuccess("The entered IP is Valid");
+      } else {
+        await EasyLoading.showSuccess("4444444");
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const MWelcome()));
+      }
+    } else {
+      await EasyLoading.showError(
+          "URL is not valid === " + response.statusCode.toString());
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const MWelcome()));
+    }
+  }
 
   // Redirect to Welcome page method
   static totemWelcome(context) async {

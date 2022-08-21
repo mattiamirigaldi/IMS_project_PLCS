@@ -1,12 +1,14 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'MLogin.dart';
+import './../routes.dart';
+import 'User/services/MUs_http_services.dart';
 
 class MWelcome extends StatelessWidget {
   const MWelcome({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    late String URLaddress;
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.green,
@@ -23,10 +25,22 @@ class MWelcome extends StatelessWidget {
               const Center(
                   child: Text("Hello dear book lover!",
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                      textScaleFactor: 3)),
+                      style: TextStyle(fontWeight: FontWeight.normal),
+                      textScaleFactor: 2)),
               const Center(
-                  child: Text("Welcome to the MOBILE APP",
+                  child: Text("Welcome to",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight: FontWeight.normal),
+                      textScaleFactor: 2)),
+              const Center(
+                child: Text("IMS",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.green, fontWeight: FontWeight.bold),
+                    textScaleFactor: 3),
+              ),
+              const Center(
+                  child: Text("(MOBILE APP)",
                       textAlign: TextAlign.center,
                       style: TextStyle(fontWeight: FontWeight.bold),
                       textScaleFactor: 2)),
@@ -35,26 +49,55 @@ class MWelcome extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
                   child: Center(
                       child: Image.asset('images/bookies.png',
-                          width: 500, height: 300))),
+                          width: 400, height: 100))),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 150, vertical: 10),
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                      hintText: "Enter URL to access the server",
+                      labelText: "Server URL",
+                      border: OutlineInputBorder()),
+                  onChanged: (String value) {
+                    {
+                      URLaddress = value;
+                    }
+                  },
+                  validator: (String? value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
+              ),
               InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const TLoginPage()));
+                onTap: () async {
+                  if (URLaddress.isEmpty) {
+                    //await EasyLoading.showError("Please Enter the URL!");
+                  } else {
+                    Myroutes.baseUrlMobile = URLaddress;
+                    //ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    //    content: Text("URL is " + Myroutes.baseUrlMobile)));
+                    await Httpservices.mobileurl(context);
+                  }
+                  //Navigator.push(
+                  //    context,
+                  //    MaterialPageRoute(
+                  //        builder: (context) => const TLoginPage()));
                 },
                 child: Center(
                   child: Container(
                     margin: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 15),
+                        horizontal: 100, vertical: 10),
                     child: const Center(
                         child: Text("Enter",
                             style: TextStyle(
                                 fontSize: 40,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black))),
-                    height: 100,
-                    width: 1000,
+                    height: 50,
+                    width: 500,
                     decoration: BoxDecoration(
                       color: Colors.green,
                       borderRadius: BorderRadius.circular(20),

@@ -1,10 +1,11 @@
+from xml.etree.ElementTree import tostring
 from flask import Flask, Blueprint, render_template, redirect, json, jsonify, url_for, request
 import pyodbc
 
 totem_methods = Blueprint('totem_methods', __name__)
 
 #Totem RFID read
-
+rfid = 1
 global opr_found_flag
 global user_username
 global user_found_flag
@@ -44,6 +45,7 @@ def UsrLoginRFID():
     cursor = cnxn.cursor()
     check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
     value = rfid
+    print(value)
     cursor.execute(check_query, value)
     row = cursor.fetchone()
     cnxn.close()
