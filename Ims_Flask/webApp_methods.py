@@ -1,22 +1,8 @@
 from tkinter.messagebox import NO
 from flask import Flask, Blueprint, render_template, redirect, json, jsonify, url_for, request
 import pyodbc
-
+import connectionToDb as db
 webApp_methods = Blueprint('webApp_methods', __name__)
-
-def connection():
-    ## Connection to the database
-    # server and database names are given by SQL
-    server = 'POUYAN'
-    database = 'my_db'
-    # Cnxn : is the connection string
-    # If trusted connection is 'yes' then we log using our windows authentication
-    cnxn = pyodbc.connect(
-        'DRIVER={ODBC Driver 17 for SQL Server}; \
-         SERVER=' + server + '; \
-         DATABASE=' + database + '; \
-        Trusted_Connection=yes;')
-    return cnxn
 
 @webApp_methods.route("/web", methods=["GET", "POST"])
 def webApp():
@@ -26,7 +12,7 @@ def webApp():
 @webApp_methods.route("/register", methods=["GET", "POST"])
 def register():
     ## 1 SECTION: Connection to the database
-    cnxn = connection()
+    cnxn = db.connection()
     # create the connection cursor, to do queries in the database
     cursor = cnxn.cursor()
 
@@ -60,7 +46,7 @@ def register():
 
 @webApp_methods.route("/login", methods=["GET", "POST"])
 def login():
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     if request.method == 'POST':
         userName = request.form["userName"]
@@ -95,7 +81,7 @@ def login():
 
 @webApp_methods.route("/settings/<userName>", methods=["GET", "POST"])
 def settings(userName):
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     if request.method == 'POST':
         userName = request.form["userName"]
@@ -115,7 +101,7 @@ def settings(userName):
 
 @webApp_methods.route("/settings_ch/<usr>", methods=["GET", "POST"])
 def settings_ch(usr):
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
 
     if request.method == 'POST':
@@ -149,7 +135,7 @@ def settings_ch(usr):
 
 @webApp_methods.route("/web/items", methods=["GET", "POST"])
 def items():
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     if request.method == 'GET':
         print("GET request")
