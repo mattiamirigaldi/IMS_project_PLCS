@@ -3,13 +3,13 @@
 import 'package:flutter/material.dart';
 import './services/MUs_http_services.dart';
 
-class TLoginCredentials extends StatefulWidget {
-  const TLoginCredentials({Key? key}) : super(key: key);
+class MLoginCredentials extends StatefulWidget {
+  const MLoginCredentials({Key? key}) : super(key: key);
   @override
   _TLoginCredentials createState() => _TLoginCredentials();
 }
 
-class _TLoginCredentials extends State<TLoginCredentials> {
+class _TLoginCredentials extends State<MLoginCredentials> {
   // Global key that uniquely identifies the form widget and is used for validation
   final _formKey = GlobalKey<FormState>();
   // Login parameters
@@ -18,7 +18,7 @@ class _TLoginCredentials extends State<TLoginCredentials> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Login page")),
+        appBar: AppBar(title: const Text("Login page (MOBILE)")),
         body: Form(
           key: _formKey,
           child: ListView(
@@ -26,7 +26,7 @@ class _TLoginCredentials extends State<TLoginCredentials> {
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Center(
-                    child: Text("Sign in to your account",
+                    child: Text("Sign in to your account (MOBILE)",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.green),
                         textAlign: TextAlign.center,
@@ -92,7 +92,7 @@ class _TLoginCredentials extends State<TLoginCredentials> {
                   onTap: () async {
                     if (_formKey.currentState != null) {
                       if (_formKey.currentState!.validate()) {
-                        await Httpservices.totemLoginCredentialUs(
+                        await Httpservices.MobileLoginCredentialUs(
                             username, password, context);
                         // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Login Success")));
                       }

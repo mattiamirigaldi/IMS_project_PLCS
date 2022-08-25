@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/Mobile/MLogin.dart';
 import 'package:ims/Mobile/MWelcomePage.dart';
+import 'package:ims/Mobile/User/MItemsList.dart';
+import 'package:ims/Mobile/User/user_data.dart';
 // to route
 import '../../../routes.dart';
 import 'package:ims/Mobile/User/MHomePage_us.dart';
@@ -25,7 +27,7 @@ class Httpservices {
   static final _totemWelcomeUrl = Uri.parse(baseUrlMobile + '/mobile');
   static final _totemUsrLoginRFIDUrl =
       Uri.parse(baseUrlMobile + '/mobile/UsrLoginRFID');
-  static final _totemUsrLoginCredentialUrl =
+  static final _MobileUsrLoginCredentialUrl =
       Uri.parse(baseUrlMobile + '/mobile/UsrLoginCredential');
   static final _totemRentUrl =
       Uri.parse(baseUrlMobile + '/mobile/User/RentBook');
@@ -42,9 +44,9 @@ class Httpservices {
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "111") {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const TLoginPage()));
         await EasyLoading.showSuccess("The entered IP is Valid");
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const MLoginPage()));
       } else {
         await EasyLoading.showSuccess("4444444");
         Navigator.push(
@@ -67,6 +69,9 @@ class Httpservices {
     }
   }
 
+  static final user_buffer =
+      user_data(mail: '', username: '', lastname: '', firstname: '', rfid: '');
+
   // Login with rfid method
   static totemLoginUs(context) async {
     http.Response response = await _client.get(_totemUsrLoginRFIDUrl);
@@ -77,6 +82,11 @@ class Httpservices {
       } else if (json[0] == "operator") {
         await EasyLoading.showError("Dear Operator, you are not a User");
       } else {
+        user_buffer.firstname = json[1];
+        user_buffer.lastname = json[2];
+        user_buffer.username = json[3];
+        user_buffer.mail = json[4];
+        user_buffer.rfid = json[5];
         await EasyLoading.showSuccess("Welcome dear " + json[1]);
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const hmpage_us()));
@@ -87,16 +97,79 @@ class Httpservices {
   }
 
   // Login with credentials method
-  static totemLoginCredentialUs(userName, password, context) async {
-    http.Response response = await _client.post(_totemUsrLoginCredentialUrl,
+  static MobileLoginCredentialUs(userName, password, context) async {
+    http.Response response = await _client.post(_MobileUsrLoginCredentialUrl,
         body: {"userName": userName, "password": password});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == 'not_found') {
         await EasyLoading.showError(json[0]);
       } else {
+        user_buffer.firstname = json[1];
+        user_buffer.lastname = json[2];
+        user_buffer.username = json[3];
+        user_buffer.mail = json[4];
+        user_buffer.rfid = json[5];
         await EasyLoading.showSuccess("Welcome Back " + json[1]);
         Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const hmpage_us()));
+      }
+    } else {
+      EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  // List the Rented Items
+  static List_User_Items(context) async {
+    http.Response response = await _client.get(
+        Uri.parse(baseUrlMobile + "/mobile/UserItems/" + user_buffer.rfid));
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] != "You don't have any Item") {
+        await EasyLoading.showSuccess("You have some Items");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MItemsList(
+                      bookTitle: json[0],
+                      bookAuthor: json[1],
+                      bookGenre: json[2],
+                      bookRFID: json[3],
+                      bookAvalible: json[4],
+                      bookLocation: json[5],
+                    )));
+      } else {
+        await EasyLoading.showError(json[0]);
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const hmpage_us()));
+      }
+    } else {
+      EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  // List ALL Items
+  static List_All_Items(context) async {
+    http.Response response =
+        await _client.get(Uri.parse(baseUrlMobile + "/mobile/AllItems"));
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] != "No book in the library") {
+        //await EasyLoading.showSuccess("You have some Items");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MItemsList(
+                      bookTitle: json[0],
+                      bookAuthor: json[1],
+                      bookGenre: json[2],
+                      bookRFID: json[3],
+                      bookAvalible: json[4],
+                      bookLocation: json[5],
+                    )));
+      } else {
+        await EasyLoading.showError(json[0]);
+        Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const hmpage_us()));
       }
     } else {

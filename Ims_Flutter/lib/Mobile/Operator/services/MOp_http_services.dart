@@ -35,9 +35,7 @@ class Httpservices {
     http.Response response = await _client.get(_totemOprLoginRFIDUrl);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == "User") {
-        await EasyLoading.showError("Dear User, you are not an Operator");
-      } else if (json[0] == "Operator_not_found") {
+      if (json[0] == "Operator_not_found") {
         await EasyLoading.showError(json[0]);
       } else {
         await EasyLoading.showSuccess("Welcome dear Operator");

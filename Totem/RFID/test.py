@@ -1,5 +1,5 @@
 import requests
 
-url = 'http://192.168.1.6:5000/mobile'
-myobj = {'rfid': 444}
+url = 'http://169.254.71.149:5000/mobile'
+myobj = {'rfid': 28}
 x = requests.post(url, data = myobj)

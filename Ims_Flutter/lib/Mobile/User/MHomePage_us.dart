@@ -1,7 +1,7 @@
 // ignore_for_file: file_names, camel_case_types
 
 import 'package:flutter/material.dart';
-import './MRentPage.dart';
+import 'services/MUs_http_services.dart';
 import './MReturnPage.dart';
 
 class hmpage_us extends StatelessWidget {
@@ -29,7 +29,7 @@ class hmpage_us extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(
                         horizontal: 50, vertical: 30),
                     child: const Center(
-                        child: Text("Rent",
+                        child: Text("Your Items",
                             style: TextStyle(
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,
@@ -42,11 +42,10 @@ class hmpage_us extends StatelessWidget {
                     ),
                   ),
                 ),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const TRentPage()));
+                onTap: () async {
+                  await Httpservices.List_User_Items(context);
+                  //ScaffoldMessenger.of(context)
+                  //    .showSnackBar(const SnackBar(content: Text("rented")));
                 },
               ),
               InkWell(
@@ -55,7 +54,7 @@ class hmpage_us extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(
                         horizontal: 50, vertical: 30),
                     child: const Center(
-                        child: Text("Return",
+                        child: Text("All Items",
                             style: TextStyle(
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,
@@ -68,11 +67,8 @@ class hmpage_us extends StatelessWidget {
                     ),
                   ),
                 ),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const TReturnPage()));
+                onTap: () async {
+                  await Httpservices.List_All_Items(context);
                 },
               ),
             ]));

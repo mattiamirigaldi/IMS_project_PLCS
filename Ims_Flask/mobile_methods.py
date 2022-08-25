@@ -16,7 +16,7 @@ def connection():
     ## Connection to the database
     # server and database names are given by SQL
     server = 'POUYAN'
-    database = 'my_db'
+    database = 'mydb'
     # Cnxn : is the connection string
     # If trusted connection is 'yes' then we log using our windows authentication
     cnxn = pyodbc.connect(
@@ -54,30 +54,20 @@ def totem():
 def UsrLoginRFID():
     cnxn = connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
-    if 'rfid' in globals() :
-        value = rfid
-        print("value = "+rfid)
-    else:
-        value = -1
-        print("value not found ")
-    cursor.execute(check_query, value)
+    check_query = "SELECT * FROM [customers] WHERE rfid = (?) "
+    #if 'rfid' in globals() :
+    #    value = rfid
+    #else:
+    #    value = -1
+    #cursor.execute(check_query, rfid)
     row = cursor.fetchone()
     cnxn.close()
-    global useruser
     if row != None:
-        if row.role_i == "usr":
-            user_found_flag = "found"
-            print("User Found : FIRSTNAME is " + row.firstName)
-            useruser = row.userName
-            return jsonify([user_found_flag], row.firstName, row.lastName, row.userName, row.mail, row.pwd)
-        else:
-            user_found_flag = "operator"
-            return jsonify([user_found_flag])
+        print("User Found : FIRSTNAME is " + row.firstname)
+        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid))
     else:
-        user_found_flag = "not_found"
         print("User Not found")
-        return jsonify([user_found_flag])
+        return jsonify(["not_found"])
 
 # User login Credentials
 @mobile_methods.route('/mobile/UsrLoginCredential', methods=["GET", "POST"])
@@ -87,50 +77,40 @@ def UsrLoginCredential():
     if request.method == 'POST':
         username = request.form["userName"]
         password = request.form["password"]
-    check_query = "SELECT * FROM [Library_Clients] WHERE username = (?) and pwd = (?) and role_i = 'usr'"
+    check_query = "SELECT * FROM [customers] WHERE username = (?) and pwd = (?)"
     value = (username,password)
     cursor.execute(check_query, value)
     row = cursor.fetchone()
     cnxn.close()
-    global useruser
+    #global useruser
     if row != None:
-        user_found_flag = "found"
-        print("User Found : FIRSTNAME is " + row.firstName)
-        useruser = row.userName
-        return jsonify([user_found_flag], row.firstName, row.lastName, row.userName, row.mail, row.pwd)
+        print("User Found : FIRSTNAME is " + row.firstname)
+        print("User Found : RFID is " + str(row.rfid))
+        #useruser = row.userName
+        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid))
     else:
-        user_found_flag = "not_found"
         print("User Not found")
-        return jsonify([user_found_flag])
+        return jsonify(["not found"])
 
 # Operator login RFID
 @mobile_methods.route("/mobile/OprLoginRFID", methods=["GET", "POST"])
 def OprLoginRFID():
     cnxn = connection()
     cursor = cnxn.cursor()  
-    check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
-    if 'rfid' in globals() :
-        value = rfid
-        print("value = "+rfid)
-    else:
-        value = -1
-        print("value not found ")
-    cursor.execute(check_query, value)
+    check_query = "SELECT * FROM [operators] WHERE rfid = (?) "
+    #if 'rfid' in globals() :
+    #    value = rfid
+    #else:
+    #    value = -1
+    cursor.execute(check_query, rfid)
     row = cursor.fetchone()
     cnxn.close()
     if row != None:
-        if row.role_i == "opr":
-            opr_found_flag = "found"
-            print("Operator Found : Email is " + row.mail)
-            return jsonify([opr_found_flag], row.firstName, row.lastName, row.userName, row.mail, row.pwd, row.RFID_i)
-        else:
-            opr_found_flag = "dear "+row.firstName+", you are not an Operator"
-            print(opr_found_flag)
-            return jsonify(["User"])
+        print("Operator Found : Firstname is " + row.firstname)
+        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, row.rfid)
     else:
-        opr_found_flag = "Operator_not_found"
-        print(opr_found_flag)
-        return jsonify([opr_found_flag])
+        print("Operator_not_found")
+        return jsonify(["Operator not found"])
 
 # Operator login Credentials
 @mobile_methods.route('/mobile/OprLoginCredential', methods=["GET", "POST"])
@@ -140,97 +120,95 @@ def OprLoginCredential():
     if request.method == 'POST':
         username = request.form["userName"]
         password = request.form["password"]
-    check_query = "SELECT * FROM [Library_Clients] WHERE username = (?) and pwd = (?) and role_i = 'opr'"
-    value = (username,password)
-    cursor.execute(check_query, value)
+    check_query = "SELECT * FROM [operators] WHERE username = (?) and pwd = (?)"
+    cursor.execute(check_query,username,password)
     row = cursor.fetchone()
     cnxn.close()
     if row != None:
-        opr_found_flag = "found"
-        print("User Found : FIRSTNAME is " + row.firstName)
-        return jsonify([opr_found_flag], row.firstName, row.lastName, row.userName, row.mail, row.pwd)
+        print("operator Found : firstname is " + row.firstname)
+        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, row.rfid)
     else:
-        opr_found_flag = "not_found"
-        print("User Not found")
-        return jsonify([opr_found_flag])
-
-
-# book check Rent
-@mobile_methods.route("/mobile/BookCheckRent", methods=["GET", "POST"])
-def totem_BookCheckRent():
-    cnxn = connection()
-    cursor = cnxn.cursor()
-    check_query = "SELECT * FROM [Items] WHERE RFID = (?) "
-    value = (rfid)
-    cursor.execute(check_query, value)
-    row = cursor.fetchone()
-    cnxn.close()
-    if row != None:
-        if row.userName == "-1" :
-            book_found_flag = "found"
-            print("Book Found : TITLE is " + row.Title)
-            return jsonify([book_found_flag], row.Location, row.Title, row.Author, row.Genre, row.RFID, row.userName)
-        else:
-            return jsonify(["Book_not_available"])
-    else:
-        book_found_flag = "not_found"
-        print("Book Not found")
-        return jsonify([book_found_flag])
-
-# Rent book
-@mobile_methods.route("/mobile/User/RentBook", methods=["GET", "POST"])
-def totem_book_rent():
-    cnxn = connection()
-    cursor = cnxn.cursor()
-    cnxn = connection()
-    cursor = cnxn.cursor()
-    global useruser
-    check_query = "UPDATE [Items] SET userName = (?) WHERE RFID = (?) "
-    value = (useruser, rfid)
-    cursor.execute(check_query, value)
-    cnxn.commit()
-    cnxn.close()
-    rent_flag = "Book rented successfully"
-    print("Book rented successfully")
-    return jsonify([rent_flag])
+        print("operator Not found")
+        return jsonify(["not_found"])
 
 #############################################################
 
-# book check Return
-@mobile_methods.route("/mobile/BookCheckReturn", methods=["GET", "POST"])
-def totem_BookCheckReturn():
+# List the User Items
+@mobile_methods.route("/mobile/UserItems/<usr>", methods=["GET", "POST"])
+def mobile_ListUserItems(usr):
+    print(usr)
     cnxn = connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM [Items] WHERE RFID = (?) and userName = (?)"
-    value = (rfid,useruser)
-    cursor.execute(check_query, value)
-    row = cursor.fetchone()
-    cnxn.close()
-    if row != None:
-        book_found_flag = "found"
-        print("Book Found : TITLE is " + row.Title)
-        return jsonify([book_found_flag], row.Location, row.Title, row.Author, row.Genre, row.RFID, row.userName)
-    else:
-        book_found_flag = "not_found"
-        print("Book Not found")
-        return jsonify([book_found_flag])
+    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id where items.cus_id = (?) "
+    cursor.execute(check_query, usr)
+    j = 0
+    tit = []
+    aut = []
+    gen = []
+    rfid = []
+    usr = []
+    loc = []
+    data = []
+    for row in cursor:
+        books = {"title": row[2], "author": row[3], "genre": row[4], "rfid": row[7], "cus_id": row[10], "location": row[14]}
+        data.append(books)
+    if cursor.rowcount == 0:
+        cnxn.close()
+        print("User does not have any Item")
+        return jsonify(["You don't have any Item"])
+    else:      
+        print("------ Book Found ------")
+        print("------ 111111 ------")
+        for i in data:
+            tit.append(data[j]["title"])
+            aut.append(data[j]["author"])
+            gen.append(data[j]["genre"])
+            rfid.append(data[j]["rfid"])
+            usr.append(data[j]["cus_id"])
+            loc.append(data[j]["location"])
+            j += 1
+        cnxn.close()
+        print("------ 222222 ------")
+        return jsonify([tit, aut, gen, rfid, usr, loc]) 
+        
 
-# Return book
-@mobile_methods.route("/mobile/User/ReturnBook", methods=["GET", "POST"])
-def totem_book_return():
+# List All the Items
+@mobile_methods.route("/mobile/AllItems", methods=["GET", "POST"])
+def mobile_ListAllItems():
     cnxn = connection()
     cursor = cnxn.cursor()
-    global rfid
-    cnxn = connection()
-    cursor = cnxn.cursor()
-    check_query = "UPDATE [Items] SET userName = (?) WHERE RFID = (?) "
-    value = ('-1', rfid)
-    cursor.execute(check_query, value)
-    cnxn.commit()
-    cnxn.close()
-    return ("panir")
+    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id"
+    cursor.execute(check_query)
+    j = 0
+    tit = []
+    aut = []
+    gen = []
+    rfid = []
+    usr = []
+    loc = []
+    data = []
+    for row in cursor:
+        books = {"title": row[2], "author": row[3], "genre": row[4], "rfid": row[7], "cus_id": row[10], "location": row[14]}
+        data.append(books)
+    if cursor.rowcount == 0:
+        cnxn.close()
+        print("No book in the library")
+        return jsonify(["No book in the library"])
+    else:      
+        print("------ Book Found ------")
+        print("------ 111111 ------")
+        for i in data:
+            tit.append(data[j]["title"])
+            aut.append(data[j]["author"])
+            gen.append(data[j]["genre"])
+            rfid.append(data[j]["rfid"])
+            usr.append(data[j]["cus_id"])
+            loc.append(data[j]["location"])
+            j += 1
+        cnxn.close()
+        print("------ 222222 ------")
+        return jsonify([tit, aut, gen, rfid, usr, loc])
 
-#############################################################
 
 # add customer check
 @mobile_methods.route("/mobile/Operator/AddCustomerCheck", methods=["GET", "POST"])

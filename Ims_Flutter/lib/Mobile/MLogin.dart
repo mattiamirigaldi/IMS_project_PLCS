@@ -5,13 +5,13 @@ import 'package:ims/Mobile/User/MLoginCredentials.dart';
 import 'Operator/MLoginOperator.dart';
 import './User/services/MUs_http_services.dart';
 
-class TLoginPage extends StatefulWidget {
-  const TLoginPage({Key? key}) : super(key: key);
+class MLoginPage extends StatefulWidget {
+  const MLoginPage({Key? key}) : super(key: key);
   @override
   _TLoginPageState createState() => _TLoginPageState();
 }
 
-class _TLoginPageState extends State<TLoginPage> {
+class _TLoginPageState extends State<MLoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +34,7 @@ class _TLoginPageState extends State<TLoginPage> {
                         height: 180,
                         width: 180))),
             const Center(
-                child: Text("Welcome ",
+                child: Text("Welcome (MOBILE)",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontWeight: FontWeight.bold),
                     textScaleFactor: 2)),
@@ -88,7 +88,7 @@ class _TLoginPageState extends State<TLoginPage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const TLoginCredentials()));
+                          builder: (context) => const MLoginCredentials()));
                 },
               ),
             ),

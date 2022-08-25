@@ -5,8 +5,8 @@ def connection():
     # server and database names are given by SQL
     # server = 'POUYAN'
     # database = 'my_db'
-    server = 'DESKTOP-I7POIMI\SQLEXPRESS'
-    database = 'SQLTest'
+    server = 'POUYAN'
+    database = 'mydb'
     # Cnxn : is the connection string
     # If trusted connection is 'yes' then we log using our windows authentication
     cnxn = pyodbc.connect(
