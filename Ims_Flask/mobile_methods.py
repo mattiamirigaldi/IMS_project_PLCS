@@ -59,7 +59,7 @@ def UsrLoginRFID():
     #    value = rfid
     #else:
     #    value = -1
-    #cursor.execute(check_query, rfid)
+    cursor.execute(check_query, rfid)
     row = cursor.fetchone()
     cnxn.close()
     if row != None:

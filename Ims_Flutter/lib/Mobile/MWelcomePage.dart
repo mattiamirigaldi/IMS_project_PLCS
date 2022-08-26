@@ -8,7 +8,7 @@ class MWelcome extends StatelessWidget {
   const MWelcome({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    late String URLaddress;
+    late String URLaddress = "172.21.211.15";
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.green,
@@ -52,8 +52,10 @@ class MWelcome extends StatelessWidget {
                           width: 400, height: 100))),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 150, vertical: 10),
+                    const EdgeInsets.symmetric(horizontal: 80, vertical: 10),
                 child: TextFormField(
+                  initialValue: URLaddress,
+                  textAlign: TextAlign.center,
                   decoration: const InputDecoration(
                       hintText: "Enter URL to access the server",
                       labelText: "Server URL",
@@ -89,14 +91,14 @@ class MWelcome extends StatelessWidget {
                 child: Center(
                   child: Container(
                     margin: const EdgeInsets.symmetric(
-                        horizontal: 100, vertical: 10),
+                        horizontal: 80, vertical: 20),
                     child: const Center(
                         child: Text("Enter",
                             style: TextStyle(
                                 fontSize: 40,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black))),
-                    height: 50,
+                    height: 80,
                     width: 500,
                     decoration: BoxDecoration(
                       color: Colors.green,
