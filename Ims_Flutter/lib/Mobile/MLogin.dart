@@ -31,8 +31,8 @@ class _TLoginPageState extends State<MLoginPage> {
                 child: Center(
                     child: Image(
                         image: AssetImage('images/ims.jpg'),
-                        height: 180,
-                        width: 180))),
+                        height: 150,
+                        width: 150))),
             const Center(
                 child: Text("Welcome (MOBILE)",
                     textAlign: TextAlign.center,
@@ -47,18 +47,11 @@ class _TLoginPageState extends State<MLoginPage> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                       textScaleFactor: 2)),
             ),
-            // If wanted to implement with inf loop :
-            // Padding(
-            //       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
-            //       child: Center(
-            //           child: CircularProgressIndicator(
-            //               valueColor:
-            //                   AlwaysStoppedAnimation<Color>(Colors.green)))),
             InkWell(
                 child: Center(
                     child: Container(
                   margin:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: const Center(
                       child: Text("LOGIN",
                           textAlign: TextAlign.center,
@@ -76,14 +69,21 @@ class _TLoginPageState extends State<MLoginPage> {
                   ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text("ey babaaaa")));
                 }),
+            // If wanted to implement with inf loop :
+            const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                child: Center(
+                    child: CircularProgressIndicator(
+                        valueColor:
+                            AlwaysStoppedAnimation<Color>(Colors.green)))),
             Align(
-              alignment: Alignment.bottomLeft,
+              alignment: Alignment.bottomCenter,
               child: InkWell(
-                child: const Text("> Login with credentials",
+                child: const Text(" * Login with Credentials * ",
                     style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        fontSize: 20,
-                        color: Colors.blue)),
+                        backgroundColor: Colors.green,
+                        fontSize: 25,
+                        color: Colors.black)),
                 onTap: () {
                   Navigator.push(
                       context,
@@ -92,15 +92,15 @@ class _TLoginPageState extends State<MLoginPage> {
                 },
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
             Align(
-              alignment: Alignment.bottomLeft,
+              alignment: Alignment.bottomCenter,
               child: InkWell(
-                child: const Text("> Login as operator",
+                child: const Text(" * Login as Operator * ",
                     style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        fontSize: 20,
-                        color: Colors.blue)),
+                        backgroundColor: Colors.green,
+                        fontSize: 25,
+                        color: Colors.black)),
                 onTap: () {
                   Navigator.push(
                       context,

@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 from flask import Flask, Blueprint, render_template, redirect, json, jsonify, url_for, request
 import pyodbc
 
@@ -107,7 +108,7 @@ def OprLoginRFID():
     cnxn.close()
     if row != None:
         print("Operator Found : Firstname is " + row.firstname)
-        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, row.rfid)
+        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid), str(row.admin_id))
     else:
         print("Operator_not_found")
         return jsonify(["Operator not found"])
@@ -126,13 +127,49 @@ def OprLoginCredential():
     cnxn.close()
     if row != None:
         print("operator Found : firstname is " + row.firstname)
-        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, row.rfid)
+        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid), str(row.admin_id))
     else:
         print("operator Not found")
         return jsonify(["not_found"])
 
 #############################################################
+# List Customers
+@mobile_methods.route("/mobile/ListCustomers/<adminID>/<oprRFID>", methods=["GET", "POST"])
+def mobile_ListCustomers(adminID,oprRFID):
+    print(adminID,oprRFID)
+    cnxn = connection()
+    cursor = cnxn.cursor()
+    check_query = "SELECT * FROM customers where admin_id = (?) AND opr_id = (?)"
+    cursor.execute(check_query,adminID,oprRFID)
+    j = 0
+    fname = []
+    lname = []
+    uname = []
+    email = []
+    rfid = []
+    data = []
+    for row in cursor:
+        customers = {"fname": row[3], "lname": row[4], "uname": row[5], "email": row[6], "rfid": row[8]}
+        data.append(customers)
+    if cursor.rowcount == 0:
+        cnxn.close()
+        print("There are no Customer for you")
+        return jsonify(["not_found"])
+    else:      
+        print("------Customer Found ------")
+        print("------ 111111 ------")
+        for i in data:
+            fname.append(data[j]["fname"])
+            lname.append(data[j]["lname"])
+            uname.append(data[j]["uname"])
+            email.append(data[j]["email"])
+            rfid.append(data[j]["rfid"])
+            j += 1
+        cnxn.close()
+        print("------ 222222 ------")
+        return jsonify([fname, lname, uname, email, rfid]) 
 
+#############################################################
 # List the User Items
 @mobile_methods.route("/mobile/UserItems/<usr>", methods=["GET", "POST"])
 def mobile_ListUserItems(usr):
@@ -211,15 +248,14 @@ def mobile_ListAllItems():
 
 
 # add customer check
-@mobile_methods.route("/mobile/Operator/AddCustomerCheck", methods=["GET", "POST"])
-def totem_op_add_customer_check():
+@mobile_methods.route("/mobile/AddCustomerCheck/<adminID>/<opr>", methods=["GET", "POST"])
+def mobile_op_add_customer_check(adminID,opr):
     cnxn = connection()
     cursor = cnxn.cursor()
     if request.method == 'POST':
         username = request.form["username"]
-    check_query = "SELECT * FROM [Library_Clients] WHERE username = (?) "
-    value = (username)
-    cursor.execute(check_query, value)
+    check_query = "SELECT * FROM customers WHERE username = (?) AND admin_id = (?) AND opr_id = (?) "
+    cursor.execute(check_query,username,adminID,opr)
     row = cursor.fetchone()
     cnxn.close()
     if row != None:
@@ -229,27 +265,31 @@ def totem_op_add_customer_check():
 
 
 # add customer
-@mobile_methods.route("/mobile/Operator/AddCustomer", methods=["GET", "POST"])
-def totem_op_add_customer():
+@mobile_methods.route("/mobile/AddCustomer/<adminID>/<opr>", methods=["GET", "POST"])
+def mobile_op_add_customer(adminID,opr):
     cnxn = connection()
     cursor = cnxn.cursor()
     global user_add_flag
-
     if request.method == 'POST':
-        firstName = request.form["firstName"]
-        lastName = request.form["lastName"]
+        firstname = request.form["firstName"]
+        lastname = request.form["lastName"]
         username = request.form["username"]
         mail = request.form["email"]
-        password = request.form["password"]
-
-    check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
-    value = (rfid)
-    cursor.execute(check_query, value)
-    row = cursor.fetchone()
-
+        pwd = request.form["password"]
+        rfid_flag = request.form["rfid_flag"]
+    print("11111111111")
+    if rfid_flag == "yes" :
+        check_query = "SELECT * FROM customers WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?)"
+        cursor.execute(check_query, rfid, adminID, opr)
+        rfiddd = rfid
+        row = cursor.fetchone()
+    else :
+        rfiddd = None
+        row = None
+    print("22222222222")
     if row == None:
-        insert_query = '''INSERT INTO Library_Clients VALUES (?,?,?,?,?,?,'usr');'''  # the '?' are placeholders
-        value = (firstName, lastName, username, mail, password, rfid)
+        insert_query = '''INSERT INTO customers VALUES (?,?,?,?,?,?,?,?,?);'''  # the '?' are placeholders
+        value = (adminID, opr, rfiddd, firstname, lastname, username, mail, pwd, rfiddd)
         cursor.execute(insert_query, value)
         cnxn.commit()
         cnxn.close()
@@ -264,18 +304,29 @@ def totem_op_add_customer():
 #############################################################
 
 # Remove Customer
-@mobile_methods.route("/mobile/Operator/RemoveCustomer", methods=["GET", "POST"])
-def RemoveCustomer():
+@mobile_methods.route("/mobile/RemoveCustomer/<adminID>/<opr>", methods=["GET", "POST"])
+def mobile_RemoveCustomer(adminID,opr):
     cnxn = connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM [Library_Clients] WHERE rfid_i = (?) and role_i = (?)"
-    value = (rfid,'usr')
+    print("33333333")
+    if request.method == 'POST':
+        cst_username = request.form["cst_username"]
+        usrn_rfid = request.form["usrn_rfid"]
+    if usrn_rfid == "usrn" :
+        check_query = "SELECT * FROM customers WHERE username = (?) AND admin_id = (?) AND opr_id = (?)"
+        value = (cst_username,adminID,opr)
+        delete_query = "DELETE FROM customers WHERE username = (?) AND admin_id = (?) AND opr_id = (?)"
+        delete_value = (cst_username,adminID,opr)
+    else :
+        check_query = "SELECT * FROM customers WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?)"        
+        value = (rfid,adminID,opr)
+        delete_query = "DELETE FROM customers WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?)"
+        delete_value = (rfid,adminID,opr)
     cursor.execute(check_query, value)
     row = cursor.fetchone()
+    print("66666666")
     if row != None :
-        check_query = "DELETE FROM [Library_Clients] WHERE rfid_i = (?)"
-        value = (rfid)
-        cursor.execute(check_query, value)
+        cursor.execute(delete_query, delete_value)
         cnxn.commit()
         cnxn.close()
         print("Operator removed a User successfully")

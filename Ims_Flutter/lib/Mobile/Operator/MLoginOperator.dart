@@ -29,48 +29,11 @@ class _TLoginOperatorState extends State<TLoginOperator> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            const Center(
-                child: Text("Welcome ",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                    textScaleFactor: 3)),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
-              child: Center(
-                  child: Text("Please scan your RFID then click LOGIN button",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                      textScaleFactor: 2)),
-            ),
-            // If wanted to implement with inf loop :
-            // Padding(
-            //       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
-            //       child: Center(
-            //           child: CircularProgressIndicator(
-            //               valueColor:
-            //                   AlwaysStoppedAnimation<Color>(Colors.green)))),
-            InkWell(
-                child: Center(
-                    child: Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: const Center(
-                      child: Text("LOGIN",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold))),
-                  height: 50,
-                  width: 800,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.green),
-                )),
-                onTap: () async {
-                  await Httpservices.totemLoginOp(context);
-                  //ScaffoldMessenger.of(context).showSnackBar(
-                  //    const SnackBar(content: Text("Login Success")));
-                }),
+            //const Center(
+            //    child: Text("Welcome ",
+            //        textAlign: TextAlign.center,
+            //        style: TextStyle(fontWeight: FontWeight.bold),
+            //        textScaleFactor: 3)),
             Form(
               key: _formKey,
               child: Column(
@@ -78,7 +41,7 @@ class _TLoginOperatorState extends State<TLoginOperator> {
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                     child: Center(
-                        child: Text("Or sign with your credentials",
+                        child: Text("Please enter your credentials",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black),
@@ -145,7 +108,7 @@ class _TLoginOperatorState extends State<TLoginOperator> {
                       onTap: () async {
                         if (_formKey.currentState != null) {
                           if (_formKey.currentState!.validate()) {
-                            await Httpservices.totemLoginCredentialOp(
+                            await Httpservices.MobileLoginCredentialOp(
                                 username, password, context);
                             // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Login Success")));
                           }
@@ -153,7 +116,44 @@ class _TLoginOperatorState extends State<TLoginOperator> {
                       })
                 ],
               ),
-            )
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+              child: Center(
+                  child: Text("Or scan your RFID then click LOGIN button",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                      textScaleFactor: 2)),
+            ),
+            const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                child: Center(
+                    child: CircularProgressIndicator(
+                        valueColor:
+                            AlwaysStoppedAnimation<Color>(Colors.green)))),
+            InkWell(
+                child: Center(
+                    child: Container(
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: const Center(
+                      child: Text("LOGIN",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold))),
+                  height: 50,
+                  width: 800,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.green),
+                )),
+                onTap: () async {
+                  await Httpservices.totemLoginOp(context);
+                  //ScaffoldMessenger.of(context).showSnackBar(
+                  //    const SnackBar(content: Text("Login Success")));
+                }),
+            // If wanted to implement with inf loop :
           ]),
     );
   }

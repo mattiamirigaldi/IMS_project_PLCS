@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import './../routes.dart';
 import 'User/services/MUs_http_services.dart';
 
@@ -8,7 +9,7 @@ class MWelcome extends StatelessWidget {
   const MWelcome({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    late String URLaddress = "172.21.211.15";
+    late String URLaddress = "192.168.1.6";
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.green,
@@ -57,7 +58,7 @@ class MWelcome extends StatelessWidget {
                   initialValue: URLaddress,
                   textAlign: TextAlign.center,
                   decoration: const InputDecoration(
-                      hintText: "Enter URL to access the server",
+                      hintText: "Enter IP address to access the server",
                       labelText: "Server URL",
                       border: OutlineInputBorder()),
                   onChanged: (String value) {
@@ -76,17 +77,11 @@ class MWelcome extends StatelessWidget {
               InkWell(
                 onTap: () async {
                   if (URLaddress.isEmpty) {
-                    //await EasyLoading.showError("Please Enter the URL!");
+                    await EasyLoading.showError("Please Enter the URL!");
                   } else {
                     Myroutes.baseUrlMobile = URLaddress;
-                    //ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    //    content: Text("URL is " + Myroutes.baseUrlMobile)));
                     await Httpservices.mobileurl(context);
                   }
-                  //Navigator.push(
-                  //    context,
-                  //    MaterialPageRoute(
-                  //        builder: (context) => const TLoginPage()));
                 },
                 child: Center(
                   child: Container(

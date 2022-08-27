@@ -15,10 +15,7 @@ class hmpage_op extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.green,
-            title:
-
-                //Text("HELLO DEAR BOOK LOVER!"),
-                const Image(
+            title: const Image(
               image: AssetImage('images/logo.png'),
               height: 50,
             )),

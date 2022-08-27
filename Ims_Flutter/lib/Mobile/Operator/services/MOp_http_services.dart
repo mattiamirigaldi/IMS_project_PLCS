@@ -9,26 +9,34 @@ import 'package:ims/Mobile/Operator/MRemoveBook.dart';
 // to route
 import '../../../routes.dart';
 import '../MHomePage_op.dart';
+import '../MListCustomers.dart';
 import '../MRemoveCustomer.dart';
+import 'package:ims/Mobile/Operator/opr_data.dart';
 
-String baseUrl = Myroutes.baseUrl;
+String baseUrlMobile = 'http://' + (Myroutes.baseUrlMobile) + ':5000';
+String ListCustomers = baseUrlMobile + '/mobile/ListCustomers/';
+String AddCustomerCheck = baseUrlMobile + '/mobile/AddCustomerCheck/';
+String AddCustomer = baseUrlMobile + '/mobile/AddCustomer/';
+String RemoveCustomer = baseUrlMobile + '/mobile/RemoveCustomer/';
 
 class Httpservices {
   static final _client = http.Client();
   static final _totemOprLoginRFIDUrl =
-      Uri.parse(baseUrl + '/mobile/OprLoginRFID');
-  static final _totemOprLoginCredentialUrl =
-      Uri.parse(baseUrl + '/mobile/OprLoginCredential');
-  //static final _bookcheckurl = Uri.parse(baseUrl + '/mobile/BookCheck');
-  static final _totemAddCustomer =
-      Uri.parse(baseUrl + '/mobile/Operator/AddCustomer');
-  static final _totemAddCustomerCheck =
-      Uri.parse(baseUrl + '/mobile/Operator/AddCustomerCheck');
-  static final _totemRemoveCustomer =
-      Uri.parse(baseUrl + '/mobile/Operator/RemoveCustomer');
-  static final _totemAddBook = Uri.parse(baseUrl + '/mobile/Operator/AddBook');
+      Uri.parse(baseUrlMobile + '/mobile/OprLoginRFID');
+  static final _MobileOprLoginCredentialUrl =
+      Uri.parse(baseUrlMobile + '/mobile/OprLoginCredential');
+  static final _totemAddBook =
+      Uri.parse(baseUrlMobile + '/mobile/Operator/AddBook');
   static final _totemRemoveBook =
-      Uri.parse(baseUrl + '/mobile/Operator/RemoveBook');
+      Uri.parse(baseUrlMobile + '/mobile/Operator/RemoveBook');
+
+  static final opr_buffer = opr_data(
+      mail: '',
+      username: '',
+      lastname: '',
+      firstname: '',
+      rfid: '',
+      adminID: '');
 
   // Login with rfid method
   static totemLoginOp(context) async {
@@ -38,6 +46,12 @@ class Httpservices {
       if (json[0] == "Operator_not_found") {
         await EasyLoading.showError(json[0]);
       } else {
+        opr_buffer.firstname = json[1];
+        opr_buffer.lastname = json[2];
+        opr_buffer.username = json[3];
+        opr_buffer.mail = json[4];
+        opr_buffer.rfid = json[5];
+        opr_buffer.adminID = json[6];
         await EasyLoading.showSuccess("Welcome dear Operator");
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const hmpage_op()));
@@ -48,15 +62,21 @@ class Httpservices {
   }
 
   // Login with credentials method
-  static totemLoginCredentialOp(userName, password, context) async {
-    http.Response response = await _client.post(_totemOprLoginCredentialUrl,
+  static MobileLoginCredentialOp(userName, password, context) async {
+    http.Response response = await _client.post(_MobileOprLoginCredentialUrl,
         body: {"userName": userName, "password": password});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "not_found") {
         await EasyLoading.showError(json[0]);
       } else {
-        await EasyLoading.showSuccess("Welcome Back " + json[1]);
+        opr_buffer.firstname = json[1];
+        opr_buffer.lastname = json[2];
+        opr_buffer.username = json[3];
+        opr_buffer.mail = json[4];
+        opr_buffer.rfid = json[5];
+        opr_buffer.adminID = json[6];
+        await EasyLoading.showSuccess("Welcome Back " + json[5]);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const hmpage_op()));
       }
@@ -65,10 +85,37 @@ class Httpservices {
     }
   }
 
+  // List Customers
+  static MobileListCustomers(context) async {
+    http.Response response = await _client.get(
+        Uri.parse(ListCustomers + opr_buffer.adminID + '/' + opr_buffer.rfid));
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == "not_found") {
+        EasyLoading.showError("There are No Customers");
+      } else {
+        await EasyLoading.showSuccess("You have some Items");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MListCustomers(
+                      fname: json[0],
+                      lname: json[1],
+                      uname: json[2],
+                      email: json[3],
+                      rfid: json[4],
+                    )));
+      }
+    } else {
+      EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+    }
+  }
+
   // Add customer check
   static totemAddCustomerCheck(username) async {
-    http.Response response = await _client
-        .post(_totemAddCustomerCheck, body: {"username": username});
+    http.Response response = await _client.post(
+        AddCustomerCheck + opr_buffer.adminID + '/' + opr_buffer.rfid,
+        body: {"username": username});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       return json[0];
@@ -84,15 +131,17 @@ class Httpservices {
     username,
     email,
     password,
+    rfid_flag,
     context,
   ) async {
-    await EasyLoading.showSuccess("entered in http services");
-    http.Response response = await _client.post(_totemAddCustomer, body: {
+    http.Response response = await _client
+        .post(AddCustomer + opr_buffer.adminID + '/' + opr_buffer.rfid, body: {
       "firstName": firstName,
       "lastName": lastName,
       "email": email,
       "username": username,
-      "password": password
+      "password": password,
+      "rfid_flag": rfid_flag,
     });
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
@@ -109,8 +158,10 @@ class Httpservices {
   }
 
   // Remove customer
-  static RemoveCheck(context) async {
-    http.Response response = await _client.get(_totemRemoveCustomer);
+  static RemoveCheck(cst_username, usrn_rfid, context) async {
+    http.Response response = await _client.post(
+        RemoveCustomer + opr_buffer.adminID + '/' + opr_buffer.rfid,
+        body: {"cst_username": cst_username, "usrn_rfid": usrn_rfid});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "no") {

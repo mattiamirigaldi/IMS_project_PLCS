@@ -199,6 +199,9 @@ class _GenreListState extends State<TAddCustomer> {
                       if (_formKey.currentState != null) {
                         if (_formKey.currentState!.validate()) {
                           if (user_chk_flag == "username is valid") {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text("Register user data")));
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -210,10 +213,6 @@ class _GenreListState extends State<TAddCustomer> {
                                           password: password,
                                           context: context,
                                         )));
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content:
-                                        Text("Register user data success")));
                           } else {
                             await EasyLoading.showError(
                                 "please change the entered username");

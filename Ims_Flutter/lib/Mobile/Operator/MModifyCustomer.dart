@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:ims/Mobile/Operator/MAddCustomer.dart';
 import 'package:ims/Mobile/Operator/MRemoveCustomer.dart';
+import 'package:ims/Mobile/Operator/services/MOp_http_services.dart';
 
 class modifyCustomer extends StatelessWidget {
   const modifyCustomer({Key? key}) : super(key: key);
@@ -24,6 +25,29 @@ class modifyCustomer extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               const Center(child: Text("Please select a service")),
+              InkWell(
+                onTap: () async {
+                  await Httpservices.MobileListCustomers(context);
+                },
+                child: Center(
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 50, vertical: 30),
+                    child: const Center(
+                        child: Text("List all customers",
+                            style: TextStyle(
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black))),
+                    height: 100,
+                    width: 1500,
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
               InkWell(
                 onTap: () {
                   Navigator.push(
