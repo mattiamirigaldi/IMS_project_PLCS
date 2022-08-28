@@ -205,7 +205,8 @@ class Httpservices {
   }
 
   // Add book method
-  static MobileAddbook(Title, Author, Genre, Publisher, Date, context) async {
+  static MobileAddbook(
+      Title, Author, Genre, Publisher, Date, rfid_flag, context) async {
     http.Response response = await _client.post(
         MobileAddBook + opr_buffer.adminID + '/' + opr_buffer.rfid,
         body: {
@@ -214,6 +215,7 @@ class Httpservices {
           "Genre": Genre,
           "Publisher": Publisher,
           "Date": Date,
+          "rfid_flag": rfid_flag,
         });
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
@@ -230,9 +232,13 @@ class Httpservices {
   }
 
   // Remove book method
-  static MobileRemoveBook(context) async {
-    http.Response response = await _client.get(
-        Uri.parse(MobileRmBook + opr_buffer.adminID + '/' + opr_buffer.rfid));
+  static MobileRemoveBook(book_title, book_author, rfid_flag, context) async {
+    http.Response response = await _client
+        .post(MobileRmBook + opr_buffer.adminID + '/' + opr_buffer.rfid, body: {
+      "title": book_title,
+      "author": book_author,
+      "rfid_flag": rfid_flag
+    });
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "done") {
@@ -242,6 +248,8 @@ class Httpservices {
       } else {
         await EasyLoading.showError("The Book is not in the database");
       }
+    } else {
+      EasyLoading.showError("Error code : ${response.statusCode.toString()}");
     }
   }
 }
