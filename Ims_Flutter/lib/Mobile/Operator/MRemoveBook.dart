@@ -3,13 +3,13 @@
 import 'package:flutter/material.dart';
 import 'services/MOp_http_services.dart';
 
-class TRemoveBook extends StatefulWidget {
-  const TRemoveBook({Key? key}) : super(key: key);
+class MRemoveBook extends StatefulWidget {
+  const MRemoveBook({Key? key}) : super(key: key);
   @override
   _GenreListState createState() => _GenreListState();
 }
 
-class _GenreListState extends State<TRemoveBook> {
+class _GenreListState extends State<MRemoveBook> {
   // ignore: unused_field
   final _formKey = GlobalKey<FormState>();
   @override
@@ -52,9 +52,7 @@ class _GenreListState extends State<TRemoveBook> {
                       color: Colors.green),
                 )),
                 onTap: () async {
-                  await Httpservices.totemRemoveBook(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Login Success")));
+                  await Httpservices.MobileRemoveBook(context);
                 }),
           ]),
     );

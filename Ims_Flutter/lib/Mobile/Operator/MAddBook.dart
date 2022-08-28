@@ -3,19 +3,20 @@
 import 'package:flutter/material.dart';
 import 'MAddBookRFID.dart';
 
-class TAddBook extends StatefulWidget {
-  const TAddBook({Key? key}) : super(key: key);
+class MAddBook extends StatefulWidget {
+  const MAddBook({Key? key}) : super(key: key);
   @override
   _GenreListState createState() => _GenreListState();
 }
 
 // _RegisterPageState inherits the state of RegisterPage
-class _GenreListState extends State<TAddBook> {
+class _GenreListState extends State<MAddBook> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form
   final _formKey = GlobalKey<FormState>();
   // Register form data
-  late String Location;
+  late String Publisher;
+  late String Date;
   late String Title;
   late String Author;
   late String Genre;
@@ -115,13 +116,35 @@ class _GenreListState extends State<TAddBook> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
                     decoration: const InputDecoration(
-                      hintText: "Enter the Book's Location",
-                      labelText: 'Location',
+                      hintText: "Enter the Book's Publisher",
+                      labelText: 'Publisher',
                       border: OutlineInputBorder(),
                     ),
                     onChanged: (value) {
                       setState(() {
-                        Location = value;
+                        Publisher = value;
+                      });
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: "Enter the Book's Date",
+                      labelText: 'Date',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        Date = value;
                       });
                     },
                     validator: (String? value) {
@@ -154,11 +177,12 @@ class _GenreListState extends State<TAddBook> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => TAddBookRFID(
+                                  builder: (context) => MAddBookRFID(
                                         Title: Title,
                                         Author: Author,
                                         Genre: Genre,
-                                        Location: Location,
+                                        Publisher: Publisher,
+                                        Date: Date,
                                         context: context,
                                       )));
                           ScaffoldMessenger.of(context).showSnackBar(

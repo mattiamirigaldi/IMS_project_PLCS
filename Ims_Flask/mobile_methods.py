@@ -65,7 +65,7 @@ def UsrLoginRFID():
     cnxn.close()
     if row != None:
         print("User Found : FIRSTNAME is " + row.firstname)
-        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid))
+        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid), str(row.admin_id), str(row.opr_id))
     else:
         print("User Not found")
         return jsonify(["not_found"])
@@ -83,12 +83,10 @@ def UsrLoginCredential():
     cursor.execute(check_query, value)
     row = cursor.fetchone()
     cnxn.close()
-    #global useruser
     if row != None:
         print("User Found : FIRSTNAME is " + row.firstname)
         print("User Found : RFID is " + str(row.rfid))
-        #useruser = row.userName
-        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid))
+        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid), str(row.admin_id), str(row.opr_id))
     else:
         print("User Not found")
         return jsonify(["not found"])
@@ -171,13 +169,13 @@ def mobile_ListCustomers(adminID,oprRFID):
 
 #############################################################
 # List the User Items
-@mobile_methods.route("/mobile/UserItems/<usr>", methods=["GET", "POST"])
-def mobile_ListUserItems(usr):
-    print(usr)
+@mobile_methods.route("/mobile/UserItems/<adminID>/<opr>/<usr>", methods=["GET", "POST"])
+def mobile_ListUserItems(adminID,opr,usr):
+    print(adminID,opr,usr)
     cnxn = connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id where items.cus_id = (?) "
-    cursor.execute(check_query, usr)
+    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id where admin_id = (?) AND opr_id = (?) AND items.cus_id = (?)"
+    cursor.execute(check_query,adminID,opr,usr)
     j = 0
     tit = []
     aut = []
@@ -210,12 +208,12 @@ def mobile_ListUserItems(usr):
         
 
 # List All the Items
-@mobile_methods.route("/mobile/AllItems", methods=["GET", "POST"])
-def mobile_ListAllItems():
+@mobile_methods.route("/mobile/AllItems/<adminID>", methods=["GET", "POST"])
+def mobile_ListAllItems(adminID):
     cnxn = connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id"
-    cursor.execute(check_query)
+    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?)"
+    cursor.execute(check_query,adminID)
     j = 0
     tit = []
     aut = []
@@ -246,7 +244,7 @@ def mobile_ListAllItems():
         print("------ 222222 ------")
         return jsonify([tit, aut, gen, rfid, usr, loc])
 
-
+#############################################################
 # add customer check
 @mobile_methods.route("/mobile/AddCustomerCheck/<adminID>/<opr>", methods=["GET", "POST"])
 def mobile_op_add_customer_check(adminID,opr):
@@ -339,59 +337,58 @@ def mobile_RemoveCustomer(adminID,opr):
 #############################################################
 
 # Add Book
-@mobile_methods.route("/mobile/Operator/AddBook", methods=["GET", "POST"])
-def totem_AddBook():
+@mobile_methods.route("/mobile/AddBook/<adminID>/<opr>", methods=["GET", "POST"])
+def totem_AddBook(adminID,opr):
     cnxn = connection()
     cursor = cnxn.cursor()
     if request.method == 'POST':
         Title = request.form["Title"]
         Author = request.form["Author"]
         Genre = request.form["Genre"]
-        Location = request.form["Location"]
-        check_query = "SELECT * FROM [Items] WHERE RFID = (?)"
-        value = (rfid)
-        cursor.execute(check_query, value)
-        row = cursor.fetchone()
-        print("1111111")
-        if row == None :
-            check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?)"
-            value = (rfid)
-            cursor.execute(check_query, value)
-            row = cursor.fetchone()
-            if row == None :
-                insert_query = '''INSERT INTO Items VALUES (?,?,?,?,'-1',?);'''  # the '?' are placeholders
-                value = (Title, Author, Genre, rfid, Location)
-                cursor.execute(insert_query, value)
-                cnxn.commit()
-                cnxn.close()
-                print("222222222")
-                return jsonify(["done"])
-            return jsonify(["The Scanned RFID is a USER"])
+        Publisher = request.form["Publisher"]
+        Date = request.form["Date"]
+    check_query = "SELECT * FROM books WHERE rfid = (?)"
+    cursor.execute(check_query, rfid)
+    print("1111111")
+    if cursor.rowcount == 0 :
         print("33333333333")
-        cnxn.close()
-        return jsonify(["The book is already in the database"])
+        insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?);'''
+        insert_value = (rfid,rfid,Title,Author,Genre,Publisher,Date,rfid)
+        cursor.execute(insert_query, insert_value)
+        cnxn.commit()
+        insert_query = '''INSERT INTO items VALUES (?,?,?,?,?,?,?,?);'''
+        insert_value = (adminID,opr,None,rfid,Title,"Book","Turin",rfid)
+        cursor.execute(insert_query, insert_value)
+        cnxn.commit()
+        return jsonify(["done"])
     else :
-        return (["nano panir"])
+        cnxn.close()
+        return jsonify(["The book is already in the Database"])
+
 
 
 # Remove Book
-@mobile_methods.route("/mobile/Operator/RemoveBook", methods=["GET", "POST"])
-def totem_RemoveBook():
+@mobile_methods.route("/mobile/RemoveBook/<adminID>/<opr>", methods=["GET"])
+def totem_RemoveBook(adminID,opr):
     cnxn = connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM [Items] WHERE RFID = (?)"
-    value = (rfid)
-    cursor.execute(check_query, value)
-    row = cursor.fetchone()
-    if row != None :
-        delete_query = "DELETE FROM [Items] WHERE RFID = (?) "
-        value = (rfid)
-        cursor.execute(delete_query, value)
+    check_query = "SELECT * FROM items WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?)"
+    cursor.execute(check_query,rfid,adminID,opr)
+    print("111111111")
+    if cursor.rowcount == 0 :
+        cnxn.close()
+        print("2222222")
+        return jsonify(["no"])
+    else :
+        print("33333333")
+        delete_query = "DELETE FROM items WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?)"
+        cursor.execute(delete_query,rfid,adminID,opr)
+        cnxn.commit()
+        delete_query = "DELETE FROM books WHERE rfid = (?)"
+        cursor.execute(delete_query,rfid)
         cnxn.commit()
         cnxn.close()
-        return jsonify(["Done"])
-    cnxn.close()
-    return jsonify(["no"])
+        return jsonify(["done"])
 
 #############################################################
 

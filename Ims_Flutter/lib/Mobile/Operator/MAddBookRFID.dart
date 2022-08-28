@@ -1,27 +1,29 @@
 // ignore_for_file: file_names, camel_case_types, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import './services/MOp_http_services.dart';
+import 'package:ims/Mobile/Operator/services/MOp_http_services.dart';
 
-class TAddBookRFID extends StatefulWidget {
+class MAddBookRFID extends StatefulWidget {
   final String Title;
   final String Author;
   final String Genre;
-  final String Location;
+  final String Publisher;
+  final String Date;
 
-  const TAddBookRFID(
+  const MAddBookRFID(
       {Key? key,
       required this.Title,
       required this.Author,
       required this.Genre,
-      required this.Location,
+      required this.Publisher,
+      required this.Date,
       context})
       : super(key: key);
   @override
   _GenreListState createState() => _GenreListState();
 }
 
-class _GenreListState extends State<TAddBookRFID> {
+class _GenreListState extends State<MAddBookRFID> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,8 +45,8 @@ class _GenreListState extends State<TAddBookRFID> {
                           color: Colors.black))),
               InkWell(
                 onTap: () async {
-                  await Httpservices.totemAddbook(widget.Title, widget.Author,
-                      widget.Genre, widget.Location, context);
+                  await Httpservices.MobileAddbook(widget.Title, widget.Author,
+                      widget.Genre, widget.Publisher, widget.Date, context);
                 },
                 child: Center(
                   child: Container(

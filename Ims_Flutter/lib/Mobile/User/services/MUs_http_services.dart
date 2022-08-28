@@ -69,11 +69,17 @@ class Httpservices {
     }
   }
 
-  static final user_buffer =
-      user_data(mail: '', username: '', lastname: '', firstname: '', rfid: '');
+  static final user_buffer = user_data(
+      mail: '',
+      username: '',
+      lastname: '',
+      firstname: '',
+      rfid: '',
+      admin_id: '',
+      opr_id: '');
 
   // Login with rfid method
-  static totemLoginUs(context) async {
+  static MobileLoginUs(context) async {
     http.Response response = await _client.get(_totemUsrLoginRFIDUrl);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
@@ -87,6 +93,8 @@ class Httpservices {
         user_buffer.username = json[3];
         user_buffer.mail = json[4];
         user_buffer.rfid = json[5];
+        user_buffer.admin_id = json[6];
+        user_buffer.opr_id = json[7];
         await EasyLoading.showSuccess("Welcome dear " + json[1]);
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const hmpage_us()));
@@ -102,7 +110,7 @@ class Httpservices {
         body: {"userName": userName, "password": password});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == 'not_found') {
+      if (json[0] == "not found") {
         await EasyLoading.showError(json[0]);
       } else {
         user_buffer.firstname = json[1];
@@ -110,6 +118,8 @@ class Httpservices {
         user_buffer.username = json[3];
         user_buffer.mail = json[4];
         user_buffer.rfid = json[5];
+        user_buffer.admin_id = json[6];
+        user_buffer.opr_id = json[7];
         await EasyLoading.showSuccess("Welcome Back " + json[1]);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const hmpage_us()));
@@ -121,8 +131,13 @@ class Httpservices {
 
   // List the Rented Items
   static List_User_Items(context) async {
-    http.Response response = await _client.get(
-        Uri.parse(baseUrlMobile + "/mobile/UserItems/" + user_buffer.rfid));
+    http.Response response = await _client.get(Uri.parse(baseUrlMobile +
+        "/mobile/UserItems/" +
+        user_buffer.admin_id +
+        '/' +
+        user_buffer.opr_id +
+        '/' +
+        user_buffer.rfid));
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] != "You don't have any Item") {
@@ -150,8 +165,8 @@ class Httpservices {
 
   // List ALL Items
   static List_All_Items(context) async {
-    http.Response response =
-        await _client.get(Uri.parse(baseUrlMobile + "/mobile/AllItems"));
+    http.Response response = await _client.get(
+        Uri.parse(baseUrlMobile + "/mobile/AllItems/" + user_buffer.admin_id));
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] != "No book in the library") {

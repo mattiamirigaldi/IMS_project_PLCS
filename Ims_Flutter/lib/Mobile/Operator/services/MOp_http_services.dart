@@ -5,7 +5,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 // to display loading animation
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:ims/Mobile/Operator/MRemoveBook.dart';
+import 'package:ims/Mobile/Operator/MListItems.dart';
+import 'package:ims/Mobile/Operator/MModifyBook.dart';
 // to route
 import '../../../routes.dart';
 import '../MHomePage_op.dart';
@@ -18,6 +19,8 @@ String ListCustomers = baseUrlMobile + '/mobile/ListCustomers/';
 String AddCustomerCheck = baseUrlMobile + '/mobile/AddCustomerCheck/';
 String AddCustomer = baseUrlMobile + '/mobile/AddCustomer/';
 String RemoveCustomer = baseUrlMobile + '/mobile/RemoveCustomer/';
+String MobileAddBook = baseUrlMobile + '/mobile/AddBook/';
+String MobileRmBook = baseUrlMobile + '/mobile/RemoveBook/';
 
 class Httpservices {
   static final _client = http.Client();
@@ -25,10 +28,6 @@ class Httpservices {
       Uri.parse(baseUrlMobile + '/mobile/OprLoginRFID');
   static final _MobileOprLoginCredentialUrl =
       Uri.parse(baseUrlMobile + '/mobile/OprLoginCredential');
-  static final _totemAddBook =
-      Uri.parse(baseUrlMobile + '/mobile/Operator/AddBook');
-  static final _totemRemoveBook =
-      Uri.parse(baseUrlMobile + '/mobile/Operator/RemoveBook');
 
   static final opr_buffer = opr_data(
       mail: '',
@@ -176,14 +175,46 @@ class Httpservices {
     }
   }
 
+  // List ALL Items
+  static List_All_Items(context) async {
+    http.Response response = await _client.get(
+        Uri.parse(baseUrlMobile + "/mobile/AllItems/" + opr_buffer.adminID));
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] != "No book in the library") {
+        //await EasyLoading.showSuccess("You have some Items");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MItemsList(
+                      bookTitle: json[0],
+                      bookAuthor: json[1],
+                      bookGenre: json[2],
+                      bookRFID: json[3],
+                      bookAvalible: json[4],
+                      bookLocation: json[5],
+                    )));
+      } else {
+        await EasyLoading.showError(json[0]);
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const MmodifyBook()));
+      }
+    } else {
+      EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
   // Add book method
-  static totemAddbook(Title, Author, Genre, Location, context) async {
-    http.Response response = await _client.post(_totemAddBook, body: {
-      "Title": Title,
-      "Author": Author,
-      "Genre": Genre,
-      "Location": Location,
-    });
+  static MobileAddbook(Title, Author, Genre, Publisher, Date, context) async {
+    http.Response response = await _client.post(
+        MobileAddBook + opr_buffer.adminID + '/' + opr_buffer.rfid,
+        body: {
+          "Title": Title,
+          "Author": Author,
+          "Genre": Genre,
+          "Publisher": Publisher,
+          "Date": Date,
+        });
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "done") {
@@ -199,14 +230,15 @@ class Httpservices {
   }
 
   // Remove book method
-  static totemRemoveBook(context) async {
-    http.Response response = await _client.get(_totemRemoveBook);
+  static MobileRemoveBook(context) async {
+    http.Response response = await _client.get(
+        Uri.parse(MobileRmBook + opr_buffer.adminID + '/' + opr_buffer.rfid));
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == "Done") {
+      if (json[0] == "done") {
         await EasyLoading.showSuccess("Book removed successfully");
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const TRemoveBook()));
+            MaterialPageRoute(builder: (context) => const MmodifyBook()));
       } else {
         await EasyLoading.showError("The Book is not in the database");
       }
