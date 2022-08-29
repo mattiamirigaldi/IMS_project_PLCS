@@ -4,6 +4,7 @@ import 'package:ims/Totem/TWelcomePage.dart';
 import 'package:ims/Web_app/views/DashBoard.dart';
 import 'package:ims/Mobile/MWelcomePage.dart';
 import 'package:url_strategy/url_strategy.dart';
+import 'Web_app/views/WelcomPage.dart';
 import 'routes.dart';
 import './Web_app/data/user_data.dart';
 
@@ -28,8 +29,8 @@ class MyApp extends StatelessWidget {
       builder: EasyLoading.init(),
       initialRoute: '/web',
       routes: {
-        //Myroutes.webWelcomePage: (context) => const WelcomeHome(),
-        Myroutes.webWelcomePage: (context) => const DashBoard(customer: UserData.myCustomer),
+        Myroutes.webWelcomePage: (context) => const WelcomeHome(),
+        //Myroutes.webWelcomePage: (context) => const DashBoard(customer: UserData.myCustomer),
         Myroutes.totemWelcomePage: (context) => const TWelcome(),
         Myroutes.mobileWelcomePage: (context) => const MWelcome(),
       },

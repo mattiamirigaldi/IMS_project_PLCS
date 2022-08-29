@@ -69,10 +69,11 @@ Widget buildCardItem( {required Book item, context }) => Container(
                 fit: BoxFit.fill,
                 child: InkWell(
                   onTap: () => Navigator.push(context,
-                   MaterialPageRoute(builder: (context) => ItemPage(item: item)))
+                   PageRouteBuilder(
+                    transitionDuration: Duration(milliseconds: 350),
+                    pageBuilder: (context,__,___) => ItemPage(item: item)))
                 ),
-                
-                ),
+              ),
             ),
           )
         )
