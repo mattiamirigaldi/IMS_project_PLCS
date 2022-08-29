@@ -25,24 +25,24 @@ class _FeedDashBoardState extends State<FeedDashBoard> {
       Container(
         height: 250,
         child: ListView.separated(
-          padding: EdgeInsets.all(22),
+          padding: const EdgeInsets.all(22),
           scrollDirection: Axis.horizontal,
           itemCount: allBooks.length,
-          separatorBuilder: (context, _) => SizedBox(width: 15),
+          separatorBuilder: (context, _) => const SizedBox(width: 15),
           itemBuilder: (context, index) => buildCardItem(item: allBooks[index], context: context) 
         )
       ),
-      Text(
+      const Text(
         "Search by genre", 
-      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blueGrey) 
+        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blueGrey) 
       ),
       Container(
         height: 250,
         child: ListView.separated(
-          padding: EdgeInsets.all(22),
+          padding: const EdgeInsets.all(22),
           scrollDirection: Axis.horizontal,
           itemCount: allGenre.length,
-          separatorBuilder: (context, _) => SizedBox(width: 15),
+          separatorBuilder: (context, _) => const SizedBox(width: 15),
           itemBuilder: (context, index) => buildCardGenre(item: allGenre[index], context: context) 
         )
       ) 
@@ -74,8 +74,8 @@ Widget buildCardItem( {required Book item, context }) => Container(
       ),
     ),
     const SizedBox(height: 4),
-    Text(item.title, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-    Text(item.author, style: TextStyle(fontSize: 20, color: Colors.grey))
+    Text(item.title, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+    Text(item.author, style: const TextStyle(fontSize: 20, color: Colors.grey))
   ]),
 ); 
 
@@ -104,6 +104,6 @@ Widget buildCardGenre( {required Genre item, context }) => Container(
       ),
     ),
     const SizedBox(height: 4),
-    Text(item.name, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))
+    Text(item.name, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold))
   ]),
 ); 

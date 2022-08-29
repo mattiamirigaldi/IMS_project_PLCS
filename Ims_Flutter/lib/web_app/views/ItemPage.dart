@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/Web_app/model/book.dart';
 import 'package:ims/Web_app/views/components/App_bar.dart';
-import 'package:ims/Web_app/model/customer.dart';
 
 class ItemPage extends StatefulWidget {
   final Book item;
@@ -32,7 +30,7 @@ class _ItemPageState extends State<ItemPage> {
       backgroundColor: item.color,
       elevation: 0,
       leading: IconButton(
-        icon: Icon(Icons.arrow_back,color: Colors.white),
+        icon: const Icon(Icons.arrow_back,color: Colors.white),
         onPressed: () => Navigator.pop(context),
         ), 
     ),
@@ -54,7 +52,7 @@ class _ItemPageState extends State<ItemPage> {
               padding: EdgeInsets.only(top:  size.height*0.12, left: 30, right: 30),
               height: 500,
               width: size.width,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(20))),
                 child: Column(
@@ -64,15 +62,15 @@ class _ItemPageState extends State<ItemPage> {
                     const SizedBox(height: 150),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Text(item.description, style: TextStyle(height: 1.5))
+                      child: Text(item.description, style: const TextStyle(height: 1.5))
                     ),
                     const SizedBox(height: 50),
-                    AvailableWithFav()
+                    availableWithFav()
                 ]),
             ),
             Align(
               alignment: Alignment.topCenter,
-              child: TopBody(context, size))
+              child: topBody(context, size))
           ]
         ),
       )
@@ -81,46 +79,46 @@ class _ItemPageState extends State<ItemPage> {
   );
 }
 
-  Container TopBody(BuildContext context, Size size) {
+  Container topBody(BuildContext context, Size size) {
     return Container(
       height: 500,
       width: size.width*0.5,
-      margin: EdgeInsets.only( left: 100, right: 100),
+      margin: const EdgeInsets.only( left: 100, right: 100),
       child: Row(
         children: <Widget>[
           Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: 100),
+            const SizedBox(height: 100),
             RichText(
               text: TextSpan(
                 children: [
-                  TextSpan(text: "Title : ", style: TextStyle (fontSize: 24, fontWeight: FontWeight.normal, color: Colors.grey)),
-                  TextSpan(text: item.title, style: TextStyle(fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold, )),
+                  const TextSpan(text: "Title : ", style: TextStyle (fontSize: 24, fontWeight: FontWeight.normal, color: Colors.grey)),
+                  TextSpan(text: item.title, style: const TextStyle(fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold, )),
                 ]
               )
             ),
             RichText(
               text: TextSpan(
                 children: [
-                  TextSpan(text: "Author : ", style: TextStyle (fontSize: 24, fontWeight: FontWeight.normal, color: Colors.grey)),
-                  TextSpan(text: item.author, style: TextStyle(fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold, )),
+                  const TextSpan(text: "Author : ", style: TextStyle (fontSize: 24, fontWeight: FontWeight.normal, color: Colors.grey)),
+                  TextSpan(text: item.author, style: const TextStyle(fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold, )),
                 ]
               )
             ),
             RichText( 
               text: TextSpan(
                 children: [
-                  TextSpan(text: "Location : ", style: TextStyle (fontSize: 24, fontWeight: FontWeight.normal, color: Colors.grey)),
-                  TextSpan(text: item.location, style: TextStyle(fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold, )),
+                  const TextSpan(text: "Location : ", style: TextStyle (fontSize: 24, fontWeight: FontWeight.normal, color: Colors.grey)),
+                  TextSpan(text: item.location, style: const TextStyle(fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold, )),
                 ]
               )
             ),
-            SizedBox(height: 100),
+            const SizedBox(height: 100),
             RichText(
                   text: TextSpan(
                     children: [
-                      TextSpan(text: "Price\n", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 24 )),
+                      const TextSpan(text: "Price\n", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 24 )),
                       TextSpan(
                         text: "\$${item.price}",
                         style: Theme.of(context).textTheme.headline4?.copyWith(color: Colors.black, fontWeight: FontWeight.bold)
@@ -134,7 +132,7 @@ class _ItemPageState extends State<ItemPage> {
       );
   }
 
-Container AvailableWithFav() {
+Container availableWithFav() {
     return Container(
       height: 140,
       child: Row(
@@ -167,7 +165,7 @@ Container AvailableWithFav() {
                   primary: Colors.white,
                   textStyle: const TextStyle(fontSize: 20),
                   ),
-                  child: item.available ? Text("RESERVE IT") : Text("NOT AVAILABLE"),
+                  child: item.available ? const Text("RESERVE IT") : const Text("NOT AVAILABLE"),
                     onPressed: () {
                       setState(() {
                        if (item.available) {

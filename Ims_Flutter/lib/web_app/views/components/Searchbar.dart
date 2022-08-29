@@ -91,7 +91,7 @@ class _SearchBarState extends State<SearchBar> {
                         setState(() {
                           //final List<String> FoundItems = ShowResults;
                           typed = value;
-                          print(typed);
+                          // print(typed);
                           //here called each 300 ms the http service that results the top 5 correspondence
                         });
                       }),

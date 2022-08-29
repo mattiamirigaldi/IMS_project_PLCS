@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ims/Web_app/views/components/profile_widget.dart';
-import './../GenreList.dart';
 import 'package:ims/Web_app/model/customer.dart';
 import '../UserSettings.dart';
 

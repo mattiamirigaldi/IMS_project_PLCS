@@ -40,7 +40,7 @@ class CustomAppBar extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 decoration:
                  BoxDecoration (
-                  image: DecorationImage(
+                  image: const DecorationImage(
                     image: AssetImage( "images/ims.jpg"),
                     //fit : BoxFit.fill,
                     alignment: Alignment.center
@@ -52,7 +52,7 @@ class CustomAppBar extends StatelessWidget {
               Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => DashBoard(customer: UserData.myCustomer))
+              builder: (context) => const DashBoard(customer: UserData.myCustomer))
               )
           ),
           const SizedBox(width: 20),
@@ -60,7 +60,7 @@ class CustomAppBar extends StatelessWidget {
               style:
                   const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
           const Spacer(),
-          SearchBar(),
+          const SearchBar(),
           MenuItems(
             title: "Browse",
             icon: Icons.arrow_drop_down_rounded,
@@ -74,7 +74,7 @@ class CustomAppBar extends StatelessWidget {
             userName: userName,
           ),
           Padding(
-            padding: EdgeInsets.only(right: 70),
+            padding: const EdgeInsets.only(right: 70),
             child: MenuItems(
                 title: "",
                 icon: Icons.manage_accounts,

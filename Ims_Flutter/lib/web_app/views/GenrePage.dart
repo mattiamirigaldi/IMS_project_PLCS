@@ -32,13 +32,13 @@ class _GenrePageState extends State<GenrePage> {
       //   width: double.infinity,
       //   height: 150,
       // ),
-      Text("All items that are "+genre, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+      Text("All items that are "+genre, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
       Expanded(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 50),
           child: GridView.builder(
             itemCount: allBooks.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 8,
               mainAxisSpacing: 20,
               crossAxisSpacing: 20,
@@ -73,7 +73,7 @@ Widget buildCardItem( {required Book item, context }) => Container(
       ),
     ),
     const SizedBox(height: 4),
-    Text(item.title, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-    Text(item.author, style: TextStyle(fontSize: 20, color: Colors.grey))
+    Text(item.title, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+    Text(item.author, style: const TextStyle(fontSize: 20, color: Colors.grey))
   ]),
 ); 
