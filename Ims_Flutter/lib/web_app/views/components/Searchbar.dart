@@ -34,7 +34,7 @@ class _SearchBarState extends State<SearchBar> {
       child: Form(
         key: _formKey,
         child: Container(
-          margin: EdgeInsets.all(10),
+          margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(
               //borderRadius: BorderRadius.circular(8),
               color: Colors.grey.withOpacity(0.1),
@@ -50,7 +50,7 @@ class _SearchBarState extends State<SearchBar> {
                   //isExpanded: true,
                   dropdownColor: Colors.white,
                   alignment: Alignment.center,
-                  icon: Icon(Icons.keyboard_arrow_down),
+                  icon: const Icon(Icons.keyboard_arrow_down),
                   // Array list of items
                   items: filters.map((String items) {
                     return DropdownMenuItem(
@@ -71,7 +71,7 @@ class _SearchBarState extends State<SearchBar> {
            
             Expanded(
                 child: PopupMenuButton<Book>(
-                  offset: Offset(0.0, 44),
+                  offset: const Offset(0.0, 44),
                   child: TextFormField(             
                     
                     cursorColor: Colors.black,
@@ -84,7 +84,7 @@ class _SearchBarState extends State<SearchBar> {
                         onPressed: () {},
                       ),
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 5),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 5),
                       hintText: "Search ... ",
                     ),
                       onChanged: (value) {

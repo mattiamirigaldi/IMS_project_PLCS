@@ -1,11 +1,20 @@
-1) finish the profile customization
-2) Feed dashboard
-3) finish web services
+
+Capire come Implementare userdata model per tutti i servizi offerti --> al login prendere i dati con http
+
+1) finish the profile customization => NOT USING CUSTOMER SINCE REQUIRES TIME TO GET USED TO IT 
+Basically only one service at login get all the data and then needed to make it customazible when making changes on it 
+2) finish web services  => login as operator/login as supervisor/add operator services ( add/remove book, add/remove customer, modify book)/add supervisor services ( register an operator )
 Isn't easier to retrieve all the user data once al login and then use it in all the functions instead of always calling the httpservices ??
+
+3) Feed dashboard!!!!!
 
 --> Change paradigm of user using the mycustomer function
 --> Change registration adding possibility of putting picture
 --> Implementare tutti i servizi in dashboard
+
+
+4) Start to work with tables and organize better the work in flask
+
 
 optional :
 --> adding in user info the numbers of read book,number of book booked

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ims/Web_app/services/http_services.dart';
 import 'package:ims/Web_app/views/GenreList.dart';
+import 'package:ims/Web_app/views/UserSettings.dart';
+import 'package:ims/Web_app/data/user_data.dart';
 
 class MenuItems extends StatefulWidget {
   final String title;
@@ -39,7 +40,7 @@ class _MenuItemsState extends State<MenuItems> {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<String>(
-        offset: Offset(10, 50),
+        offset: const Offset(10, 50),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -68,7 +69,8 @@ class _MenuItemsState extends State<MenuItems> {
 
 void choiceAction (String choice, String userName, BuildContext context) async {
       if (choice == "My profile"){
-          await Httpservices.settings(userName, context);
+        Navigator.push(context,
+          MaterialPageRoute(builder: (context) => SettingPage(myCustomer: UserData.getCustomer())));
           ScaffoldMessenger.of(context)
              .showSnackBar(const SnackBar(content: Text("Settings")));
       } else if (choice == "Subjects"){

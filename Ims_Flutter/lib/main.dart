@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/Totem/TWelcomePage.dart';
+import 'package:ims/Web_app/views/DashBoard.dart';
 import 'package:url_strategy/url_strategy.dart';
-import 'package:ims/web_app/views/WelcomPage.dart';
+import 'package:ims/Web_app/views/WelcomPage.dart';
 import 'routes.dart';
+import './Web_app/data/user_data.dart';
 
-void main() {
-  setPathUrlStrategy(); //to remove # in url
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  setPathUrlStrategy(); //To remove # in url
+  await UserData.init(); //Retrieve user loaded on disk
   runApp(const MyApp());
 }
 
@@ -24,8 +28,9 @@ class MyApp extends StatelessWidget {
       builder: EasyLoading.init(),
       initialRoute: '/web',
       routes: {
-        Myroutes.WebWelcomePage: (context) => const WelcomeHome(),
-        Myroutes.TotemWelcomePage: (context) => const TWelcome(),
+        //Myroutes.WebWelcomePage: (context) => const WelcomeHome(),
+        Myroutes.webWelcomePage: (context) => const DashBoard(customer: UserData.myCustomer),
+        Myroutes.totemWelcomePage: (context) => const TWelcome(),
       },
     );
   }

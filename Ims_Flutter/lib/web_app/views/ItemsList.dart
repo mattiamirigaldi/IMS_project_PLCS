@@ -1,6 +1,6 @@
 // ignore_for_file: file_names, non_constant_identifier_names
 
-import 'dart:html';
+// import 'dart:html';
 
 import 'package:flutter/material.dart';
 
@@ -68,7 +68,6 @@ class ProductBox extends StatelessWidget {
     } else {
       TextToShow = "Location is: " + Location;
     }
-    ;
     return Container(
         padding: const EdgeInsets.all(2),
         height: 120,

@@ -2,10 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c0fe7fc-4b70-4f13-828c-0dcd61a577d3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/connectionToDb.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/totem_methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/totem_methods.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webApp_methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/webApp_methods.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/routes.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/todo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/todo.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/data/user_data.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/data/user_data.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/model/customer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/model/customer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/services/http_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/services/http_services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/DashBoard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/DashBoard.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/ItemsList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/ItemsList.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/UserSettings.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/UserSettings.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/WelcomPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/WelcomPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/components/Searchbar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/components/Searchbar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/components/UserDashboard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/components/UserDashboard.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/components/menu_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/components/menu_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/components/profile_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/components/profile_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/windows/flutter/generated_plugins.cmake" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,8 +69,8 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app.py" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../ISA/labs/CNNs/exercise_0.py" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RunManager" selected="Python.app">
     <configuration name="app" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
@@ -179,7 +194,11 @@
       <workItem from="1657813753335" duration="597000" />
       <workItem from="1657874949017" duration="1850000" />
       <workItem from="1657881703290" duration="513000" />
-      <workItem from="1657902665283" duration="549000" />
+      <workItem from="1657902665283" duration="848000" />
+      <workItem from="1657985184807" duration="647000" />
+      <workItem from="1658243164927" duration="1456000" />
+      <workItem from="1661190460106" duration="535000" />
+      <workItem from="1661265333454" duration="622000" />
     </task>
     <servers />
   </component>
@@ -200,7 +219,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/app_py$flaskProject.coverage" NAME="flaskProject Coverage Results" MODIFIED="1657796470675" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/flaskProject$flaskProject.coverage" NAME="flaskProject Coverage Results" MODIFIED="1651571246353" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/app_py$app.coverage" NAME="app Coverage Results" MODIFIED="1657881813630" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/app_py$app.coverage" NAME="app Coverage Results" MODIFIED="1661265349369" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/app_py$totem_methods.coverage" NAME="totem_methods Coverage Results" MODIFIED="1657722470164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

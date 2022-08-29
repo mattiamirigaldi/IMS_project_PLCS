@@ -79,25 +79,25 @@ def login():
         return jsonify(["user not registered"])
 
 
-@webApp_methods.route("/settings/<userName>", methods=["GET", "POST"])
-def settings(userName):
-    cnxn = db.connection()
-    cursor = cnxn.cursor()
-    if request.method == 'POST':
-        userName = request.form["userName"]
-        print(userName)
-    check_query = "SELECT * FROM [Library_Clients] WHERE userName = (?) "
-    value = (userName)
-    cursor.execute(check_query, value)
-    row = cursor.fetchone()
-    if row != None :    
-        print("SETTINGS : FIRSTNAME is " + row.firstName)
-        print("Access to Settings url : Successful")
-        cnxn.close()
-        return jsonify(row.firstName, row.lastName, row.userName, row.mail, row.pwd)
-    else: 
-        cnxn.close()
-        return jsonify(["1"],["2"],["3"],["4"],["5"])
+# @webApp_methods.route("/settings/<userName>", methods=["GET", "POST"])
+# def settings(userName):
+#     cnxn = db.connection()
+#     cursor = cnxn.cursor()
+#     if request.method == 'POST':
+#         userName = request.form["userName"]
+#         print(userName)
+#     check_query = "SELECT * FROM [Library_Clients] WHERE userName = (?) "
+#     value = (userName)
+#     cursor.execute(check_query, value)
+#     row = cursor.fetchone()
+#     if row != None :
+#         print("SETTINGS : FIRSTNAME is " + row.firstName)
+#         print("Access to Settings url : Successful")
+#         cnxn.close()
+#         return jsonify(row.firstName, row.lastName, row.userName, row.mail, row.pwd)
+#     else:
+#         cnxn.close()
+#         return jsonify(["1"],["2"],["3"],["4"],["5"])
 
 @webApp_methods.route("/settings_ch/<usr>", methods=["GET", "POST"])
 def settings_ch(usr):

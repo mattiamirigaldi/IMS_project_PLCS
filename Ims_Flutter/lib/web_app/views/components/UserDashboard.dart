@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ims/Web_app/views/components/profile_widget.dart';
 import './../GenreList.dart';
-import './../../services/http_services.dart';
 import 'package:ims/Web_app/model/customer.dart';
+import '../UserSettings.dart';
 
 class UserDashBoard extends StatelessWidget {
   final Customer customer;
@@ -12,10 +12,7 @@ class UserDashBoard extends StatelessWidget {
       : super(key: key);
   @override 
   Widget build(BuildContext context){
-    String name = customer.name;
-    String userName = customer.userName;
-    String email = customer.email;
-    String news = customer.news;
+    String name = customer.firstName;
     return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -29,7 +26,11 @@ class UserDashBoard extends StatelessWidget {
               // Icon pic
               ProfileWidget(
                 imagePath : customer.imagePath,
-                onClicked: () async {},
+                onClicked: () async {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => SettingPage(myCustomer:customer))
+                  );
+                },
               ),
               const SizedBox(height: 40),
               // 
@@ -43,12 +44,12 @@ class UserDashBoard extends StatelessWidget {
    child: Column( 
     children: [
       Text(
-      customer.name,
-      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24 ),
+      customer.firstName,
+      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24 ),
       ),
       Text(
         customer.email,
-        style: TextStyle(color: Colors.grey),
+        style: const TextStyle(color: Colors.grey),
       ),
     ],
    ),
@@ -56,16 +57,16 @@ class UserDashBoard extends StatelessWidget {
 
 
  Widget buildNews(Customer customer) => Container(
-  padding: EdgeInsets.symmetric(horizontal: 48),
+  padding: const EdgeInsets.symmetric(horizontal: 48),
    child: Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text('News',
+      const Text('News',
       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.amber),
       ),
       Text(
         customer.news,
-        style: TextStyle(fontSize: 16, height: 1.4),)
+        style: const TextStyle(fontSize: 16, height: 1.4),)
     ],
    ),
  );}

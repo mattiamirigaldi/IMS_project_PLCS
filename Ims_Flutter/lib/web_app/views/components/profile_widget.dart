@@ -1,12 +1,15 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 
 class ProfileWidget extends StatelessWidget {
   final String imagePath;
   final VoidCallback onClicked;
+  final bool isEdit;
   const ProfileWidget({
     Key? key,
     required this.imagePath,
+    //Note: by not using required now the var che be initalized with default one
+    // isEdit used to build different profile UI if we are in the setting page
+    this.isEdit = false,
     required this.onClicked,
   }) : super(key: key);
   @override
@@ -49,8 +52,8 @@ class ProfileWidget extends StatelessWidget {
     child: buildCircle(
       color: Colors.blue,
       all: 8,
-      child: const Icon(
-        Icons.edit,
+      child: Icon(
+        isEdit ? Icons.add_a_photo : Icons.edit,
         color: Colors.white,
         size: 20,),
     ),

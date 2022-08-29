@@ -26,14 +26,14 @@ class DashBoard extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(10),
               child: Row(children: <Widget>[
-                Container(
+                SizedBox(
                   height: double.infinity,
                   width: 500,
                   child: UserDashBoard(customer: customer,)
                 ),
-                Container(
+                const SizedBox(
                   height: double.infinity,
-                  width: 700,
+                  width: 1000,
                   child: FeedDashBoard(),
                 ),
                 ]

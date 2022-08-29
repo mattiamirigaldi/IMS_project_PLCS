@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'Searchbar.dart';
 import 'menu_item.dart';
 import 'dart:developer' as devlog;
+import 'package:ims/Web_app/views/DashBoard.dart';
+import 'package:ims/Web_app/data/user_data.dart';
 
 class CustomAppBar extends StatelessWidget {
   static const _BrowseItems = [
@@ -33,13 +35,27 @@ class CustomAppBar extends StatelessWidget {
           ]),
       child: Row(
         children: <Widget>[
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Image.asset("images/ims.jpg",
-                  height: 75,
-                  //width: 50,
-                  alignment: Alignment.topCenter)),
-          const SizedBox(width: 5),
+          InkWell(
+            child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                decoration:
+                 BoxDecoration (
+                  image: DecorationImage(
+                    image: AssetImage( "images/ims.jpg"),
+                    //fit : BoxFit.fill,
+                    alignment: Alignment.center
+                 ),
+                 borderRadius: BorderRadius.circular(25),
+                )
+                ),
+            onTap: () =>
+              Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => DashBoard(customer: UserData.myCustomer))
+              )
+          ),
+          const SizedBox(width: 20),
           Text("Welcome ".toUpperCase()+userName,
               style:
                   const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
