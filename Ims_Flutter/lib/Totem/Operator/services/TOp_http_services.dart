@@ -19,7 +19,7 @@ class Httpservices {
       Uri.parse(baseUrl + '/totem/OprLoginRFID');
   static final _totemOprLoginCredentialUrl =
       Uri.parse(baseUrl + '/totem/OprLoginCredential');
-  static final _bookcheckurl = Uri.parse(baseUrl + '/totem/BookCheck');
+  //static final _bookcheckurl = Uri.parse(baseUrl + '/totem/BookCheck');
   static final _totemAddCustomer =
       Uri.parse(baseUrl + '/totem/Operator/AddCustomer');
   static final _totemAddCustomerCheck =
@@ -35,9 +35,7 @@ class Httpservices {
     http.Response response = await _client.get(_totemOprLoginRFIDUrl);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == "User") {
-        await EasyLoading.showError("Dear User, you are not an Operator");
-      } else if (json[0] == "Operator_not_found") {
+      if (json[0] == "Operator not found") {
         await EasyLoading.showError(json[0]);
       } else {
         await EasyLoading.showSuccess("Welcome dear Operator");
@@ -128,12 +126,16 @@ class Httpservices {
   }
 
   // Add book method
-  static totemAddbook(Title, Author, Genre, Location, context) async {
+  static totemAddbook(
+      Title, Author, Genre, Publisher, Date, Description, context) async {
     http.Response response = await _client.post(_totemAddBook, body: {
       "Title": Title,
       "Author": Author,
       "Genre": Genre,
-      "Location": Location,
+      "Publisher": Publisher,
+      "Date": Date,
+      "Description": Description,
+      "rfid_flag": "yes"
     });
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
@@ -154,7 +156,7 @@ class Httpservices {
     http.Response response = await _client.get(_totemRemoveBook);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == "Done") {
+      if (json[0] == "done") {
         await EasyLoading.showSuccess("Book removed successfully");
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const TRemoveBook()));

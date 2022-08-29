@@ -1,31 +1,29 @@
 // ignore_for_file: file_names, camel_case_types, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import './services/TOp_http_services.dart';
+import 'package:ims/Mobile/Operator/services/MOp_http_services.dart';
 
-class TAddBookRFID extends StatefulWidget {
+class MAddBookRFID extends StatefulWidget {
   final String Title;
   final String Author;
   final String Genre;
   final String Publisher;
   final String Date;
-  final String Description;
 
-  const TAddBookRFID(
+  const MAddBookRFID(
       {Key? key,
       required this.Title,
       required this.Author,
       required this.Genre,
       required this.Publisher,
       required this.Date,
-      required this.Description,
       context})
       : super(key: key);
   @override
   _GenreListState createState() => _GenreListState();
 }
 
-class _GenreListState extends State<TAddBookRFID> {
+class _GenreListState extends State<MAddBookRFID> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,13 +45,13 @@ class _GenreListState extends State<TAddBookRFID> {
                           color: Colors.black))),
               InkWell(
                 onTap: () async {
-                  await Httpservices.totemAddbook(
+                  await Httpservices.MobileAddbook(
                       widget.Title,
                       widget.Author,
                       widget.Genre,
                       widget.Publisher,
                       widget.Date,
-                      widget.Description,
+                      "yes",
                       context);
                 },
                 child: Center(
@@ -61,7 +59,37 @@ class _GenreListState extends State<TAddBookRFID> {
                     margin: const EdgeInsets.symmetric(
                         horizontal: 30, vertical: 20),
                     child: const Center(
-                        child: Text("Add New Item",
+                        child: Text("Add New Book",
+                            style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black))),
+                    height: 100,
+                    width: 1500,
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () async {
+                  await Httpservices.MobileAddbook(
+                      widget.Title,
+                      widget.Author,
+                      widget.Genre,
+                      widget.Publisher,
+                      widget.Date,
+                      "no",
+                      context);
+                },
+                child: Center(
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 20),
+                    child: const Center(
+                        child: Text("Add New Book without RFID",
                             style: TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,

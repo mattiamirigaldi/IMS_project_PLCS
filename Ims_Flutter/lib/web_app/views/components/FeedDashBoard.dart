@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:ims/Web_app/model/book.dart';
 import 'package:ims/Web_app/data/book_data.dart';
@@ -60,15 +62,18 @@ Widget buildCardItem( {required Book item, context }) => Container(
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: Material(
-            child: Ink.image(
-              image: NetworkImage(item.urlImage),
-              fit: BoxFit.fill,
-              child: InkWell(
-                onTap: () => Navigator.push(context,
-                 MaterialPageRoute(builder: (context) => ItemPage(item: item)))
-              ),
-              
-              ),
+            child: Hero(
+              tag: "${item.id}",
+              child: Ink.image(
+                image: NetworkImage(item.urlImage),
+                fit: BoxFit.fill,
+                child: InkWell(
+                  onTap: () => Navigator.push(context,
+                   MaterialPageRoute(builder: (context) => ItemPage(item: item)))
+                ),
+                
+                ),
+            ),
           )
         )
       ),

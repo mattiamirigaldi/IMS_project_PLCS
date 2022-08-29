@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:ims/Web_app/views/components/profile_widget.dart';
 import 'package:ims/Web_app/model/customer.dart';
@@ -68,4 +70,6 @@ class UserDashBoard extends StatelessWidget {
         style: const TextStyle(fontSize: 16, height: 1.4),)
     ],
    ),
- );}
+ );
+}
+

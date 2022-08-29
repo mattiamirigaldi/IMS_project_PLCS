@@ -39,10 +39,10 @@ class _GenrePageState extends State<GenrePage> {
           child: GridView.builder(
             itemCount: allBooks.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 8,
-              mainAxisSpacing: 20,
-              crossAxisSpacing: 20,
-              childAspectRatio: 0.5),
+              crossAxisCount: 4,
+              mainAxisSpacing: 40,
+              crossAxisSpacing: 50,
+              childAspectRatio: 1.2),
               itemBuilder: (context,index) => buildCardItem(item: allBooks[index], context: context),
             ),
         ),

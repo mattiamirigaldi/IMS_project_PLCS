@@ -1,33 +1,33 @@
 // ignore_for_file: file_names, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'TAddBookRFID.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:ims/Mobile/Operator/services/MOp_http_services.dart';
+import 'MAddCustomerRFID.dart';
 
-class TAddBook extends StatefulWidget {
-  const TAddBook({Key? key}) : super(key: key);
+class TAddCustomer extends StatefulWidget {
+  const TAddCustomer({Key? key}) : super(key: key);
   @override
   _GenreListState createState() => _GenreListState();
 }
 
 // _RegisterPageState inherits the state of RegisterPage
-class _GenreListState extends State<TAddBook> {
+class _GenreListState extends State<TAddCustomer> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form
   final _formKey = GlobalKey<FormState>();
   // Register form data
-  late String Location;
-  late String Title;
-  late String Author;
-  late String Genre;
-  late String Publisher;
-  late String Date;
-  late String RFID;
-  late String Description;
+  late String email;
+  late String firstName;
+  late String lastName;
+  late String username;
+  late String password;
+  late String user_chk_flag;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Add new Book")),
+        appBar: AppBar(title: const Text("Register page")),
         body: Form(
           key: _formKey,
           child: ListView(
@@ -38,7 +38,7 @@ class _GenreListState extends State<TAddBook> {
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Center(
                     child: Text(
-                      "Book details",
+                      "Register New User",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.deepOrangeAccent),
@@ -52,13 +52,13 @@ class _GenreListState extends State<TAddBook> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
                     decoration: const InputDecoration(
-                      hintText: "Enter the Book's Title",
-                      labelText: 'Title',
+                      hintText: "Enter first name",
+                      labelText: 'First Name',
                       border: OutlineInputBorder(),
                     ),
                     onChanged: (value) {
                       setState(() {
-                        Title = value;
+                        firstName = value;
                       });
                     },
                     validator: (String? value) {
@@ -74,13 +74,13 @@ class _GenreListState extends State<TAddBook> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
                     decoration: const InputDecoration(
-                      hintText: "Enter the Book's Author",
-                      labelText: 'Author',
+                      hintText: "Enter last name",
+                      labelText: 'Last Name',
                       border: OutlineInputBorder(),
                     ),
                     onChanged: (value) {
                       setState(() {
-                        Author = value;
+                        lastName = value;
                       });
                     },
                     validator: (String? value) {
@@ -96,13 +96,42 @@ class _GenreListState extends State<TAddBook> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
                     decoration: const InputDecoration(
-                      hintText: "Enter the Book's Genre",
-                      labelText: 'Genre',
-                      border: OutlineInputBorder(),
-                    ),
+                        hintText: "Enter username",
+                        labelText: 'Username',
+                        border: OutlineInputBorder()),
+                    onChanged: (value) async {
+                      setState(() {
+                        username = value;
+                      });
+                      user_chk_flag =
+                          await Httpservices.totemAddCustomerCheck(username);
+                      //if (user_chk_flag ==
+                      //    "the entered username is used before") {
+                      //  await EasyLoading.showInfo(user_chk_flag);
+                      //}
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter some text';
+                      } else if (user_chk_flag ==
+                          "the entered username is used before") {
+                        return user_chk_flag;
+                      } else {}
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                        hintText: "Enter email address",
+                        labelText: 'Email',
+                        border: OutlineInputBorder()),
                     onChanged: (value) {
                       setState(() {
-                        Genre = value;
+                        email = value;
                       });
                     },
                     validator: (String? value) {
@@ -118,13 +147,12 @@ class _GenreListState extends State<TAddBook> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
                     decoration: const InputDecoration(
-                      hintText: "Enter the Book's Publisher",
-                      labelText: 'Publisher',
-                      border: OutlineInputBorder(),
-                    ),
+                        hintText: "Enter password",
+                        labelText: 'Password',
+                        border: OutlineInputBorder()),
                     onChanged: (value) {
                       setState(() {
-                        Publisher = value;
+                        password = value;
                       });
                     },
                     validator: (String? value) {
@@ -140,40 +168,12 @@ class _GenreListState extends State<TAddBook> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
                     decoration: const InputDecoration(
-                      hintText: "Enter the Book's release date",
-                      labelText: 'Date',
-                      border: OutlineInputBorder(),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        Date = value;
-                      });
-                    },
+                        hintText: "Confirm password",
+                        labelText: 'Password validation',
+                        border: OutlineInputBorder()),
                     validator: (String? value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      hintText: "Enter the description of the item",
-                      labelText: 'Description',
-                      border: OutlineInputBorder(),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        Description = value;
-                      });
-                    },
-                    validator: (String? value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter some text';
+                      if (value != password) {
+                        return 'Password is not correct';
                       }
                       return null;
                     },
@@ -184,7 +184,7 @@ class _GenreListState extends State<TAddBook> {
                       margin: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 20),
                       child: const Center(
-                          child: Text("SUBMIT new Book data",
+                          child: Text("SUBMIT new user data",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Colors.black,
@@ -198,21 +198,25 @@ class _GenreListState extends State<TAddBook> {
                     onTap: () async {
                       if (_formKey.currentState != null) {
                         if (_formKey.currentState!.validate()) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => TAddBookRFID(
-                                        Title: Title,
-                                        Author: Author,
-                                        Genre: Genre,
-                                        Publisher: Publisher,
-                                        Date: Date,
-                                        Description: Description,
-                                        context: context,
-                                      )));
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text("Register user data success")));
+                          if (user_chk_flag == "username is valid") {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text("Register user data")));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TAddCustomerRFID(
+                                          firstName: firstName,
+                                          lastName: lastName,
+                                          username: username,
+                                          email: email,
+                                          password: password,
+                                          context: context,
+                                        )));
+                          } else {
+                            await EasyLoading.showError(
+                                "please change the entered username");
+                          }
                         }
                       } else {}
                     })

@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'Searchbar.dart';
@@ -64,7 +64,7 @@ class CustomAppBar extends StatelessWidget {
           MenuItems(
             title: "Browse",
             icon: Icons.arrow_drop_down_rounded,
-            DropDownItems: _BrowseItems, 
+            DropDownItems: _BrowseItems,
             userName: userName,
           ),
           MenuItems(
@@ -76,10 +76,11 @@ class CustomAppBar extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 70),
             child: MenuItems(
-                title: "",
-                icon: Icons.manage_accounts,
-                DropDownItems: _UserItems,
-                userName: userName,),
+              title: "",
+              icon: Icons.manage_accounts,
+              DropDownItems: _UserItems,
+              userName: userName,
+            ),
           )
         ],
       ),

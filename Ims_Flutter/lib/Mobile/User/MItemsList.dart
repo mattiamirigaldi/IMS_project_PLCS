@@ -1,14 +1,17 @@
 // ignore_for_file: file_names, non_constant_identifier_names
+
+//import 'dart:html';
+
 import 'package:flutter/material.dart';
 
-class ItemsList extends StatelessWidget {
+class MItemsList extends StatelessWidget {
   final List bookTitle;
   final List bookAuthor;
   final List bookGenre;
   final List bookRFID;
   final List bookAvalible;
   final List bookLocation;
-  const ItemsList({
+  const MItemsList({
     Key? key,
     required this.bookTitle,
     required this.bookAuthor,
@@ -54,17 +57,18 @@ class ProductBox extends StatelessWidget {
   final String description;
   final String price;
   final int RFID;
-  final String Avalible;
+  final int Avalible;
   final String Location;
 
   @override
   Widget build(BuildContext context) {
-    String TextToShow;
-    if (Avalible != '-1') {
-      TextToShow = "Book is not Avalible";
-    } else {
-      TextToShow = "Location is: " + Location;
-    }
+    // String TextToShow;
+    // if (Avalible == null) {
+    //   TextToShow = "Book is not Avalible";
+    // } else {
+    //   TextToShow = "Location is: " + Location;
+    // }
+    // ;
     return Container(
         padding: const EdgeInsets.all(2),
         height: 120,
@@ -86,7 +90,7 @@ class ProductBox extends StatelessWidget {
                             "Genre: " + price,
                           ),
                           Text("RFID: " + RFID.toString()),
-                          Text(TextToShow),
+                          Text("cus_id: " + Avalible.toString()),
                         ],
                       )))
             ])));

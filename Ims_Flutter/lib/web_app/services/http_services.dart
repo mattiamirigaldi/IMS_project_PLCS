@@ -65,7 +65,6 @@ class Httpservices {
         await EasyLoading.showError(json[0]);
       } else {
         await EasyLoading.showSuccess("Welcome Back " + userName);
-        var json = jsonDecode(response.body);
         // myCustomer.userName = userName;
         // myCustomer.name = json[0];
         // myCustomer.email = json[1];
@@ -123,8 +122,8 @@ class Httpservices {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => DashBoard(customer: UserData.myCustomer)));
-    } else {
+             builder: (context) => DashBoard(customer: UserData.myCustomer)));
+      } else {
       await EasyLoading?.showError(
           "Error Code : ${response.statusCode.toString()}");
     }

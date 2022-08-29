@@ -1,6 +1,7 @@
 // Date associated to the profile logged in
 
 import 'dart:convert';
+// ignore_for_file: camel_case_types
 
 import 'package:ims/Web_app/model/customer.dart';
 import 'package:shared_preferences/shared_preferences.dart';

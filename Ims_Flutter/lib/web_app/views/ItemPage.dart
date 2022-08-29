@@ -127,7 +127,10 @@ class _ItemPageState extends State<ItemPage> {
                   )
             )
           ]), 
-        Image.network(item.urlImage, width: 350, height: 350)
+        Expanded(
+          child: Hero(
+            tag: "${item.id}",
+            child: Image.network(item.urlImage, width: 350, height: 350)))
       ]),
       );
   }
@@ -177,7 +180,7 @@ Container availableWithFav() {
               ],
             ),
           ),
-          const SizedBox(width: 300),
+          const SizedBox(width: 150),
           ClipRRect(
             child: Container(
                 height: 50,

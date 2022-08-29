@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, no_logic_in_create_state
+
 import 'package:flutter/material.dart';
 import 'package:ims/Web_app/views/GenreList.dart';
 import 'package:ims/Web_app/views/UserSettings.dart';
@@ -19,8 +21,11 @@ class MenuItems extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<MenuItems> createState() =>
-      _MenuItemsState(title: title, icon: icon, DropDownItems: DropDownItems, userName: userName);
+  State<MenuItems> createState() => _MenuItemsState(
+      title: title,
+      icon: icon,
+      DropDownItems: DropDownItems,
+      userName: userName);
 }
 
 class _MenuItemsState extends State<MenuItems> {
@@ -29,13 +34,13 @@ class _MenuItemsState extends State<MenuItems> {
   final String userName;
   //final void Function() press;
   final List<String> DropDownItems;
-  _MenuItemsState({
-    required this.title,
-    required this.icon,
-    required this.DropDownItems,
-    required this.userName
-    //required this.press,
-  });
+  _MenuItemsState(
+      {required this.title,
+      required this.icon,
+      required this.DropDownItems,
+      required this.userName
+      //required this.press,
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -57,15 +62,11 @@ class _MenuItemsState extends State<MenuItems> {
           ],
         ),
         onSelected: (choice) => choiceAction(choice, userName, context),
-        itemBuilder: (BuildContext context) => DropDownItems.map(
-            (choice) => PopupMenuItem<String>(
-              value: choice, 
-              child: Text(choice))
-              ).toList()
-    );
+        itemBuilder: (BuildContext context) => DropDownItems.map((choice) =>
+                PopupMenuItem<String>(value: choice, child: Text(choice)))
+            .toList());
   }
 }
-    
 
 void choiceAction (String choice, String userName, BuildContext context) async {
       if (choice == "My profile"){

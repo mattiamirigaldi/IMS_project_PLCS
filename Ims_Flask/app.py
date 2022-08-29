@@ -3,6 +3,7 @@ from contextlib import nullcontext
 from turtle import title
 from flask import Flask, redirect, render_template, Blueprint, request, json, jsonify, url_for, send_from_directory
 import pyodbc
+from mobile_methods import mobile_methods
 from totem_methods import totem_methods
 from webApp_methods import webApp_methods
 
@@ -11,10 +12,12 @@ app = Flask(__name__)
 
 FLUTTER_WEB_APP = 'templates'
 
-#imported applications in webApp methods into app
+# imported applications in webApp methods into app
 app.register_blueprint(webApp_methods)
 # imported applications in totem_methods into app
 app.register_blueprint(totem_methods)
+# imported applications in mobile_methods into app
+app.register_blueprint(mobile_methods)
 
 @app.route('/')
 def render_page_web():
@@ -49,4 +52,3 @@ def getdata(iiid):
 
 if __name__=="__main__":
     app.run(host='0.0.0.0')
-    #app.run(host='192.168.137.1')

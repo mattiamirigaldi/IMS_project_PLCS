@@ -1,8 +1,7 @@
 // ignore_for_file: file_names, camel_case_types
 
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import './services/TOp_http_services.dart';
+import './services/MOp_http_services.dart';
 
 class TAddCustomerRFID extends StatefulWidget {
   final String firstName;
@@ -46,17 +45,14 @@ class _GenreListState extends State<TAddCustomerRFID> {
                           color: Colors.black))),
               InkWell(
                 onTap: () async {
-                  await EasyLoading.showSuccess(
-                      "received first name = " + widget.firstName);
                   await Httpservices.totemAddCustomer(
                       widget.firstName,
                       widget.lastName,
                       widget.username,
                       widget.email,
                       widget.password,
+                      "yes",
                       context);
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("New User added successfully")));
                 },
                 child: Center(
                   child: Container(
@@ -64,6 +60,36 @@ class _GenreListState extends State<TAddCustomerRFID> {
                         horizontal: 30, vertical: 20),
                     child: const Center(
                         child: Text("Add New User",
+                            style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black))),
+                    height: 100,
+                    width: 1500,
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () async {
+                  await Httpservices.totemAddCustomer(
+                      widget.firstName,
+                      widget.lastName,
+                      widget.username,
+                      widget.email,
+                      widget.password,
+                      "no",
+                      context);
+                },
+                child: Center(
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 20),
+                    child: const Center(
+                        child: Text("Add New User without RFID",
                             style: TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,

@@ -1,10 +1,12 @@
+// ignore_for_file: file_names, avoid_print
+
 import 'package:flutter/material.dart';
 import './../../data/book_data.dart';
 import './../../model/book.dart';
 
 class SearchBar extends StatefulWidget {
   const SearchBar({Key? key}) : super(key: key);
-   
+
   @override
   _SearchBarState createState() => _SearchBarState();
 }
@@ -14,7 +16,7 @@ class _SearchBarState extends State<SearchBar> {
   final _formKey = GlobalKey<FormState>();
   // Found books in database
   late List<Book> books;
-   // Typed in the text field
+  // Typed in the text field
   late String typed = '';
   // Initial filter
   String filter = 'All';
@@ -68,7 +70,6 @@ class _SearchBarState extends State<SearchBar> {
                     });
                   }),
             ),
-           
             Expanded(
                 child: PopupMenuButton<Book>(
                   offset: const Offset(0.0, 44),
@@ -113,7 +114,6 @@ class _SearchBarState extends State<SearchBar> {
     );
   }
 }
-
 
 Widget buildBook(Book book) => ListTile(
       leading: Image.network(
