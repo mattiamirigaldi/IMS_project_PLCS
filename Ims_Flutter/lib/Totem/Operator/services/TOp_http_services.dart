@@ -126,12 +126,16 @@ class Httpservices {
   }
 
   // Add book method
-  static totemAddbook(Title, Author, Genre, Location, context) async {
+  static totemAddbook(
+      Title, Author, Genre, Publisher, Date, Description, context) async {
     http.Response response = await _client.post(_totemAddBook, body: {
       "Title": Title,
       "Author": Author,
       "Genre": Genre,
-      "Location": Location,
+      "Publisher": Publisher,
+      "Date": Date,
+      "Description": Description,
+      "rfid_flag": "yes"
     });
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
@@ -152,7 +156,7 @@ class Httpservices {
     http.Response response = await _client.get(_totemRemoveBook);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == "Done") {
+      if (json[0] == "done") {
         await EasyLoading.showSuccess("Book removed successfully");
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const TRemoveBook()));

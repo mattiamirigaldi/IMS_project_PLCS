@@ -19,7 +19,10 @@ class _GenreListState extends State<TAddBook> {
   late String Title;
   late String Author;
   late String Genre;
+  late String Publisher;
+  late String Date;
   late String RFID;
+  late String Description;
 
   @override
   Widget build(BuildContext context) {
@@ -115,13 +118,57 @@ class _GenreListState extends State<TAddBook> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
                     decoration: const InputDecoration(
-                      hintText: "Enter the Book's Location",
-                      labelText: 'Location',
+                      hintText: "Enter the Book's Publisher",
+                      labelText: 'Publisher',
                       border: OutlineInputBorder(),
                     ),
                     onChanged: (value) {
                       setState(() {
-                        Location = value;
+                        Publisher = value;
+                      });
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: "Enter the Book's release date",
+                      labelText: 'Date',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        Date = value;
+                      });
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: "Enter the description of the item",
+                      labelText: 'Description',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        Description = value;
                       });
                     },
                     validator: (String? value) {
@@ -158,7 +205,9 @@ class _GenreListState extends State<TAddBook> {
                                         Title: Title,
                                         Author: Author,
                                         Genre: Genre,
-                                        Location: Location,
+                                        Publisher: Publisher,
+                                        Date: Date,
+                                        Description: Description,
                                         context: context,
                                       )));
                           ScaffoldMessenger.of(context).showSnackBar(

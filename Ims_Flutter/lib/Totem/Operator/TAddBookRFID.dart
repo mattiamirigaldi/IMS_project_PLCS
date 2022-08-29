@@ -7,14 +7,18 @@ class TAddBookRFID extends StatefulWidget {
   final String Title;
   final String Author;
   final String Genre;
-  final String Location;
+  final String Publisher;
+  final String Date;
+  final String Description;
 
   const TAddBookRFID(
       {Key? key,
       required this.Title,
       required this.Author,
       required this.Genre,
-      required this.Location,
+      required this.Publisher,
+      required this.Date,
+      required this.Description,
       context})
       : super(key: key);
   @override
@@ -43,15 +47,21 @@ class _GenreListState extends State<TAddBookRFID> {
                           color: Colors.black))),
               InkWell(
                 onTap: () async {
-                  await Httpservices.totemAddbook(widget.Title, widget.Author,
-                      widget.Genre, widget.Location, context);
+                  await Httpservices.totemAddbook(
+                      widget.Title,
+                      widget.Author,
+                      widget.Genre,
+                      widget.Publisher,
+                      widget.Date,
+                      widget.Description,
+                      context);
                 },
                 child: Center(
                   child: Container(
                     margin: const EdgeInsets.symmetric(
                         horizontal: 30, vertical: 20),
                     child: const Center(
-                        child: Text("Add New User",
+                        child: Text("Add New Item",
                             style: TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,

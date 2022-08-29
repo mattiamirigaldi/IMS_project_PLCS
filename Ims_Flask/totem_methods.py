@@ -271,31 +271,49 @@ def totem_AddBook():
         Title = request.form["Title"]
         Author = request.form["Author"]
         Genre = request.form["Genre"]
-        Location = request.form["Location"]
-        check_query = "SELECT * FROM items WHERE rfid = (?)"
-        value = (rfid)
-        cursor.execute(check_query, value)
-        row = cursor.fetchone()
-        print("1111111")
-        if row == None :
-            check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?)"
-            value = (rfid)
-            cursor.execute(check_query, value)
-            row = cursor.fetchone()
-            if row == None :
-                insert_query = '''INSERT INTO Items VALUES (?,?,?,?,'-1',?);'''  # the '?' are placeholders
-                value = (Title, Author, Genre, rfid, Location)
-                cursor.execute(insert_query, value)
+        Publisher = request.form["Publisher"]
+        Date = request.form["Date"]
+        Description = request.form["Description"]
+        rfid_flag = request.form["rfid_flag"]
+    check_query1 = " SELECT * FROM books WHERE rfid = (?)"
+    cursor.execute(check_query1,rfid)
+    print("check1: " + str(cursor.rowcount))
+    if cursor.rowcount == 0 or rfid_flag == "no":
+        check_query2 = " SELECT * FROM operators WHERE rfid = (?)"
+        cursor.execute(check_query2,rfid)
+        print("check2: " + str(cursor.rowcount))
+        if cursor.rowcount == 0 or rfid_flag == "no":
+            check_query3 = " SELECT * FROM customers WHERE rfid = (?)"
+            cursor.execute(check_query3,rfid)
+            print("check3: " + str(cursor.rowcount))
+            if cursor.rowcount == 0 or rfid_flag == "no":
+                print("33333333333")
+                if rfid_flag == "no" :
+                    rfiddd = 0
+                else : 
+                    rfiddd = rfid
+                    print("4444444 :  " + str(rfiddd))
+                    if rfiddd == -1 : 
+                        cnxn.close()
+                        return jsonify(["Please Scan the RFID"])
+                insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?);INSERT INTO items VALUES (?,?,?,?,?,?,?,?,?)'''
+                insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,rfiddd,o_admin_id,o_opr_id,-1,rfiddd,Title,"Bk","Turin",Description,rfiddd)
+                cursor.execute(insert_query, insert_value)
                 cnxn.commit()
-                cnxn.close()
-                print("222222222")
+                #insert_query = '''INSERT INTO items VALUES (?,?,?,?,?,?,?,?);'''
+                #insert_value = (o_admin_id,o_opr_id,None,rfiddd,Title,"Book","Turin",rfiddd)
+                #cursor.execute(insert_query, insert_value)
+                #cnxn.commit()
                 return jsonify(["done"])
-            return jsonify(["The Scanned RFID is a USER"])
-        print("33333333333")
-        cnxn.close()
-        return jsonify(["The book is already in the database"])
+            else :
+                cnxn.close()
+                return jsonify(["The RFID is for a User"])
+        else :
+            cnxn.close()
+            return jsonify(["The RFID is for an Operator"])
     else :
-        return (["nano panir"])
+        cnxn.close()
+        return jsonify(["The book is already in the Database"])
 
 
 # Remove Book
@@ -303,19 +321,26 @@ def totem_AddBook():
 def totem_RemoveBook():
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM [Items] WHERE RFID = (?)"
-    value = (rfid)
-    cursor.execute(check_query, value)
-    row = cursor.fetchone()
-    if row != None :
-        delete_query = "DELETE FROM [Items] WHERE RFID = (?) "
-        value = (rfid)
-        cursor.execute(delete_query, value)
+    print("000000000")
+    check_query = "SELECT * FROM items WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?)"
+    delete_query1 = "DELETE FROM items WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?)"
+    delete_query2 = "DELETE FROM books WHERE rfid = (?)"
+    value = (rfid,o_admin_id,o_opr_id)
+    value2 = (rfid)
+    cursor.execute(check_query,value)
+    if cursor.rowcount == 0 :
+        cnxn.close()
+        print("2222222")
+        return jsonify(["no"])
+    else :
+        print("33333333")
+        cursor.execute(delete_query1,value)
+        cnxn.commit()
+        cursor.execute(delete_query2,value2)
         cnxn.commit()
         cnxn.close()
-        return jsonify(["Done"])
-    cnxn.close()
-    return jsonify(["no"])
+        return jsonify(["done"])
+
 
 #############################################################
 
