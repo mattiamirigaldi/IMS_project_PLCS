@@ -43,9 +43,7 @@ class Httpservices {
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "not_found") {
-        await EasyLoading.showError("User not fount");
-      } else if (json[0] == "operator") {
-        await EasyLoading.showError("Dear Operator, you are not a User");
+        await EasyLoading.showError("User not found");
       } else {
         await EasyLoading.showSuccess("Welcome dear " + json[1]);
         Navigator.pushReplacement(context,
@@ -62,7 +60,7 @@ class Httpservices {
         body: {"userName": userName, "password": password});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == 'not_found') {
+      if (json[0] == 'not found') {
         await EasyLoading.showError(json[0]);
       } else {
         await EasyLoading.showSuccess("Welcome Back " + json[1]);
@@ -81,8 +79,8 @@ class Httpservices {
       var json = jsonDecode(response.body);
       if (json[0] == "not_found") {
         await EasyLoading.showError('Book Not Found');
-      } else if (json[0] == "Book_not_available") {
-        await EasyLoading.showError("Book_not_available");
+      } else if (json[0] == "Book not available") {
+        await EasyLoading.showError("Book not available");
       } else {
         //await Httpservices.totemRentBook(rfid, context);
         http.Response response = await _client.get(_totemRentUrl);

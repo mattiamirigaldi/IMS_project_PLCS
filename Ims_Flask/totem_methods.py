@@ -6,20 +6,13 @@ import connectionToDb as db
 totem_methods = Blueprint('totem_methods', __name__)
 
 #Totem RFID read
-rfid = 1
-global opr_found_flag
-global user_username
-global user_found_flag
-global role
-global book_rfid
-
 # RFID reader with POST method
 @totem_methods.route("/totem", methods=["GET", "POST"])
 def totem():
     if request.method == 'GET':
         return render_template('index.html')
-    else :
-        global rfid
+    else :  
+        global rfid      
         if request.method == 'POST':
             rfid = request.form['rfid']
             print(rfid)
@@ -30,26 +23,23 @@ def totem():
 def UsrLoginRFID():
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
-    value = rfid
-    print(value)
-    cursor.execute(check_query, value)
+    check_query = "SELECT * FROM customers WHERE rfid = (?) "
+    cursor.execute(check_query, rfid)
     row = cursor.fetchone()
     cnxn.close()
-    global useruser
     if row != None:
-        if row.role_i == "usr":
-            user_found_flag = "found"
-            print("User Found : FIRSTNAME is " + row.firstName)
-            useruser = row.userName
-            return jsonify([user_found_flag], row.firstName, row.lastName, row.userName, row.mail, row.pwd)
-        else:
-            user_found_flag = "operator"
-            return jsonify([user_found_flag])
+        global cus_id
+        global u_admin_id
+        global u_opr_id
+        cus_id = row.id
+        u_admin_id = row.admin_id
+        u_opr_id = row.opr_id
+        print("User Found : FIRSTNAME is " + row.firstname)
+        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid))
     else:
-        user_found_flag = "not_found"
+        print (rfid)
         print("User Not found")
-        return jsonify([user_found_flag])
+        return jsonify(["not_found"])
 
 # User login Credentials
 @totem_methods.route('/totem//UsrLoginCredential', methods=["GET", "POST"])
@@ -59,45 +49,48 @@ def UsrLoginCredential():
     if request.method == 'POST':
         username = request.form["userName"]
         password = request.form["password"]
-    check_query = "SELECT * FROM [Library_Clients] WHERE username = (?) and pwd = (?) and role_i = 'usr'"
+    check_query = "SELECT * FROM customers WHERE username = (?) and pwd = (?) "
     value = (username,password)
     cursor.execute(check_query, value)
     row = cursor.fetchone()
     cnxn.close()
-    global useruser
     if row != None:
-        user_found_flag = "found"
-        print("User Found : FIRSTNAME is " + row.firstName)
-        useruser = row.userName
-        return jsonify([user_found_flag], row.firstName, row.lastName, row.userName, row.mail, row.pwd)
+        global cus_id
+        global u_admin_id
+        global u_opr_id
+        cus_id = row.id
+        u_admin_id = row.admin_id
+        u_opr_id = row.opr_id
+
+        print("User Found : FIRSTNAME is " + row.firstname)
+        print("User Found : RFID is " + str(row.rfid))
+        #useruser = row.userName
+        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid))
     else:
-        user_found_flag = "not_found"
         print("User Not found")
-        return jsonify([user_found_flag])
+        return jsonify(["not found"])
 
 # Operator login RFID
 @totem_methods.route("/totem/OprLoginRFID", methods=["GET", "POST"])
 def OprLoginRFID():
     cnxn = db.connection()
     cursor = cnxn.cursor()  
-    check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
-    value = (rfid)
-    cursor.execute(check_query, value)
+    check_query = "SELECT * FROM operators WHERE rfid = (?) "
+    cursor.execute(check_query, rfid)
     row = cursor.fetchone()
     cnxn.close()
     if row != None:
-        if row.role_i == "opr":
-            opr_found_flag = "found"
-            print("Operator Found : Email is " + row.mail)
-            return jsonify([opr_found_flag], row.firstName, row.lastName, row.userName, row.mail, row.pwd, row.RFID_i)
-        else:
-            opr_found_flag = "dear "+row.firstName+", you are not an Operator"
-            print(opr_found_flag)
-            return jsonify(["User"])
+        global o_opr_id
+        global o_admin_id
+        o_opr_id = row.id
+        o_admin_id = row.admin_id
+        print("Operator Found : Firstname is " + row.firstname)
+        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid), str(row.admin_id))
+        
     else:
-        opr_found_flag = "Operator_not_found"
-        print(opr_found_flag)
-        return jsonify([opr_found_flag])
+        print("Operator_not_found")
+        return jsonify(["Operator not found"])
+
 
 # Operator login Credentials
 @totem_methods.route('/totem/OprLoginCredential', methods=["GET", "POST"])
@@ -107,19 +100,20 @@ def OprLoginCredential():
     if request.method == 'POST':
         username = request.form["userName"]
         password = request.form["password"]
-    check_query = "SELECT * FROM [Library_Clients] WHERE username = (?) and pwd = (?) and role_i = 'opr'"
-    value = (username,password)
-    cursor.execute(check_query, value)
+    check_query = "SELECT * FROM operators WHERE username = (?) and pwd = (?)"
+    cursor.execute(check_query, username,password)
     row = cursor.fetchone()
     cnxn.close()
+    global o_opr_id
+    global o_admin_id
+    o_admin_id = row.admin_id
+    o_opr_id = row.id
     if row != None:
-        opr_found_flag = "found"
-        print("User Found : FIRSTNAME is " + row.firstName)
-        return jsonify([opr_found_flag], row.firstName, row.lastName, row.userName, row.mail, row.pwd)
+        print("operator Found : firstname is " + row.firstname)
+        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid), str(row.admin_id))
     else:
-        opr_found_flag = "not_found"
-        print("User Not found")
-        return jsonify([opr_found_flag])
+        print("operator Not found")
+        return jsonify(["not_found"])
 
 
 # book check Rent
@@ -127,18 +121,18 @@ def OprLoginCredential():
 def totem_BookCheckRent():
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM [Items] WHERE RFID = (?) "
-    value = (rfid)
-    cursor.execute(check_query, value)
+    print (rfid)
+    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id where items.rfid = (?) "
+    cursor.execute(check_query, rfid)
     row = cursor.fetchone()
     cnxn.close()
     if row != None:
-        if row.userName == "-1" :
+        if row.cus_id == -1 :
             book_found_flag = "found"
-            print("Book Found : TITLE is " + row.Title)
-            return jsonify([book_found_flag], row.Location, row.Title, row.Author, row.Genre, row.RFID, row.userName)
+            print("Book Found : TITLE is " + row.title)
+            return jsonify([book_found_flag], row.location, row.title, row.author, row.genre, row.rfid)
         else:
-            return jsonify(["Book_not_available"])
+            return jsonify(["Book not available"])
     else:
         book_found_flag = "not_found"
         print("Book Not found")
@@ -149,12 +143,8 @@ def totem_BookCheckRent():
 def totem_book_rent():
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    cnxn = db.connection()
-    cursor = cnxn.cursor()
-    global useruser
-    check_query = "UPDATE [Items] SET userName = (?) WHERE RFID = (?) "
-    value = (useruser, rfid)
-    cursor.execute(check_query, value)
+    check_query = "UPDATE items SET admin_id = (?),opr_id = (?) ,cus_id = (?) WHERE rfid = (?) "
+    cursor.execute(check_query, u_admin_id,u_opr_id,cus_id , rfid)
     cnxn.commit()
     cnxn.close()
     rent_flag = "Book rented successfully"
@@ -168,15 +158,14 @@ def totem_book_rent():
 def totem_BookCheckReturn():
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM [Items] WHERE RFID = (?) and userName = (?)"
-    value = (rfid,useruser)
-    cursor.execute(check_query, value)
+    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id where items.rfid = (?) AND cus_id = (?)"
+    cursor.execute(check_query, rfid , cus_id)
     row = cursor.fetchone()
     cnxn.close()
     if row != None:
         book_found_flag = "found"
-        print("Book Found : TITLE is " + row.Title)
-        return jsonify([book_found_flag], row.Location, row.Title, row.Author, row.Genre, row.RFID, row.userName)
+        print("Book Found : TITLE is " + row.title)
+        return jsonify([book_found_flag], row.location, row.title, row.author, row.genre, row.rfid)
     else:
         book_found_flag = "not_found"
         print("Book Not found")
@@ -187,10 +176,7 @@ def totem_BookCheckReturn():
 def totem_book_return():
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    global rfid
-    cnxn = db.connection()
-    cursor = cnxn.cursor()
-    check_query = "UPDATE [Items] SET userName = (?) WHERE RFID = (?) "
+    check_query = "UPDATE items SET cus_id = (?) WHERE rfid = (?) "
     value = ('-1', rfid)
     cursor.execute(check_query, value)
     cnxn.commit()
@@ -206,8 +192,8 @@ def totem_op_add_customer_check():
     cursor = cnxn.cursor()
     if request.method == 'POST':
         username = request.form["username"]
-    check_query = "SELECT * FROM [Library_Clients] WHERE username = (?) "
-    value = (username)
+    check_query = "SELECT * FROM customers WHERE username = (?) AND opr_id = (?) AND admin_id = (?)"
+    value = (username,o_opr_id,o_admin_id)
     cursor.execute(check_query, value)
     row = cursor.fetchone()
     cnxn.close()
@@ -231,14 +217,14 @@ def totem_op_add_customer():
         mail = request.form["email"]
         password = request.form["password"]
 
-    check_query = "SELECT * FROM [Library_Clients] WHERE RFID_i = (?) "
-    value = (rfid)
+    check_query = "SELECT * FROM customers WHERE rfid = (?) and admin_id = (?) and opr_id = (?) "
+    value = (rfid,o_admin_id,o_opr_id)
     cursor.execute(check_query, value)
     row = cursor.fetchone()
 
     if row == None:
-        insert_query = '''INSERT INTO Library_Clients VALUES (?,?,?,?,?,?,'usr');'''  # the '?' are placeholders
-        value = (firstName, lastName, username, mail, password, rfid)
+        insert_query = "INSERT INTO customers VALUES (?,?,?,?,?,?,?,?,?);"  # the '?' are placeholders
+        value = (o_admin_id,o_opr_id,rfid,firstName, lastName, username, mail, password, rfid)
         cursor.execute(insert_query, value)
         cnxn.commit()
         cnxn.close()
@@ -257,12 +243,12 @@ def totem_op_add_customer():
 def RemoveCustomer():
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM [Library_Clients] WHERE rfid_i = (?) and role_i = (?)"
-    value = (rfid,'usr')
+    check_query = "SELECT * FROM customers WHERE rfid= (?) and admin_id = (?) and opr_id = (?)"
+    value = (rfid,o_admin_id,o_opr_id)
     cursor.execute(check_query, value)
     row = cursor.fetchone()
     if row != None :
-        check_query = "DELETE FROM [Library_Clients] WHERE rfid_i = (?)"
+        check_query = "DELETE FROM customers WHERE rfid = (?)"
         value = (rfid)
         cursor.execute(check_query, value)
         cnxn.commit()
@@ -286,7 +272,7 @@ def totem_AddBook():
         Author = request.form["Author"]
         Genre = request.form["Genre"]
         Location = request.form["Location"]
-        check_query = "SELECT * FROM [Items] WHERE RFID = (?)"
+        check_query = "SELECT * FROM items WHERE rfid = (?)"
         value = (rfid)
         cursor.execute(check_query, value)
         row = cursor.fetchone()
