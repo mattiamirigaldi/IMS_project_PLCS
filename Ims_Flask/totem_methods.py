@@ -8,24 +8,35 @@ totem_methods = Blueprint('totem_methods', __name__)
 #Totem RFID read
 # RFID reader with POST method
 rfid = -1
+mac = -1
 @totem_methods.route("/totem", methods=["GET", "POST"])
 def totem():
     if request.method == 'GET':
         return render_template('index.html')
     else :  
-        global rfid      
+        global rfid
+        global mac  
         if request.method == 'POST':
-            rfid = request.form['rfid']
-            print(rfid)
+            rfid_received = request.form['rfid']
+            mac = request.form['mac']
+            print(rfid_received)
+            print(mac)
+            cnxn = db.connection()
+            cursor = cnxn.cursor()
+            cursor.execute("SELECT * FROM totems WHERE macAddress = (?)",mac)
+            if cursor.rowcount == 0:
+                rfid = -1
+            else:
+                rfid = rfid_received
         return ("nunn")
 
 # User login RFID
-@totem_methods.route('/totem//UsrLoginRFID', methods=["GET", "POST"])
+@totem_methods.route('/totem/UsrLoginRFID', methods=["GET", "POST"])
 def UsrLoginRFID():
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM customers WHERE rfid = (?) "
-    cursor.execute(check_query, rfid)
+    check_query = "SELECT * FROM customers INNER JOIN totems ON customers.opr_id = totems.opr_id WHERE rfid = (?)"
+    cursor.execute(check_query,rfid)
     row = cursor.fetchone()
     cnxn.close()
     if row != None:
@@ -37,7 +48,7 @@ def UsrLoginRFID():
         return jsonify(["not_found"])
 
 # User login Credentials
-@totem_methods.route('/totem//UsrLoginCredential', methods=["GET", "POST"])
+@totem_methods.route('/totem/UsrLoginCredential', methods=["GET", "POST"])
 def UsrLoginCredential():
     cnxn = db.connection()
     cursor = cnxn.cursor()
@@ -284,6 +295,39 @@ def totem_RemoveBook(adminID,oprID):
         cnxn.close()
         return jsonify(["done"])
 
+# Pending Items
+@totem_methods.route("/totem/Operator/PendingItems/<adminID>/<oprID>", methods=["GET", "POST"])
+def totem_PendingItems(adminID,oprID):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?) AND opr_id = (?) AND cus_id is null"
+    cursor.execute(check_query,adminID,oprID)
+    if cursor.rowcount == 0 :
+        cnxn.close()
+        print("Pending List is Empty")
+        return jsonify(["no"])
+    print("There are Pending Items")
+    j = 0
+    tit = []
+    aut = []
+    gen = []
+    rfid = []
+    usr = []
+    loc = []
+    data = []
+    for row in cursor:
+        books = {"title": row[2], "author": row[3], "genre": row[4], "rfid": row[7], "cus_id": row[10], "location": row[14]}
+        data.append(books)
+    for i in data:
+        tit.append(data[j]["title"])
+        aut.append(data[j]["author"])
+        gen.append(data[j]["genre"])
+        rfid.append(data[j]["rfid"])
+        usr.append(data[j]["cus_id"])
+        loc.append(data[j]["location"])
+        j += 1
+    cnxn.close()
+    return jsonify([tit, aut, gen, rfid, usr, loc])
 
 #############################################################
 

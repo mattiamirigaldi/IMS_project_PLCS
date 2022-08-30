@@ -10,6 +10,7 @@ import 'package:ims/Totem/Operator/opr_data.dart';
 // to route
 import '../../../routes.dart';
 import '../THomePage_op.dart';
+import '../TItemsList.dart';
 import '../TModifyBook.dart';
 
 String baseUrl = Myroutes.baseUrl;
@@ -18,6 +19,7 @@ String totemAddCst = baseUrl + '/totem/Operator/AddCustomer/';
 String totemAddBookUrl = baseUrl + '/totem/Operator/AddBook/';
 String totemRemoveBookUrl = baseUrl + '/totem/Operator/RemoveBook/';
 String totemRemoveCst = baseUrl + '/totem/Operator/RemoveCustomer/';
+String totemPendingItems = baseUrl + '/totem/Operator/PendingItems/';
 
 class Httpservices {
   static final _client = http.Client();
@@ -182,6 +184,31 @@ class Httpservices {
             MaterialPageRoute(builder: (context) => const TmodifyBook()));
       } else {
         await EasyLoading.showError("The Book is not in the database");
+      }
+    }
+  }
+
+  // Remove book method
+  static PendingItems(context) async {
+    http.Response response = await _client
+        .get(totemPendingItems + opr_buffer.adminID + '/' + opr_buffer.rfid);
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == "no") {
+        await EasyLoading.showError("Pending List is Empty");
+      } else {
+        await EasyLoading.showSuccess("Pending List");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => TItemsList(
+                      bookTitle: json[0],
+                      bookAuthor: json[1],
+                      bookGenre: json[2],
+                      bookRFID: json[3],
+                      bookAvalible: json[4],
+                      bookLocation: json[5],
+                    )));
       }
     }
   }

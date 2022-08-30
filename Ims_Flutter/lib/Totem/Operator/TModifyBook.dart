@@ -3,11 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:ims/Totem/Operator/TAddBook.dart';
 import 'package:ims/Totem/Operator/TRemoveBook.dart';
+import 'package:ims/Totem/Operator/services/TOp_http_services.dart';
 
 class TmodifyBook extends StatelessWidget {
-  //final String name ;
-  // final String email;
-  // final String userName;
   const TmodifyBook({Key? key}) : super(key: key);
 
   @override
@@ -16,7 +14,6 @@ class TmodifyBook extends StatelessWidget {
         appBar: AppBar(
             backgroundColor: Colors.green,
             title:
-
                 //Text("HELLO DEAR BOOK LOVER!"),
                 const Image(
               image: AssetImage('images/logo.png'),
@@ -39,7 +36,7 @@ class TmodifyBook extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(
                         horizontal: 50, vertical: 30),
                     child: const Center(
-                        child: Text("Add book",
+                        child: Text("Add Item",
                             style: TextStyle(
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,
@@ -65,7 +62,30 @@ class TmodifyBook extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(
                         horizontal: 50, vertical: 30),
                     child: const Center(
-                        child: Text("Remove book",
+                        child: Text("Remove Item",
+                            style: TextStyle(
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black))),
+                    height: 100,
+                    width: 1500,
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () async {
+                  await Httpservices.PendingItems(context);
+                },
+                child: Center(
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 50, vertical: 30),
+                    child: const Center(
+                        child: Text("Pending list",
                             style: TextStyle(
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,
