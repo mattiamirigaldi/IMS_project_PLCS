@@ -13,6 +13,7 @@ global role
 global book_rfid
 global rfid
 rfid = -1
+rfid_counter = 0
 
 def connection():
     ## Connection to the database
@@ -340,6 +341,7 @@ def mobile_RemoveCustomer(adminID,opr):
 # Add Book
 @mobile_methods.route("/mobile/AddBook/<adminID>/<opr>", methods=["GET", "POST"])
 def totem_AddBook(adminID,opr):
+    global rfid_counter
     cnxn = connection()
     cursor = cnxn.cursor()
     if request.method == 'POST':
@@ -363,21 +365,22 @@ def totem_AddBook(adminID,opr):
             if cursor.rowcount == 0 or rfid_flag == "no":
                 print("33333333333")
                 if rfid_flag == "no" :
-                    rfiddd = 0
+                    rfid_counter += 1
+                    rfiddd = rfid_counter
                 else : 
                     rfiddd = rfid
                     print("4444444 :  " + str(rfiddd))
                     if rfiddd == -1 : 
                         cnxn.close()
                         return jsonify(["Please Scan the RFID"])
-                insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?);'''
-                insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,rfiddd)
+                insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?);'''
+                insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,adminID,opr,None,rfiddd,Title,"Book","Turin",0)
                 cursor.execute(insert_query, insert_value)
                 cnxn.commit()
-                insert_query = '''INSERT INTO items VALUES (?,?,?,?,?,?,?,?);'''
-                insert_value = (adminID,opr,None,rfiddd,Title,"Book","Turin",rfiddd)
-                cursor.execute(insert_query, insert_value)
-                cnxn.commit()
+                #insert_query = '''INSERT INTO items VALUES (?,?,?,?,?,?,?,?);'''
+                #insert_value = (adminID,opr,None,rfiddd,Title,"Book","Turin",0)
+                #cursor.execute(insert_query, insert_value)
+                #cnxn.commit()
                 return jsonify(["done"])
             else :
                 cnxn.close()

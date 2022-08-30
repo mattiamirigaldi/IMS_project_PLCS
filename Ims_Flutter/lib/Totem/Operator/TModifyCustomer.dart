@@ -3,9 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:ims/Totem/Operator/TAddCustomer.dart';
 import 'package:ims/Totem/Operator/TRemoveCustomer.dart';
+import 'package:ims/Totem/Operator/services/TOp_http_services.dart';
 
-class modifyCustomer extends StatelessWidget {
-  const modifyCustomer({Key? key}) : super(key: key);
+class TmodifyCustomer extends StatelessWidget {
+  const TmodifyCustomer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +64,29 @@ class modifyCustomer extends StatelessWidget {
                         horizontal: 50, vertical: 30),
                     child: const Center(
                         child: Text("Remove customer",
+                            style: TextStyle(
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black))),
+                    height: 100,
+                    width: 1500,
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () async {
+                  await Httpservices.PendingCustomers(context);
+                },
+                child: Center(
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 50, vertical: 30),
+                    child: const Center(
+                        child: Text("Pending list",
                             style: TextStyle(
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,

@@ -52,9 +52,7 @@ class _GenreListState extends State<TRentPage> {
                       color: Colors.green),
                 )),
                 onTap: () async {
-                  await Httpservices.Book_check_rent(context);
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(const SnackBar(content: Text("rented")));
+                  await Httpservices.Book_rent(context);
                 }),
           ]),
     );
