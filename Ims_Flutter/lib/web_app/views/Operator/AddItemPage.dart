@@ -1,48 +1,50 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import './../services/http_services.dart';
+import 'package:ims/Web_app/data/book_data.dart';
+import 'package:ims/Web_app/data/user_data.dart';
+import 'package:ims/Web_app/model/item.dart';
+import 'package:ims/Web_app/views/DashBoard.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key? key}) : super(key: key);
-  //NOTE : in a dart if an identifier start with '_' then it is private to its library
+class addItem extends StatefulWidget {
+  const addItem({Key? key}) : super(key: key);
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  _GenreListState createState() => _GenreListState();
 }
 
 // _RegisterPageState inherits the state of RegisterPage
-class _RegisterPageState extends State<RegisterPage> {
+class _GenreListState extends State<addItem> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form
   final _formKey = GlobalKey<FormState>();
   // Register form data
-  late String email;
-  late String firstName;
-  late String lastName;
-  late String username;
-  late String password;
-  late String role;
-  static const _roles =[
-    "Customer",
-    "Operator",
-    "Admin"
-  ];
-  String dropdownvalue = _roles[0];
+  late String Location;
+  late String Title;
+  late String Author;
+  late String Category;
+  late String Publisher;
+  late String Id;
+  late String RFID;
+  late String Description;
+  late String price;
+  late Item newItem;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Register page")),
+        appBar: AppBar(title: const Text("Add new Item")),
         body: Form(
           key: _formKey,
           child: ListView(
               //crossAxisAlignment: CrossAxisAlignment.start,
               //mainAxisSize: MainAxisSize.min,
               children: <Widget>[
+                const SizedBox( height: 40,),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Center(
                     child: Text(
-                      "Register your account",
+                      "Item details",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.deepOrangeAccent),
@@ -56,13 +58,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
                     decoration: const InputDecoration(
-                      hintText: "Enter your first name",
-                      labelText: 'First Name',
+                      hintText: "Enter the item's Title",
+                      labelText: 'Title',
                       border: OutlineInputBorder(),
                     ),
                     onChanged: (value) {
                       setState(() {
-                        firstName = value;
+                        Title = value;
                       });
                     },
                     validator: (String? value) {
@@ -78,13 +80,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
                     decoration: const InputDecoration(
-                      hintText: "Enter your last name",
-                      labelText: 'Last Name',
+                      hintText: "Enter the item's author",
+                      labelText: 'author',
                       border: OutlineInputBorder(),
                     ),
                     onChanged: (value) {
                       setState(() {
-                        lastName = value;
+                        Author = value;
                       });
                     },
                     validator: (String? value) {
@@ -100,118 +102,95 @@ class _RegisterPageState extends State<RegisterPage> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
                     decoration: const InputDecoration(
-                        hintText: "Enter your username",
-                        labelText: 'Username',
-                        border: OutlineInputBorder()),
-                    onChanged: (value) {
-                      setState(() {
-                        username = value;
-                      });
-                    },
-                    validator: (String? value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                        hintText: "Enter your email address",
-                        labelText: 'Email',
-                        border: OutlineInputBorder()),
-                    onChanged: (value) {
-                      setState(() {
-                        email = value;
-                      });
-                    },
-                    validator: (String? value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                        hintText: "Enter your password",
-                        labelText: 'Password',
-                        border: OutlineInputBorder()),
-                    onChanged: (value) {
-                      setState(() {
-                        password = value;
-                      });
-                    },
-                    validator: (String? value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                        hintText: "Confirm your password",
-                        labelText: 'Password validation',
-                        border: OutlineInputBorder()),
-                    validator: (String? value) {
-                      if (value != password) {
-                        return 'Password is not correct';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children : <Widget>[
-                    const SizedBox(width: 25),
-                    const Text("Select your role : ", style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),),
-                    DropdownButton<String>(
-                      value: dropdownvalue,
-                      icon : const Icon(Icons.arrow_downward),
-                      underline: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal : 30),
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        height: 5, width: 100, color: Colors.deepOrangeAccent),
-                      ),
-                      onChanged: (String? newValue){
-                        setState(() {
-                          dropdownvalue = newValue!;
-                       });
-                      },
-                      items: _roles.map<DropdownMenuItem<String>>((String value){
-                        return DropdownMenuItem<String>(
-                          child: Padding(
-                            padding : const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                            child: Text(value)), 
-                            value: value,
-                        );
-                      }).toList(),
+                      hintText: "Enter the item's category",
+                      labelText: 'Category',
+                      border: OutlineInputBorder(),
                     ),
-                  ]
-              ),
-              const SizedBox(height: 30),
+                    onChanged: (value) {
+                      setState(() {
+                        Category = value;
+                      });
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: "Enter the item's price",
+                      labelText: 'Price',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        price = value;
+                      });
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: "Enter the item's identifier",
+                      labelText: 'ID',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        Id = value;
+                      });
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: "Enter the description of the item",
+                      labelText: 'Description',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        Description = value;
+                      });
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
                 InkWell(
                     child: Container(
                       margin: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 20),
                       child: const Center(
-                          child: Text("SUBMIT",
+                          child: Text("SUBMIT new Book data",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Colors.black,
@@ -223,13 +202,31 @@ class _RegisterPageState extends State<RegisterPage> {
                           color: Colors.deepOrangeAccent),
                     ),
                     onTap: () async {
+                      setState(() {
+                        newItem = Item(
+                          author: Author, 
+                          title: Title, 
+                          category: Category, 
+                          available: true, 
+                          description: Description, 
+                          favorite: false, 
+                          urlImage: 'https://images.unsplash.com/photo-1615347497551-277d6616b959?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=692&q=80',
+                          location: "Saint July",
+                          id: Id,
+                          price: price,
+                          color : Colors.green,
+                        );
+                        pendingItems.add(newItem);
+                      });
                       if (_formKey.currentState != null) {
                         if (_formKey.currentState!.validate()) {
-                          await Httpservices.register(firstName, lastName,
-                              username, email, password, context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const DashBoard(user: UserData.myCustomer)));
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                  content: Text("Register Success")));
+                                  content: Text("Item added to pending items list")));
                         }
                       } else {}
                     })

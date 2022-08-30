@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:ims/Web_app/model/book.dart';
+import 'package:ims/Web_app/model/item.dart';
 import 'package:ims/Web_app/views/components/App_bar.dart';
 
 class ItemPage extends StatefulWidget {
-  final Book item;
+  final Item item;
 
   const ItemPage ({
     Key? key,
@@ -16,7 +16,7 @@ class ItemPage extends StatefulWidget {
 }
 
 class _ItemPageState extends State<ItemPage> {
-  final Book item;
+  final Item item;
   _ItemPageState({
     required this.item
   });
@@ -106,6 +106,15 @@ class _ItemPageState extends State<ItemPage> {
                 ]
               )
             ),
+            RichText(
+              text: TextSpan(
+                children: [
+                  const TextSpan(text: "Genre : ", style: TextStyle (fontSize: 24, fontWeight: FontWeight.normal, color: Colors.grey)),
+                  TextSpan(text: item.category, style: const TextStyle(fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold, )),
+                ]
+              )
+            ),
+            const SizedBox(height: 20,),
             RichText( 
               text: TextSpan(
                 children: [

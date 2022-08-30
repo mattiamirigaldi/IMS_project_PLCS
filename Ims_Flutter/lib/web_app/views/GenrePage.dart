@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ims/Web_app/model/genre.dart';
+import 'package:ims/Web_app/model/category.dart';
 import 'package:ims/Web_app/data/book_data.dart';
-import 'package:ims/Web_app/model/book.dart';
+import 'package:ims/Web_app/model/item.dart';
 import 'package:ims/Web_app/views/ItemPage.dart';
 
 class GenrePage extends StatefulWidget {
@@ -37,13 +37,13 @@ class _GenrePageState extends State<GenrePage> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 50),
           child: GridView.builder(
-            itemCount: allBooks.length,
+            itemCount: allItems.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 4,
               mainAxisSpacing: 40,
               crossAxisSpacing: 50,
               childAspectRatio: 1.2),
-              itemBuilder: (context,index) => buildCardItem(item: allBooks[index], context: context),
+              itemBuilder: (context,index) => buildCardItem(item: allItems[index], context: context),
             ),
         ),
       )
@@ -51,7 +51,7 @@ class _GenrePageState extends State<GenrePage> {
     ]),
   );
 }
-Widget buildCardItem( {required Book item, context }) => Container(
+Widget buildCardItem( {required Item item, context }) => Container(
   child: Column(children: [
     Expanded(
       child: AspectRatio (

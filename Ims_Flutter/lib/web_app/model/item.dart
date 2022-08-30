@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-class Book {
-  final int id;
+class Item {
+  final String id;
   final String title;
   final String author;
   final String urlImage;
@@ -9,10 +9,12 @@ class Book {
   final String price;
   final String description;
   final String location;
+  final String category;
   bool available;
   bool favorite;
 
-  Book ({
+
+  Item ({
     required this.id,
     required this.author,
     required this.title,
@@ -23,6 +25,7 @@ class Book {
     required this.available,
     required this.favorite,
     required this.location,
+    required this.category,
   });
 
 }

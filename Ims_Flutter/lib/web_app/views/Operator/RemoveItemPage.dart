@@ -1,15 +1,15 @@
 // ignore_for_file: file_names, camel_case_types
 
 import 'package:flutter/material.dart';
-import 'services/TOp_http_services.dart';
+import 'package:ims/Web_app/services/http_services.dart';
 
-class TRemoveBook extends StatefulWidget {
-  const TRemoveBook({Key? key}) : super(key: key);
+class removeItem extends StatefulWidget {
+  const removeItem({Key? key}) : super(key: key);
   @override
   _GenreListState createState() => _GenreListState();
 }
 
-class _GenreListState extends State<TRemoveBook> {
+class _GenreListState extends State<removeItem> {
   // ignore: unused_field
   final _formKey = GlobalKey<FormState>();
   @override
@@ -29,7 +29,7 @@ class _GenreListState extends State<TRemoveBook> {
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
               child: Center(
                   child: Text(
-                      "Please scan your RFID then click REMOVE button to remove the book",
+                      "Please scan your RFID then click REMOVE button to remove the item",
                       textAlign: TextAlign.center,
                       style: TextStyle(fontWeight: FontWeight.bold),
                       textScaleFactor: 2)),
@@ -52,7 +52,7 @@ class _GenreListState extends State<TRemoveBook> {
                       color: Colors.green),
                 )),
                 onTap: () async {
-                  await Httpservices.totemRemoveBook(context);
+                  await Httpservices.removeItem(context);
                   ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text("Item removed successfully")));
                 }),

@@ -1,4 +1,4 @@
-class Customer {
+class User {
 
   final String firstName;
   final String lastName;
@@ -7,15 +7,17 @@ class Customer {
   final String imagePath;
   final String news;
   final String pwd;
+  final int role;     // if customer role = 0, if operator role =1, if admin role = 2
 
-  const Customer ({
+  const User ({
     required this.firstName,
     required this.lastName,
     required this.userName,
     required this.email,
     required this.imagePath,
     required this.news,
-    required this.pwd
+    required this.pwd,
+    required this.role,
   });
 
   Map<String,dynamic> toJson() => {
@@ -29,7 +31,7 @@ class Customer {
   };
 
   // Create a copy of the user, parameters given as input are different
-  Customer copy({
+  User copy({
     String? firstName,
     String? lastName,
     String? userName,
@@ -37,18 +39,20 @@ class Customer {
     String? imagePath,
     String? news,
     String? pwd, 
-  }) => Customer (
+    int? role,
+  }) => User (
     firstName: firstName ?? this.firstName,
     lastName: lastName ?? this.lastName,
     userName: userName ?? this.userName,
     email: email ?? this.email,
     imagePath: imagePath ?? this.imagePath,
     news: news ?? this.news,
-    pwd: pwd ?? this.pwd
+    pwd: pwd ?? this.pwd,
+    role: role ?? this.role
   );
 
   // method to translate json object into customer
-  static Customer fromJson(Map<String,dynamic> json) => Customer(
+  static User fromJson(Map<String,dynamic> json) => User(
     firstName: json['firstName'],
     lastName: json['lastName'],
     userName: json['userName'],
@@ -56,5 +60,6 @@ class Customer {
     imagePath: json['imagePath'],
     news: json['news'],
     pwd: json['pwd'],
+    role: json['role'],
   );
 }

@@ -1,9 +1,9 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:ims/Web_app/model/book.dart';
+import 'package:ims/Web_app/model/item.dart';
 import 'package:ims/Web_app/data/book_data.dart';
-import 'package:ims/Web_app/model/genre.dart';
+import 'package:ims/Web_app/model/category.dart';
 import 'package:ims/Web_app/data/genre_data.dart';
 import 'package:ims/Web_app/views/GenrePage.dart';
 import 'package:ims/Web_app/views/ItemPage.dart';
@@ -29,13 +29,13 @@ class _FeedDashBoardState extends State<FeedDashBoard> {
         child: ListView.separated(
           padding: const EdgeInsets.all(22),
           scrollDirection: Axis.horizontal,
-          itemCount: allBooks.length,
+          itemCount: allItems.length,
           separatorBuilder: (context, _) => const SizedBox(width: 15),
-          itemBuilder: (context, index) => buildCardItem(item: allBooks[index], context: context) 
+          itemBuilder: (context, index) => buildCardItem(item: allItems[index], context: context) 
         )
       ),
       const Text(
-        "Search by genre", 
+        "Search by category", 
         style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blueGrey) 
       ),
       Container(
@@ -43,9 +43,9 @@ class _FeedDashBoardState extends State<FeedDashBoard> {
         child: ListView.separated(
           padding: const EdgeInsets.all(22),
           scrollDirection: Axis.horizontal,
-          itemCount: allGenre.length,
+          itemCount: allCategory.length,
           separatorBuilder: (context, _) => const SizedBox(width: 15),
-          itemBuilder: (context, index) => buildCardGenre(item: allGenre[index], context: context) 
+          itemBuilder: (context, index) => buildCardCategory(item: allCategory[index], context: context) 
         )
       ) 
     ]);
@@ -53,7 +53,7 @@ class _FeedDashBoardState extends State<FeedDashBoard> {
 }
 
 
-Widget buildCardItem( {required Book item, context }) => Container(
+Widget buildCardItem( {required Item item, context }) => Container(
   width : 220,
   child: Column(children: [
     Expanded(
@@ -85,7 +85,7 @@ Widget buildCardItem( {required Book item, context }) => Container(
   ]),
 ); 
 
-Widget buildCardGenre( {required Genre item, context }) => Container(
+Widget buildCardCategory( {required Category item, context }) => Container(
   width : 200,
   child: Column(children: [
     Expanded(

@@ -2,18 +2,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:ims/Web_app/views/components/profile_widget.dart';
-import 'package:ims/Web_app/model/customer.dart';
+import 'package:ims/Web_app/model/user.dart';
 import '../UserSettings.dart';
 
 class UserDashBoard extends StatelessWidget {
-  final Customer customer;
+  final User user;
   const UserDashBoard(
       {Key? key,
-      required this.customer})
+      required this.user})
       : super(key: key);
   @override 
   Widget build(BuildContext context){
-    String name = customer.firstName;
+    String name = user.firstName;
     return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -26,30 +26,30 @@ class UserDashBoard extends StatelessWidget {
                       textScaleFactor: 2)),
               // Icon pic
               ProfileWidget(
-                imagePath : customer.imagePath,
+                imagePath : user.imagePath,
                 onClicked: () async {
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => SettingPage(myCustomer:customer))
+                    MaterialPageRoute(builder: (context) => SettingPage(myCustomer:user))
                   );
                 },
               ),
               const SizedBox(height: 40),
               // 
-              buildName(customer),
+              buildName(user),
               const SizedBox(height: 40),
-              buildNews(customer),
+              buildNews(user),
             ]);
   }
   
- Widget buildName(Customer customer) => Center(
+ Widget buildName(User user) => Center(
    child: Column( 
     children: [
       Text(
-      customer.firstName,
+      user.firstName,
       style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24 ),
       ),
       Text(
-        customer.email,
+        user.email,
         style: const TextStyle(color: Colors.grey),
       ),
     ],
@@ -57,7 +57,7 @@ class UserDashBoard extends StatelessWidget {
  );
 
 
- Widget buildNews(Customer customer) => Container(
+ Widget buildNews(User user) => Container(
   padding: const EdgeInsets.symmetric(horizontal: 48),
    child: Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,7 +66,7 @@ class UserDashBoard extends StatelessWidget {
       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.amber),
       ),
       Text(
-        customer.news,
+        user.news,
         style: const TextStyle(fontSize: 16, height: 1.4),)
     ],
    ),

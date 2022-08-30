@@ -1,8 +1,8 @@
-class Genre {
+class Category {
   final String name;
   final String urlImage;
 
-  const Genre ({
+  const Category ({
     required this.name,
     required this.urlImage,
   });

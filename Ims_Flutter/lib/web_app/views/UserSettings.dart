@@ -1,7 +1,7 @@
 // ignore_for_file: file_names, must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:ims/Web_app/model/customer.dart';
+import 'package:ims/Web_app/model/user.dart';
 import 'package:ims/Web_app/views/components/profile_widget.dart';
 import './../services/http_services.dart';
 import 'dart:io';
@@ -11,7 +11,7 @@ import '../data/user_data.dart';
 
 
 class SettingPage extends StatefulWidget {
-  final Customer myCustomer;
+  final User myCustomer;
   const SettingPage({
       Key? key,
       required this.myCustomer,
@@ -24,7 +24,7 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage>{
   final _formKey = GlobalKey<FormState>();
   
-  late Customer customer = widget.myCustomer;
+  late User user = widget.myCustomer;
 
   @override
   Widget build(BuildContext context) {
@@ -35,43 +35,43 @@ class _SettingPageState extends State<SettingPage>{
             padding: const EdgeInsets.symmetric(horizontal: 32),
             children: <Widget>[
               ProfileWidget(
-                imagePath: customer.imagePath,
+                imagePath: user.imagePath,
                 isEdit : true,
                 onClicked: () async {},),
                 const SizedBox(height : 24),
               TextFieldWidget(
                 label: 'First Name',
-                text: customer.firstName,
+                text: user.firstName,
                 onChanged: (value) {
-                  customer = customer.copy(firstName: value);
+                  user = user.copy(firstName: value);
                 },
               ),
               TextFieldWidget(
                 label: ' Last Name',
-                text: customer.lastName,
+                text: user.lastName,
                 onChanged: (value) {
-                  customer = customer.copy(lastName: value);
+                  user = user.copy(lastName: value);
                 },
               ),
               TextFieldWidget(
                 label: 'Username',
-                text: customer.userName,
+                text: user.userName,
                 onChanged: (value) {
-                  customer = customer.copy(userName: value);
+                  user = user.copy(userName: value);
                 },
               ),
               TextFieldWidget(
                 label: 'email',
-                text: customer.email,
+                text: user.email,
                 onChanged: (value) {
-                  customer = customer.copy(email: value);
+                  user = user.copy(email: value);
                 },
               ),
                TextFieldWidget(
                 label: 'Password',
-                text: customer.pwd,
+                text: user.pwd,
                 onChanged: (value) {
-                  customer = customer.copy(pwd: value);
+                  user = user.copy(pwd: value);
                 },
               ),
                 InkWell(
@@ -91,8 +91,8 @@ class _SettingPageState extends State<SettingPage>{
                           color: Colors.blue),
                     ),
                     onTap: () async {
-                      UserData.setUser(customer); // to save new customer in the disk
-                      await Httpservices.settings_ch(customer ,context);
+                      UserData.setUser(user); // to save new customer in the disk
+                      await Httpservices.settings_ch(user ,context);
                       ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text("User edited successfully")));
                     })

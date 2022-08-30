@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import './../../data/book_data.dart';
-import './../../model/book.dart';
+import '../../model/item.dart';
 
 class SearchBar extends StatefulWidget {
   const SearchBar({Key? key}) : super(key: key);
@@ -15,7 +15,7 @@ class _SearchBarState extends State<SearchBar> {
   // Global key that uniquely identifies the form widget and is used for validation
   final _formKey = GlobalKey<FormState>();
   // Found books in database
-  late List<Book> books;
+  late List<Item> items;
   // Typed in the text field
   late String typed = '';
   // Initial filter
@@ -26,7 +26,7 @@ class _SearchBarState extends State<SearchBar> {
   @override
   void initState() {
     super.initState();
-    books = allBooks;
+    items = allItems;
   }
 
   @override
@@ -71,7 +71,7 @@ class _SearchBarState extends State<SearchBar> {
                   }),
             ),
             Expanded(
-                child: PopupMenuButton<Book>(
+                child: PopupMenuButton<Item>(
                   offset: const Offset(0.0, 44),
                   child: TextFormField(             
                     
@@ -100,10 +100,10 @@ class _SearchBarState extends State<SearchBar> {
                         ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('selected ' + value.title)));
                       },
-                      itemBuilder: (BuildContext context) => books.map((e) =>
-                        PopupMenuItem<Book>(
+                      itemBuilder: (BuildContext context) => items.map((e) =>
+                        PopupMenuItem<Item>(
                           value: e, 
-                          child: SizedBox(width:200, child: buildBook(e)) 
+                          child: SizedBox(width:200, child: buildItem(e)) 
                         )
                       ).toList())
             ),
@@ -115,13 +115,13 @@ class _SearchBarState extends State<SearchBar> {
   }
 }
 
-Widget buildBook(Book book) => ListTile(
+Widget buildItem(Item item) => ListTile(
       leading: Image.network(
-        book.urlImage,
+        item.urlImage,
         fit: BoxFit.cover,
         width: 40,
         height: 40,
       ),
-      title: Text(book.title),
-      subtitle: Text(book.author),
+      title: Text(item.title),
+      subtitle: Text(item.author),
     );

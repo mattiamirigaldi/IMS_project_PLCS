@@ -8,7 +8,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 // to route
 import '../../routes.dart';
 // parameters
-import 'package:ims/Web_app/model/customer.dart';
+import 'package:ims/Web_app/model/user.dart';
 import 'package:ims/Web_app/data/user_data.dart';
 import './../views/DashBoard.dart';
 import 'package:ims/Web_app/views/UserSettings.dart';
@@ -18,8 +18,21 @@ String baseUrl = Myroutes.baseUrl;
 
 class Httpservices {
   static final _client = http.Client();
-  static final _loginUrl = Uri.parse(baseUrl + '/login');
-  static final _registerUrl = Uri.parse(baseUrl + '/register');
+
+  static final _loginUrl = 
+      Uri.parse(baseUrl + '/login');
+  static final _registerUrl = 
+      Uri.parse(baseUrl + '/register');
+  static final _addCustomer =
+      Uri.parse(baseUrl + '/Web/Operator/AddCustomer');
+  static final _addCustomerCheck =
+      Uri.parse(baseUrl + '/Web/Operator/AddCustomerCheck');
+  static final _removeCustomer =
+      Uri.parse(baseUrl + '/Web/Operator/RemoveCustomer');
+  static final _addBook = 
+      Uri.parse(baseUrl + '/totem/Operator/AddBook');
+  static final _removeBook =
+      Uri.parse(baseUrl + '/Web/Operator/RemoveBook');
 
   static register(
       firstName, lastName, userName, email, password, context) async {
@@ -47,7 +60,7 @@ class Httpservices {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    DashBoard(customer: UserData.myCustomer)));
+                    DashBoard(user: UserData.myCustomer)));
       }
     } else {
       await EasyLoading?.showError(
@@ -75,7 +88,7 @@ class Httpservices {
             context,
             MaterialPageRoute(
                 builder: (context) => DashBoard(
-                      customer: UserData.getCustomer(),
+                      user: UserData.getUser(),
                     )));
       }
     } else {
@@ -90,7 +103,7 @@ class Httpservices {
   //       body: {"userName": userName});
   //   if (response.statusCode == 200) {
   //     var json = jsonDecode(response.body);
-  //         Customer myCustomer(email :  )
+  //         User myCustomer(email :  )
       
   //     Navigator.push(
   //         context,
@@ -108,7 +121,7 @@ class Httpservices {
   //   }
   // }
 
-  static settings_ch(Customer myCustomer,context) async {
+  static settings_ch(User myCustomer,context) async {
     http.Response response = await _client
         .post(Uri.parse(baseUrl + "settings_ch/" + myCustomer.userName), body: {
       "firstName": myCustomer.firstName,
@@ -122,7 +135,7 @@ class Httpservices {
       Navigator.push(
           context,
           MaterialPageRoute(
-             builder: (context) => DashBoard(customer: UserData.myCustomer)));
+             builder: (context) => DashBoard(user: UserData.myCustomer)));
       } else {
       await EasyLoading?.showError(
           "Error Code : ${response.statusCode.toString()}");
@@ -150,4 +163,110 @@ class Httpservices {
           "Error Code : ${response.statusCode.toString()}");
     }
   }
+
+
+  // Add customer check
+  static addCustomerCheck(username) async {
+    http.Response response = await _client
+        .post(_addCustomerCheck, body: {"username": username});
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      return json[0];
+    } else {
+      EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+    }
+  }
+
+
+  // Add customer method
+  static addCustomer(
+    firstName,
+    lastName,
+    username,
+    email,
+    password,
+    context,
+  ) async {
+    await EasyLoading.showSuccess("entered in http services");
+    http.Response response = await _client.post(_addCustomer, body: {
+      "firstName": firstName,
+      "lastName": lastName,
+      "email": email,
+      "username": username,
+      "password": password
+    });
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == "new User added to the database successfully") {
+        await EasyLoading.showSuccess(json[0]);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const DashBoard(user: UserData.myCustomer)));
+      } else {
+        await EasyLoading.showError(json[0]);
+      }
+    } else {
+      EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+    }
+  }
+
+
+  // Remove customer
+  static removeCheck(context) async {
+    http.Response response = await _client.get(_removeCustomer);
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == "no") {
+        await EasyLoading.showError('User Not Found');
+      } else {
+        await EasyLoading.showSuccess('User removed successfully');
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const DashBoard(user: UserData.myCustomer)));
+      }
+    } else {
+      EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  // Add item method
+  static addItem(
+      Title, Author, Genre, Publisher, Date, Description, context) async {
+    http.Response response = await _client.post(_addBook, body: {
+      "Title": Title,
+      "Author": Author,
+      "Genre": Genre,
+      "Publisher": Publisher,
+      "Date": Date,
+      "Description": Description,
+      "rfid_flag": "yes"
+    });
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == "done") {
+        await EasyLoading.showSuccess("Book added successfully");
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const DashBoard(user: UserData.myCustomer)));
+      } else {
+        await EasyLoading.showError(json[0]);
+      }
+    } else {
+      EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+    }
+  }
+
+
+  // Remove item method
+  static removeItem(context) async {
+    http.Response response = await _client.get(_removeBook);
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == "done") {
+        await EasyLoading.showSuccess("Book removed successfully");
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const DashBoard(user: UserData.myCustomer)));
+      } else {
+        await EasyLoading.showError("The Book is not in the database");
+      }
+    }
+  }
+
 }
