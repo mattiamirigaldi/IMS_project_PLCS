@@ -295,6 +295,8 @@ def totem_RemoveBook(adminID,oprID):
         cnxn.close()
         return jsonify(["done"])
 
+#############################################################
+
 # Pending Items
 @totem_methods.route("/totem/Operator/PendingItems/<adminID>/<oprID>", methods=["GET", "POST"])
 def totem_PendingItems(adminID,oprID):
@@ -328,6 +330,36 @@ def totem_PendingItems(adminID,oprID):
         j += 1
     cnxn.close()
     return jsonify([tit, aut, gen, rfid, usr, loc])
+
+# Pending Customers
+@totem_methods.route("/totem/Operator/PendingCustomers/<adminID>/<oprID>", methods=["GET", "POST"])
+def totem_PendingCustomers(adminID,oprID):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    check_query = "SELECT * FROM customers WHERE admin_id = (?) AND opr_id = (?) AND id is null"
+    cursor.execute(check_query,adminID,oprID)
+    if cursor.rowcount == 0 :
+        cnxn.close()
+        print("Pending List is Empty")
+        return jsonify(["no"])
+    print("There are Pending Items")
+    j = 0
+    fnm = []
+    lnm = []
+    unm = []
+    mil = []
+    data = []
+    for row in cursor:
+        books = {"firstname": row[3], "lastname": row[4], "username": row[5], "mail": row[6]}
+        data.append(books)
+    for i in data:
+        fnm.append(data[j]["firstname"])
+        lnm.append(data[j]["lastname"])
+        unm.append(data[j]["username"])
+        mil.append(data[j]["mail"])
+        j += 1
+    cnxn.close()
+    return jsonify([fnm, lnm, unm, mil])
 
 #############################################################
 
