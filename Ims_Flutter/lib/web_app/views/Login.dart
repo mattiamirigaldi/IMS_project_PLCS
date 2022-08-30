@@ -15,6 +15,7 @@ class _LoginPageState extends State<LoginPage> {
   // Login parameters
   late String username;
   late String password;
+  late String role;
   static const _roles =[
     "Customer",
     "Operator",
@@ -97,6 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                   onChanged: (String? newValue){
                     setState(() {
                       dropdownvalue = newValue!;
+                      role = dropdownvalue;
                     });
                   },
                   items: _roles.map<DropdownMenuItem<String>>((String value){
