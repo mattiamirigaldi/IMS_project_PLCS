@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       title: 'Inventory Management System',
       theme: ThemeData(primarySwatch: Colors.blueGrey),
       builder: EasyLoading.init(),
-      initialRoute: '/totem',
+      initialRoute: '/mobile',
       routes: {
         Myroutes.WebWelcomePage: (context) => const WelcomeHome(),
         Myroutes.MobileWelcomePage: (context) => const MWelcome(),
