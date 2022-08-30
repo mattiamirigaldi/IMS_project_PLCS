@@ -21,7 +21,12 @@ class _RegisterPageState extends State<RegisterPage> {
   late String lastName;
   late String username;
   late String password;
-
+  static const _roles =[
+    "Customer",
+    "Operator",
+    "Admin"
+  ];
+  String dropdownvalue = _roles[0];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -168,6 +173,38 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                   ),
                 ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children : <Widget>[
+                    const SizedBox(width: 25),
+                    const Text("Select your role : ", style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),),
+                    DropdownButton<String>(
+                      value: dropdownvalue,
+                      icon : const Icon(Icons.arrow_downward),
+                      underline: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal : 30),
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        height: 5, width: 100, color: Colors.deepOrangeAccent),
+                      ),
+                      onChanged: (String? newValue){
+                        setState(() {
+                          dropdownvalue = newValue!;
+                       });
+                      },
+                      items: _roles.map<DropdownMenuItem<String>>((String value){
+                        return DropdownMenuItem<String>(
+                          child: Padding(
+                            padding : const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                            child: Text(value)), 
+                            value: value,
+                        );
+                      }).toList(),
+                    ),
+                  ]
+              ),
+              const SizedBox(height: 30),
                 InkWell(
                     child: Container(
                       margin: const EdgeInsets.symmetric(

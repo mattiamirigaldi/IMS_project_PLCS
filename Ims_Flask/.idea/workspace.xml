@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1c0fe7fc-4b70-4f13-828c-0dcd61a577d3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connectionToDb.py" beforeDir="false" afterPath="$PROJECT_DIR$/connectionToDb.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/components/FeedDashBoard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/components/FeedDashBoard.dart" afterDir="false" />
-    </list>
+    <list default="true" id="1c0fe7fc-4b70-4f13-828c-0dcd61a577d3" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -185,7 +180,7 @@
       <workItem from="1661190460106" duration="535000" />
       <workItem from="1661265333454" duration="622000" />
       <workItem from="1661788261151" duration="672000" />
-      <workItem from="1661789359272" duration="524000" />
+      <workItem from="1661789359272" duration="1152000" />
     </task>
     <servers />
   </component>
@@ -206,7 +201,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/app_py$flaskProject.coverage" NAME="flaskProject Coverage Results" MODIFIED="1657796470675" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/flaskProject$flaskProject.coverage" NAME="flaskProject Coverage Results" MODIFIED="1651571246353" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/app_py$app.coverage" NAME="app Coverage Results" MODIFIED="1661789644125" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/app_py$app.coverage" NAME="app Coverage Results" MODIFIED="1661789890341" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/app_py$totem_methods.coverage" NAME="totem_methods Coverage Results" MODIFIED="1657722470164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
