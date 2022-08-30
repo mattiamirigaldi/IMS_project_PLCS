@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:ims/Totem/Operator/TAddBook.dart';
 import 'package:ims/Totem/Operator/TRemoveBook.dart';
 
-class modifyBook extends StatelessWidget {
+class TmodifyBook extends StatelessWidget {
   //final String name ;
   // final String email;
   // final String userName;
-  const modifyBook({Key? key}) : super(key: key);
+  const TmodifyBook({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

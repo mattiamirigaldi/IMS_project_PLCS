@@ -5,13 +5,19 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 // to display loading animation
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:ims/Totem/Operator/TRemoveBook.dart';
+import 'package:ims/Totem/Operator/TModifyCustomer.dart';
+import 'package:ims/Totem/Operator/opr_data.dart';
 // to route
 import '../../../routes.dart';
 import '../THomePage_op.dart';
-import '../TRemoveCustomer.dart';
+import '../TModifyBook.dart';
 
 String baseUrl = Myroutes.baseUrl;
+String totemAddCstChk = baseUrl + '/totem/Operator/AddCustomerCheck/';
+String totemAddCst = baseUrl + '/totem/Operator/AddCustomer/';
+String totemAddBookUrl = baseUrl + '/totem/Operator/AddBook/';
+String totemRemoveBookUrl = baseUrl + '/totem/Operator/RemoveBook/';
+String totemRemoveCst = baseUrl + '/totem/Operator/RemoveCustomer/';
 
 class Httpservices {
   static final _client = http.Client();
@@ -19,16 +25,14 @@ class Httpservices {
       Uri.parse(baseUrl + '/totem/OprLoginRFID');
   static final _totemOprLoginCredentialUrl =
       Uri.parse(baseUrl + '/totem/OprLoginCredential');
-  //static final _bookcheckurl = Uri.parse(baseUrl + '/totem/BookCheck');
-  static final _totemAddCustomer =
-      Uri.parse(baseUrl + '/totem/Operator/AddCustomer');
-  static final _totemAddCustomerCheck =
-      Uri.parse(baseUrl + '/totem/Operator/AddCustomerCheck');
-  static final _totemRemoveCustomer =
-      Uri.parse(baseUrl + '/totem/Operator/RemoveCustomer');
-  static final _totemAddBook = Uri.parse(baseUrl + '/totem/Operator/AddBook');
-  static final _totemRemoveBook =
-      Uri.parse(baseUrl + '/totem/Operator/RemoveBook');
+
+  static final opr_buffer = opr_data(
+      mail: '',
+      username: '',
+      lastname: '',
+      firstname: '',
+      rfid: '',
+      adminID: '');
 
   // Login with rfid method
   static totemLoginOp(context) async {
@@ -38,6 +42,12 @@ class Httpservices {
       if (json[0] == "Operator not found") {
         await EasyLoading.showError(json[0]);
       } else {
+        opr_buffer.firstname = json[1];
+        opr_buffer.lastname = json[2];
+        opr_buffer.username = json[3];
+        opr_buffer.mail = json[4];
+        opr_buffer.rfid = json[5];
+        opr_buffer.adminID = json[6];
         await EasyLoading.showSuccess("Welcome dear Operator");
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const hmpage_op()));
@@ -56,6 +66,12 @@ class Httpservices {
       if (json[0] == "not_found") {
         await EasyLoading.showError(json[0]);
       } else {
+        opr_buffer.firstname = json[1];
+        opr_buffer.lastname = json[2];
+        opr_buffer.username = json[3];
+        opr_buffer.mail = json[4];
+        opr_buffer.rfid = json[5];
+        opr_buffer.adminID = json[6];
         await EasyLoading.showSuccess("Welcome Back " + json[1]);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const hmpage_op()));
@@ -67,8 +83,9 @@ class Httpservices {
 
   // Add customer check
   static totemAddCustomerCheck(username) async {
-    http.Response response = await _client
-        .post(_totemAddCustomerCheck, body: {"username": username});
+    http.Response response = await _client.post(
+        totemAddCstChk + opr_buffer.adminID + '/' + opr_buffer.rfid,
+        body: {"username": username});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       return json[0];
@@ -86,8 +103,8 @@ class Httpservices {
     password,
     context,
   ) async {
-    await EasyLoading.showSuccess("entered in http services");
-    http.Response response = await _client.post(_totemAddCustomer, body: {
+    http.Response response = await _client
+        .post(totemAddCst + opr_buffer.adminID + '/' + opr_buffer.rfid, body: {
       "firstName": firstName,
       "lastName": lastName,
       "email": email,
@@ -99,7 +116,7 @@ class Httpservices {
       if (json[0] == "new User added to the database successfully") {
         await EasyLoading.showSuccess(json[0]);
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const hmpage_op()));
+            MaterialPageRoute(builder: (context) => const TmodifyCustomer()));
       } else {
         await EasyLoading.showError(json[0]);
       }
@@ -109,8 +126,9 @@ class Httpservices {
   }
 
   // Remove customer
-  static RemoveCheck(context) async {
-    http.Response response = await _client.get(_totemRemoveCustomer);
+  static totemRemoveCustomer(context) async {
+    http.Response response = await _client
+        .get(totemRemoveCst + opr_buffer.adminID + '/' + opr_buffer.rfid);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "no") {
@@ -118,7 +136,7 @@ class Httpservices {
       } else {
         await EasyLoading.showSuccess('User removed successfully');
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const TRemoveCustomer()));
+            MaterialPageRoute(builder: (context) => const TmodifyCustomer()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
@@ -128,15 +146,16 @@ class Httpservices {
   // Add book method
   static totemAddbook(
       Title, Author, Genre, Publisher, Date, Description, context) async {
-    http.Response response = await _client.post(_totemAddBook, body: {
-      "Title": Title,
-      "Author": Author,
-      "Genre": Genre,
-      "Publisher": Publisher,
-      "Date": Date,
-      "Description": Description,
-      "rfid_flag": "yes"
-    });
+    http.Response response = await _client.post(
+        totemAddBookUrl + opr_buffer.adminID + '/' + opr_buffer.rfid,
+        body: {
+          "Title": Title,
+          "Author": Author,
+          "Genre": Genre,
+          "Publisher": Publisher,
+          "Date": Date,
+          "Description": Description,
+        });
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "done") {
@@ -153,13 +172,14 @@ class Httpservices {
 
   // Remove book method
   static totemRemoveBook(context) async {
-    http.Response response = await _client.get(_totemRemoveBook);
+    http.Response response = await _client
+        .get(totemRemoveBookUrl + opr_buffer.adminID + '/' + opr_buffer.rfid);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "done") {
         await EasyLoading.showSuccess("Book removed successfully");
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const TRemoveBook()));
+            MaterialPageRoute(builder: (context) => const TmodifyBook()));
       } else {
         await EasyLoading.showError("The Book is not in the database");
       }

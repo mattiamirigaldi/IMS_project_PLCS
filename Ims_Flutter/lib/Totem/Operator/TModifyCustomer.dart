@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:ims/Totem/Operator/TAddCustomer.dart';
 import 'package:ims/Totem/Operator/TRemoveCustomer.dart';
 
-class modifyCustomer extends StatelessWidget {
-  const modifyCustomer({Key? key}) : super(key: key);
+class TmodifyCustomer extends StatelessWidget {
+  const TmodifyCustomer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
