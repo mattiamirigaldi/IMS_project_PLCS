@@ -32,7 +32,7 @@ class hmpage_op extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const modifyCustomer()));
+                          builder: (context) => const TmodifyCustomer()));
                 },
                 child: Center(
                   child: Container(
@@ -58,7 +58,7 @@ class hmpage_op extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const modifyBook()));
+                          builder: (context) => const TmodifyBook()));
                 },
                 child: Center(
                   child: Container(

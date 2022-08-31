@@ -90,7 +90,7 @@ class _GenreListState extends State<MRemoveBook> {
                         margin: const EdgeInsets.symmetric(
                             horizontal: 30, vertical: 20),
                         child: const Center(
-                            child: Text("Remove (Username)",
+                            child: Text("Remove (using Name)",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Colors.black,
@@ -120,7 +120,7 @@ class _GenreListState extends State<MRemoveBook> {
                       "Please scan your RFID then click REMOVE button to remove the book",
                       textAlign: TextAlign.center,
                       style: TextStyle(fontWeight: FontWeight.bold),
-                      textScaleFactor: 2)),
+                      textScaleFactor: 1.6)),
             ),
             InkWell(
                 child: Center(
@@ -128,9 +128,10 @@ class _GenreListState extends State<MRemoveBook> {
                   margin:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: const Center(
-                      child: Text("REMOVE",
+                      child: Text("Remove (using RFID)",
                           textAlign: TextAlign.center,
                           style: TextStyle(
+                              fontSize: 25,
                               color: Colors.black,
                               fontWeight: FontWeight.bold))),
                   height: 50,

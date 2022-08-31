@@ -53,8 +53,6 @@ class _GenreListState extends State<TRemoveBook> {
                 )),
                 onTap: () async {
                   await Httpservices.totemRemoveBook(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Item removed successfully")));
                 }),
           ]),
     );

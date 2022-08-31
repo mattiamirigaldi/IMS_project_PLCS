@@ -1,7 +1,6 @@
 // ignore_for_file: file_names, camel_case_types
 
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import './services/TOp_http_services.dart';
 
 class TAddCustomerRFID extends StatefulWidget {
@@ -46,8 +45,6 @@ class _GenreListState extends State<TAddCustomerRFID> {
                           color: Colors.black))),
               InkWell(
                 onTap: () async {
-                  await EasyLoading.showSuccess(
-                      "received first name = " + widget.firstName);
                   await Httpservices.totemAddCustomer(
                       widget.firstName,
                       widget.lastName,
@@ -55,8 +52,6 @@ class _GenreListState extends State<TAddCustomerRFID> {
                       widget.email,
                       widget.password,
                       context);
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("New User added successfully")));
                 },
                 child: Center(
                   child: Container(

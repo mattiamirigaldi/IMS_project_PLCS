@@ -74,8 +74,6 @@ class _TLoginPageState extends State<TLoginPage> {
                   // if(_formKey.currentState != null) {
                   //   if (_formKey.currentState!.validate()){
                   await Httpservices.totemLoginUs(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Login Success")));
                   //   }
                   //   } else {
 

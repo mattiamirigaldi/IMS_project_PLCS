@@ -2,9 +2,9 @@
 
 class Myroutes {
   static String baseUrlMobile = '0';
+
   static String baseUrl = 'http://192.168.1.57:5000';
   static String webWelcomePage = "/web";
   static String totemWelcomePage = "/totem";
   static String mobileWelcomePage = "/mobile";
-
 }

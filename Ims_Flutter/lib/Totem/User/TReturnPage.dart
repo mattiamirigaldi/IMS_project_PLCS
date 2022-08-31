@@ -52,9 +52,7 @@ class _GenreListState extends State<TReturnPage> {
                       color: Colors.green),
                 )),
                 onTap: () async {
-                  await Httpservices.Book_check_return(context);
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(const SnackBar(content: Text("returned")));
+                  await Httpservices.Book_return(context);
                 }),
           ]),
     );
