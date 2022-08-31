@@ -16,8 +16,10 @@ class UserDashBoard extends StatelessWidget {
     String name = user.firstName;
     return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              const SizedBox(height: 40,),
               Center(
                   child: Text(
                       "Welcome dear $name",

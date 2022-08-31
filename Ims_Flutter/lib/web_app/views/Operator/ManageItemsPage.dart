@@ -28,7 +28,9 @@ class manageItems extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const Center(child: Text("Please select a service")),
+              const SizedBox(height: 80),
+              const Center(child: Text("Please select a service", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),)),
+              const SizedBox(height: 40,),
               InkWell(
                 onTap: () {
                   Navigator.push(

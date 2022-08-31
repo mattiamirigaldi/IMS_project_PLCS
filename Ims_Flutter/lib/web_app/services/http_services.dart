@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 // to display loading animation
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:ims/Web_app/views/Operator/RemoveItemPage.dart';
 // to route
 import '../../routes.dart';
 // parameters
@@ -210,9 +211,10 @@ class Httpservices {
   }
 
 
-  // Remove customer
-  static removeCheck(context) async {
-    http.Response response = await _client.get(_removeCustomer);
+// Remove customer
+  static removeCheck(cst_username, usrn_rfid, context) async {
+    http.Response response = await _client.post(
+        _removeCustomer, body: {"cst_username": cst_username, "usrn_rfid": usrn_rfid});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "no") {
@@ -226,6 +228,7 @@ class Httpservices {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
     }
   }
+
 
   // Add item method
   static addItem(
@@ -255,17 +258,24 @@ class Httpservices {
 
 
   // Remove item method
-  static removeItem(context) async {
-    http.Response response = await _client.get(_removeBook);
+  static removeItem(item_title, item_author, rfid_flag, context) async {
+    http.Response response = await _client
+        .post(_removeBook, body: {
+      "title": item_title,
+      "author": item_author,
+      "rfid_flag": rfid_flag
+    });
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "done") {
-        await EasyLoading.showSuccess("Book removed successfully");
+        await EasyLoading.showSuccess("Item removed successfully");
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const DashBoard(user: UserData.myCustomer)));
       } else {
-        await EasyLoading.showError("The Book is not in the database");
+        await EasyLoading.showError("The item is not in the database");
       }
+    } else {
+      EasyLoading.showError("Error code : ${response.statusCode.toString()}");
     }
   }
 
