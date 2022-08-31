@@ -29,8 +29,8 @@ class MyApp extends StatelessWidget {
       builder: EasyLoading.init(),
       initialRoute: '/web',
       routes: {
-        Myroutes.webWelcomePage: (context) => const WelcomeHome(),
-        //Myroutes.webWelcomePage: (context) => const DashBoard(user: UserData.myCustomer),
+        //Myroutes.webWelcomePage: (context) => const WelcomeHome(),
+        Myroutes.webWelcomePage: (context) => const DashBoard(user: UserData.myCustomer),
         Myroutes.totemWelcomePage: (context) => const TWelcome(),
         Myroutes.mobileWelcomePage: (context) => const MWelcome(),
       },

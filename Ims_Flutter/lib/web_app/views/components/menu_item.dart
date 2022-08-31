@@ -6,6 +6,7 @@ import 'package:ims/Web_app/views/Operator/ManageCustomerPage.dart';
 import 'package:ims/Web_app/views/Operator/ManageItemsPage.dart';
 import 'package:ims/Web_app/views/UserSettings.dart';
 import 'package:ims/Web_app/data/user_data.dart';
+import 'package:ims/Web_app/views/WelcomPage.dart';
 
 class MenuItems extends StatefulWidget {
   final String title;
@@ -88,6 +89,8 @@ void choiceAction (String choice, String userName, BuildContext context) async {
         ScaffoldMessenger.of(context)
              .showSnackBar(SnackBar(content: Text(choice)));
         Navigator.push( context, MaterialPageRoute( builder: (context) => const manageItems()));
+      } else if (choice == "Logout") {
+        Navigator.push( context, MaterialPageRoute( builder: (context) => const WelcomeHome()));
       } else {
         ScaffoldMessenger.of(context)
              .showSnackBar(SnackBar(content: Text(choice)));

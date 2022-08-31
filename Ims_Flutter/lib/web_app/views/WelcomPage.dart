@@ -9,11 +9,12 @@ class WelcomeHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Welcome Page")),
         body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              const SizedBox(height: 80,),
               const Center(
                   child: Text("Welcome to your",
                       textAlign: TextAlign.center,
