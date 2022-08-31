@@ -21,7 +21,7 @@ class TextFieldWidget extends StatefulWidget {
 class _TextFieldWidgetState extends State<TextFieldWidget> {
   // To modify the displayed test is used this controller
   late final TextEditingController controller;
-  bool _validate = false;
+  //bool _validate = false;
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
         children: [
           Text(
             widget.label,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           const SizedBox(height: 8),
           TextFormField(
@@ -53,17 +53,15 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
-
             ),
             maxLines: widget.maxLines,
             validator: (String? value) {
               if (value!.isEmpty) {
-              return 'Please enter some text';
-            }
-                      return null;
-                    },
+                return 'Please enter some text';
+              }
+              return null;
+            },
           ),
-
         ],
       );
 }

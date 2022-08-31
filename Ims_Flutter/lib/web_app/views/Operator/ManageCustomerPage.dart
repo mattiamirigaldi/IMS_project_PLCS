@@ -1,8 +1,8 @@
 // ignore_for_file: file_names, camel_case_types
 
 import 'package:flutter/material.dart';
-import 'package:ims/Web_app/views/Operator/AddCustomerPage.dart';
-import 'package:ims/Web_app/views/Operator/RemoveCustomerPage.dart';
+import 'package:ims/web_app/views/Operator/AddCustomerPage.dart';
+import 'package:ims/web_app/views/Operator/RemoveCustomerPage.dart';
 
 class manageCustomer extends StatelessWidget {
   const manageCustomer({Key? key}) : super(key: key);
@@ -12,8 +12,7 @@ class manageCustomer extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.green,
-            title:
-                const Image(
+            title: const Image(
               image: AssetImage('images/logo.png'),
               height: 50,
             )),
@@ -22,8 +21,14 @@ class manageCustomer extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               const SizedBox(height: 80),
-              const Center(child: Text("Please select a service", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),)),
-              const SizedBox(height: 40,),
+              const Center(
+                  child: Text(
+                "Please select a service",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+              )),
+              const SizedBox(
+                height: 40,
+              ),
               InkWell(
                 onTap: () {
                   Navigator.push(

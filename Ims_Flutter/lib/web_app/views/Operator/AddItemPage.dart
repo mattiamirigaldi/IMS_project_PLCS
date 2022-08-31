@@ -1,10 +1,10 @@
 // ignore_for_file: file_names, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:ims/Web_app/data/book_data.dart';
-import 'package:ims/Web_app/data/user_data.dart';
-import 'package:ims/Web_app/model/item.dart';
-import 'package:ims/Web_app/views/DashBoard.dart';
+import 'package:ims/web_app/data/book_data.dart';
+import 'package:ims/web_app/data/user_data.dart';
+import 'package:ims/web_app/model/item.dart';
+import 'package:ims/web_app/views/DashBoard.dart';
 
 class addItem extends StatefulWidget {
   const addItem({Key? key}) : super(key: key);
@@ -39,7 +39,9 @@ class _GenreListState extends State<addItem> {
               //crossAxisAlignment: CrossAxisAlignment.start,
               //mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                const SizedBox( height: 40,),
+                const SizedBox(
+                  height: 40,
+                ),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Center(
@@ -204,17 +206,18 @@ class _GenreListState extends State<addItem> {
                     onTap: () async {
                       setState(() {
                         newItem = Item(
-                          author: Author, 
-                          title: Title, 
-                          category: Category, 
-                          available: true, 
-                          description: Description, 
-                          favorite: false, 
-                          urlImage: 'https://images.unsplash.com/photo-1615347497551-277d6616b959?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=692&q=80',
+                          author: Author,
+                          title: Title,
+                          category: Category,
+                          available: true,
+                          description: Description,
+                          favorite: false,
+                          urlImage:
+                              'https://images.unsplash.com/photo-1615347497551-277d6616b959?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=692&q=80',
                           location: "Saint July",
                           id: Id,
                           price: price,
-                          color : Colors.green,
+                          color: Colors.green,
                         );
                         pendingItems.add(newItem);
                       });
@@ -223,10 +226,11 @@ class _GenreListState extends State<addItem> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const DashBoard(user: UserData.myCustomer)));
+                                  builder: (context) => const DashBoard()));
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                  content: Text("Item added to pending items list")));
+                                  content: Text(
+                                      "Item added to pending items list")));
                         }
                       } else {}
                     })

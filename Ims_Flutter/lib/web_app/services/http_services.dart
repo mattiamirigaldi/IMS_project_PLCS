@@ -5,14 +5,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 // to display loading animation
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:ims/Web_app/views/Operator/RemoveItemPage.dart';
 // to route
 import '../../routes.dart';
 // parameters
-import 'package:ims/Web_app/model/user.dart';
-import 'package:ims/Web_app/data/user_data.dart';
+import 'package:ims/web_app/model/user.dart';
 import './../views/DashBoard.dart';
-import 'package:ims/Web_app/views/UserSettings.dart';
 import '../views/ItemsList.dart';
 
 String baseUrl = Myroutes.baseUrl;
@@ -20,20 +17,30 @@ String baseUrl = Myroutes.baseUrl;
 class Httpservices {
   static final _client = http.Client();
 
-  static final _loginUrl = 
-      Uri.parse(baseUrl + '/login');
-  static final _registerUrl = 
-      Uri.parse(baseUrl + '/register');
-  static final _addCustomer =
-      Uri.parse(baseUrl + '/Web/Operator/AddCustomer');
+  static final _loginUrl = Uri.parse(baseUrl + '/login');
+  static final _registerUrl = Uri.parse(baseUrl + '/register');
+  static final _addCustomer = Uri.parse(baseUrl + '/Web/Operator/AddCustomer');
   static final _addCustomerCheck =
       Uri.parse(baseUrl + '/Web/Operator/AddCustomerCheck');
   static final _removeCustomer =
       Uri.parse(baseUrl + '/Web/Operator/RemoveCustomer');
-  static final _addBook = 
-      Uri.parse(baseUrl + '/totem/Operator/AddBook');
-  static final _removeBook =
-      Uri.parse(baseUrl + '/Web/Operator/RemoveBook');
+  static final _addBook = Uri.parse(baseUrl + '/totem/Operator/AddBook');
+  static final _removeBook = Uri.parse(baseUrl + '/Web/Operator/RemoveBook');
+
+  static var user_buffer = User(
+      mail: '',
+      username: '',
+      lastname: '',
+      firstname: '',
+      rfid: '',
+      admin_id: '',
+      opr_id: '',
+      imagePath:
+          'https://img.icons8.com/ios-filled/50/000000/user-male-circle.png',
+      news:
+          'He is often considered a "goofy" boss by the employees of Dunder Mifflin. He is often the butt of everybodies jokes. Michael constantly tries to intermix his work life with his social life by inviting employees of Dunder Mifflin to come over house or get coffee',
+      pwd: '123',
+      role: 1);
 
   static register(
       firstName, lastName, userName, email, password, context) async {
@@ -57,11 +64,8 @@ class Httpservices {
         await EasyLoading.showError(json[0]);
       } else {
         await EasyLoading.showSuccess(json[0]);
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    DashBoard(user: UserData.myCustomer)));
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const DashBoard()));
       }
     } else {
       await EasyLoading?.showError(
@@ -69,28 +73,22 @@ class Httpservices {
     }
   }
 
-  static login(userName, password, context) async {
-    //Customer myCustomer = user_data.myCustomer;
-    http.Response response = await _client
-        .post(_loginUrl, body: {"userName": userName, "password": password});
+  static login(username, password, role, context) async {
+    http.Response response = await _client.post(_loginUrl,
+        body: {"userName": username, "password": password, "role": role});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == 'user not registered') {
+      if (json[0] == "not_found") {
         await EasyLoading.showError(json[0]);
       } else {
-        await EasyLoading.showSuccess("Welcome Back " + userName);
-        // myCustomer.userName = userName;
-        // myCustomer.name = json[0];
-        // myCustomer.email = json[1];
-        // myCustomer.imagePath = json[2];
-        // myCustomer.news = json[3];
-
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => DashBoard(
-                      user: UserData.getUser(),
-                    )));
+        await EasyLoading.showSuccess("Welcome Back " + username);
+        user_buffer.firstname = json[1];
+        user_buffer.lastname = json[2];
+        user_buffer.username = json[3];
+        user_buffer.mail = json[4];
+        user_buffer.rfid = json[5];
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const DashBoard()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
@@ -105,7 +103,7 @@ class Httpservices {
   //   if (response.statusCode == 200) {
   //     var json = jsonDecode(response.body);
   //         User myCustomer(email :  )
-      
+
   //     Navigator.push(
   //         context,
   //         MaterialPageRoute(
@@ -122,22 +120,26 @@ class Httpservices {
   //   }
   // }
 
-  static settings_ch(User myCustomer,context) async {
-    http.Response response = await _client
-        .post(Uri.parse(baseUrl + "settings_ch/" + myCustomer.userName), body: {
-      "firstName": myCustomer.firstName,
-      "lastName": myCustomer.lastName,
-      "userName": myCustomer.userName,
-      "email": myCustomer.email,
-      "password": myCustomer.pwd,
-    });
+  static settings_ch(
+      NEWfirstname, NEWlastname, NEWusername, NEWmail, NEWpwd, context) async {
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("User edited successfully")));
+    await EasyLoading.showSuccess("Welcome Back " + NEWusername);
+    http.Response response = await _client.post(
+        Uri.parse(baseUrl + "settings_ch/" + user_buffer.username),
+        body: {
+          "firstName": NEWfirstname,
+          "lastName": NEWlastname,
+          "userName": NEWusername,
+          "email": NEWmail,
+          "password": NEWpwd,
+        });
     if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
+      //var json = jsonDecode(response.body);
+      //user_buffer = NewUserData;
       Navigator.push(
-          context,
-          MaterialPageRoute(
-             builder: (context) => DashBoard(user: UserData.myCustomer)));
-      } else {
+          context, MaterialPageRoute(builder: (context) => const DashBoard()));
+    } else {
       await EasyLoading?.showError(
           "Error Code : ${response.statusCode.toString()}");
     }
@@ -165,11 +167,10 @@ class Httpservices {
     }
   }
 
-
   // Add customer check
   static addCustomerCheck(username) async {
-    http.Response response = await _client
-        .post(_addCustomerCheck, body: {"username": username});
+    http.Response response =
+        await _client.post(_addCustomerCheck, body: {"username": username});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       return json[0];
@@ -177,7 +178,6 @@ class Httpservices {
       EasyLoading.showError("Error code : ${response.statusCode.toString()}");
     }
   }
-
 
   // Add customer method
   static addCustomer(
@@ -201,7 +201,7 @@ class Httpservices {
       if (json[0] == "new User added to the database successfully") {
         await EasyLoading.showSuccess(json[0]);
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const DashBoard(user: UserData.myCustomer)));
+            MaterialPageRoute(builder: (context) => const DashBoard()));
       } else {
         await EasyLoading.showError(json[0]);
       }
@@ -210,11 +210,9 @@ class Httpservices {
     }
   }
 
-
-// Remove customer
-  static removeCheck(cst_username, usrn_rfid, context) async {
-    http.Response response = await _client.post(
-        _removeCustomer, body: {"cst_username": cst_username, "usrn_rfid": usrn_rfid});
+  // Remove customer
+  static removeCheck(context) async {
+    http.Response response = await _client.get(_removeCustomer);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "no") {
@@ -222,13 +220,12 @@ class Httpservices {
       } else {
         await EasyLoading.showSuccess('User removed successfully');
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const DashBoard(user: UserData.myCustomer)));
+            MaterialPageRoute(builder: (context) => const DashBoard()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
     }
   }
-
 
   // Add item method
   static addItem(
@@ -247,7 +244,7 @@ class Httpservices {
       if (json[0] == "done") {
         await EasyLoading.showSuccess("Book added successfully");
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const DashBoard(user: UserData.myCustomer)));
+            MaterialPageRoute(builder: (context) => const DashBoard()));
       } else {
         await EasyLoading.showError(json[0]);
       }
@@ -256,27 +253,18 @@ class Httpservices {
     }
   }
 
-
   // Remove item method
-  static removeItem(item_title, item_author, rfid_flag, context) async {
-    http.Response response = await _client
-        .post(_removeBook, body: {
-      "title": item_title,
-      "author": item_author,
-      "rfid_flag": rfid_flag
-    });
+  static removeItem(context) async {
+    http.Response response = await _client.get(_removeBook);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "done") {
-        await EasyLoading.showSuccess("Item removed successfully");
+        await EasyLoading.showSuccess("Book removed successfully");
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const DashBoard(user: UserData.myCustomer)));
+            MaterialPageRoute(builder: (context) => const DashBoard()));
       } else {
-        await EasyLoading.showError("The item is not in the database");
+        await EasyLoading.showError("The Book is not in the database");
       }
-    } else {
-      EasyLoading.showError("Error code : ${response.statusCode.toString()}");
     }
   }
-
 }

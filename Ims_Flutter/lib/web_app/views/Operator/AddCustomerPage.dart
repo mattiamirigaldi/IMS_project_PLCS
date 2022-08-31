@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:ims/Web_app/data/user_data.dart';
-import 'package:ims/Web_app/model/user.dart';
-import 'package:ims/Web_app/services/http_services.dart';
-import 'package:ims/Web_app/views/DashBoard.dart';
+import 'package:ims/web_app/data/user_data.dart';
+import 'package:ims/web_app/model/user.dart';
+import 'package:ims/web_app/services/http_services.dart';
+import 'package:ims/web_app/views/DashBoard.dart';
 
 class AddCustomer extends StatefulWidget {
   const AddCustomer({Key? key}) : super(key: key);
@@ -27,7 +27,7 @@ class _GenreListState extends State<AddCustomer> {
   late String user_chk_flag;
   late User newUser;
   late int role;
-  static const _roles =[
+  static const _roles = [
     "Customer",
     "Operator",
   ];
@@ -209,15 +209,18 @@ class _GenreListState extends State<AddCustomer> {
                       setState(() {
                         // The newUser added to pending Users such that it can be registered in the totem adding the RFID
                         newUser = User(
-                          firstName : firstName, 
-                          lastName : lastName, 
-                          userName : username, 
-                          email: email, 
-                          imagePath: "https://img.icons8.com/ios-filled/50/000000/user-male-circle.png",
-                          pwd: password,
-                          news: "",
-                          role: role);
-                        UserData.addPendingUser(newUser);
+                            firstname: firstName,
+                            lastname: lastName,
+                            username: username,
+                            mail: email,
+                            imagePath:
+                                "https://img.icons8.com/ios-filled/50/000000/user-male-circle.png",
+                            pwd: password,
+                            news: "",
+                            role: role,
+                            admin_id: '',
+                            rfid: '',
+                            opr_id: '');
                       });
                       if (_formKey.currentState != null) {
                         if (_formKey.currentState!.validate()) {
@@ -225,11 +228,11 @@ class _GenreListState extends State<AddCustomer> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const DashBoard(user: UserData.myCustomer)));
+                                    builder: (context) => const DashBoard()));
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                    content:
-                                        Text("User added to pending users list")));
+                                    content: Text(
+                                        "User added to pending users list")));
                           } else {
                             await EasyLoading.showError(
                                 "please change the entered username");
@@ -242,36 +245,39 @@ class _GenreListState extends State<AddCustomer> {
   }
 
   Row selectRole() {
-    return Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children : <Widget>[
-                  const SizedBox(width: 25),
-                  const Text("Select role : ", style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),),
-                  DropdownButton<String>(
-                    value: dropdownvalue,
-                    icon : const Icon(Icons.arrow_downward),
-                    underline: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal : 30),
-                  child: Container(
-                    alignment: Alignment.centerLeft,
-                    height: 5, width: 100, color: Colors.deepOrangeAccent),
-                ),
-                onChanged: (String? newValue){
-                  setState(() {
-                    dropdownvalue = newValue!;
-                    role = (dropdownvalue == "Customer") ? 0 : 1;
-                  });
-                },
-                items: _roles.map<DropdownMenuItem<String>>((String value){
-                  return DropdownMenuItem<String>(
-                    child: Padding(
-                      padding : const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                      child: Text(value)), 
-                    value: value,
-                  );
-                }).toList(),
-              ),
-              ]
-            );
+    return Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+      const SizedBox(width: 25),
+      const Text(
+        "Select role : ",
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+      ),
+      DropdownButton<String>(
+        value: dropdownvalue,
+        icon: const Icon(Icons.arrow_downward),
+        underline: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Container(
+              alignment: Alignment.centerLeft,
+              height: 5,
+              width: 100,
+              color: Colors.deepOrangeAccent),
+        ),
+        onChanged: (String? newValue) {
+          setState(() {
+            dropdownvalue = newValue!;
+            role = (dropdownvalue == "Customer") ? 0 : 1;
+          });
+        },
+        items: _roles.map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                child: Text(value)),
+            value: value,
+          );
+        }).toList(),
+      ),
+    ]);
   }
 }

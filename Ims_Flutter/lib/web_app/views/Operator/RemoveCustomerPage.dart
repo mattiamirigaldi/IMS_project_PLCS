@@ -1,7 +1,7 @@
-// ignore_for_file: file_names, camel_case_types
+// ignore_for_file: file_names, camel_case_types, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:ims/Web_app/services/http_services.dart';
+import 'package:ims/web_app/services/http_services.dart';
 
 class RemoveCustomer extends StatefulWidget {
   const RemoveCustomer({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class _GenreListState extends State<RemoveCustomer> {
             image: AssetImage('images/logo.png'),
             height: 50,
           )),
-     body: Column(
+      body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -81,14 +81,14 @@ class _GenreListState extends State<RemoveCustomer> {
                       onTap: () async {
                         if (_formKey.currentState != null) {
                           if (_formKey.currentState!.validate()) {
-                            await Httpservices.removeCheck(
-                                cst_username, "usrn", context);
+                            await Httpservices.removeCheck(context);
                           }
                         }
                       })
-              ],),
+                ],
+              ),
             ),
           ]),
-      );
+    );
   }
 }

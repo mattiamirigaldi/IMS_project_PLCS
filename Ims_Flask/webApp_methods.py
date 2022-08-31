@@ -49,34 +49,22 @@ def login():
     cnxn = db.connection()
     cursor = cnxn.cursor()
     if request.method == 'POST':
-        userName = request.form["userName"]
-        print("Username is " + userName)
+        username = request.form["userName"]
+        print("Username is " + username)
         password = request.form["password"]
         print("Password is " + password)
+        role = request.form["role"]
+        print("role is " + role)
     # check if user is registered
-    check_query = '''SELECT CASE WHEN EXISTS (SELECT * FROM [Library_Clients] WHERE userName = (?) AND pwd = (?)) 
-                    THEN CAST(1 AS BIT) 
-                    ELSE CAST(0 AS BIT) 
-                    END'''  # the '?' are placeholders
-    value = (userName, password)
-    cursor.execute(check_query, value)
-    # the returned output is a cursor object
-    checked = cursor.fetchone()
-    print(checked)
-    if checked[0]:
-        # Then the connection can be closed
-        check_query = "SELECT * FROM [Library_Clients] WHERE userName = (?) "
-        value = (userName)
-        cursor.execute(check_query, value)
-        row = cursor.fetchone()
-        cnxn.close()
-        print("Access to Login url : Successful")
-        return jsonify(row.firstName, row.mail)
-        # return jsonify(["valid user"])
-    else:
-        # Then the connection can be closed
-        cnxn.close()
-        return jsonify(["user not registered"])
+    check_query = "SELECT * FROM %s WHERE username = (?) and pwd = (?)" %role
+    cursor.execute(check_query,username,password)
+    if cursor.rowcount == 0:
+        print("User Not found")
+        return jsonify(["not_found"])
+    row = cursor.fetchone()
+    print("User Found : FIRSTNAME is " + row.firstname)
+    cnxn.close()
+    return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid))
 
 
 # @webApp_methods.route("/settings/<userName>", methods=["GET", "POST"])
@@ -114,23 +102,23 @@ def settings_ch(usr):
     print("SETTINGS : FIRSTNAME is " + firstName)
     print("Access to Settings_ch url : Successful_1")
 
-    insert_query = "UPDATE Library_Clients SET firstName = (?), lastName = (?), userName = (?), mail= (?), pwd= (?) WHERE userName = (?)"
+    insert_query = "UPDATE customers SET firstname = (?), lastname = (?), username = (?), mail= (?), pwd= (?) WHERE username = (?)"
     value = (firstName, lastName, userName, mail, password, usr)
     cursor.execute(insert_query, value)
     cnxn.commit()
 
-    print("Access to Settings_ch url : Successful_2")
-
-    check_query = "SELECT * FROM [Library_Clients] WHERE userName = (?) "
-    value = (userName)
-    cursor.execute(check_query, value)
-    row = cursor.fetchone()
+    #print("Access to Settings_ch url : Successful_2")
+#
+    #check_query = "SELECT * FROM [Library_Clients] WHERE userName = (?) "
+    #value = (userName)
+    #cursor.execute(check_query, value)
+    #row = cursor.fetchone()
 
     cnxn.close()
 
     print("Access to Settings_ch url : Successful_3")
 
-    return jsonify(firstName, mail)
+    return jsonify(firstName)
 
 
 @webApp_methods.route("/web/items", methods=["GET", "POST"])

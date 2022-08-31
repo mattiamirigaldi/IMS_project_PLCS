@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/Totem/TWelcomePage.dart';
-import 'package:ims/Web_app/views/DashBoard.dart';
+// import 'package:ims/web_app/views/DashBoard.dart';
 import 'package:ims/Mobile/MWelcomePage.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'Web_app/views/WelcomPage.dart';
@@ -11,7 +11,7 @@ import './Web_app/data/user_data.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setPathUrlStrategy(); //To remove # in url
-  await UserData.init(); //Retrieve user loaded on disk
+  // await UserData.init(); //Retrieve user loaded on disk
   runApp(const MyApp());
 }
 
@@ -27,10 +27,10 @@ class MyApp extends StatelessWidget {
       title: 'Inventory Management System',
       theme: ThemeData(primarySwatch: Colors.blueGrey),
       builder: EasyLoading.init(),
-      initialRoute: '/totem',
+      initialRoute: '/web',
       routes: {
-        //Myroutes.webWelcomePage: (context) => const WelcomeHome(),
-        Myroutes.webWelcomePage: (context) => const DashBoard(user: UserData.myCustomer),
+        Myroutes.webWelcomePage: (context) => const WelcomeHome(),
+        //Myroutes.webWelcomePage: (context) => const DashBoard(user: UserData.myCustomer),
         Myroutes.totemWelcomePage: (context) => const TWelcome(),
         Myroutes.mobileWelcomePage: (context) => const MWelcome(),
       },

@@ -4,14 +4,14 @@ def connection():
     ## Connection to the database
     # server and database names are given by SQL
     ######## POUYAN DB ##################
-    # server = 'POUYAN'
-    # database = 'my_db'
+    server = 'POUYAN'
+    database = 'mydb'
     ######## REZA DB ####################
     # server = 'DESKTOP-CK2AQQI'
     # database = 'ims_db'
     ######## MATTIA DB ####################
-    server = 'DESKTOP-I7POIMI\SQLEXPRESS'
-    database = 'ims_db'
+    # server = 'DESKTOP-I7POIMI\SQLEXPRESS'
+    # database = 'ims_db'
     # Cnxn : is the connection string
     # If trusted connection is 'yes' then we log using our windows authentication
     cnxn = pyodbc.connect(

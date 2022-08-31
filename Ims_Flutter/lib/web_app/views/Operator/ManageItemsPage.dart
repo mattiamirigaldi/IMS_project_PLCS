@@ -1,10 +1,10 @@
 // ignore_for_file: file_names, camel_case_types
 
 import 'package:flutter/material.dart';
-import 'package:ims/Totem/Operator/TAddBook.dart';
-import 'package:ims/Totem/Operator/TRemoveBook.dart';
-import 'package:ims/Web_app/views/Operator/AddItemPage.dart';
-import 'package:ims/Web_app/views/Operator/RemoveItemPage.dart';
+//import 'package:ims/Totem/Operator/TAddBook.dart';
+//import 'package:ims/Totem/Operator/TRemoveBook.dart';
+import 'package:ims/web_app/views/Operator/AddItemPage.dart';
+import 'package:ims/web_app/views/Operator/RemoveItemPage.dart';
 
 class manageItems extends StatelessWidget {
   //final String name ;
@@ -29,14 +29,18 @@ class manageItems extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               const SizedBox(height: 80),
-              const Center(child: Text("Please select a service", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),)),
-              const SizedBox(height: 40,),
+              const Center(
+                  child: Text(
+                "Please select a service",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+              )),
+              const SizedBox(
+                height: 40,
+              ),
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const addItem()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const addItem()));
                 },
                 child: Center(
                   child: Container(

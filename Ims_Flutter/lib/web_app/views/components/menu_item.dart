@@ -1,12 +1,12 @@
 // ignore_for_file: non_constant_identifier_names, no_logic_in_create_state
 
 import 'package:flutter/material.dart';
-import 'package:ims/Web_app/views/GenreList.dart';
-import 'package:ims/Web_app/views/Operator/ManageCustomerPage.dart';
-import 'package:ims/Web_app/views/Operator/ManageItemsPage.dart';
-import 'package:ims/Web_app/views/UserSettings.dart';
-import 'package:ims/Web_app/data/user_data.dart';
-import 'package:ims/Web_app/views/WelcomPage.dart';
+import 'package:ims/web_app/views/GenreList.dart';
+import 'package:ims/web_app/views/Operator/ManageCustomerPage.dart';
+import 'package:ims/web_app/views/Operator/ManageItemsPage.dart';
+import 'package:ims/web_app/views/UserSettings.dart';
+import 'package:ims/web_app/data/user_data.dart';
+import 'package:ims/web_app/views/WelcomPage.dart';
 
 class MenuItems extends StatefulWidget {
   final String title;
@@ -71,28 +71,28 @@ class _MenuItemsState extends State<MenuItems> {
   }
 }
 
-void choiceAction (String choice, String userName, BuildContext context) async {
-      if (choice == "My profile"){
-        Navigator.push(context,
-          MaterialPageRoute(builder: (context) => SettingPage(myCustomer: UserData.getUser())));
-          ScaffoldMessenger.of(context)
-             .showSnackBar(const SnackBar(content: Text("Settings")));
-      } else if (choice == "Subjects"){
-         ScaffoldMessenger.of(context)
-             .showSnackBar(SnackBar(content: Text(choice)));
-        Navigator.push( context, MaterialPageRoute( builder: (context) => const GenreList()));
-      } else if (choice == "Manage customers") {
-        ScaffoldMessenger.of(context)
-             .showSnackBar(SnackBar(content: Text(choice)));
-        Navigator.push( context, MaterialPageRoute( builder: (context) => const manageCustomer()));
-      } else if (choice == "Manage items") {
-        ScaffoldMessenger.of(context)
-             .showSnackBar(SnackBar(content: Text(choice)));
-        Navigator.push( context, MaterialPageRoute( builder: (context) => const manageItems()));
-      } else if (choice == "Logout") {
-        Navigator.push( context, MaterialPageRoute( builder: (context) => const WelcomeHome()));
-      } else {
-        ScaffoldMessenger.of(context)
-             .showSnackBar(SnackBar(content: Text(choice)));
-      }
+void choiceAction(String choice, String userName, BuildContext context) async {
+  if (choice == "My profile") {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const SettingPage()));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text("Settings")));
+  } else if (choice == "Subjects") {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(choice)));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const GenreList()));
+  } else if (choice == "Manage customers") {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(choice)));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const manageCustomer()));
+  } else if (choice == "Manage items") {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(choice)));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const manageItems()));
+  } else if (choice == "Logout") {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const WelcomeHome()));
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(choice)));
+  }
 }
