@@ -91,36 +91,6 @@ class _GenreListState extends State<RemoveCustomer> {
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
-              child: Center(
-                  child: Text(
-                      "Or scan the Customer RFID then click REMOVE button to remove the customer",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                      textScaleFactor: 1.6)),
-            ),
-            InkWell(
-                child: Center(
-                    child: Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: const Center(
-                      child: Text("Remove (RFID)",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25))),
-                  height: 50,
-                  width: 800,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.green),
-                )),
-                onTap: () async {
-                  await Httpservices.RemoveCheck("context", "rfid", context);
-                }),
           ]),
     );
   }
