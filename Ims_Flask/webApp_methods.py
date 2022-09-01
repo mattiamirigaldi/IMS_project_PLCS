@@ -157,24 +157,26 @@ def items():
 
 
 # add customer check
-@webApp_methods.route("/web/AddCustomerCheck/<adminID>/<rfid>", methods=["GET", "POST"])
+@webApp_methods.route("/Web/AddCustomerCheck/<adminID>/<rfid>", methods=["GET", "POST"])
 def mobile_op_add_customer_check(adminID,rfid):
     cnxn = db.connection()
     cursor = cnxn.cursor()
     if request.method == 'POST':
         username = request.form["username"]
-    check_query = "SELECT * FROM customers WHERE username = (?) AND admin_id = (?) AND rfid = (?) "
+    check_query = "SELECT * FROM customers WHERE username = (?) AND admin_id = (?) AND opr_id = (?) "
     cursor.execute(check_query,username,adminID,rfid)
     row = cursor.fetchone()
     cnxn.close()
     if row != None:
+        print("user used")
         return jsonify(["the entered username is used before"])
     else:
+        print("user available")
         return jsonify(["username is valid"])
 
 
 # add customer
-@webApp_methods.route("/web/AddCustomer/<adminID>/<rfid>", methods=["GET", "POST"])
+@webApp_methods.route("/Web/AddCustomer/<adminID>/<rfid>", methods=["GET", "POST"])
 def mobile_op_add_customer(adminID,rfid):
     cnxn = db.connection()
     cursor = cnxn.cursor()
@@ -213,7 +215,7 @@ def mobile_op_add_customer(adminID,rfid):
 #############################################################
 
 # Remove Customer
-@webApp_methods.route("/web/RemoveCustomer/<adminID>/<rfid>", methods=["GET", "POST"])
+@webApp_methods.route("/Web/RemoveCustomer/<adminID>/<rfid>", methods=["GET", "POST"])
 def mobile_RemoveCustomer(adminID,rfid):
     cnxn = db.connection()
     cursor = cnxn.cursor()

@@ -197,7 +197,7 @@ class Httpservices {
   // Add customer check
   static totemAddCustomerCheck(username) async {
     http.Response response = await _client.post(
-        AddCustomerCheck + user_buffer.admin_id + '/' + user_buffer.rfid,
+        AddCustomerCheck + '/' + user_buffer.admin_id + '/' + user_buffer.rfid,
         body: {"username": username});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
@@ -218,7 +218,7 @@ class Httpservices {
     context,
   ) async {
     http.Response response = await _client.post(
-        AddCustomer + user_buffer.admin_id + '/' + user_buffer.rfid,
+        AddCustomer + '/' + user_buffer.admin_id + '/' + user_buffer.rfid,
         body: {
           "firstName": firstName,
           "lastName": lastName,
@@ -244,7 +244,7 @@ class Httpservices {
   // Remove customer
   static RemoveCheck(cst_username, usrn_rfid, context) async {
     http.Response response = await _client.post(
-        RemoveCustomer + user_buffer.admin_id + '/' + user_buffer.rfid,
+        RemoveCustomer + '/' + user_buffer.admin_id + '/' + user_buffer.rfid,
         body: {"cst_username": cst_username, "usrn_rfid": usrn_rfid});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
