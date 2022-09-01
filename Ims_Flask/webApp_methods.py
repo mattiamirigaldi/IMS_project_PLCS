@@ -64,7 +64,7 @@ def login():
     row = cursor.fetchone()
     print("User Found : FIRSTNAME is " + row.firstname)
     cnxn.close()
-    return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid))
+    return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, row.pwd, str(row.rfid))
 
 
 # @webApp_methods.route("/settings/<userName>", methods=["GET", "POST"])
@@ -91,34 +91,25 @@ def login():
 def settings_ch(usr):
     cnxn = db.connection()
     cursor = cnxn.cursor()
-
+    
     if request.method == 'POST':
-        firstName = request.form["firstName"]
-        lastName = request.form["lastName"]
-        userName = request.form["userName"]
-        mail = request.form["email"]
+        firstname = request.form["firstname"]
+        lastname = request.form["lastname"]
+        username = request.form["username"]
+        mail = request.form["mail"]
         password = request.form["password"]
 
-    print("SETTINGS : FIRSTNAME is " + firstName)
-    print("Access to Settings_ch url : Successful_1")
-
+    print("SETTINGS : FIRSTNAME is " + firstname)
+    print("SETTINGS : usr is " + usr)
+    print("SETTINGS : username is " + username)
+    print("************************************")
+    
     insert_query = "UPDATE customers SET firstname = (?), lastname = (?), username = (?), mail= (?), pwd= (?) WHERE username = (?)"
-    value = (firstName, lastName, userName, mail, password, usr)
+    value = (firstname, lastname, username, mail, password, usr)
     cursor.execute(insert_query, value)
     cnxn.commit()
-
-    #print("Access to Settings_ch url : Successful_2")
-#
-    #check_query = "SELECT * FROM [Library_Clients] WHERE userName = (?) "
-    #value = (userName)
-    #cursor.execute(check_query, value)
-    #row = cursor.fetchone()
-
     cnxn.close()
-
-    print("Access to Settings_ch url : Successful_3")
-
-    return jsonify(firstName)
+    return jsonify("done")
 
 
 @webApp_methods.route("/web/items", methods=["GET", "POST"])

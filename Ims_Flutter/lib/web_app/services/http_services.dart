@@ -39,7 +39,7 @@ class Httpservices {
           'https://img.icons8.com/ios-filled/50/000000/user-male-circle.png',
       news:
           'He is often considered a "goofy" boss by the employees of Dunder Mifflin. He is often the butt of everybodies jokes. Michael constantly tries to intermix his work life with his social life by inviting employees of Dunder Mifflin to come over house or get coffee',
-      pwd: '123',
+      pwd: '',
       role: 1);
 
   static register(
@@ -86,7 +86,8 @@ class Httpservices {
         user_buffer.lastname = json[2];
         user_buffer.username = json[3];
         user_buffer.mail = json[4];
-        user_buffer.rfid = json[5];
+        user_buffer.pwd = json[5];
+        user_buffer.rfid = json[6];
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const DashBoard()));
       }
@@ -124,19 +125,23 @@ class Httpservices {
       NEWfirstname, NEWlastname, NEWusername, NEWmail, NEWpwd, context) async {
     ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("User edited successfully")));
-    await EasyLoading.showSuccess("Welcome Back " + NEWusername);
+    await EasyLoading.showSuccess("Welcome Back " + NEWfirstname);
     http.Response response = await _client.post(
-        Uri.parse(baseUrl + "settings_ch/" + user_buffer.username),
+        Uri.parse(baseUrl + "/settings_ch/" + user_buffer.username),
         body: {
-          "firstName": NEWfirstname,
-          "lastName": NEWlastname,
-          "userName": NEWusername,
-          "email": NEWmail,
+          "firstname": NEWfirstname,
+          "lastname": NEWlastname,
+          "username": NEWusername,
+          "mail": NEWmail,
           "password": NEWpwd,
         });
     if (response.statusCode == 200) {
       //var json = jsonDecode(response.body);
-      //user_buffer = NewUserData;
+      user_buffer.firstname = NEWfirstname;
+      user_buffer.lastname = NEWlastname;
+      user_buffer.username = NEWusername;
+      user_buffer.mail = NEWmail;
+      user_buffer.pwd = NEWpwd;
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const DashBoard()));
     } else {

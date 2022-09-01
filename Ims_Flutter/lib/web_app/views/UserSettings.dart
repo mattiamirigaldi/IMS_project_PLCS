@@ -3,16 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:ims/web_app/views/components/profile_widget.dart';
 import './../services/http_services.dart';
-import 'components/textfield_widget.dart';
-import 'package:ims/web_app/model/user.dart';
-
-var UserData = Httpservices.user_buffer;
-
-late String NEWfirstname; // = UserData.firstname;
-late String NEWlasttname; // = UserData.lastname;
-late String NEWusername; //= UserData.username;
-late String NEWmail; // = UserData.mail;
-late String NEWpwd; //= UserData.pwd;
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -20,6 +10,13 @@ class SettingPage extends StatefulWidget {
   @override
   _SettingPageState createState() => _SettingPageState();
 }
+
+var UserData = Httpservices.user_buffer;
+late String NEWfirstname = UserData.firstname;
+late String NEWlastname = UserData.lastname;
+late String NEWusername = UserData.username;
+late String NEWmail = UserData.mail;
+late String NEWpwd = UserData.pwd;
 
 class _SettingPageState extends State<SettingPage> {
   @override
@@ -36,37 +33,47 @@ class _SettingPageState extends State<SettingPage> {
                 onClicked: () async {},
               ),
               const SizedBox(height: 24),
-              TextFieldWidget(
-                label: 'First Name',
-                text: UserData.firstname,
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: "First Name",
+                ),
+                initialValue: UserData.firstname,
                 onChanged: (value) {
                   NEWfirstname = value;
                 },
               ),
-              TextFieldWidget(
-                label: ' Last Name',
-                text: UserData.lastname,
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: "Last Name",
+                ),
+                initialValue: UserData.lastname,
                 onChanged: (value) {
-                  NEWlasttname = value;
+                  NEWlastname = value;
                 },
               ),
-              TextFieldWidget(
-                label: 'Username',
-                text: UserData.username,
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: "Username",
+                ),
+                initialValue: UserData.username,
                 onChanged: (value) {
                   NEWusername = value;
                 },
               ),
-              TextFieldWidget(
-                label: 'email',
-                text: UserData.mail,
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: "Email",
+                ),
+                initialValue: UserData.mail,
                 onChanged: (value) {
                   NEWmail = value;
                 },
               ),
-              TextFieldWidget(
-                label: 'Password',
-                text: UserData.pwd,
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: "Password",
+                ),
+                initialValue: UserData.pwd,
                 onChanged: (value) {
                   NEWpwd = value;
                 },
@@ -88,10 +95,10 @@ class _SettingPageState extends State<SettingPage> {
                         color: Colors.blue),
                   ),
                   onTap: () async {
-                    //await Httpservices.settings_ch(NEWfirstname, NEWlasttname,
-                    //    NEWusername, NEWmail, NEWpwd, context);
-                    await Httpservices.settings_ch(
-                        'a', 'a', 'a', 'a', 'a', context);
+                    await Httpservices.settings_ch(NEWfirstname, NEWlastname,
+                        NEWusername, NEWmail, NEWpwd, context);
+                    //await Httpservices.settings_ch(
+                    //    NEWfirstname, 'a', 'a', 'a', 'a', context);
                   })
             ]),
       ),
