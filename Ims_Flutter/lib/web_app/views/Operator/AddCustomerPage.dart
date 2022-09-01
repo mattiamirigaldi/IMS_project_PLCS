@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:ims/web_app/data/user_data.dart';
+//import 'package:ims/web_app/data/user_data.dart';
 import 'package:ims/web_app/model/user.dart';
 import 'package:ims/web_app/services/http_services.dart';
 import 'package:ims/web_app/views/DashBoard.dart';
@@ -28,8 +28,8 @@ class _GenreListState extends State<AddCustomer> {
   late User newUser;
   late int role;
   static const _roles = [
-    "Customer",
-    "Operator",
+    "customers",
+    "operators",
   ];
   String dropdownvalue = _roles[0];
 
@@ -113,7 +113,7 @@ class _GenreListState extends State<AddCustomer> {
                         username = value;
                       });
                       user_chk_flag =
-                          await Httpservices.addCustomerCheck(username);
+                          await Httpservices.totemAddCustomerCheck(username);
                       //if (user_chk_flag ==
                       //    "the entered username is used before") {
                       //  await EasyLoading.showInfo(user_chk_flag);
@@ -265,7 +265,7 @@ class _GenreListState extends State<AddCustomer> {
         onChanged: (String? newValue) {
           setState(() {
             dropdownvalue = newValue!;
-            role = (dropdownvalue == "Customer") ? 0 : 1;
+            role = (dropdownvalue == "customers") ? 0 : 1;
           });
         },
         items: _roles.map<DropdownMenuItem<String>>((String value) {

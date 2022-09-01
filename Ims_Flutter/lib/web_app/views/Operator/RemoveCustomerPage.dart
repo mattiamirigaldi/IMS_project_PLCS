@@ -9,8 +9,10 @@ class RemoveCustomer extends StatefulWidget {
   _GenreListState createState() => _GenreListState();
 }
 
+late String cst_username;
+
 class _GenreListState extends State<RemoveCustomer> {
-  late String cst_username;
+  // ignore: unused_field
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,7 @@ class _GenreListState extends State<RemoveCustomer> {
                         margin: const EdgeInsets.symmetric(
                             horizontal: 30, vertical: 20),
                         child: const Center(
-                            child: Text("Remove customer",
+                            child: Text("Remove (Username)",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Colors.black,
@@ -81,13 +83,44 @@ class _GenreListState extends State<RemoveCustomer> {
                       onTap: () async {
                         if (_formKey.currentState != null) {
                           if (_formKey.currentState!.validate()) {
-                            await Httpservices.removeCheck(context);
+                            await Httpservices.RemoveCheck(
+                                cst_username, "usrn", context);
                           }
-                        }
+                        } else {}
                       })
                 ],
               ),
             ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+              child: Center(
+                  child: Text(
+                      "Or scan the Customer RFID then click REMOVE button to remove the customer",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                      textScaleFactor: 1.6)),
+            ),
+            InkWell(
+                child: Center(
+                    child: Container(
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: const Center(
+                      child: Text("Remove (RFID)",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25))),
+                  height: 50,
+                  width: 800,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.green),
+                )),
+                onTap: () async {
+                  await Httpservices.RemoveCheck("context", "rfid", context);
+                }),
           ]),
     );
   }

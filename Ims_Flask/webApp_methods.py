@@ -64,7 +64,17 @@ def login():
     row = cursor.fetchone()
     print("User Found : FIRSTNAME is " + row.firstname)
     cnxn.close()
-    return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, row.pwd, str(row.rfid))
+    if role == "admins" :
+        print("user is admin")
+        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, row.pwd, str(row.rfid))
+    if role == "operators":
+        print("user is operator")
+        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, row.pwd, str(row.rfid),str(row.admin_id))
+    if role == "customers":
+        print("user is customer")
+        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, row.pwd, str(row.rfid),str(row.opr_id),str(row.admin_id))
+
+
 
 
 # @webApp_methods.route("/settings/<userName>", methods=["GET", "POST"])
@@ -144,3 +154,93 @@ def items():
     cnxn.close()
     return jsonify(tit, aut, gen, rfid, usr, loc)
     # row = cursor.fetchone()
+
+
+# add customer check
+@webApp_methods.route("/web/AddCustomerCheck/<adminID>/<rfid>", methods=["GET", "POST"])
+def mobile_op_add_customer_check(adminID,rfid):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    if request.method == 'POST':
+        username = request.form["username"]
+    check_query = "SELECT * FROM customers WHERE username = (?) AND admin_id = (?) AND rfid = (?) "
+    cursor.execute(check_query,username,adminID,rfid)
+    row = cursor.fetchone()
+    cnxn.close()
+    if row != None:
+        return jsonify(["the entered username is used before"])
+    else:
+        return jsonify(["username is valid"])
+
+
+# add customer
+@webApp_methods.route("/web/AddCustomer/<adminID>/<rfid>", methods=["GET", "POST"])
+def mobile_op_add_customer(adminID,rfid):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    global user_add_flag
+    if request.method == 'POST':
+        firstname = request.form["firstName"]
+        lastname = request.form["lastName"]
+        username = request.form["username"]
+        mail = request.form["email"]
+        pwd = request.form["password"]
+        rfid_flag = request.form["rfid_flag"]
+    print("11111111111")
+    if rfid_flag == "yes" :
+        check_query = "SELECT * FROM customers WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?)"
+        cursor.execute(check_query, rfid, adminID, rfid)
+        rfiddd = rfid
+        row = cursor.fetchone()
+    else :
+        rfiddd = None
+        row = None
+    print("22222222222")
+    if row == None:
+        insert_query = '''INSERT INTO customers VALUES (?,?,?,?,?,?,?,?,?);'''  # the '?' are placeholders
+        value = (adminID, rfid, rfiddd, firstname, lastname, username, mail, pwd, rfiddd)
+        cursor.execute(insert_query, value)
+        cnxn.commit()
+        cnxn.close()
+        user_add_flag = "new User added to the database successfully"
+        print(user_add_flag)
+        return jsonify([user_add_flag])
+    else:
+        user_add_flag = "RFID is already in the db"
+        print(user_add_flag)
+        return jsonify([user_add_flag])
+
+#############################################################
+
+# Remove Customer
+@webApp_methods.route("/web/RemoveCustomer/<adminID>/<rfid>", methods=["GET", "POST"])
+def mobile_RemoveCustomer(adminID,rfid):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    print("33333333")
+    if request.method == 'POST':
+        cst_username = request.form["cst_username"]
+        usrn_rfid = request.form["usrn_rfid"]
+    if usrn_rfid == "usrn" :
+        check_query = "SELECT * FROM customers WHERE username = (?) AND admin_id = (?) AND opr_id = (?)"
+        value = (cst_username,adminID,rfid)
+        delete_query = "DELETE FROM customers WHERE username = (?) AND admin_id = (?) AND opr_id = (?)"
+        delete_value = (cst_username,adminID,rfid)
+    else :
+        check_query = "SELECT * FROM customers WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?)"        
+        value = (rfid,adminID,rfid)
+        delete_query = "DELETE FROM customers WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?)"
+        delete_value = (rfid,adminID,rfid)
+    cursor.execute(check_query, value)
+    row = cursor.fetchone()
+    print("66666666")
+    if row != None :
+        cursor.execute(delete_query, delete_value)
+        cnxn.commit()
+        cnxn.close()
+        print("Operator removed a User successfully")
+        return jsonify(["Done"])
+    else:
+        cnxn.close()
+        print("user not found")
+        return jsonify(["no"])
