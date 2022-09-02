@@ -43,7 +43,7 @@ class Httpservices {
       news:
           'He is often considered a "goofy" boss by the employees of Dunder Mifflin. He is often the butt of everybodies jokes. Michael constantly tries to intermix his work life with his social life by inviting employees of Dunder Mifflin to come over house or get coffee',
       pwd: '',
-      role: 1);
+      role: "");
 
   static register(
       firstName, lastName, userName, email, password, context) async {
@@ -94,6 +94,7 @@ class Httpservices {
           user_buffer.rfid = json[6];
           user_buffer.opr_id = json[6];
           user_buffer.admin_id = json[7];
+          user_buffer.role = "opr";
         } else if (role == "admins") {
           user_buffer.firstname = json[1];
           user_buffer.lastname = json[2];
@@ -102,6 +103,7 @@ class Httpservices {
           user_buffer.pwd = json[5];
           user_buffer.rfid = json[6];
           user_buffer.admin_id = json[6];
+          user_buffer.role = "adm";
         } else if (role == "customers") {
           user_buffer.firstname = json[1];
           user_buffer.lastname = json[2];
@@ -111,6 +113,7 @@ class Httpservices {
           user_buffer.rfid = json[6];
           user_buffer.opr_id = json[7];
           user_buffer.admin_id = json[8];
+          user_buffer.role = "cus";
         }
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const DashBoard()));
@@ -246,7 +249,13 @@ class Httpservices {
   // Remove customer
   static RemoveCheck(cst_username, role, BuildContext context) async {
     http.Response response = await _client.post(
-        RemoveCustomer + '/' + user_buffer.admin_id + '/' + user_buffer.rfid,
+        RemoveCustomer +
+            '/' +
+            user_buffer.admin_id +
+            '/' +
+            user_buffer.rfid +
+            '/' +
+            user_buffer.role,
         body: {"cst_username": cst_username, "role": role});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);

@@ -215,8 +215,8 @@ def web_op_add_customer(adminID,rfid):
 #############################################################
 
 # Remove Customer
-@webApp_methods.route("/Web/RemoveCustomer/<adminID>/<rfid>", methods=["GET", "POST"])
-def web_RemoveCustomer(adminID,rfid):
+@webApp_methods.route("/Web/RemoveCustomer/<adminID>/<rfid>/<role_type>", methods=["GET", "POST"])
+def web_RemoveCustomer(adminID,rfid,role_type):
     cnxn = db.connection()
     cursor = cnxn.cursor()
     print("33333333")
@@ -224,10 +224,18 @@ def web_RemoveCustomer(adminID,rfid):
         cst_username = request.form["cst_username"]
         role = request.form["role"]
         print("role is " + role)
-        check_query = "SELECT * FROM %s WHERE username = (?) AND admin_id = (?) "%role
-        value = (cst_username,adminID)
-        delete_query = "DELETE FROM %s WHERE username = (?) AND admin_id = (?)"%role
-        delete_value = (cst_username,adminID)
+        if role_type == "opr":
+            print("user is operator")
+            check_query = "SELECT * FROM %s WHERE username = (?) AND admin_id = (?) AND opr_id =(?) "%role
+            value = (cst_username,adminID,rfid)
+            delete_query = "DELETE FROM %s WHERE username = (?) AND admin_id = (?) AND opr_id =(?)"%role
+            delete_value = (cst_username,adminID,rfid)
+        if role_type == "adm":
+            print("user is admin")
+            check_query = "SELECT * FROM %s WHERE username = (?) AND admin_id = (?) "%role
+            value = (cst_username,adminID)
+            delete_query = "DELETE FROM %s WHERE username = (?) AND admin_id = (?)"%role
+            delete_value = (cst_username,adminID)           
     cursor.execute(check_query, value)
     row = cursor.fetchone()
     print("66666666")
