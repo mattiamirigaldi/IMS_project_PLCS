@@ -9,10 +9,13 @@ import 'package:ims/Mobile/Operator/MListItems.dart';
 import 'package:ims/Mobile/Operator/MModifyBook.dart';
 // to route
 import '../../../routes.dart';
+import '../../ListIUsers.dart';
+import '../../ListItems.dart';
 import '../MHomePage_op.dart';
 import '../MListCustomers.dart';
 import '../MRemoveCustomer.dart';
 import 'package:ims/Mobile/Operator/opr_data.dart';
+import '../../DataLists.dart';
 
 String baseUrlMobile = 'http://' + (Myroutes.baseUrlMobile) + ':5000';
 String ListCustomers = baseUrlMobile + '/mobile/ListCustomers/';
@@ -94,16 +97,10 @@ class Httpservices {
         EasyLoading.showError("There are No Customers");
       } else {
         await EasyLoading.showSuccess("You have some Items");
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => MListCustomers(
-                      fname: json[0],
-                      lname: json[1],
-                      uname: json[2],
-                      email: json[3],
-                      rfid: json[4],
-                    )));
+        AllUsers.clear();
+        AllUsers.addAll(json);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const ListUsers()));
       }
     } else {
       EasyLoading.showError("Error code : ${response.statusCode.toString()}");
@@ -177,27 +174,23 @@ class Httpservices {
 
   // List ALL Items
   static List_All_Items(context) async {
-    http.Response response = await _client.get(
-        Uri.parse(baseUrlMobile + "/mobile/AllItems/" + opr_buffer.adminID));
+    http.Response response = await _client.get(Uri.parse(baseUrlMobile +
+        "/mobile/AllItems/" +
+        opr_buffer.adminID +
+        '/' +
+        opr_buffer.rfid));
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] != "No book in the library") {
-        //await EasyLoading.showSuccess("You have some Items");
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => MItemsList(
-                      bookTitle: json[0],
-                      bookAuthor: json[1],
-                      bookGenre: json[2],
-                      bookRFID: json[3],
-                      bookAvalible: json[4],
-                      bookLocation: json[5],
-                    )));
-      } else {
+      if (json[0] == "The are No items") {
         await EasyLoading.showError(json[0]);
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const MmodifyBook()));
+      } else {
+        await EasyLoading.showSuccess("The Items are here");
+        AllItems.clear();
+        AllItems.addAll(json);
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const ListItems()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");

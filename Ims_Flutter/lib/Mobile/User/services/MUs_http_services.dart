@@ -9,12 +9,16 @@ import 'package:ims/Mobile/MLogin.dart';
 import 'package:ims/Mobile/MWelcomePage.dart';
 import 'package:ims/Mobile/User/MItemsList.dart';
 import 'package:ims/Mobile/User/user_data.dart';
+import 'package:ims/web_app/data/user_data.dart';
+import 'package:ims/web_app/views/ItemsList.dart';
 // to route
 import '../../../routes.dart';
 import 'package:ims/Mobile/User/MHomePage_us.dart';
 import 'package:ims/Mobile/User/MRentPage.dart';
 import 'package:ims/Mobile/User/MReturnPage.dart';
+import '../../ListItems.dart';
 import '../MHomePage_us.dart';
+import '../../DataLists.dart';
 
 //import 'package:validator/validator.dart';
 
@@ -113,6 +117,8 @@ class Httpservices {
       if (json[0] == "not found") {
         await EasyLoading.showError(json[0]);
       } else {
+        TheUser.clear();
+        TheUser.add(json);
         user_buffer.firstname = json[1];
         user_buffer.lastname = json[2];
         user_buffer.username = json[3];
@@ -146,31 +152,10 @@ class Httpservices {
             MaterialPageRoute(builder: (context) => const hmpage_us()));
       } else {
         await EasyLoading.showSuccess("You have some Items");
-        var titles = [];
-        var authors = [];
-        var genres = [];
-        var rfid = [];
-        var available = [];
-        var location = [];
-        for (var j = 0; j < json.length; j += 1) {
-          titles.add(json[j]['title']);
-          authors.add(json[j]['author']);
-          genres.add(json[j]['genre']);
-          rfid.add(json[j]['rfid'].toString());
-          available.add(json[j]['date'].toString());
-          location.add(json[j]['publisher']);
-        }
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => MItemsList(
-                      bookTitle: titles,
-                      bookAuthor: authors,
-                      bookGenre: genres,
-                      bookRFID: rfid,
-                      bookAvalible: available,
-                      bookLocation: location,
-                    )));
+        AllItems.clear();
+        AllItems.addAll(json);
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const ListItems()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
@@ -192,31 +177,10 @@ class Httpservices {
             MaterialPageRoute(builder: (context) => const hmpage_us()));
       } else {
         await EasyLoading.showSuccess("The Items are here");
-        var titles = [];
-        var authors = [];
-        var genres = [];
-        var rfid = [];
-        var available = [];
-        var location = [];
-        for (var j = 0; j < json.length; j += 1) {
-          titles.add(json[j]['title']);
-          authors.add(json[j]['author']);
-          genres.add(json[j]['genre']);
-          rfid.add(json[j]['rfid'].toString());
-          available.add(json[j]['date'].toString());
-          location.add(json[j]['publisher']);
-        }
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => MItemsList(
-                      bookTitle: titles,
-                      bookAuthor: authors,
-                      bookGenre: genres,
-                      bookRFID: rfid,
-                      bookAvalible: available,
-                      bookLocation: location,
-                    )));
+        AllItems.clear();
+        AllItems.addAll(json);
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const ListItems()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");

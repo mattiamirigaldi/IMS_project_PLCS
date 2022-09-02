@@ -142,33 +142,15 @@ def mobile_ListCustomers(adminID,oprRFID):
     cursor = cnxn.cursor()
     check_query = "SELECT * FROM customers where admin_id = (?) AND opr_id = (?)"
     cursor.execute(check_query,adminID,oprRFID)
-    j = 0
-    fname = []
-    lname = []
-    uname = []
-    email = []
-    rfid = []
-    data = []
-    for row in cursor:
-        customers = {"fname": row[3], "lname": row[4], "uname": row[5], "email": row[6], "rfid": row[8]}
-        data.append(customers)
     if cursor.rowcount == 0:
         cnxn.close()
         print("There are no Customer for you")
         return jsonify(["not_found"])
-    else:      
-        print("------Customer Found ------")
-        print("------ 111111 ------")
-        for i in data:
-            fname.append(data[j]["fname"])
-            lname.append(data[j]["lname"])
-            uname.append(data[j]["uname"])
-            email.append(data[j]["email"])
-            rfid.append(data[j]["rfid"])
-            j += 1
-        cnxn.close()
-        print("------ 222222 ------")
-        return jsonify([fname, lname, uname, email, rfid]) 
+    column_names = [col[0] for col in cursor.description]
+    data = [dict(zip(column_names, row))  
+        for row in cursor.fetchall()]
+    cnxn.close()
+    return jsonify(data)
 
 #############################################################
 # List the User Items

@@ -1,26 +1,9 @@
-// ignore_for_file: file_names, non_constant_identifier_names
-
-//import 'dart:html';
-
+// ignore_for_file: file_names, use_key_in_widget_constructors
+import 'DataLists.dart';
 import 'package:flutter/material.dart';
 
-class MItemsList extends StatelessWidget {
-  final List bookTitle;
-  final List bookAuthor;
-  final List bookGenre;
-  final List bookRFID;
-  final List bookAvalible;
-  final List bookLocation;
-  const MItemsList({
-    Key? key,
-    required this.bookTitle,
-    required this.bookAuthor,
-    required this.bookGenre,
-    required this.bookRFID,
-    required this.bookAvalible,
-    required this.bookLocation,
-  }) : super(key: key);
-
+class ListItems extends StatelessWidget {
+  const ListItems();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,14 +12,14 @@ class MItemsList extends StatelessWidget {
           shrinkWrap: true,
           padding: const EdgeInsets.fromLTRB(2.0, 10.0, 2.0, 10.0),
           children: <Widget>[
-            for (var i = 0; i < bookTitle.length; i++)
+            for (var i = 0; i < AllItems.length; i++)
               ProductBox(
-                name: bookTitle[i],
-                description: bookAuthor[i],
-                price: bookGenre[i],
-                RFID: bookRFID[i],
-                Avalible: bookAvalible[i],
-                Location: bookLocation[i],
+                title: AllItems[i]['title'],
+                author: AllItems[i]['author'],
+                genre: AllItems[i]['genre'],
+                rfid: AllItems[i]['rfid'].toString(),
+                date: AllItems[i]['date'].toString(),
+                publisher: AllItems[i]['publisher'],
               ),
           ],
         ));
@@ -46,19 +29,19 @@ class MItemsList extends StatelessWidget {
 class ProductBox extends StatelessWidget {
   const ProductBox({
     Key? key,
-    required this.name,
-    required this.description,
-    required this.price,
-    required this.RFID,
-    required this.Avalible,
-    required this.Location,
+    required this.title,
+    required this.author,
+    required this.genre,
+    required this.rfid,
+    required this.date,
+    required this.publisher,
   }) : super(key: key);
-  final String name;
-  final String description;
-  final String price;
-  final String RFID;
-  final String Avalible;
-  final String Location;
+  final String title;
+  final String author;
+  final String genre;
+  final String rfid;
+  final String date;
+  final String publisher;
 
   @override
   Widget build(BuildContext context) {
@@ -82,15 +65,14 @@ class ProductBox extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Text(name,
+                          Text(title,
                               style:
                                   const TextStyle(fontWeight: FontWeight.bold)),
-                          Text("By " + description),
-                          Text(
-                            "Genre: " + price,
-                          ),
-                          Text("RFID: " + RFID),
-                          Text("cus_id: " + Avalible),
+                          Text("By " + author),
+                          Text("Genre: " + genre),
+                          Text("RFID: " + rfid),
+                          Text("date: " + date),
+                          Text("Publisher: " + publisher),
                         ],
                       )))
             ])));
