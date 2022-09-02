@@ -9,6 +9,7 @@ class TAddCustomerRFID extends StatefulWidget {
   final String username;
   final String email;
   final String password;
+  final String role;
 
   const TAddCustomerRFID(
       {Key? key,
@@ -17,6 +18,7 @@ class TAddCustomerRFID extends StatefulWidget {
       required this.username,
       required this.email,
       required this.password,
+      required this.role,
       context})
       : super(key: key);
   @override
@@ -83,6 +85,7 @@ class _GenreListState extends State<TAddCustomerRFID> {
                       widget.email,
                       widget.password,
                       "no",
+                      widget.role,
                       context);
                 },
                 child: Center(

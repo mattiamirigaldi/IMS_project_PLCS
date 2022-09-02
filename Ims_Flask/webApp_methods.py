@@ -156,15 +156,28 @@ def items():
     # row = cursor.fetchone()
 
 
-# add customer check
-@webApp_methods.route("/Web/AddCustomerCheck/<adminID>/<rfid>", methods=["GET", "POST"])
-def web_op_add_customer_check(adminID,rfid):
+# add user check
+@webApp_methods.route("/Web/AddCustomerCheck/<adminID>/<rfid>/<role_type>", methods=["GET", "POST"])
+def web_op_add_customer_check(adminID,rfid,role_type):
     cnxn = db.connection()
     cursor = cnxn.cursor()
     if request.method == 'POST':
         username = request.form["username"]
-    check_query = "SELECT * FROM customers WHERE username = (?) AND admin_id = (?) AND opr_id = (?) "
-    cursor.execute(check_query,username,adminID,rfid)
+        role = request.form["role"]
+    if role_type == "adm":
+        print(username)
+        print(adminID)
+        check_query = "SELECT * FROM %s WHERE username = (?) AND admin_id = (?) " %role
+        check_value =(username,adminID)
+        value = check_value
+    if role_type == "opr":
+        print(username)
+        print(adminID)
+        print(rfid)
+        check_query = "SELECT * FROM %s WHERE username = (?) AND admin_id = (?) AND opr_id = (?) "%role
+        check_value = (username,adminID,rfid)
+        value = check_value
+    cursor.execute(check_query,value)
     row = cursor.fetchone()
     cnxn.close()
     if row != None:
@@ -175,9 +188,9 @@ def web_op_add_customer_check(adminID,rfid):
         return jsonify(["username is valid"])
 
 
-# add customer
-@webApp_methods.route("/Web/AddCustomer/<adminID>/<rfid>", methods=["GET", "POST"])
-def web_op_add_customer(adminID,rfid):
+# add user
+@webApp_methods.route("/Web/AddCustomer/<adminID>/<rfid>/<role_type>", methods=["GET", "POST"])
+def web_op_add_customer(adminID,rfid,role_type):
     cnxn = db.connection()
     cursor = cnxn.cursor()
     global user_add_flag
@@ -188,19 +201,30 @@ def web_op_add_customer(adminID,rfid):
         mail = request.form["email"]
         pwd = request.form["password"]
         rfid_flag = request.form["rfid_flag"]
+        role = request.form["role"]
     print("11111111111")
+    #####this IF is useless in web####
     if rfid_flag == "yes" :
         check_query = "SELECT * FROM customers WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?)"
         cursor.execute(check_query, rfid, adminID, rfid)
         rfiddd = rfid
         row = cursor.fetchone()
+    ##################################
     else :
         rfiddd = None
         row = None
     print("22222222222")
     if row == None:
-        insert_query = '''INSERT INTO customers VALUES (?,?,?,?,?,?,?,?,?);'''  # the '?' are placeholders
-        value = (adminID, rfid, rfiddd, firstname, lastname, username, mail, pwd, rfiddd)
+        if role_type == "adm":
+            if role == 'operators':
+                insert_query = '''INSERT INTO %s VALUES (?,?,?,?,?,?,?,?);''' %role
+                value = (adminID, rfiddd, firstname, lastname, username, mail, pwd, rfiddd)
+            if role == 'customers':
+                insert_query = '''INSERT INTO %s VALUES (?,?,?,?,?,?,?,?,?);''' %role
+                value = (adminID,rfiddd, rfiddd, firstname, lastname, username, mail, pwd, rfiddd)
+        if role_type == "opr":
+            insert_query = '''INSERT INTO %s VALUES (?,?,?,?,?,?,?,?,?);''' %role
+            value = (adminID, rfid, rfiddd, firstname, lastname, username, mail, pwd, rfiddd)
         cursor.execute(insert_query, value)
         cnxn.commit()
         cnxn.close()

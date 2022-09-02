@@ -26,7 +26,7 @@ class _GenreListState extends State<AddCustomer> {
   late String password;
   late String user_chk_flag;
   late User newUser;
-  late int role;
+  late String role;
   static const _roles = [
     "customers",
     "operators",
@@ -112,8 +112,8 @@ class _GenreListState extends State<AddCustomer> {
                       setState(() {
                         username = value;
                       });
-                      user_chk_flag =
-                          await Httpservices.totemAddCustomerCheck(username);
+                      user_chk_flag = await Httpservices.totemAddCustomerCheck(
+                          role, username);
                       //if (user_chk_flag ==
                       //    "the entered username is used before") {
                       //  await EasyLoading.showInfo(user_chk_flag);
@@ -221,6 +221,7 @@ class _GenreListState extends State<AddCustomer> {
                                           username: username,
                                           email: email,
                                           password: password,
+                                          role: role,
                                           context: context,
                                         )));
                           } else {
@@ -255,7 +256,7 @@ class _GenreListState extends State<AddCustomer> {
         onChanged: (String? newValue) {
           setState(() {
             dropdownvalue = newValue!;
-            role = (dropdownvalue == "customers") ? 0 : 1;
+            role = dropdownvalue;
           });
         },
         items: _roles.map<DropdownMenuItem<String>>((String value) {
