@@ -1,4 +1,5 @@
 from asyncio.windows_events import NULL
+import itertools
 from flask import Flask, Blueprint, render_template, redirect, json, jsonify, url_for, request
 import pyodbc
 
@@ -178,73 +179,34 @@ def mobile_ListUserItems(adminID,opr,usr):
     cursor = cnxn.cursor()
     check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id where admin_id = (?) AND opr_id = (?) AND items.cus_id = (?)"
     cursor.execute(check_query,adminID,opr,usr)
-    j = 0
-    tit = []
-    aut = []
-    gen = []
-    rfid = []
-    usr = []
-    loc = []
-    data = []
-    for row in cursor:
-        books = {"title": row[2], "author": row[3], "genre": row[4], "rfid": row[7], "cus_id": row[10], "location": row[14]}
-        data.append(books)
     if cursor.rowcount == 0:
         cnxn.close()
         print("User does not have any Item")
         return jsonify(["You don't have any Item"])
-    else:      
-        print("------ Book Found ------")
-        print("------ 111111 ------")
-        for i in data:
-            tit.append(data[j]["title"])
-            aut.append(data[j]["author"])
-            gen.append(data[j]["genre"])
-            rfid.append(data[j]["rfid"])
-            usr.append(data[j]["cus_id"])
-            loc.append(data[j]["location"])
-            j += 1
-        cnxn.close()
-        print("------ 222222 ------")
-        return jsonify([tit, aut, gen, rfid, usr, loc]) 
-        
+    column_names = [col[0] for col in cursor.description]
+    data = [dict(zip(column_names, row))  
+        for row in cursor.fetchall()]
+    print("There are some Items")
+    cnxn.close()
+    return jsonify(data)
 
 # List All the Items
-@mobile_methods.route("/mobile/AllItems/<adminID>", methods=["GET", "POST"])
-def mobile_ListAllItems(adminID):
+@mobile_methods.route("/mobile/AllItems/<adminID>/<oprID>", methods=["GET", "POST"])
+def mobile_ListAllItems(adminID,oprID):
     cnxn = connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?)"
-    cursor.execute(check_query,adminID)
-    j = 0
-    tit = []
-    aut = []
-    gen = []
-    rfid = []
-    usr = []
-    loc = []
-    data = []
-    for row in cursor:
-        books = {"title": row[2], "author": row[3], "genre": row[4], "rfid": row[7], "cus_id": row[10], "location": row[14]}
-        data.append(books)
+    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?) AND opr_id = (?)"
+    cursor.execute(check_query,adminID,oprID)
     if cursor.rowcount == 0:
         cnxn.close()
-        print("No book in the library")
-        return jsonify(["No book in the library"])
-    else:      
-        print("------ Book Found ------")
-        print("------ 111111 ------")
-        for i in data:
-            tit.append(data[j]["title"])
-            aut.append(data[j]["author"])
-            gen.append(data[j]["genre"])
-            rfid.append(data[j]["rfid"])
-            usr.append(data[j]["cus_id"])
-            loc.append(data[j]["location"])
-            j += 1
-        cnxn.close()
-        print("------ 222222 ------")
-        return jsonify([tit, aut, gen, rfid, usr, loc])
+        print("The are No items")
+        return jsonify(["The are No items"])
+    column_names = [col[0] for col in cursor.description]
+    data = [dict(zip(column_names, row))  
+        for row in cursor.fetchall()]
+    print("There are some Items")
+    cnxn.close()
+    return jsonify(data)
 
 #############################################################
 # add customer check

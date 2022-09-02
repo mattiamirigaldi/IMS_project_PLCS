@@ -140,23 +140,37 @@ class Httpservices {
         user_buffer.rfid));
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] != "You don't have any Item") {
+      if (json[0] == "You don't have any Item") {
+        await EasyLoading.showError(json[0]);
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const hmpage_us()));
+      } else {
         await EasyLoading.showSuccess("You have some Items");
+        var titles = [];
+        var authors = [];
+        var genres = [];
+        var rfid = [];
+        var available = [];
+        var location = [];
+        for (var j = 0; j < json.length; j += 1) {
+          titles.add(json[j]['title']);
+          authors.add(json[j]['author']);
+          genres.add(json[j]['genre']);
+          rfid.add(json[j]['rfid'].toString());
+          available.add(json[j]['date'].toString());
+          location.add(json[j]['publisher']);
+        }
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => MItemsList(
-                      bookTitle: json[0],
-                      bookAuthor: json[1],
-                      bookGenre: json[2],
-                      bookRFID: json[3],
-                      bookAvalible: json[4],
-                      bookLocation: json[5],
+                      bookTitle: titles,
+                      bookAuthor: authors,
+                      bookGenre: genres,
+                      bookRFID: rfid,
+                      bookAvalible: available,
+                      bookLocation: location,
                     )));
-      } else {
-        await EasyLoading.showError(json[0]);
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const hmpage_us()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
@@ -165,27 +179,44 @@ class Httpservices {
 
   // List ALL Items
   static List_All_Items(context) async {
-    http.Response response = await _client.get(
-        Uri.parse(baseUrlMobile + "/mobile/AllItems/" + user_buffer.admin_id));
+    http.Response response = await _client.get(Uri.parse(baseUrlMobile +
+        "/mobile/AllItems/" +
+        user_buffer.admin_id +
+        '/' +
+        user_buffer.opr_id));
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] != "No book in the library") {
-        //await EasyLoading.showSuccess("You have some Items");
+      if (json[0] == "The are No items") {
+        await EasyLoading.showError(json[0]);
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const hmpage_us()));
+      } else {
+        await EasyLoading.showSuccess("The Items are here");
+        var titles = [];
+        var authors = [];
+        var genres = [];
+        var rfid = [];
+        var available = [];
+        var location = [];
+        for (var j = 0; j < json.length; j += 1) {
+          titles.add(json[j]['title']);
+          authors.add(json[j]['author']);
+          genres.add(json[j]['genre']);
+          rfid.add(json[j]['rfid'].toString());
+          available.add(json[j]['date'].toString());
+          location.add(json[j]['publisher']);
+        }
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => MItemsList(
-                      bookTitle: json[0],
-                      bookAuthor: json[1],
-                      bookGenre: json[2],
-                      bookRFID: json[3],
-                      bookAvalible: json[4],
-                      bookLocation: json[5],
+                      bookTitle: titles,
+                      bookAuthor: authors,
+                      bookGenre: genres,
+                      bookRFID: rfid,
+                      bookAvalible: available,
+                      bookLocation: location,
                     )));
-      } else {
-        await EasyLoading.showError(json[0]);
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const hmpage_us()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
