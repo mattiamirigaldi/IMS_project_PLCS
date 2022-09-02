@@ -92,6 +92,7 @@ class Httpservices {
           user_buffer.mail = json[4];
           user_buffer.pwd = json[5];
           user_buffer.rfid = json[6];
+          user_buffer.opr_id = json[6];
           user_buffer.admin_id = json[7];
         } else if (role == "admins") {
           user_buffer.firstname = json[1];
@@ -100,6 +101,7 @@ class Httpservices {
           user_buffer.mail = json[4];
           user_buffer.pwd = json[5];
           user_buffer.rfid = json[6];
+          user_buffer.admin_id = json[6];
         } else if (role == "customers") {
           user_buffer.firstname = json[1];
           user_buffer.lastname = json[2];
@@ -242,10 +244,10 @@ class Httpservices {
   }
 
   // Remove customer
-  static RemoveCheck(cst_username, usrn_rfid, context) async {
+  static RemoveCheck(cst_username, role, BuildContext context) async {
     http.Response response = await _client.post(
         RemoveCustomer + '/' + user_buffer.admin_id + '/' + user_buffer.rfid,
-        body: {"cst_username": cst_username, "usrn_rfid": usrn_rfid});
+        body: {"cst_username": cst_username, "role": role});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "no") {

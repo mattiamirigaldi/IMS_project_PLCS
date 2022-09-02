@@ -41,7 +41,7 @@ class manageCustomer extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(
                         horizontal: 50, vertical: 30),
                     child: const Center(
-                        child: Text("Add customer",
+                        child: Text("Add User",
                             style: TextStyle(
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,
@@ -67,7 +67,7 @@ class manageCustomer extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(
                         horizontal: 50, vertical: 30),
                     child: const Center(
-                        child: Text("Remove customer",
+                        child: Text("Remove User",
                             style: TextStyle(
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,

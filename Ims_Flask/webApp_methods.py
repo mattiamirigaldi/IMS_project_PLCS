@@ -158,7 +158,7 @@ def items():
 
 # add customer check
 @webApp_methods.route("/Web/AddCustomerCheck/<adminID>/<rfid>", methods=["GET", "POST"])
-def mobile_op_add_customer_check(adminID,rfid):
+def web_op_add_customer_check(adminID,rfid):
     cnxn = db.connection()
     cursor = cnxn.cursor()
     if request.method == 'POST':
@@ -177,7 +177,7 @@ def mobile_op_add_customer_check(adminID,rfid):
 
 # add customer
 @webApp_methods.route("/Web/AddCustomer/<adminID>/<rfid>", methods=["GET", "POST"])
-def mobile_op_add_customer(adminID,rfid):
+def web_op_add_customer(adminID,rfid):
     cnxn = db.connection()
     cursor = cnxn.cursor()
     global user_add_flag
@@ -216,23 +216,18 @@ def mobile_op_add_customer(adminID,rfid):
 
 # Remove Customer
 @webApp_methods.route("/Web/RemoveCustomer/<adminID>/<rfid>", methods=["GET", "POST"])
-def mobile_RemoveCustomer(adminID,rfid):
+def web_RemoveCustomer(adminID,rfid):
     cnxn = db.connection()
     cursor = cnxn.cursor()
     print("33333333")
     if request.method == 'POST':
         cst_username = request.form["cst_username"]
-        usrn_rfid = request.form["usrn_rfid"]
-    if usrn_rfid == "usrn" :
-        check_query = "SELECT * FROM customers WHERE username = (?) AND admin_id = (?) AND opr_id = (?)"
-        value = (cst_username,adminID,rfid)
-        delete_query = "DELETE FROM customers WHERE username = (?) AND admin_id = (?) AND opr_id = (?)"
-        delete_value = (cst_username,adminID,rfid)
-    else :
-        check_query = "SELECT * FROM customers WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?)"        
-        value = (rfid,adminID,rfid)
-        delete_query = "DELETE FROM customers WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?)"
-        delete_value = (rfid,adminID,rfid)
+        role = request.form["role"]
+        print("role is " + role)
+        check_query = "SELECT * FROM %s WHERE username = (?) AND admin_id = (?) "%role
+        value = (cst_username,adminID)
+        delete_query = "DELETE FROM %s WHERE username = (?) AND admin_id = (?)"%role
+        delete_value = (cst_username,adminID)
     cursor.execute(check_query, value)
     row = cursor.fetchone()
     print("66666666")
