@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:ims/web_app/data/user_data.dart';
+//import 'package:ims/web_app/data/user_data.dart';
 import 'package:ims/web_app/model/user.dart';
 import 'package:ims/web_app/services/http_services.dart';
-import 'package:ims/web_app/views/DashBoard.dart';
+import 'package:ims/web_app/views/Operator/AddCustomerRFID.dart';
 
 class AddCustomer extends StatefulWidget {
   const AddCustomer({Key? key}) : super(key: key);
@@ -26,10 +26,10 @@ class _GenreListState extends State<AddCustomer> {
   late String password;
   late String user_chk_flag;
   late User newUser;
-  late int role;
+  late String role;
   static const _roles = [
-    "Customer",
-    "Operator",
+    "customers",
+    "operators",
   ];
   String dropdownvalue = _roles[0];
 
@@ -112,8 +112,8 @@ class _GenreListState extends State<AddCustomer> {
                       setState(() {
                         username = value;
                       });
-                      user_chk_flag =
-                          await Httpservices.addCustomerCheck(username);
+                      user_chk_flag = await Httpservices.totemAddCustomerCheck(
+                          role, username);
                       //if (user_chk_flag ==
                       //    "the entered username is used before") {
                       //  await EasyLoading.showInfo(user_chk_flag);
@@ -206,33 +206,24 @@ class _GenreListState extends State<AddCustomer> {
                           color: Colors.deepOrangeAccent),
                     ),
                     onTap: () async {
-                      setState(() {
-                        // The newUser added to pending Users such that it can be registered in the totem adding the RFID
-                        newUser = User(
-                            firstname: firstName,
-                            lastname: lastName,
-                            username: username,
-                            mail: email,
-                            imagePath:
-                                "https://img.icons8.com/ios-filled/50/000000/user-male-circle.png",
-                            pwd: password,
-                            news: "",
-                            role: role,
-                            admin_id: '',
-                            rfid: '',
-                            opr_id: '');
-                      });
                       if (_formKey.currentState != null) {
                         if (_formKey.currentState!.validate()) {
                           if (user_chk_flag == "username is valid") {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text("Register user data")));
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const DashBoard()));
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text(
-                                        "User added to pending users list")));
+                                    builder: (context) => TAddCustomerRFID(
+                                          firstName: firstName,
+                                          lastName: lastName,
+                                          username: username,
+                                          email: email,
+                                          password: password,
+                                          role: role,
+                                          context: context,
+                                        )));
                           } else {
                             await EasyLoading.showError(
                                 "please change the entered username");
@@ -265,7 +256,7 @@ class _GenreListState extends State<AddCustomer> {
         onChanged: (String? newValue) {
           setState(() {
             dropdownvalue = newValue!;
-            role = (dropdownvalue == "Customer") ? 0 : 1;
+            role = dropdownvalue;
           });
         },
         items: _roles.map<DropdownMenuItem<String>>((String value) {

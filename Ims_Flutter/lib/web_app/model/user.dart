@@ -11,7 +11,8 @@ class User {
   String imagePath;
   String news;
   String pwd;
-  int role; // if customer role = 0, if operator role =1, if admin role = 2
+  String
+      role; // if customer role = cus, if operator role = opr, if admin role = adm
 
   User({
     required this.firstname,

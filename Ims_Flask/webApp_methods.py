@@ -64,7 +64,17 @@ def login():
     row = cursor.fetchone()
     print("User Found : FIRSTNAME is " + row.firstname)
     cnxn.close()
-    return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, row.pwd, str(row.rfid))
+    if role == "admins" :
+        print("user is admin")
+        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, row.pwd, str(row.rfid))
+    if role == "operators":
+        print("user is operator")
+        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, row.pwd, str(row.rfid),str(row.admin_id))
+    if role == "customers":
+        print("user is customer")
+        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, row.pwd, str(row.rfid),str(row.opr_id),str(row.admin_id))
+
+
 
 
 # @webApp_methods.route("/settings/<userName>", methods=["GET", "POST"])
@@ -144,3 +154,122 @@ def items():
     cnxn.close()
     return jsonify(tit, aut, gen, rfid, usr, loc)
     # row = cursor.fetchone()
+
+
+# add user check
+@webApp_methods.route("/Web/AddCustomerCheck/<adminID>/<rfid>/<role_type>", methods=["GET", "POST"])
+def web_op_add_customer_check(adminID,rfid,role_type):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    if request.method == 'POST':
+        username = request.form["username"]
+        role = request.form["role"]
+    if role_type == "adm":
+        print(username)
+        print(adminID)
+        check_query = "SELECT * FROM %s WHERE username = (?) AND admin_id = (?) " %role
+        check_value =(username,adminID)
+        value = check_value
+    if role_type == "opr":
+        print(username)
+        print(adminID)
+        print(rfid)
+        check_query = "SELECT * FROM %s WHERE username = (?) AND admin_id = (?) AND opr_id = (?) "%role
+        check_value = (username,adminID,rfid)
+        value = check_value
+    cursor.execute(check_query,value)
+    row = cursor.fetchone()
+    cnxn.close()
+    if row != None:
+        print("user used")
+        return jsonify(["the entered username is used before"])
+    else:
+        print("user available")
+        return jsonify(["username is valid"])
+
+
+# add user
+@webApp_methods.route("/Web/AddCustomer/<adminID>/<rfid>/<role_type>", methods=["GET", "POST"])
+def web_op_add_customer(adminID,rfid,role_type):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    global user_add_flag
+    if request.method == 'POST':
+        firstname = request.form["firstName"]
+        lastname = request.form["lastName"]
+        username = request.form["username"]
+        mail = request.form["email"]
+        pwd = request.form["password"]
+        rfid_flag = request.form["rfid_flag"]
+        role = request.form["role"]
+    print("11111111111")
+    #####this IF is useless in web####
+    if rfid_flag == "yes" :
+        check_query = "SELECT * FROM customers WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?)"
+        cursor.execute(check_query, rfid, adminID, rfid)
+        rfiddd = rfid
+        row = cursor.fetchone()
+    ##################################
+    else :
+        rfiddd = None
+        row = None
+    print("22222222222")
+    if row == None:
+        if role_type == "adm":
+            if role == 'operators':
+                insert_query = '''INSERT INTO %s VALUES (?,?,?,?,?,?,?,?);''' %role
+                value = (adminID, rfiddd, firstname, lastname, username, mail, pwd, rfiddd)
+            if role == 'customers':
+                insert_query = '''INSERT INTO %s VALUES (?,?,?,?,?,?,?,?,?);''' %role
+                value = (adminID,rfiddd, rfiddd, firstname, lastname, username, mail, pwd, rfiddd)
+        if role_type == "opr":
+            insert_query = '''INSERT INTO %s VALUES (?,?,?,?,?,?,?,?,?);''' %role
+            value = (adminID, rfid, rfiddd, firstname, lastname, username, mail, pwd, rfiddd)
+        cursor.execute(insert_query, value)
+        cnxn.commit()
+        cnxn.close()
+        user_add_flag = "new User added to the database successfully"
+        print(user_add_flag)
+        return jsonify([user_add_flag])
+    else:
+        user_add_flag = "RFID is already in the db"
+        print(user_add_flag)
+        return jsonify([user_add_flag])
+
+#############################################################
+
+# Remove Customer
+@webApp_methods.route("/Web/RemoveCustomer/<adminID>/<rfid>/<role_type>", methods=["GET", "POST"])
+def web_RemoveCustomer(adminID,rfid,role_type):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    print("33333333")
+    if request.method == 'POST':
+        cst_username = request.form["cst_username"]
+        role = request.form["role"]
+        print("role is " + role)
+        if role_type == "opr":
+            print("user is operator")
+            check_query = "SELECT * FROM %s WHERE username = (?) AND admin_id = (?) AND opr_id =(?) "%role
+            value = (cst_username,adminID,rfid)
+            delete_query = "DELETE FROM %s WHERE username = (?) AND admin_id = (?) AND opr_id =(?)"%role
+            delete_value = (cst_username,adminID,rfid)
+        if role_type == "adm":
+            print("user is admin")
+            check_query = "SELECT * FROM %s WHERE username = (?) AND admin_id = (?) "%role
+            value = (cst_username,adminID)
+            delete_query = "DELETE FROM %s WHERE username = (?) AND admin_id = (?)"%role
+            delete_value = (cst_username,adminID)           
+    cursor.execute(check_query, value)
+    row = cursor.fetchone()
+    print("66666666")
+    if row != None :
+        cursor.execute(delete_query, delete_value)
+        cnxn.commit()
+        cnxn.close()
+        print("Operator removed a User successfully")
+        return jsonify(["Done"])
+    else:
+        cnxn.close()
+        print("user not found")
+        return jsonify(["no"])

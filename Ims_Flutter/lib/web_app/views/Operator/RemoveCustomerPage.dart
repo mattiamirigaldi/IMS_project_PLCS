@@ -9,9 +9,19 @@ class RemoveCustomer extends StatefulWidget {
   _GenreListState createState() => _GenreListState();
 }
 
+late String cst_username;
+late String role;
+
 class _GenreListState extends State<RemoveCustomer> {
-  late String cst_username;
+  static const _roles = [
+    "customers",
+    "operators",
+  ];
+  String dropdownvalue = _roles[0];
+
+  // ignore: unused_field
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +43,7 @@ class _GenreListState extends State<RemoveCustomer> {
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                     child: Center(
                         child: Text(
-                            "Please enter username of the Customer you want to remove",
+                            "Please enter username of the User you want to remove",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black),
@@ -61,12 +71,50 @@ class _GenreListState extends State<RemoveCustomer> {
                       },
                     ),
                   ),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        const SizedBox(width: 25),
+                        const Text(
+                          "Select your role : ",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.normal),
+                        ),
+                        DropdownButton<String>(
+                          value: dropdownvalue,
+                          icon: const Icon(Icons.arrow_downward),
+                          underline: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: Container(
+                                alignment: Alignment.centerLeft,
+                                height: 5,
+                                width: 100,
+                                color: Colors.deepOrangeAccent),
+                          ),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownvalue = newValue!;
+                              role = dropdownvalue;
+                            });
+                          },
+                          items: _roles
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 30, vertical: 10),
+                                  child: Text(value)),
+                              value: value,
+                            );
+                          }).toList(),
+                        ),
+                      ]),
                   InkWell(
                       child: Container(
                         margin: const EdgeInsets.symmetric(
                             horizontal: 30, vertical: 20),
                         child: const Center(
-                            child: Text("Remove customer",
+                            child: Text("Remove (Username)",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Colors.black,
@@ -81,9 +129,10 @@ class _GenreListState extends State<RemoveCustomer> {
                       onTap: () async {
                         if (_formKey.currentState != null) {
                           if (_formKey.currentState!.validate()) {
-                            await Httpservices.removeCheck(context);
+                            await Httpservices.RemoveCheck(
+                                cst_username, role, context);
                           }
-                        }
+                        } else {}
                       })
                 ],
               ),
