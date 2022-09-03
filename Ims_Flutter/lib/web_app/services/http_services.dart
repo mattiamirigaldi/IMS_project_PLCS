@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 // to display loading animation
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/web_app/views/Operator/ManageCustomerPage.dart';
+import 'package:ims/web_app/views/Operator/ManageItemsPage.dart';
 // to route
 import '../../routes.dart';
 // parameters
@@ -17,6 +18,8 @@ String baseUrl = Myroutes.baseUrl;
 String AddCustomer = baseUrl + '/Web/AddCustomer';
 String AddCustomerCheck = baseUrl + '/Web/AddCustomerCheck';
 String RemoveCustomer = baseUrl + '/Web/RemoveCustomer';
+String RemoveBook = baseUrl + '/Web/RemoveBook';
+String AddBook = baseUrl + '/Web/AddBook';
 
 class Httpservices {
   static final _client = http.Client();
@@ -27,8 +30,8 @@ class Httpservices {
 //  static final AddCustomerCheck = Uri.parse(baseUrl + '/Web/AddCustomerCheck');
 //  static final RemoveCustomer =
 //      Uri.parse(baseUrl + '/Web/Operator/RemoveCustomer');
-  static final _addBook = Uri.parse(baseUrl + '/totem/Operator/AddBook');
-  static final _removeBook = Uri.parse(baseUrl + '/Web/Operator/RemoveBook');
+//  static final _addBook = Uri.parse(baseUrl + '/totem/Operator/AddBook');
+//  static final _removeBook = Uri.parse(baseUrl + '/Web/Operator/RemoveBook');
 
   static var user_buffer = User(
       mail: '',
@@ -285,24 +288,31 @@ class Httpservices {
     }
   }
 
-  // Add item method
-  static addItem(
-      Title, Author, Genre, Publisher, Date, Description, context) async {
-    http.Response response = await _client.post(_addBook, body: {
-      "Title": Title,
-      "Author": Author,
-      "Genre": Genre,
-      "Publisher": Publisher,
-      "Date": Date,
-      "Description": Description,
-      "rfid_flag": "yes"
-    });
+  // Add book method
+  static WAddbook(
+      Title, Author, Genre, Publisher, Date, rfid_flag, context) async {
+    http.Response response = await _client.post(
+        AddBook +
+            '/' +
+            user_buffer.admin_id +
+            '/' +
+            user_buffer.rfid +
+            '/' +
+            user_buffer.role,
+        body: {
+          "Title": Title,
+          "Author": Author,
+          "Genre": Genre,
+          "Publisher": Publisher,
+          "Date": Date,
+          "rfid_flag": rfid_flag,
+        });
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "done") {
         await EasyLoading.showSuccess("Book added successfully");
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const DashBoard()));
+            MaterialPageRoute(builder: (context) => const manageItems()));
       } else {
         await EasyLoading.showError(json[0]);
       }
@@ -311,18 +321,32 @@ class Httpservices {
     }
   }
 
-  // Remove item method
-  static removeItem(context) async {
-    http.Response response = await _client.get(_removeBook);
+  // Remove book method
+  static WRemoveBook(book_title, book_author, rfid_flag, context) async {
+    http.Response response = await _client.post(
+        RemoveBook +
+            '/' +
+            user_buffer.admin_id +
+            '/' +
+            user_buffer.rfid +
+            '/' +
+            user_buffer.role,
+        body: {
+          "title": book_title,
+          "author": book_author,
+          "rfid_flag": rfid_flag
+        });
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "done") {
         await EasyLoading.showSuccess("Book removed successfully");
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const DashBoard()));
+            MaterialPageRoute(builder: (context) => const manageItems()));
       } else {
         await EasyLoading.showError("The Book is not in the database");
       }
+    } else {
+      EasyLoading.showError("Error code : ${response.statusCode.toString()}");
     }
   }
 }

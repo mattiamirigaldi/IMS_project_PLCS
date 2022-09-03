@@ -40,7 +40,7 @@ class manageItems extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const addItem()));
+                      MaterialPageRoute(builder: (context) => const AddBook()));
                 },
                 child: Center(
                   child: Container(
@@ -66,7 +66,7 @@ class manageItems extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const removeItem()));
+                          builder: (context) => const RemoveBook()));
                 },
                 child: Center(
                   child: Container(

@@ -3,6 +3,8 @@ from flask import Flask, Blueprint, render_template, redirect, json, jsonify, ur
 import pyodbc
 import connectionToDb as db
 webApp_methods = Blueprint('webApp_methods', __name__)
+rfid_counter = 0
+
 
 @webApp_methods.route("/web", methods=["GET", "POST"])
 def webApp():
@@ -273,3 +275,99 @@ def web_RemoveCustomer(adminID,rfid,role_type):
         cnxn.close()
         print("user not found")
         return jsonify(["no"])
+
+
+        ######################################################################
+
+# Add Book
+@webApp_methods.route("/Web/AddBook/<adminID>/<rfid>/<role_type>", methods=["GET", "POST"])
+def totem_AddBook(adminID,rfid,role_type):
+    global rfid_counter
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    if request.method == 'POST':
+        Title = request.form["Title"]
+        Author = request.form["Author"]
+        Genre = request.form["Genre"]
+        Publisher = request.form["Publisher"]
+        Date = request.form["Date"]
+        rfid_flag = request.form["rfid_flag"]
+    if role_type == "opr":
+        check_query1 = " SELECT * FROM books WHERE title = (?) AND author = (?)"
+        cursor.execute(check_query1,Title,Author)
+        print("check1: " + str(cursor.rowcount))
+        if cursor.rowcount == 0 or rfid_flag == "no": 
+            rfiddd = rfid
+            print("4444444 :  " + str(rfiddd))
+            if rfiddd == -1 : 
+                cnxn.close()
+                return jsonify(["Please Scan the RFID"])
+            insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?,?);'''
+            insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,adminID,rfid,None,rfiddd,Title,"Book","Turin",0,rfiddd)
+            cursor.execute(insert_query, insert_value)
+            cnxn.commit()
+            return jsonify(["done"])
+        else :
+            cnxn.close()
+            return jsonify(["The book is already in the Database"])
+    if role_type == "adm":
+        check_query1 = " SELECT * FROM books WHERE title = (?) AND author = (?)"
+        cursor.execute(check_query1,Title,Author)
+        print("check1: " + str(cursor.rowcount))
+        if cursor.rowcount == 0 or rfid_flag == "no": 
+            rfiddd = rfid
+            print("4444444 :  " + str(rfiddd))
+            if rfiddd == -1 : 
+                cnxn.close()
+                return jsonify(["Please Scan the RFID"])
+            insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?,?);'''
+            insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,adminID,None,None,rfiddd,Title,"Book","Turin",0,rfiddd)
+            cursor.execute(insert_query, insert_value)
+            cnxn.commit()
+            return jsonify(["done"])
+        else :
+            cnxn.close()
+            return jsonify(["The book is already in the Database"])
+        
+
+
+
+# Remove Book
+@webApp_methods.route("/Web/RemoveBook/<adminID>/<rfid>/<role_type>", methods=["GET", "POST"])
+def totem_RemoveBook(adminID,rfid,role_type):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    print("000000000")
+    if request.method == 'POST':
+        title = request.form["title"]
+        author = request.form["author"]
+        rfid_flag = request.form["rfid_flag"]
+    if role_type == "opr":
+        check_query = "SELECT * FROM books WHERE author = (?) AND title = (?)"
+        delete_query1 = "DELETE FROM items WHERE name = (?) AND admin_id = (?) AND opr_id = (?)"
+        delete_query2 = "DELETE FROM books WHERE title = (?) AND author = (?)"
+        value = (title,adminID,rfid)
+        value2 = (title,author)
+        cursor.execute(check_query,author,title)
+    if role_type == "adm":
+        check_query = "SELECT * FROM books WHERE author = (?) AND title = (?)"
+        delete_query1 = "DELETE FROM items WHERE name = (?) AND admin_id = (?)"
+        delete_query2 = "DELETE FROM books WHERE title = (?) AND author = (?)"
+        value = (title,adminID)
+        value2 = (title,author)
+        cursor.execute(check_query,author,title)
+    print("111111111")
+    if cursor.rowcount == 0 :
+        cnxn.close()
+        print("2222222")
+        return jsonify(["no"])
+    else :
+        print("33333333")
+        cursor.execute(delete_query1,value)
+        cnxn.commit()
+        cursor.execute(delete_query2,value2)
+        cnxn.commit()
+        cnxn.close()
+        return jsonify(["done"])
+
+#############################################################

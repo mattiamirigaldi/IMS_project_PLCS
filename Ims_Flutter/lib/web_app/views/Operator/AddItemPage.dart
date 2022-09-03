@@ -1,33 +1,26 @@
 // ignore_for_file: file_names, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:ims/web_app/data/book_data.dart';
-import 'package:ims/web_app/data/user_data.dart';
-import 'package:ims/web_app/model/item.dart';
-import 'package:ims/web_app/views/DashBoard.dart';
+import 'package:ims/web_app/views/Operator/AddBookRFID.dart';
 
-class addItem extends StatefulWidget {
-  const addItem({Key? key}) : super(key: key);
+class AddBook extends StatefulWidget {
+  const AddBook({Key? key}) : super(key: key);
   @override
   _GenreListState createState() => _GenreListState();
 }
 
 // _RegisterPageState inherits the state of RegisterPage
-class _GenreListState extends State<addItem> {
+class _GenreListState extends State<AddBook> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form
   final _formKey = GlobalKey<FormState>();
   // Register form data
-  late String Location;
+  late String Publisher;
+  late String Date;
   late String Title;
   late String Author;
-  late String Category;
-  late String Publisher;
-  late String Id;
+  late String Genre;
   late String RFID;
-  late String Description;
-  late String price;
-  late Item newItem;
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +32,6 @@ class _GenreListState extends State<addItem> {
               //crossAxisAlignment: CrossAxisAlignment.start,
               //mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                const SizedBox(
-                  height: 40,
-                ),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Center(
@@ -60,7 +50,7 @@ class _GenreListState extends State<addItem> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
                     decoration: const InputDecoration(
-                      hintText: "Enter the item's Title",
+                      hintText: "Enter the Book's Title",
                       labelText: 'Title',
                       border: OutlineInputBorder(),
                     ),
@@ -82,8 +72,8 @@ class _GenreListState extends State<addItem> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
                     decoration: const InputDecoration(
-                      hintText: "Enter the item's author",
-                      labelText: 'author',
+                      hintText: "Enter the Book's Author",
+                      labelText: 'Author',
                       border: OutlineInputBorder(),
                     ),
                     onChanged: (value) {
@@ -104,13 +94,13 @@ class _GenreListState extends State<addItem> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
                     decoration: const InputDecoration(
-                      hintText: "Enter the item's category",
-                      labelText: 'Category',
+                      hintText: "Enter the Book's Genre",
+                      labelText: 'Genre',
                       border: OutlineInputBorder(),
                     ),
                     onChanged: (value) {
                       setState(() {
-                        Category = value;
+                        Genre = value;
                       });
                     },
                     validator: (String? value) {
@@ -126,13 +116,13 @@ class _GenreListState extends State<addItem> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
                     decoration: const InputDecoration(
-                      hintText: "Enter the item's price",
-                      labelText: 'Price',
+                      hintText: "Enter the Book's Publisher",
+                      labelText: 'Publisher',
                       border: OutlineInputBorder(),
                     ),
                     onChanged: (value) {
                       setState(() {
-                        price = value;
+                        Publisher = value;
                       });
                     },
                     validator: (String? value) {
@@ -148,35 +138,13 @@ class _GenreListState extends State<addItem> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
                     decoration: const InputDecoration(
-                      hintText: "Enter the item's identifier",
-                      labelText: 'ID',
+                      hintText: "Enter the Book's Date",
+                      labelText: 'Date',
                       border: OutlineInputBorder(),
                     ),
                     onChanged: (value) {
                       setState(() {
-                        Id = value;
-                      });
-                    },
-                    validator: (String? value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      hintText: "Enter the description of the item",
-                      labelText: 'Description',
-                      border: OutlineInputBorder(),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        Description = value;
+                        Date = value;
                       });
                     },
                     validator: (String? value) {
@@ -204,33 +172,22 @@ class _GenreListState extends State<addItem> {
                           color: Colors.deepOrangeAccent),
                     ),
                     onTap: () async {
-                      setState(() {
-                        newItem = Item(
-                          author: Author,
-                          title: Title,
-                          category: Category,
-                          available: true,
-                          description: Description,
-                          favorite: false,
-                          urlImage:
-                              'https://images.unsplash.com/photo-1615347497551-277d6616b959?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=692&q=80',
-                          location: "Saint July",
-                          id: Id,
-                          price: price,
-                          color: Colors.green,
-                        );
-                        pendingItems.add(newItem);
-                      });
                       if (_formKey.currentState != null) {
                         if (_formKey.currentState!.validate()) {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const DashBoard()));
+                                  builder: (context) => MAddBookRFID(
+                                        Title: Title,
+                                        Author: Author,
+                                        Genre: Genre,
+                                        Publisher: Publisher,
+                                        Date: Date,
+                                        context: context,
+                                      )));
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                  content: Text(
-                                      "Item added to pending items list")));
+                                  content: Text("Register item data success")));
                         }
                       } else {}
                     })
