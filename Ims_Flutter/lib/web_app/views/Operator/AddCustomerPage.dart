@@ -2,9 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-//import 'package:ims/web_app/data/user_data.dart';
-import 'package:ims/web_app/model/user.dart';
 import 'package:ims/web_app/services/http_services.dart';
+//import 'package:ims/web_app/data/user_data.dart';
 import 'package:ims/web_app/views/Operator/AddCustomerRFID.dart';
 
 class AddCustomer extends StatefulWidget {
@@ -26,7 +25,7 @@ class _GenreListState extends State<AddCustomer> {
   late String password;
   late String user_chk_flag;
   //late User newUser;
-  late String role;
+  late String role = "customers";
   static const _roles = [
     "customers",
     "operators",

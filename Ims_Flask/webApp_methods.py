@@ -138,7 +138,7 @@ def mobile_ListCustomers(adminID,oprRFID,role):
     if role == 'operators' :
         cursor.execute("SELECT * FROM customers where admin_id = (?) AND opr_id = (?)",adminID,oprRFID)
     else :
-        cursor.execute("SELECT * FROM customers where admin_id = (?)",adminID,)
+        cursor.execute("SELECT * FROM customers where admin_id = (?)",oprRFID,)
     if cursor.rowcount == 0:
         cnxn.close()
         print("There are no Customer for you")
@@ -157,13 +157,13 @@ def web_op_add_customer_check(adminID,rfid,role_type):
     if request.method == 'POST':
         username = request.form["username"]
         role = request.form["role"]
-    if role_type == "adm":
+    if role_type == "admins":
         print(username)
         print(adminID)
         check_query = "SELECT * FROM %s WHERE username = (?) AND admin_id = (?) " %role
-        check_value =(username,adminID)
+        check_value =(username,rfid)
         value = check_value
-    if role_type == "opr":
+    if role_type == "operators":
         print(username)
         print(adminID)
         print(rfid)
@@ -208,14 +208,14 @@ def web_op_add_customer(adminID,rfid,role_type):
         row = None
     print("22222222222")
     if row == None:
-        if role_type == "adm":
+        if role_type == "admins":
             if role == 'operators':
                 insert_query = '''INSERT INTO %s VALUES (?,?,?,?,?,?,?,?);''' %role
-                value = (adminID, rfiddd, firstname, lastname, username, mail, pwd, rfiddd)
+                value = (rfid, rfiddd, firstname, lastname, username, mail, pwd, rfiddd)
             if role == 'customers':
                 insert_query = '''INSERT INTO %s VALUES (?,?,?,?,?,?,?,?,?);''' %role
-                value = (adminID,rfiddd, rfiddd, firstname, lastname, username, mail, pwd, rfiddd)
-        if role_type == "opr":
+                value = (rfid,rfiddd, rfiddd, firstname, lastname, username, mail, pwd, rfiddd)
+        if role_type == "operators":
             insert_query = '''INSERT INTO %s VALUES (?,?,?,?,?,?,?,?,?);''' %role
             value = (adminID, rfid, rfiddd, firstname, lastname, username, mail, pwd, rfiddd)
         cursor.execute(insert_query, value)
@@ -241,18 +241,18 @@ def web_RemoveCustomer(adminID,rfid,role_type):
         cst_username = request.form["cst_username"]
         role = request.form["role"]
         print("role is " + role)
-        if role_type == "opr":
+        if role_type == "operators":
             print("user is operator")
             check_query = "SELECT * FROM %s WHERE username = (?) AND admin_id = (?) AND opr_id =(?) "%role
             value = (cst_username,adminID,rfid)
             delete_query = "DELETE FROM %s WHERE username = (?) AND admin_id = (?) AND opr_id =(?)"%role
             delete_value = (cst_username,adminID,rfid)
-        if role_type == "adm":
+        if role_type == "admins":
             print("user is admin")
             check_query = "SELECT * FROM %s WHERE username = (?) AND admin_id = (?) "%role
-            value = (cst_username,adminID)
+            value = (cst_username,rfid)
             delete_query = "DELETE FROM %s WHERE username = (?) AND admin_id = (?)"%role
-            delete_value = (cst_username,adminID)           
+            delete_value = (cst_username,rfid)           
     cursor.execute(check_query, value)
     row = cursor.fetchone()
     print("66666666")
@@ -283,7 +283,7 @@ def totem_AddBook(adminID,rfid,role_type):
         Publisher = request.form["Publisher"]
         Date = request.form["Date"]
         rfid_flag = request.form["rfid_flag"]
-    if role_type == "opr":
+    if role_type == "operators":
         check_query1 = " SELECT * FROM books WHERE title = (?) AND author = (?)"
         cursor.execute(check_query1,Title,Author)
         print("check1: " + str(cursor.rowcount))
@@ -301,7 +301,7 @@ def totem_AddBook(adminID,rfid,role_type):
         else :
             cnxn.close()
             return jsonify(["The book is already in the Database"])
-    if role_type == "adm":
+    if role_type == "admins":
         check_query1 = " SELECT * FROM books WHERE title = (?) AND author = (?)"
         cursor.execute(check_query1,Title,Author)
         print("check1: " + str(cursor.rowcount))
@@ -312,7 +312,7 @@ def totem_AddBook(adminID,rfid,role_type):
                 cnxn.close()
                 return jsonify(["Please Scan the RFID"])
             insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?,?);'''
-            insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,adminID,None,None,rfiddd,Title,"Book","Turin",0,rfiddd)
+            insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,rfid,None,None,rfiddd,Title,"Book","Turin",0,rfiddd)
             cursor.execute(insert_query, insert_value)
             cnxn.commit()
             return jsonify(["done"])
@@ -333,18 +333,18 @@ def totem_RemoveBook(adminID,rfid,role_type):
         title = request.form["title"]
         author = request.form["author"]
         rfid_flag = request.form["rfid_flag"]
-    if role_type == "opr":
+    if role_type == "operators":
         check_query = "SELECT * FROM books WHERE author = (?) AND title = (?)"
         delete_query1 = "DELETE FROM items WHERE name = (?) AND admin_id = (?) AND opr_id = (?)"
         delete_query2 = "DELETE FROM books WHERE title = (?) AND author = (?)"
         value = (title,adminID,rfid)
         value2 = (title,author)
         cursor.execute(check_query,author,title)
-    if role_type == "adm":
+    if role_type == "admins":
         check_query = "SELECT * FROM books WHERE author = (?) AND title = (?)"
         delete_query1 = "DELETE FROM items WHERE name = (?) AND admin_id = (?)"
         delete_query2 = "DELETE FROM books WHERE title = (?) AND author = (?)"
-        value = (title,adminID)
+        value = (title,rfid)
         value2 = (title,author)
         cursor.execute(check_query,author,title)
     print("111111111")

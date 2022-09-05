@@ -10,7 +10,7 @@ class RemoveCustomer extends StatefulWidget {
 }
 
 late String cst_username;
-late String role;
+late String role = "customers";
 
 class _GenreListState extends State<RemoveCustomer> {
   static const _roles = [

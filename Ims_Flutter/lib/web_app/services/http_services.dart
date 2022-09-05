@@ -8,6 +8,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/web_app/DataLists.dart';
 import 'package:ims/web_app/views/Operator/ManageCustomerPage.dart';
 import 'package:ims/web_app/views/Operator/ManageItemsPage.dart';
+
 // to route
 import '../../routes.dart';
 // parameters
@@ -160,9 +161,9 @@ class Httpservices {
   static webAddCustomerCheck(role, username) async {
     http.Response response = await _client.post(
         AddCustomerCheckUrl +
-            TheWebUser[0]['admin_id'] +
+            TheWebUser[0]['admin_id'].toString() +
             '/' +
-            TheWebUser[0]['rfid'] +
+            TheWebUser[0]['rfid'].toString() +
             '/' +
             TheWebUser[0]['role'],
         body: {"username": username, "role": role});
@@ -187,9 +188,9 @@ class Httpservices {
   ) async {
     http.Response response = await _client.post(
         AddCustomerUrl +
-            TheWebUser[0]['admin_id'] +
+            TheWebUser[0]['admin_id'].toString() +
             '/' +
-            TheWebUser[0]['rfid'] +
+            TheWebUser[0]['rfid'].toString() +
             '/' +
             TheWebUser[0]['role'],
         body: {
@@ -219,9 +220,9 @@ class Httpservices {
   static webRemoveCheck(cst_username, role, BuildContext context) async {
     http.Response response = await _client.post(
         RemoveCustomerUrl +
-            TheWebUser[0]['admin_id'] +
+            TheWebUser[0]['admin_id'].toString() +
             '/' +
-            TheWebUser[0]['rfid'] +
+            TheWebUser[0]['rfid'].toString() +
             '/' +
             TheWebUser[0]['role'],
         body: {"cst_username": cst_username, "role": role});
@@ -244,9 +245,9 @@ class Httpservices {
       Title, Author, Genre, Publisher, Date, rfid_flag, context) async {
     http.Response response = await _client.post(
         AddBookUrl +
-            TheWebUser[0]['admin_id'] +
+            TheWebUser[0]['admin_id'].toString() +
             '/' +
-            TheWebUser[0]['rfid'] +
+            TheWebUser[0]['rfid'].toString() +
             '/' +
             TheWebUser[0]['role'],
         body: {
@@ -275,9 +276,9 @@ class Httpservices {
   static webRemoveBook(book_title, book_author, rfid_flag, context) async {
     http.Response response = await _client.post(
         RemoveBookUrl +
-            TheWebUser[0]['admin_id'] +
+            TheWebUser[0]['admin_id'].toString() +
             '/' +
-            TheWebUser[0]['rfid'] +
+            TheWebUser[0]['rfid'].toString() +
             '/' +
             TheWebUser[0]['role'],
         body: {

@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import './Login.dart';
 import './Register.dart';
-import '../services/http_services.dart';
 
 class WelcomeHome extends StatelessWidget {
   const WelcomeHome({Key? key}) : super(key: key);
@@ -38,9 +37,9 @@ class WelcomeHome extends StatelessWidget {
               ))),
           InkWell(
             onTap: () async {
-              await Httpservices.login('o1', 'o1', 'operators', context);
-              //Navigator.push(context,
-              //    MaterialPageRoute(builder: (context) => const LoginPage()));
+              //await Httpservices.login('o1', 'o1', 'operators', context);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()));
             },
             child: Center(
               child: Container(

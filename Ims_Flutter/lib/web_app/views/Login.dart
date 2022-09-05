@@ -15,7 +15,7 @@ class _LoginPageState extends State<LoginPage> {
   // Login parameters
   late String username;
   late String password;
-  late String role;
+  late String role = "customers";
   static const _roles = ["customers", "operators", "admins"];
   String dropdownvalue = _roles[0];
   @override
