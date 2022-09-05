@@ -1,17 +1,14 @@
 // ignore_for_file: file_names, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:ims/web_app/DataLists.dart';
 import 'package:ims/web_app/views/components/profile_widget.dart';
-import '../../services/http_services.dart';
 import '../UserSettings.dart';
-
-var UserData = Httpservices.user_buffer;
 
 class UserDashBoard extends StatelessWidget {
   const UserDashBoard({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    String name = UserData.firstname;
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -21,13 +18,13 @@ class UserDashBoard extends StatelessWidget {
             height: 40,
           ),
           Center(
-              child: Text("Welcome dear $name",
+              child: Text("Welcome dear " + TheWebUser[0]['firstname'],
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                   textScaleFactor: 2)),
           // Icon pic
           ProfileWidget(
-            imagePath: UserData.imagePath,
+            imagePath: TheWebUser[0]['imagePath'],
             onClicked: () async {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const SettingPage()));
@@ -45,11 +42,11 @@ class UserDashBoard extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              UserData.firstname,
+              TheWebUser[0]['firstname'],
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
             ),
             Text(
-              UserData.mail,
+              TheWebUser[0]['mail'],
               style: const TextStyle(color: Colors.grey),
             ),
           ],
@@ -69,7 +66,7 @@ class UserDashBoard extends StatelessWidget {
                   color: Colors.amber),
             ),
             Text(
-              UserData.news,
+              TheWebUser[0]['news'],
               style: const TextStyle(fontSize: 16, height: 1.4),
             )
           ],

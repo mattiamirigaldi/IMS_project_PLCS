@@ -1,33 +1,33 @@
 // ignore_for_file: non_constant_identifier_names
 
-class User {
-  String firstname;
-  String lastname;
-  String username;
-  String mail;
-  String rfid;
-  String admin_id;
-  String opr_id;
-  String imagePath;
-  String news;
-  String pwd;
-  String
-      role; // if customer role = cus, if operator role = opr, if admin role = adm
-
-  User({
-    required this.firstname,
-    required this.lastname,
-    required this.username,
-    required this.mail,
-    required this.rfid,
-    required this.admin_id,
-    required this.opr_id,
-    required this.imagePath,
-    required this.news,
-    required this.pwd,
-    required this.role,
-  });
-}
+//class User {
+//  String firstname;
+//  String lastname;
+//  String username;
+//  String mail;
+//  String rfid;
+//  String admin_id;
+//  String opr_id;
+//  String imagePath;
+//  String news;
+//  String pwd;
+//  String
+//      role; // if customer role = cus, if operator role = opr, if admin role = adm
+//
+//  User({
+//    required this.firstname,
+//    required this.lastname,
+//    required this.username,
+//    required this.mail,
+//    required this.rfid,
+//    required this.admin_id,
+//    required this.opr_id,
+//    required this.imagePath,
+//    required this.news,
+//    required this.pwd,
+//    required this.role,
+//  });
+//}
 //  Map<String,dynamic> toJson() => {
 //    'firstName' : firstName,
 //    'lastName' : lastName,

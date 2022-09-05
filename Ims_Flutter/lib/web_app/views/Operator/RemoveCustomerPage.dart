@@ -129,7 +129,7 @@ class _GenreListState extends State<RemoveCustomer> {
                       onTap: () async {
                         if (_formKey.currentState != null) {
                           if (_formKey.currentState!.validate()) {
-                            await Httpservices.RemoveCheck(
+                            await Httpservices.webRemoveCheck(
                                 cst_username, role, context);
                           }
                         } else {}

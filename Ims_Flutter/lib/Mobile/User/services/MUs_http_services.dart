@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 // to display loading animation
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:ims/Mobile/DataLists.dart';
 import 'package:ims/Mobile/MLogin.dart';
 import 'package:ims/Mobile/MWelcomePage.dart';
 import 'package:ims/Mobile/User/MItemsList.dart';
@@ -18,7 +19,6 @@ import 'package:ims/Mobile/User/MRentPage.dart';
 import 'package:ims/Mobile/User/MReturnPage.dart';
 import '../../ListItems.dart';
 import '../MHomePage_us.dart';
-import '../../DataLists.dart';
 
 //import 'package:validator/validator.dart';
 

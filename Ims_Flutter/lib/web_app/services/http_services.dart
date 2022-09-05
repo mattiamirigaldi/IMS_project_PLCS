@@ -5,48 +5,30 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 // to display loading animation
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:ims/web_app/DataLists.dart';
 import 'package:ims/web_app/views/Operator/ManageCustomerPage.dart';
 import 'package:ims/web_app/views/Operator/ManageItemsPage.dart';
 // to route
 import '../../routes.dart';
 // parameters
-import 'package:ims/web_app/model/user.dart';
 import './../views/DashBoard.dart';
 import '../views/ItemsList.dart';
+import '../views/ListIUsers.dart';
 
 String baseUrl = Myroutes.baseUrl;
-String AddCustomer = baseUrl + '/Web/AddCustomer';
-String AddCustomerCheck = baseUrl + '/Web/AddCustomerCheck';
-String RemoveCustomer = baseUrl + '/Web/RemoveCustomer';
-String RemoveBook = baseUrl + '/Web/RemoveBook';
-String AddBook = baseUrl + '/Web/AddBook';
+String AddCustomerUrl = baseUrl + '/web/AddCustomer/';
+String AddCustomerCheckUrl = baseUrl + '/web/AddCustomerCheck/';
+String RemoveCustomerUrl = baseUrl + '/web/RemoveCustomer/';
+String RemoveBookUrl = baseUrl + '/web/RemoveBook/';
+String AddBookUrl = baseUrl + '/web/AddBook/';
+String ListCustomersUrl = baseUrl + '/web/ListCustomers/';
+String SettingsUrl = baseUrl + '/web/settings/';
 
 class Httpservices {
   static final _client = http.Client();
 
-  static final _loginUrl = Uri.parse(baseUrl + '/login');
-  static final _registerUrl = Uri.parse(baseUrl + '/register');
-//  static final AddCustomer = Uri.parse(baseUrl + '/Web/AddCustomer');
-//  static final AddCustomerCheck = Uri.parse(baseUrl + '/Web/AddCustomerCheck');
-//  static final RemoveCustomer =
-//      Uri.parse(baseUrl + '/Web/Operator/RemoveCustomer');
-//  static final _addBook = Uri.parse(baseUrl + '/totem/Operator/AddBook');
-//  static final _removeBook = Uri.parse(baseUrl + '/Web/Operator/RemoveBook');
-
-  static var user_buffer = User(
-      mail: '',
-      username: '',
-      lastname: '',
-      firstname: '',
-      rfid: '',
-      admin_id: '',
-      opr_id: '',
-      imagePath:
-          'https://img.icons8.com/ios-filled/50/000000/user-male-circle.png',
-      news:
-          'He is often considered a "goofy" boss by the employees of Dunder Mifflin. He is often the butt of everybodies jokes. Michael constantly tries to intermix his work life with his social life by inviting employees of Dunder Mifflin to come over house or get coffee',
-      pwd: '',
-      role: "");
+  static final _loginUrl = Uri.parse(baseUrl + '/web/login');
+  static final _registerUrl = Uri.parse(baseUrl + '/web/register');
 
   static register(
       firstName, lastName, userName, email, password, context) async {
@@ -57,12 +39,6 @@ class Httpservices {
       "email": email,
       "password": password
     });
-    //Customer myCustomer
-    // myCustomer.userName = userName;
-    // myCustomer.name = json[0];
-    // myCustomer.email = json[1];
-    // myCustomer.imagePath = json[2];
-    // myCustomer.news = json[3];
 
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
@@ -87,37 +63,15 @@ class Httpservices {
       if (json[0] == "not_found") {
         await EasyLoading.showError(json[0]);
       } else {
-        await EasyLoading.showSuccess("Welcome Back " + username);
-        if (role == "operators") {
-          user_buffer.firstname = json[1];
-          user_buffer.lastname = json[2];
-          user_buffer.username = json[3];
-          user_buffer.mail = json[4];
-          user_buffer.pwd = json[5];
-          user_buffer.rfid = json[6];
-          user_buffer.opr_id = json[6];
-          user_buffer.admin_id = json[7];
-          user_buffer.role = "opr";
-        } else if (role == "admins") {
-          user_buffer.firstname = json[1];
-          user_buffer.lastname = json[2];
-          user_buffer.username = json[3];
-          user_buffer.mail = json[4];
-          user_buffer.pwd = json[5];
-          user_buffer.rfid = json[6];
-          user_buffer.admin_id = json[6];
-          user_buffer.role = "adm";
-        } else if (role == "customers") {
-          user_buffer.firstname = json[1];
-          user_buffer.lastname = json[2];
-          user_buffer.username = json[3];
-          user_buffer.mail = json[4];
-          user_buffer.pwd = json[5];
-          user_buffer.rfid = json[6];
-          user_buffer.opr_id = json[7];
-          user_buffer.admin_id = json[8];
-          user_buffer.role = "cus";
-        }
+        TheWebUser.clear();
+        TheWebUser.addAll(json);
+        TheWebUser[0]['imagePath'] =
+            'https://img.icons8.com/ios-filled/50/000000/user-male-circle.png';
+        TheWebUser[0]['news'] =
+            'He is often considered a "goofy" boss by the employees of Dunder Mifflin. He is often the butt of everybodies jokes. Michael constantly tries to intermix his work life with his social life by inviting employees of Dunder Mifflin to come over house or get coffee';
+        TheWebUser[0]['role'] = role;
+        await EasyLoading.showSuccess(
+            "Welcome dear " + TheWebUser[0]['firstname']);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const DashBoard()));
       }
@@ -126,38 +80,13 @@ class Httpservices {
     }
   }
 
-  // static settings(userName, context) async {
-
-  //   http.Response response = await _client.post(
-  //       Uri.parse(baseUrl + "/settings/" + userName),
-  //       body: {"userName": userName});
-  //   if (response.statusCode == 200) {
-  //     var json = jsonDecode(response.body);
-  //         User myCustomer(email :  )
-
-  //     Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //             builder: (context) => SettingPage(
-  //                   myFirstName: json[0],
-  //                   myLastName: json[1],
-  //                   myUserName: json[2],
-  //                   myEmail: json[3],
-  //                   myPwd: json[4],
-  //                 )));
-  //   } else {
-  //     await EasyLoading?.showError(
-  //         "Error Code : ${response.statusCode.toString()}");
-  //   }
-  // }
-
-  static settings_ch(
+  static settings(
       NEWfirstname, NEWlastname, NEWusername, NEWmail, NEWpwd, context) async {
-    ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("User edited successfully")));
-    await EasyLoading.showSuccess("Welcome Back " + NEWfirstname);
     http.Response response = await _client.post(
-        Uri.parse(baseUrl + "/settings_ch/" + user_buffer.username),
+        Uri.parse(SettingsUrl +
+            TheWebUser[0]['username'] +
+            '/' +
+            TheWebUser[0]['role']),
         body: {
           "firstname": NEWfirstname,
           "lastname": NEWlastname,
@@ -166,12 +95,13 @@ class Httpservices {
           "password": NEWpwd,
         });
     if (response.statusCode == 200) {
-      //var json = jsonDecode(response.body);
-      user_buffer.firstname = NEWfirstname;
-      user_buffer.lastname = NEWlastname;
-      user_buffer.username = NEWusername;
-      user_buffer.mail = NEWmail;
-      user_buffer.pwd = NEWpwd;
+      TheWebUser[0]['firstname'] = NEWfirstname;
+      TheWebUser[0]['lastname'] = NEWlastname;
+      TheWebUser[0]['username'] = NEWusername;
+      TheWebUser[0]['mail'] = NEWmail;
+      TheWebUser[0]['pwd'] = NEWpwd;
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("User edited successfully")));
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const DashBoard()));
     } else {
@@ -202,16 +132,39 @@ class Httpservices {
     }
   }
 
+  // List Customers
+  static WebListCustomers(context) async {
+    http.Response response = await _client.get(ListCustomersUrl +
+        TheWebUser[0]['admin_id'].toString() +
+        '/' +
+        TheWebUser[0]['rfid'].toString() +
+        '/' +
+        TheWebUser[0]['role']);
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == "not_found") {
+        await EasyLoading.showError("There are No Customers");
+      } else {
+        await EasyLoading.showSuccess("There are some Customers");
+        AllUsers.clear();
+        AllUsers.addAll(json);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const ListUsers()));
+      }
+    } else {
+      EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+    }
+  }
+
   // Add customer check
-  static totemAddCustomerCheck(role, username) async {
+  static webAddCustomerCheck(role, username) async {
     http.Response response = await _client.post(
-        AddCustomerCheck +
+        AddCustomerCheckUrl +
+            TheWebUser[0]['admin_id'] +
             '/' +
-            user_buffer.admin_id +
+            TheWebUser[0]['rfid'] +
             '/' +
-            user_buffer.rfid +
-            '/' +
-            user_buffer.role,
+            TheWebUser[0]['role'],
         body: {"username": username, "role": role});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
@@ -222,7 +175,7 @@ class Httpservices {
   }
 
   // Add customer method
-  static totemAddCustomer(
+  static webAddCustomer(
     firstName,
     lastName,
     username,
@@ -233,13 +186,12 @@ class Httpservices {
     context,
   ) async {
     http.Response response = await _client.post(
-        AddCustomer +
+        AddCustomerUrl +
+            TheWebUser[0]['admin_id'] +
             '/' +
-            user_buffer.admin_id +
+            TheWebUser[0]['rfid'] +
             '/' +
-            user_buffer.rfid +
-            '/' +
-            user_buffer.role,
+            TheWebUser[0]['role'],
         body: {
           "firstName": firstName,
           "lastName": lastName,
@@ -264,15 +216,14 @@ class Httpservices {
   }
 
   // Remove customer
-  static RemoveCheck(cst_username, role, BuildContext context) async {
+  static webRemoveCheck(cst_username, role, BuildContext context) async {
     http.Response response = await _client.post(
-        RemoveCustomer +
+        RemoveCustomerUrl +
+            TheWebUser[0]['admin_id'] +
             '/' +
-            user_buffer.admin_id +
+            TheWebUser[0]['rfid'] +
             '/' +
-            user_buffer.rfid +
-            '/' +
-            user_buffer.role,
+            TheWebUser[0]['role'],
         body: {"cst_username": cst_username, "role": role});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
@@ -289,16 +240,15 @@ class Httpservices {
   }
 
   // Add book method
-  static WAddbook(
+  static webAddbook(
       Title, Author, Genre, Publisher, Date, rfid_flag, context) async {
     http.Response response = await _client.post(
-        AddBook +
+        AddBookUrl +
+            TheWebUser[0]['admin_id'] +
             '/' +
-            user_buffer.admin_id +
+            TheWebUser[0]['rfid'] +
             '/' +
-            user_buffer.rfid +
-            '/' +
-            user_buffer.role,
+            TheWebUser[0]['role'],
         body: {
           "Title": Title,
           "Author": Author,
@@ -322,15 +272,14 @@ class Httpservices {
   }
 
   // Remove book method
-  static WRemoveBook(book_title, book_author, rfid_flag, context) async {
+  static webRemoveBook(book_title, book_author, rfid_flag, context) async {
     http.Response response = await _client.post(
-        RemoveBook +
+        RemoveBookUrl +
+            TheWebUser[0]['admin_id'] +
             '/' +
-            user_buffer.admin_id +
+            TheWebUser[0]['rfid'] +
             '/' +
-            user_buffer.rfid +
-            '/' +
-            user_buffer.role,
+            TheWebUser[0]['role'],
         body: {
           "title": book_title,
           "author": book_author,

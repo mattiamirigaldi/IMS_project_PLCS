@@ -11,7 +11,7 @@ def webApp():
     if request.method == 'GET':
         return render_template('index.html')
 
-@webApp_methods.route("/register", methods=["GET", "POST"])
+@webApp_methods.route("/web/register", methods=["GET", "POST"])
 def register():
     ## 1 SECTION: Connection to the database
     cnxn = db.connection()
@@ -46,7 +46,7 @@ def register():
     return jsonify(["Register success"])
 
 
-@webApp_methods.route("/login", methods=["GET", "POST"])
+@webApp_methods.route("/web/login", methods=["GET", "POST"])
 def login():
     cnxn = db.connection()
     cursor = cnxn.cursor()
@@ -63,44 +63,16 @@ def login():
     if cursor.rowcount == 0:
         print("User Not found")
         return jsonify(["not_found"])
-    row = cursor.fetchone()
-    print("User Found : FIRSTNAME is " + row.firstname)
+    column_names = [col[0] for col in cursor.description]
+    data = [dict(zip(column_names, row))  
+        for row in cursor.fetchall()]
+    print (data[0]['firstname'])
     cnxn.close()
-    if role == "admins" :
-        print("user is admin")
-        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, row.pwd, str(row.rfid))
-    if role == "operators":
-        print("user is operator")
-        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, row.pwd, str(row.rfid),str(row.admin_id))
-    if role == "customers":
-        print("user is customer")
-        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, row.pwd, str(row.rfid),str(row.opr_id),str(row.admin_id))
+    return jsonify(data)
 
 
-
-
-# @webApp_methods.route("/settings/<userName>", methods=["GET", "POST"])
-# def settings(userName):
-#     cnxn = db.connection()
-#     cursor = cnxn.cursor()
-#     if request.method == 'POST':
-#         userName = request.form["userName"]
-#         print(userName)
-#     check_query = "SELECT * FROM [Library_Clients] WHERE userName = (?) "
-#     value = (userName)
-#     cursor.execute(check_query, value)
-#     row = cursor.fetchone()
-#     if row != None :
-#         print("SETTINGS : FIRSTNAME is " + row.firstName)
-#         print("Access to Settings url : Successful")
-#         cnxn.close()
-#         return jsonify(row.firstName, row.lastName, row.userName, row.mail, row.pwd)
-#     else:
-#         cnxn.close()
-#         return jsonify(["1"],["2"],["3"],["4"],["5"])
-
-@webApp_methods.route("/settings_ch/<usr>", methods=["GET", "POST"])
-def settings_ch(usr):
+@webApp_methods.route("/web/settings/<usr>/<role>", methods=["GET", "POST"])
+def settings(usr,role):
     cnxn = db.connection()
     cursor = cnxn.cursor()
     
@@ -116,7 +88,7 @@ def settings_ch(usr):
     print("SETTINGS : username is " + username)
     print("************************************")
     
-    insert_query = "UPDATE customers SET firstname = (?), lastname = (?), username = (?), mail= (?), pwd= (?) WHERE username = (?)"
+    insert_query = "UPDATE %s SET firstname = (?), lastname = (?), username = (?), mail= (?), pwd= (?) WHERE username = (?)" %role
     value = (firstname, lastname, username, mail, password, usr)
     cursor.execute(insert_query, value)
     cnxn.commit()
@@ -155,11 +127,30 @@ def items():
         j += 1
     cnxn.close()
     return jsonify(tit, aut, gen, rfid, usr, loc)
-    # row = cursor.fetchone()
 
+
+# List Customers
+@webApp_methods.route("/web/ListCustomers/<adminID>/<oprRFID>/<role>", methods=["GET", "POST"])
+def mobile_ListCustomers(adminID,oprRFID,role):
+    print(adminID,oprRFID,role)
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    if role == 'operators' :
+        cursor.execute("SELECT * FROM customers where admin_id = (?) AND opr_id = (?)",adminID,oprRFID)
+    else :
+        cursor.execute("SELECT * FROM customers where admin_id = (?)",adminID,)
+    if cursor.rowcount == 0:
+        cnxn.close()
+        print("There are no Customer for you")
+        return jsonify(["not_found"])
+    column_names = [col[0] for col in cursor.description]
+    data = [dict(zip(column_names, row))  
+        for row in cursor.fetchall()]
+    cnxn.close()
+    return jsonify(data)
 
 # add user check
-@webApp_methods.route("/Web/AddCustomerCheck/<adminID>/<rfid>/<role_type>", methods=["GET", "POST"])
+@webApp_methods.route("/web/AddCustomerCheck/<adminID>/<rfid>/<role_type>", methods=["GET", "POST"])
 def web_op_add_customer_check(adminID,rfid,role_type):
     cnxn = db.connection()
     cursor = cnxn.cursor()
@@ -191,7 +182,7 @@ def web_op_add_customer_check(adminID,rfid,role_type):
 
 
 # add user
-@webApp_methods.route("/Web/AddCustomer/<adminID>/<rfid>/<role_type>", methods=["GET", "POST"])
+@webApp_methods.route("/web/AddCustomer/<adminID>/<rfid>/<role_type>", methods=["GET", "POST"])
 def web_op_add_customer(adminID,rfid,role_type):
     cnxn = db.connection()
     cursor = cnxn.cursor()
@@ -241,7 +232,7 @@ def web_op_add_customer(adminID,rfid,role_type):
 #############################################################
 
 # Remove Customer
-@webApp_methods.route("/Web/RemoveCustomer/<adminID>/<rfid>/<role_type>", methods=["GET", "POST"])
+@webApp_methods.route("/web/RemoveCustomer/<adminID>/<rfid>/<role_type>", methods=["GET", "POST"])
 def web_RemoveCustomer(adminID,rfid,role_type):
     cnxn = db.connection()
     cursor = cnxn.cursor()
@@ -280,7 +271,7 @@ def web_RemoveCustomer(adminID,rfid,role_type):
         ######################################################################
 
 # Add Book
-@webApp_methods.route("/Web/AddBook/<adminID>/<rfid>/<role_type>", methods=["GET", "POST"])
+@webApp_methods.route("/web/AddBook/<adminID>/<rfid>/<role_type>", methods=["GET", "POST"])
 def totem_AddBook(adminID,rfid,role_type):
     global rfid_counter
     cnxn = db.connection()
@@ -333,7 +324,7 @@ def totem_AddBook(adminID,rfid,role_type):
 
 
 # Remove Book
-@webApp_methods.route("/Web/RemoveBook/<adminID>/<rfid>/<role_type>", methods=["GET", "POST"])
+@webApp_methods.route("/web/RemoveBook/<adminID>/<rfid>/<role_type>", methods=["GET", "POST"])
 def totem_RemoveBook(adminID,rfid,role_type):
     cnxn = db.connection()
     cursor = cnxn.cursor()

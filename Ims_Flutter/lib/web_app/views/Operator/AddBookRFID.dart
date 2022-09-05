@@ -45,7 +45,7 @@ class _GenreListState extends State<MAddBookRFID> {
                           color: Colors.black))),
               InkWell(
                 onTap: () async {
-                  await Httpservices.WAddbook(
+                  await Httpservices.webAddbook(
                       widget.Title,
                       widget.Author,
                       widget.Genre,

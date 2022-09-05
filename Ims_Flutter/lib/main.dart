@@ -6,7 +6,6 @@ import 'package:ims/Mobile/MWelcomePage.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'Web_app/views/WelcomPage.dart';
 import 'routes.dart';
-import './Web_app/data/user_data.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

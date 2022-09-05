@@ -25,7 +25,7 @@ class _GenreListState extends State<AddCustomer> {
   late String username;
   late String password;
   late String user_chk_flag;
-  late User newUser;
+  //late User newUser;
   late String role;
   static const _roles = [
     "customers",
@@ -112,7 +112,7 @@ class _GenreListState extends State<AddCustomer> {
                       setState(() {
                         username = value;
                       });
-                      user_chk_flag = await Httpservices.totemAddCustomerCheck(
+                      user_chk_flag = await Httpservices.webAddCustomerCheck(
                           role, username);
                       //if (user_chk_flag ==
                       //    "the entered username is used before") {

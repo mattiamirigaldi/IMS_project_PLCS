@@ -1,13 +1,11 @@
 // ignore_for_file: file_names, constant_identifier_names, non_constant_identifier_names, must_be_immutable
 
 import 'package:flutter/material.dart';
-import '../../services/http_services.dart';
+import 'package:ims/web_app/DataLists.dart';
 import 'Searchbar.dart';
 import 'menu_item.dart';
 //import 'dart:developer' as devlog;
 import 'package:ims/web_app/views/DashBoard.dart';
-
-var UserData = Httpservices.user_buffer;
 
 class CustomAppBar extends StatelessWidget {
   static const _BrowseItems = [
@@ -25,9 +23,9 @@ class CustomAppBar extends StatelessWidget {
   CustomAppBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    if (UserData.role == 0) {
+    if (TheWebUser[0]['role'] == 'customers') {
       _Services = _ServicesCustomerItems;
-    } else if (UserData.role == 1) {
+    } else if (TheWebUser[0]['role'] == 'operators') {
       _Services = _ServicesOperatorItems + _ServicesCustomerItems;
     } else {
       _Services =
@@ -60,30 +58,30 @@ class CustomAppBar extends StatelessWidget {
               onTap: () => Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const DashBoard()))),
           const SizedBox(width: 20),
-          Text("Welcome ".toUpperCase() + UserData.username,
+          Text("Welcome ".toUpperCase() + TheWebUser[0]['username'],
               style:
                   const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
           const Spacer(),
           const SearchBar(),
-          MenuItems(
+          const MenuItems(
             title: "Browse",
             icon: Icons.arrow_drop_down_rounded,
             DropDownItems: _BrowseItems,
-            userName: UserData.username,
+            //userName: TheUser[0]['username'],
           ),
           MenuItems(
             title: "Services",
             icon: Icons.arrow_drop_down_rounded,
             DropDownItems: _Services,
-            userName: UserData.username,
+            //userName: TheUser[0]['username'],
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 70),
+          const Padding(
+            padding: EdgeInsets.only(right: 70),
             child: MenuItems(
               title: "",
               icon: Icons.manage_accounts,
               DropDownItems: _UserItems,
-              userName: UserData.username,
+              //userName: TheUser[0]['username'],
             ),
           )
         ],

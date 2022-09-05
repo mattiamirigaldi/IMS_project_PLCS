@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, must_be_immutable, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:ims/web_app/DataLists.dart';
 import 'package:ims/web_app/views/components/profile_widget.dart';
 import './../services/http_services.dart';
 
@@ -11,12 +12,11 @@ class SettingPage extends StatefulWidget {
   _SettingPageState createState() => _SettingPageState();
 }
 
-var UserData = Httpservices.user_buffer;
-late String NEWfirstname = UserData.firstname;
-late String NEWlastname = UserData.lastname;
-late String NEWusername = UserData.username;
-late String NEWmail = UserData.mail;
-late String NEWpwd = UserData.pwd;
+late String NEWfirstname = TheWebUser[0]['firstname'];
+late String NEWlastname = TheWebUser[0]['lastname'];
+late String NEWusername = TheWebUser[0]['username'];
+late String NEWmail = TheWebUser[0]['mail'];
+late String NEWpwd = TheWebUser[0]['pwd'];
 
 class _SettingPageState extends State<SettingPage> {
   @override
@@ -28,7 +28,7 @@ class _SettingPageState extends State<SettingPage> {
             padding: const EdgeInsets.symmetric(horizontal: 32),
             children: <Widget>[
               ProfileWidget(
-                imagePath: UserData.imagePath,
+                imagePath: TheWebUser[0]['imagePath'],
                 isEdit: true,
                 onClicked: () async {},
               ),
@@ -37,7 +37,7 @@ class _SettingPageState extends State<SettingPage> {
                 decoration: const InputDecoration(
                   labelText: "First Name",
                 ),
-                initialValue: UserData.firstname,
+                initialValue: TheWebUser[0]['firstname'],
                 onChanged: (value) {
                   NEWfirstname = value;
                 },
@@ -46,7 +46,7 @@ class _SettingPageState extends State<SettingPage> {
                 decoration: const InputDecoration(
                   labelText: "Last Name",
                 ),
-                initialValue: UserData.lastname,
+                initialValue: TheWebUser[0]['lastname'],
                 onChanged: (value) {
                   NEWlastname = value;
                 },
@@ -55,7 +55,7 @@ class _SettingPageState extends State<SettingPage> {
                 decoration: const InputDecoration(
                   labelText: "Username",
                 ),
-                initialValue: UserData.username,
+                initialValue: TheWebUser[0]['username'],
                 onChanged: (value) {
                   NEWusername = value;
                 },
@@ -64,7 +64,7 @@ class _SettingPageState extends State<SettingPage> {
                 decoration: const InputDecoration(
                   labelText: "Email",
                 ),
-                initialValue: UserData.mail,
+                initialValue: TheWebUser[0]['mail'],
                 onChanged: (value) {
                   NEWmail = value;
                 },
@@ -73,7 +73,7 @@ class _SettingPageState extends State<SettingPage> {
                 decoration: const InputDecoration(
                   labelText: "Password",
                 ),
-                initialValue: UserData.pwd,
+                initialValue: TheWebUser[0]['pwd'],
                 onChanged: (value) {
                   NEWpwd = value;
                 },
@@ -95,10 +95,8 @@ class _SettingPageState extends State<SettingPage> {
                         color: Colors.blue),
                   ),
                   onTap: () async {
-                    await Httpservices.settings_ch(NEWfirstname, NEWlastname,
+                    await Httpservices.settings(NEWfirstname, NEWlastname,
                         NEWusername, NEWmail, NEWpwd, context);
-                    //await Httpservices.settings_ch(
-                    //    NEWfirstname, 'a', 'a', 'a', 'a', context);
                   })
             ]),
       ),

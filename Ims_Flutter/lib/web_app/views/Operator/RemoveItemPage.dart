@@ -105,7 +105,7 @@ class _GenreListState extends State<RemoveBook> {
                       onTap: () async {
                         if (_formKey.currentState != null) {
                           if (_formKey.currentState!.validate()) {
-                            await Httpservices.WRemoveBook(
+                            await Httpservices.webRemoveBook(
                                 book_title, book_author, "no", context);
                           }
                         } else {}

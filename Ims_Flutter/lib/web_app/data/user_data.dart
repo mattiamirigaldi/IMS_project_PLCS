@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // Data are persisted locally on the device using the package shared preferences
 
-class UserData {
+// class UserData {
 //  static late SharedPreferences _preferences;
 //  static const _keyUser = 'user';
 //  static var pendingUsers = <User>[];
@@ -47,4 +47,4 @@ class UserData {
 //  static removePendingUser(User user) {
 //    pendingUsers.remove(user);
 //  }
-}
+// }

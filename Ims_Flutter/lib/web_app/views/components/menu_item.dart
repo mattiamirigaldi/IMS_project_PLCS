@@ -5,45 +5,33 @@ import 'package:ims/web_app/views/GenreList.dart';
 import 'package:ims/web_app/views/Operator/ManageCustomerPage.dart';
 import 'package:ims/web_app/views/Operator/ManageItemsPage.dart';
 import 'package:ims/web_app/views/UserSettings.dart';
-import 'package:ims/web_app/data/user_data.dart';
 import 'package:ims/web_app/views/WelcomPage.dart';
 
 class MenuItems extends StatefulWidget {
   final String title;
   final IconData icon;
-  final String userName;
-  //final void Function() press;
   final List<String> DropDownItems;
   const MenuItems({
     Key? key,
     required this.title,
     required this.icon,
     required this.DropDownItems,
-    required this.userName,
-    //required this.press,
   }) : super(key: key);
 
   @override
-  State<MenuItems> createState() => _MenuItemsState(
-      title: title,
-      icon: icon,
-      DropDownItems: DropDownItems,
-      userName: userName);
+  State<MenuItems> createState() =>
+      _MenuItemsState(title: title, icon: icon, DropDownItems: DropDownItems);
 }
 
 class _MenuItemsState extends State<MenuItems> {
   final String title;
   final IconData icon;
-  final String userName;
-  //final void Function() press;
   final List<String> DropDownItems;
-  _MenuItemsState(
-      {required this.title,
-      required this.icon,
-      required this.DropDownItems,
-      required this.userName
-      //required this.press,
-      });
+  _MenuItemsState({
+    required this.title,
+    required this.icon,
+    required this.DropDownItems,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -64,17 +52,17 @@ class _MenuItemsState extends State<MenuItems> {
             Icon(icon, color: Colors.black, size: 20),
           ],
         ),
-        onSelected: (choice) => choiceAction(choice, userName, context),
+        onSelected: (choice) => choiceAction(choice, context),
         itemBuilder: (BuildContext context) => DropDownItems.map((choice) =>
                 PopupMenuItem<String>(value: choice, child: Text(choice)))
             .toList());
   }
 }
 
-void choiceAction(String choice, String userName, BuildContext context) async {
+void choiceAction(String choice, BuildContext context) async {
   if (choice == "My profile") {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const SettingPage()));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const SettingPage()));
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text("Settings")));
   } else if (choice == "Subjects") {

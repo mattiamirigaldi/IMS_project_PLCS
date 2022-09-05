@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 // to display loading animation
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:ims/Mobile/DataLists.dart';
 import 'package:ims/Mobile/Operator/MListItems.dart';
 import 'package:ims/Mobile/Operator/MModifyBook.dart';
 // to route
@@ -15,7 +16,6 @@ import '../MHomePage_op.dart';
 import '../MListCustomers.dart';
 import '../MRemoveCustomer.dart';
 import 'package:ims/Mobile/Operator/opr_data.dart';
-import '../../DataLists.dart';
 
 String baseUrlMobile = 'http://' + (Myroutes.baseUrlMobile) + ':5000';
 String ListCustomers = baseUrlMobile + '/mobile/ListCustomers/';
