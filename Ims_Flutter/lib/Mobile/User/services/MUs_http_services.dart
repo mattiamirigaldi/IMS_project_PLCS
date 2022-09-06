@@ -65,7 +65,7 @@ class Httpservices {
   }
 
   // Redirect to Welcome page method
-  static totemWelcome(context) async {
+  static MobileWelcome(context) async {
     http.Response response = await _client.get(_totemWelcomeUrl);
     if (response.statusCode == 200) {
       Navigator.pushReplacement(
@@ -73,33 +73,18 @@ class Httpservices {
     }
   }
 
-  static final user_buffer = user_data(
-      mail: '',
-      username: '',
-      lastname: '',
-      firstname: '',
-      rfid: '',
-      admin_id: '',
-      opr_id: '');
-
   // Login with rfid method
   static MobileLoginUs(context) async {
     http.Response response = await _client.get(_totemUsrLoginRFIDUrl);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == "not_found") {
+      if (json[0] == "not found") {
         await EasyLoading.showError("User not fount");
-      } else if (json[0] == "operator") {
-        await EasyLoading.showError("Dear Operator, you are not a User");
       } else {
-        user_buffer.firstname = json[1];
-        user_buffer.lastname = json[2];
-        user_buffer.username = json[3];
-        user_buffer.mail = json[4];
-        user_buffer.rfid = json[5];
-        user_buffer.admin_id = json[6];
-        user_buffer.opr_id = json[7];
-        await EasyLoading.showSuccess("Welcome dear " + json[1]);
+        TheUser.clear();
+        TheUser.addAll(json);
+        await EasyLoading.showSuccess(
+            "Welcome Back " + TheUser[0]['firstname']);
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const hmpage_us()));
       }
@@ -118,15 +103,9 @@ class Httpservices {
         await EasyLoading.showError(json[0]);
       } else {
         TheUser.clear();
-        TheUser.add(json);
-        user_buffer.firstname = json[1];
-        user_buffer.lastname = json[2];
-        user_buffer.username = json[3];
-        user_buffer.mail = json[4];
-        user_buffer.rfid = json[5];
-        user_buffer.admin_id = json[6];
-        user_buffer.opr_id = json[7];
-        await EasyLoading.showSuccess("Welcome Back " + json[1]);
+        TheUser.addAll(json);
+        await EasyLoading.showSuccess(
+            "Welcome Back " + TheUser[0]['firstname']);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const hmpage_us()));
       }
@@ -139,11 +118,11 @@ class Httpservices {
   static List_User_Items(context) async {
     http.Response response = await _client.get(Uri.parse(baseUrlMobile +
         "/mobile/UserItems/" +
-        user_buffer.admin_id +
+        TheUser[0]['admin_id'].toString() +
         '/' +
-        user_buffer.opr_id +
+        TheUser[0]['opr_id'].toString() +
         '/' +
-        user_buffer.rfid));
+        TheUser[0]['rfid'].toString()));
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "You don't have any Item") {
@@ -166,9 +145,9 @@ class Httpservices {
   static List_All_Items(context) async {
     http.Response response = await _client.get(Uri.parse(baseUrlMobile +
         "/mobile/AllItems/" +
-        user_buffer.admin_id +
+        TheUser[0]['admin_id'].toString() +
         '/' +
-        user_buffer.opr_id));
+        TheUser[0]['opr_id'].toString()));
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "The are No items") {
@@ -184,6 +163,60 @@ class Httpservices {
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  static bool username_valid = true;
+
+  static usrcheck(value, context) async {
+    http.Response response = await _client.get(Uri.parse(baseUrlMobile +
+        "/mobile/usrcheck/customers/" +
+        TheUser[0]['admin_id'].toString() +
+        '/' +
+        TheUser[0]['username'] +
+        '/' +
+        value));
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json == "ok") {
+        username_valid = true;
+      } else {
+        username_valid = false;
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(json)));
+      }
+    } else {
+      await EasyLoading?.showError(
+          "Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  static settings(
+      NEWfirstname, NEWlastname, NEWusername, NEWmail, NEWpwd, context) async {
+    http.Response response = await _client.post(
+        Uri.parse(baseUrlMobile +
+            "/mobile/settings/customers/" +
+            TheUser[0]['username']),
+        body: {
+          "firstname": NEWfirstname,
+          "lastname": NEWlastname,
+          "username": NEWusername,
+          "mail": NEWmail,
+          "password": NEWpwd,
+        });
+    if (response.statusCode == 200) {
+      TheUser[0]['firstname'] = NEWfirstname;
+      TheUser[0]['lastname'] = NEWlastname;
+      TheUser[0]['username'] = NEWusername;
+      TheUser[0]['mail'] = NEWmail;
+      TheUser[0]['pwd'] = NEWpwd;
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("User edited successfully")));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const hmpage_us()));
+    } else {
+      await EasyLoading?.showError(
+          "Error Code : ${response.statusCode.toString()}");
     }
   }
 

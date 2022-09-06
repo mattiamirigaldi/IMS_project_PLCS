@@ -104,7 +104,7 @@ class _GenreListState extends State<TAddCustomer> {
                         username = value;
                       });
                       user_chk_flag =
-                          await Httpservices.totemAddCustomerCheck(username);
+                          await HttpservicesOP.totemAddCustomerCheck(username);
                       //if (user_chk_flag ==
                       //    "the entered username is used before") {
                       //  await EasyLoading.showInfo(user_chk_flag);

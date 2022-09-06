@@ -1,6 +1,8 @@
 // ignore_for_file: file_names, camel_case_types
 
 import 'package:flutter/material.dart';
+import 'package:ims/Mobile/DataLists.dart';
+import 'package:ims/Mobile/User/UserSettings.dart';
 import 'services/MUs_http_services.dart';
 
 class hmpage_us extends StatelessWidget {
@@ -11,9 +13,7 @@ class hmpage_us extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.green,
-            title:
-                //Text("HELLO DEAR BOOK LOVER!"),
-                const Image(
+            title: const Image(
               image: AssetImage('images/logo.png'),
               height: 50,
             )),
@@ -21,12 +21,16 @@ class hmpage_us extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const Center(child: Text("Please select a service")),
+              Center(
+                  child: Text("HELLO DEAR " + TheUser[0]['firstname'],
+                      textScaleFactor: 2)),
+              const Center(
+                  child: Text("Please select a service", textScaleFactor: 2)),
               InkWell(
                 child: Center(
                   child: Container(
                     margin: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 30),
+                        horizontal: 50, vertical: 20),
                     child: const Center(
                         child: Text("Your Items",
                             style: TextStyle(
@@ -43,15 +47,13 @@ class hmpage_us extends StatelessWidget {
                 ),
                 onTap: () async {
                   await Httpservices.List_User_Items(context);
-                  //ScaffoldMessenger.of(context)
-                  //    .showSnackBar(const SnackBar(content: Text("rented")));
                 },
               ),
               InkWell(
                 child: Center(
                   child: Container(
                     margin: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 30),
+                        horizontal: 50, vertical: 20),
                     child: const Center(
                         child: Text("All Items",
                             style: TextStyle(
@@ -68,6 +70,32 @@ class hmpage_us extends StatelessWidget {
                 ),
                 onTap: () async {
                   await Httpservices.List_All_Items(context);
+                },
+              ),
+              InkWell(
+                child: Center(
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 50, vertical: 20),
+                    child: const Center(
+                        child: Text("Settings",
+                            style: TextStyle(
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black))),
+                    height: 100,
+                    width: 1500,
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+                onTap: () async {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SettingPage()));
                 },
               ),
             ]));

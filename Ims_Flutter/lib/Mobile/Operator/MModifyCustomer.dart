@@ -13,10 +13,7 @@ class modifyCustomer extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.green,
-            title:
-
-                //Text("HELLO DEAR BOOK LOVER!"),
-                const Image(
+            title: const Image(
               image: AssetImage('images/logo.png'),
               height: 50,
             )),
@@ -27,7 +24,7 @@ class modifyCustomer extends StatelessWidget {
               const Center(child: Text("Please select a service")),
               InkWell(
                 onTap: () async {
-                  await Httpservices.MobileListCustomers(context);
+                  await HttpservicesOP.MobileListCustomers(context);
                 },
                 child: Center(
                   child: Container(

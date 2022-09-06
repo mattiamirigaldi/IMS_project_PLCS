@@ -83,7 +83,7 @@ class _GenreListState extends State<TRemoveCustomer> {
                       onTap: () async {
                         if (_formKey.currentState != null) {
                           if (_formKey.currentState!.validate()) {
-                            await Httpservices.RemoveCheck(
+                            await HttpservicesOP.RemoveCheck(
                                 cst_username, "usrn", context);
                           }
                         } else {}
@@ -119,7 +119,7 @@ class _GenreListState extends State<TRemoveCustomer> {
                       color: Colors.green),
                 )),
                 onTap: () async {
-                  await Httpservices.RemoveCheck("context", "rfid", context);
+                  await HttpservicesOP.RemoveCheck("context", "rfid", context);
                 }),
           ]),
     );

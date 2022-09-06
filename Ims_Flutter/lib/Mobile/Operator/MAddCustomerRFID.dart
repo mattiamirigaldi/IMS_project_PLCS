@@ -45,7 +45,7 @@ class _GenreListState extends State<TAddCustomerRFID> {
                           color: Colors.black))),
               InkWell(
                 onTap: () async {
-                  await Httpservices.totemAddCustomer(
+                  await HttpservicesOP.totemAddCustomer(
                       widget.firstName,
                       widget.lastName,
                       widget.username,
@@ -75,7 +75,7 @@ class _GenreListState extends State<TAddCustomerRFID> {
               ),
               InkWell(
                 onTap: () async {
-                  await Httpservices.totemAddCustomer(
+                  await HttpservicesOP.totemAddCustomer(
                       widget.firstName,
                       widget.lastName,
                       widget.username,

@@ -105,7 +105,7 @@ class _GenreListState extends State<MRemoveBook> {
                       onTap: () async {
                         if (_formKey.currentState != null) {
                           if (_formKey.currentState!.validate()) {
-                            await Httpservices.MobileRemoveBook(
+                            await HttpservicesOP.MobileRemoveBook(
                                 book_title, book_author, "no", context);
                           }
                         } else {}
@@ -141,7 +141,7 @@ class _GenreListState extends State<MRemoveBook> {
                       color: Colors.green),
                 )),
                 onTap: () async {
-                  await Httpservices.MobileRemoveBook(
+                  await HttpservicesOP.MobileRemoveBook(
                       "title", "author", "yes", context);
                 }),
           ]),

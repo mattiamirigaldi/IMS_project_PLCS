@@ -2,33 +2,13 @@ from asyncio.windows_events import NULL
 import itertools
 from flask import Flask, Blueprint, render_template, redirect, json, jsonify, url_for, request
 import pyodbc
+import connectionToDb as db
 
 mobile_methods = Blueprint('mobile_methods', __name__)
 
-#Totem RFID read
-
-global opr_found_flag
-global user_username
-global user_found_flag
-global role
-global book_rfid
 global rfid
 rfid = -1
 rfid_counter = 0
-
-def connection():
-    ## Connection to the database
-    # server and database names are given by SQL
-    server = 'POUYAN'
-    database = 'mydb'
-    # Cnxn : is the connection string
-    # If trusted connection is 'yes' then we log using our windows authentication
-    cnxn = pyodbc.connect(
-        'DRIVER={ODBC Driver 17 for SQL Server}; \
-         SERVER=' + server + '; \
-         DATABASE=' + database + '; \
-        Trusted_Connection=yes;')
-    return cnxn
 
 # Connection Check
 @mobile_methods.route("/mobileurlcheck", methods=["GET", "POST"])
@@ -53,30 +33,28 @@ def totem():
             print(rfid)
         return ("nunn")
 
-# User login RFID
+# Customer login RFID
 @mobile_methods.route('/mobile/UsrLoginRFID', methods=["GET", "POST"])
 def UsrLoginRFID():
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     check_query = "SELECT * FROM [customers] WHERE rfid = (?) "
-    #if 'rfid' in globals() :
-    #    value = rfid
-    #else:
-    #    value = -1
     cursor.execute(check_query, rfid)
-    row = cursor.fetchone()
+    if cursor.rowcount == 0:
+        cnxn.close()
+        print("not found")
+        return jsonify(["not found"])
+    column_names = [col[0] for col in cursor.description]
+    data = [dict(zip(column_names, row))  
+        for row in cursor.fetchall()]
+    print("User found")
     cnxn.close()
-    if row != None:
-        print("User Found : FIRSTNAME is " + row.firstname)
-        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid), str(row.admin_id), str(row.opr_id))
-    else:
-        print("User Not found")
-        return jsonify(["not_found"])
+    return jsonify(data)
 
-# User login Credentials
+# Customer login Credentials
 @mobile_methods.route('/mobile/UsrLoginCredential', methods=["GET", "POST"])
 def UsrLoginCredential():
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     if request.method == 'POST':
         username = request.form["userName"]
@@ -84,64 +62,65 @@ def UsrLoginCredential():
     check_query = "SELECT * FROM [customers] WHERE username = (?) and pwd = (?)"
     value = (username,password)
     cursor.execute(check_query, value)
-    row = cursor.fetchone()
-    cnxn.close()
-    if row != None:
-        print("User Found : FIRSTNAME is " + row.firstname)
-        print("User Found : RFID is " + str(row.rfid))
-        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid), str(row.admin_id), str(row.opr_id))
-    else:
-        print("User Not found")
+    if cursor.rowcount == 0:
+        cnxn.close()
+        print("not found")
         return jsonify(["not found"])
+    column_names = [col[0] for col in cursor.description]
+    data = [dict(zip(column_names, row))  
+        for row in cursor.fetchall()]
+    print("User found")
+    cnxn.close()
+    return jsonify(data)
 
 # Operator login RFID
 @mobile_methods.route("/mobile/OprLoginRFID", methods=["GET", "POST"])
 def OprLoginRFID():
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()  
     check_query = "SELECT * FROM [operators] WHERE rfid = (?) "
-    #if 'rfid' in globals() :
-    #    value = rfid
-    #else:
-    #    value = -1
     cursor.execute(check_query, rfid)
-    row = cursor.fetchone()
+    if cursor.rowcount == 0:
+        cnxn.close()
+        print("not found")
+        return jsonify(["not found"])
+    column_names = [col[0] for col in cursor.description]
+    data = [dict(zip(column_names, row))  
+        for row in cursor.fetchall()]
+    print("Operator found")
     cnxn.close()
-    if row != None:
-        print("Operator Found : Firstname is " + row.firstname)
-        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid), str(row.admin_id))
-    else:
-        print("Operator_not_found")
-        return jsonify(["Operator not found"])
+    return jsonify(data)
 
 # Operator login Credentials
 @mobile_methods.route('/mobile/OprLoginCredential', methods=["GET", "POST"])
 def OprLoginCredential():
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     if request.method == 'POST':
         username = request.form["userName"]
         password = request.form["password"]
     check_query = "SELECT * FROM [operators] WHERE username = (?) and pwd = (?)"
     cursor.execute(check_query,username,password)
-    row = cursor.fetchone()
+    if cursor.rowcount == 0:
+        cnxn.close()
+        print("not found")
+        return jsonify(["not found"])
+    column_names = [col[0] for col in cursor.description]
+    data = [dict(zip(column_names, row))  
+        for row in cursor.fetchall()]
+    print("Operator found")
     cnxn.close()
-    if row != None:
-        print("operator Found : firstname is " + row.firstname)
-        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid), str(row.admin_id))
-    else:
-        print("operator Not found")
-        return jsonify(["not_found"])
+    return jsonify(data)
 
 #############################################################
 # List Customers
-@mobile_methods.route("/mobile/ListCustomers/<adminID>/<oprRFID>", methods=["GET", "POST"])
-def mobile_ListCustomers(adminID,oprRFID):
-    print(adminID,oprRFID)
-    cnxn = connection()
+@mobile_methods.route("/mobile/ListCustomers/<admin_id>/<oprRFID>", methods=["GET", "POST"])
+def mobile_ListCustomers(admin_id,oprRFID):
+    print(admin_id,oprRFID)
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     check_query = "SELECT * FROM customers where admin_id = (?) AND opr_id = (?)"
-    cursor.execute(check_query,adminID,oprRFID)
+    cursor.execute(check_query,admin_id,oprRFID)
     if cursor.rowcount == 0:
         cnxn.close()
         print("There are no Customer for you")
@@ -157,7 +136,7 @@ def mobile_ListCustomers(adminID,oprRFID):
 @mobile_methods.route("/mobile/UserItems/<adminID>/<opr>/<usr>", methods=["GET", "POST"])
 def mobile_ListUserItems(adminID,opr,usr):
     print(adminID,opr,usr)
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id where admin_id = (?) AND opr_id = (?) AND items.cus_id = (?)"
     cursor.execute(check_query,adminID,opr,usr)
@@ -175,7 +154,7 @@ def mobile_ListUserItems(adminID,opr,usr):
 # List All the Items
 @mobile_methods.route("/mobile/AllItems/<adminID>/<oprID>", methods=["GET", "POST"])
 def mobile_ListAllItems(adminID,oprID):
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?) AND opr_id = (?)"
     cursor.execute(check_query,adminID,oprID)
@@ -191,10 +170,45 @@ def mobile_ListAllItems(adminID,oprID):
     return jsonify(data)
 
 #############################################################
+# Customer and Operator Settings
+@mobile_methods.route("/mobile/usrcheck/<role>/<admin_id>/<usr>/<newusr>", methods=["GET", "POST"])
+def UsernameCheck(role,admin_id,usr,newusr):
+    print('hellllllllllooooooooo')
+    cnxn = db.connection()
+    cursor = cnxn.cursor()    
+    check_query = "SELECT * FROM %s WHERE username = (?) AND admin_id = (?)" %role
+    cursor.execute(check_query,newusr,admin_id)
+    if cursor.rowcount == 0 or usr == newusr:
+        cnxn.close()
+        print('Username is fine')
+        return jsonify("ok")
+    cnxn.close()
+    print('Username is in the database')
+    return jsonify("The Entered Username is Already Used! Choose a new one please.")
+#############################################################
+@mobile_methods.route("/mobile/settings/<role>/<usr>", methods=["GET", "POST"])
+def settings(role,usr):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()    
+    if request.method == 'POST':
+        firstname = request.form["firstname"]
+        lastname = request.form["lastname"]
+        username = request.form["username"]
+        mail = request.form["mail"]
+        password = request.form["password"] 
+    insert_query = "UPDATE %s SET firstname = (?), lastname = (?), username = (?), mail= (?), pwd= (?) WHERE username = (?)" %role
+    value = (firstname, lastname, username, mail, password, usr)
+    cursor.execute(insert_query, value)
+    cnxn.commit()
+    cnxn.close()
+    print('Settings Changed for user: '+usr+', from table %s.'%role)
+    return jsonify("done")
+    
+#############################################################
 # add customer check
 @mobile_methods.route("/mobile/AddCustomerCheck/<adminID>/<opr>", methods=["GET", "POST"])
 def mobile_op_add_customer_check(adminID,opr):
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     if request.method == 'POST':
         username = request.form["username"]
@@ -211,7 +225,7 @@ def mobile_op_add_customer_check(adminID,opr):
 # add customer
 @mobile_methods.route("/mobile/AddCustomer/<adminID>/<opr>", methods=["GET", "POST"])
 def mobile_op_add_customer(adminID,opr):
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     global user_add_flag
     if request.method == 'POST':
@@ -250,7 +264,7 @@ def mobile_op_add_customer(adminID,opr):
 # Remove Customer
 @mobile_methods.route("/mobile/RemoveCustomer/<adminID>/<opr>", methods=["GET", "POST"])
 def mobile_RemoveCustomer(adminID,opr):
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     print("33333333")
     if request.method == 'POST':
@@ -286,7 +300,7 @@ def mobile_RemoveCustomer(adminID,opr):
 @mobile_methods.route("/mobile/AddBook/<adminID>/<opr>", methods=["GET", "POST"])
 def totem_AddBook(adminID,opr):
     global rfid_counter
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     if request.method == 'POST':
         Title = request.form["Title"]
@@ -341,7 +355,7 @@ def totem_AddBook(adminID,opr):
 # Remove Book
 @mobile_methods.route("/mobile/RemoveBook/<adminID>/<opr>", methods=["GET", "POST"])
 def totem_RemoveBook(adminID,opr):
-    cnxn = connection()
+    cnxn = db.connection()
     cursor = cnxn.cursor()
     print("000000000")
     if request.method == 'POST':

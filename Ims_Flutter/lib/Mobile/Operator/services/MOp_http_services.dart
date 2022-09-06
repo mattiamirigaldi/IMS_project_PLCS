@@ -25,35 +25,25 @@ String RemoveCustomer = baseUrlMobile + '/mobile/RemoveCustomer/';
 String MobileAddBook = baseUrlMobile + '/mobile/AddBook/';
 String MobileRmBook = baseUrlMobile + '/mobile/RemoveBook/';
 
-class Httpservices {
+class HttpservicesOP {
   static final _client = http.Client();
   static final _totemOprLoginRFIDUrl =
       Uri.parse(baseUrlMobile + '/mobile/OprLoginRFID');
   static final _MobileOprLoginCredentialUrl =
       Uri.parse(baseUrlMobile + '/mobile/OprLoginCredential');
 
-  static final opr_buffer = opr_data(
-      mail: '',
-      username: '',
-      lastname: '',
-      firstname: '',
-      rfid: '',
-      adminID: '');
-
   // Login with rfid method
   static totemLoginOp(context) async {
     http.Response response = await _client.get(_totemOprLoginRFIDUrl);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == "Operator_not_found") {
+      if (json[0] == "not found") {
         await EasyLoading.showError(json[0]);
       } else {
-        opr_buffer.firstname = json[1];
-        opr_buffer.lastname = json[2];
-        opr_buffer.username = json[3];
-        opr_buffer.mail = json[4];
-        opr_buffer.rfid = json[5];
-        opr_buffer.adminID = json[6];
+        TheUser.clear();
+        TheUser.addAll(json);
+        await EasyLoading.showSuccess(
+            "Welcome Back " + TheUser[0]['firstname']);
         await EasyLoading.showSuccess("Welcome dear Operator");
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const hmpage_op()));
@@ -69,16 +59,13 @@ class Httpservices {
         body: {"userName": userName, "password": password});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == "not_found") {
+      if (json[0] == "not found") {
         await EasyLoading.showError(json[0]);
       } else {
-        opr_buffer.firstname = json[1];
-        opr_buffer.lastname = json[2];
-        opr_buffer.username = json[3];
-        opr_buffer.mail = json[4];
-        opr_buffer.rfid = json[5];
-        opr_buffer.adminID = json[6];
-        await EasyLoading.showSuccess("Welcome Back " + json[5]);
+        TheUser.clear();
+        TheUser.addAll(json);
+        await EasyLoading.showSuccess(
+            "Welcome Back " + TheUser[0]['firstname']);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const hmpage_op()));
       }
@@ -87,16 +74,73 @@ class Httpservices {
     }
   }
 
+// Settings ************************************************************
+  static bool username_valid = true;
+  static usrcheck(value, context) async {
+    http.Response response = await _client.get(Uri.parse(baseUrlMobile +
+        "/mobile/usrcheck/operators/" +
+        TheUser[0]['admin_id'].toString() +
+        '/' +
+        TheUser[0]['username'] +
+        '/' +
+        value));
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json == "ok") {
+        username_valid = true;
+      } else {
+        username_valid = false;
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(json)));
+      }
+    } else {
+      await EasyLoading?.showError(
+          "Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  static settings(
+      NEWfirstname, NEWlastname, NEWusername, NEWmail, NEWpwd, context) async {
+    http.Response response = await _client.post(
+        Uri.parse(baseUrlMobile +
+            "/mobile/settings/operators/" +
+            TheUser[0]['username']),
+        body: {
+          "firstname": NEWfirstname,
+          "lastname": NEWlastname,
+          "username": NEWusername,
+          "mail": NEWmail,
+          "password": NEWpwd,
+        });
+    if (response.statusCode == 200) {
+      TheUser[0]['firstname'] = NEWfirstname;
+      TheUser[0]['lastname'] = NEWlastname;
+      TheUser[0]['username'] = NEWusername;
+      TheUser[0]['mail'] = NEWmail;
+      TheUser[0]['pwd'] = NEWpwd;
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("User edited successfully")));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const hmpage_op()));
+    } else {
+      await EasyLoading?.showError(
+          "Error Code : ${response.statusCode.toString()}");
+    }
+  }
+// Settings ************************************************************
+
   // List Customers
   static MobileListCustomers(context) async {
-    http.Response response = await _client.get(
-        Uri.parse(ListCustomers + opr_buffer.adminID + '/' + opr_buffer.rfid));
+    http.Response response = await _client.get(Uri.parse(ListCustomers +
+        TheUser[0]['admin_id'].toString() +
+        '/' +
+        TheUser[0]['rfid'].toString()));
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "not_found") {
         EasyLoading.showError("There are No Customers");
       } else {
-        await EasyLoading.showSuccess("You have some Items");
+        await EasyLoading.showSuccess("There are some Customers");
         AllUsers.clear();
         AllUsers.addAll(json);
         Navigator.push(context,
@@ -110,7 +154,10 @@ class Httpservices {
   // Add customer check
   static totemAddCustomerCheck(username) async {
     http.Response response = await _client.post(
-        AddCustomerCheck + opr_buffer.adminID + '/' + opr_buffer.rfid,
+        AddCustomerCheck +
+            TheUser[0]['admin_id'].toString() +
+            '/' +
+            TheUser[0]['rfid'].toString(),
         body: {"username": username});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
@@ -130,15 +177,19 @@ class Httpservices {
     rfid_flag,
     context,
   ) async {
-    http.Response response = await _client
-        .post(AddCustomer + opr_buffer.adminID + '/' + opr_buffer.rfid, body: {
-      "firstName": firstName,
-      "lastName": lastName,
-      "email": email,
-      "username": username,
-      "password": password,
-      "rfid_flag": rfid_flag,
-    });
+    http.Response response = await _client.post(
+        AddCustomer +
+            TheUser[0]['admin_id'].toString() +
+            '/' +
+            TheUser[0]['rfid'].toString(),
+        body: {
+          "firstName": firstName,
+          "lastName": lastName,
+          "email": email,
+          "username": username,
+          "password": password,
+          "rfid_flag": rfid_flag,
+        });
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "new User added to the database successfully") {
@@ -156,7 +207,10 @@ class Httpservices {
   // Remove customer
   static RemoveCheck(cst_username, usrn_rfid, context) async {
     http.Response response = await _client.post(
-        RemoveCustomer + opr_buffer.adminID + '/' + opr_buffer.rfid,
+        RemoveCustomer +
+            TheUser[0]['admin_id'].toString() +
+            '/' +
+            TheUser[0]['rfid'].toString(),
         body: {"cst_username": cst_username, "usrn_rfid": usrn_rfid});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
@@ -176,9 +230,9 @@ class Httpservices {
   static List_All_Items(context) async {
     http.Response response = await _client.get(Uri.parse(baseUrlMobile +
         "/mobile/AllItems/" +
-        opr_buffer.adminID +
+        TheUser[0]['admin_id'].toString() +
         '/' +
-        opr_buffer.rfid));
+        TheUser[0]['rfid'].toString()));
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "The are No items") {
@@ -201,7 +255,10 @@ class Httpservices {
   static MobileAddbook(
       Title, Author, Genre, Publisher, Date, rfid_flag, context) async {
     http.Response response = await _client.post(
-        MobileAddBook + opr_buffer.adminID + '/' + opr_buffer.rfid,
+        MobileAddBook +
+            TheUser[0]['admin_id'].toString() +
+            '/' +
+            TheUser[0]['rfid'].toString(),
         body: {
           "Title": Title,
           "Author": Author,
@@ -226,12 +283,16 @@ class Httpservices {
 
   // Remove book method
   static MobileRemoveBook(book_title, book_author, rfid_flag, context) async {
-    http.Response response = await _client
-        .post(MobileRmBook + opr_buffer.adminID + '/' + opr_buffer.rfid, body: {
-      "title": book_title,
-      "author": book_author,
-      "rfid_flag": rfid_flag
-    });
+    http.Response response = await _client.post(
+        MobileRmBook +
+            TheUser[0]['admin_id'].toString() +
+            '/' +
+            TheUser[0]['rfid'].toString(),
+        body: {
+          "title": book_title,
+          "author": book_author,
+          "rfid_flag": rfid_flag
+        });
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "done") {

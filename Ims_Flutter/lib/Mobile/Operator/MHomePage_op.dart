@@ -1,13 +1,12 @@
 // ignore_for_file: file_names, camel_case_types
 
 import 'package:flutter/material.dart';
+import 'package:ims/Mobile/DataLists.dart';
+import 'package:ims/Mobile/Operator/UserSettings.dart';
 import 'MModifyCustomer.dart';
 import 'MModifyBook.dart';
 
 class hmpage_op extends StatelessWidget {
-  //final String name ;
-  // final String email;
-  // final String userName;
   const hmpage_op({Key? key}) : super(key: key);
 
   @override
@@ -23,7 +22,11 @@ class hmpage_op extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const Center(child: Text("Please select a service")),
+              Center(
+                  child: Text("HELLO DEAR " + TheUser[0]['firstname'],
+                      textScaleFactor: 2)),
+              const Center(
+                  child: Text("Please select a service", textScaleFactor: 2)),
               InkWell(
                 onTap: () {
                   Navigator.push(
@@ -34,7 +37,7 @@ class hmpage_op extends StatelessWidget {
                 child: Center(
                   child: Container(
                     margin: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 30),
+                        horizontal: 50, vertical: 20),
                     child: const Center(
                         child: Text("Customers management",
                             style: TextStyle(
@@ -60,9 +63,9 @@ class hmpage_op extends StatelessWidget {
                 child: Center(
                   child: Container(
                     margin: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 30),
+                        horizontal: 50, vertical: 20),
                     child: const Center(
-                        child: Text("Books management",
+                        child: Text("Item management",
                             style: TextStyle(
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,
@@ -75,6 +78,32 @@ class hmpage_op extends StatelessWidget {
                     ),
                   ),
                 ),
+              ),
+              InkWell(
+                child: Center(
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 50, vertical: 20),
+                    child: const Center(
+                        child: Text("Settings",
+                            style: TextStyle(
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black))),
+                    height: 100,
+                    width: 1500,
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+                onTap: () async {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SettingPage()));
+                },
               ),
             ]));
   }
