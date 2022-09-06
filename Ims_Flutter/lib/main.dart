@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       title: 'Inventory Management System',
       theme: ThemeData(primarySwatch: Colors.blueGrey),
       builder: EasyLoading.init(),
-      initialRoute: '/mobile',
+      initialRoute: '/web',
       routes: {
         Myroutes.webWelcomePage: (context) => const WelcomeHome(),
         //Myroutes.webWelcomePage: (context) => const DashBoard(user: UserData.myCustomer),

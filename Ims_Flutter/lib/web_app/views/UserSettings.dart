@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, must_be_immutable, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/web_app/DataLists.dart';
 import 'package:ims/web_app/views/components/profile_widget.dart';
 import './../services/http_services.dart';
@@ -56,7 +57,8 @@ class _SettingPageState extends State<SettingPage> {
                   labelText: "Username",
                 ),
                 initialValue: TheWebUser[0]['username'],
-                onChanged: (value) {
+                onChanged: (value) async {
+                  await Httpservices.usrcheck(value, context);
                   NEWusername = value;
                 },
               ),
@@ -95,8 +97,12 @@ class _SettingPageState extends State<SettingPage> {
                         color: Colors.blue),
                   ),
                   onTap: () async {
-                    await Httpservices.settings(NEWfirstname, NEWlastname,
-                        NEWusername, NEWmail, NEWpwd, context);
+                    if (Httpservices.username_valid == true) {
+                      await Httpservices.settings(NEWfirstname, NEWlastname,
+                          NEWusername, NEWmail, NEWpwd, context);
+                    } else {
+                      await EasyLoading.showError("The Username is not valid");
+                    }
                   })
             ]),
       ),

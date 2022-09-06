@@ -24,6 +24,7 @@ String RemoveBookUrl = baseUrl + '/web/RemoveBook/';
 String AddBookUrl = baseUrl + '/web/AddBook/';
 String ListCustomersUrl = baseUrl + '/web/ListCustomers/';
 String SettingsUrl = baseUrl + '/web/settings/';
+String usrcheckUrl = baseUrl + '/web/usrcheck/';
 
 class Httpservices {
   static final _client = http.Client();
@@ -78,6 +79,31 @@ class Httpservices {
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  static bool username_valid = true;
+  static usrcheck(value, context) async {
+    http.Response response = await _client.get(Uri.parse(usrcheckUrl +
+        TheWebUser[0]['role'] +
+        '/' +
+        TheWebUser[0]['admin_id'].toString() +
+        '/' +
+        TheWebUser[0]['username'] +
+        '/' +
+        value));
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json == "ok") {
+        username_valid = true;
+      } else {
+        username_valid = false;
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(json)));
+      }
+    } else {
+      await EasyLoading?.showError(
+          "Error Code : ${response.statusCode.toString()}");
     }
   }
 
