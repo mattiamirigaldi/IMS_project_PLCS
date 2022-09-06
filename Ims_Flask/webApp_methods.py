@@ -135,10 +135,14 @@ def mobile_ListCustomers(adminID,oprRFID,role):
     print(adminID,oprRFID,role)
     cnxn = db.connection()
     cursor = cnxn.cursor()
+    if request.method == 'POST':
+        rl = request.form["rl"]
     if role == 'operators' :
-        cursor.execute("SELECT * FROM customers where admin_id = (?) AND opr_id = (?)",adminID,oprRFID)
+        print(rl)
+        cursor.execute("SELECT * FROM %s where admin_id = (?) AND opr_id = (?)"%rl,adminID,oprRFID)
     else :
-        cursor.execute("SELECT * FROM customers where admin_id = (?)",oprRFID,)
+        print(rl)
+        cursor.execute("SELECT * FROM %s where admin_id = (?)"%rl,oprRFID,)
     if cursor.rowcount == 0:
         cnxn.close()
         print("There are no Customer for you")

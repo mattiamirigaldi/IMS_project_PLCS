@@ -1,17 +1,83 @@
 // ignore_for_file: file_names, use_key_in_widget_constructors
 import 'package:flutter/material.dart';
 import 'package:ims/web_app/DataLists.dart';
+import 'package:ims/web_app/services/http_services.dart';
 
-class ListUsers extends StatelessWidget {
-  const ListUsers();
+class ListUsers extends StatefulWidget {
+  const ListUsers({Key? key}) : super(key: key);
+  @override
+  _ListUsersState createState() => _ListUsersState();
+}
+
+class _ListUsersState extends State<ListUsers> {
+  // Global key that uniquely identifies the form widget and is used for validation
+  final _formKey = GlobalKey<FormState>();
+  late String rl = "customers";
+  static const _roles = ["customers", "operators"];
+  String dropdownvalue = _roles[0];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Available Titles")),
+        appBar: AppBar(title: const Text("Available Users")),
         body: ListView(
+          key: _formKey,
           shrinkWrap: true,
           padding: const EdgeInsets.fromLTRB(2.0, 10.0, 2.0, 10.0),
           children: <Widget>[
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+              const SizedBox(width: 25),
+              const Text(
+                "Select user type : ",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+              ),
+              DropdownButton<String>(
+                value: dropdownvalue,
+                icon: const Icon(Icons.arrow_downward),
+                underline: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Container(
+                      alignment: Alignment.centerLeft,
+                      height: 5,
+                      width: 100,
+                      color: Colors.deepOrangeAccent),
+                ),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropdownvalue = newValue!;
+                    rl = dropdownvalue;
+                  });
+                },
+                items: _roles.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 10),
+                        child: Text(value)),
+                    value: value,
+                  );
+                }).toList(),
+              ),
+            ]),
+            const SizedBox(height: 50),
+            InkWell(
+                child: Container(
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: const Center(
+                      child: Text("Search",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold))),
+                  height: 50,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.deepOrangeAccent),
+                ),
+                onTap: () async {
+                  await Httpservices.WebListCustomers(rl, context);
+                }),
             for (var i = 0; i < AllUsers.length; i++)
               ProductBox(
                 firstname: AllUsers[i]['firstname'],

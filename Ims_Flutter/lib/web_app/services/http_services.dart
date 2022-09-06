@@ -134,13 +134,15 @@ class Httpservices {
   }
 
   // List Customers
-  static WebListCustomers(context) async {
-    http.Response response = await _client.get(ListCustomersUrl +
-        TheWebUser[0]['admin_id'].toString() +
-        '/' +
-        TheWebUser[0]['rfid'].toString() +
-        '/' +
-        TheWebUser[0]['role']);
+  static WebListCustomers(rl, context) async {
+    http.Response response = await _client.post(
+        ListCustomersUrl +
+            TheWebUser[0]['admin_id'].toString() +
+            '/' +
+            TheWebUser[0]['rfid'].toString() +
+            '/' +
+            TheWebUser[0]['role'],
+        body: {"rl": rl});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "not_found") {

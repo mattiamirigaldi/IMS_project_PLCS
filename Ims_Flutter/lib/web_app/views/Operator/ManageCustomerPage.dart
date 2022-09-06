@@ -1,8 +1,6 @@
 // ignore_for_file: file_names, camel_case_types
 
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:ims/web_app/DataLists.dart';
 import './AddCustomerPage.dart';
 import './RemoveCustomerPage.dart';
 import '../../services/http_services.dart';
@@ -87,7 +85,7 @@ class manageCustomer extends StatelessWidget {
               InkWell(
                 onTap: () async {
                   //await EasyLoading.showSuccess(TheWebUser.length.toString());
-                  await Httpservices.WebListCustomers(context);
+                  await Httpservices.WebListCustomers("customers", context);
                   //Navigator.push(
                   //    context,
                   //    MaterialPageRoute(
@@ -98,7 +96,7 @@ class manageCustomer extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(
                         horizontal: 50, vertical: 30),
                     child: const Center(
-                        child: Text("List All Customers",
+                        child: Text("List All Users",
                             style: TextStyle(
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,
