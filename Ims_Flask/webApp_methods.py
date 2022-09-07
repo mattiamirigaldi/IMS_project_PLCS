@@ -70,31 +70,44 @@ def login():
     cnxn.close()
     return jsonify(data)
 
+#############################################################
+# Customer and Operator Settings
+@webApp_methods.route("/web/usrcheck/<role>/<admin_id>/<usr>/<newusr>", methods=["GET", "POST"])
+def UsernameCheck(role,admin_id,usr,newusr):
+    print('hellllllllllooooooooo')
+    cnxn = db.connection()
+    cursor = cnxn.cursor()    
+    check_query = "SELECT * FROM %s WHERE username = (?) AND admin_id = (?)" %role
+    cursor.execute(check_query,newusr,admin_id)
+    if cursor.rowcount == 0 or usr == newusr:
+        cnxn.close()
+        print('Username is fine')
+        return jsonify("ok")
+    cnxn.close()
+    print('Username is in the database')
+    return jsonify("The Entered Username is Already Used! Choose a new one please.")
 
 @webApp_methods.route("/web/settings/<usr>/<role>", methods=["GET", "POST"])
 def settings(usr,role):
     cnxn = db.connection()
-    cursor = cnxn.cursor()
-    
+    cursor = cnxn.cursor()   
     if request.method == 'POST':
         firstname = request.form["firstname"]
         lastname = request.form["lastname"]
         username = request.form["username"]
         mail = request.form["mail"]
         password = request.form["password"]
-
     print("SETTINGS : FIRSTNAME is " + firstname)
     print("SETTINGS : usr is " + usr)
     print("SETTINGS : username is " + username)
     print("************************************")
-    
     insert_query = "UPDATE %s SET firstname = (?), lastname = (?), username = (?), mail= (?), pwd= (?) WHERE username = (?)" %role
     value = (firstname, lastname, username, mail, password, usr)
     cursor.execute(insert_query, value)
     cnxn.commit()
     cnxn.close()
     return jsonify("done")
-
+#############################################################
 
 @webApp_methods.route("/web/items", methods=["GET", "POST"])
 def items():
