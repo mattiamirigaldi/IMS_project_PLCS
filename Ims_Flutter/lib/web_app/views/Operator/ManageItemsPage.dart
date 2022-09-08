@@ -1,10 +1,13 @@
 // ignore_for_file: file_names, camel_case_types
 
 import 'package:flutter/material.dart';
+import 'package:ims/web_app/DataLists.dart';
+import 'package:ims/web_app/services/http_services.dart';
 //import 'package:ims/Totem/Operator/TAddBook.dart';
 //import 'package:ims/Totem/Operator/TRemoveBook.dart';
 import 'package:ims/web_app/views/Operator/AddItemPage.dart';
 import 'package:ims/web_app/views/Operator/RemoveItemPage.dart';
+import 'package:ims/web_app/views/SelectListType.dart';
 
 class manageItems extends StatelessWidget {
   //final String name ;
@@ -17,10 +20,7 @@ class manageItems extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.green,
-            title:
-
-                //Text("HELLO DEAR BOOK LOVER!"),
-                const Image(
+            title: const Image(
               image: AssetImage('images/logo.png'),
               height: 50,
             )),
@@ -74,6 +74,33 @@ class manageItems extends StatelessWidget {
                         horizontal: 50, vertical: 30),
                     child: const Center(
                         child: Text("Remove item",
+                            style: TextStyle(
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black))),
+                    height: 100,
+                    width: 1500,
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () async {
+                  if (TheWebUser[0]['role'] == 'operators') {
+                    await Httpservices.List_Items(context);
+                  } else if (TheWebUser[0]['role'] == 'admins') {
+                    await Httpservices.List_Items_admin('ALL', context);
+                  }
+                },
+                child: Center(
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 50, vertical: 30),
+                    child: const Center(
+                        child: Text("List All Items",
                             style: TextStyle(
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,

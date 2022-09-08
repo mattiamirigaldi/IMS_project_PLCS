@@ -6,8 +6,10 @@ import 'package:http/http.dart' as http;
 // to display loading animation
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/web_app/DataLists.dart';
+import 'package:ims/web_app/views/ListItems.dart';
 import 'package:ims/web_app/views/Operator/ManageCustomerPage.dart';
 import 'package:ims/web_app/views/Operator/ManageItemsPage.dart';
+import 'package:ims/web_app/views/SelectListType.dart';
 
 // to route
 import '../../routes.dart';
@@ -72,10 +74,27 @@ class Httpservices {
         TheWebUser[0]['news'] =
             'He is often considered a "goofy" boss by the employees of Dunder Mifflin. He is often the butt of everybodies jokes. Michael constantly tries to intermix his work life with his social life by inviting employees of Dunder Mifflin to come over house or get coffee';
         TheWebUser[0]['role'] = role;
+        if (role == 'admins') {
+          http.Response response2 = await _client
+              .get(baseUrl + '/web/admins/' + TheWebUser[0]['id'].toString());
+          if (response2.statusCode == 200) {
+            var json2 = jsonDecode(response2.body);
+            if (json2[0] == "not_found") {
+              await EasyLoading.showError(json[0]);
+            } else {
+              AllOperators.clear();
+              AllOperators.addAll(json2);
+              //await EasyLoading.showSuccess(
+              //    "Welcome dear " + AllOperators[1]['firstname']);
+            }
+          }
+        }
         await EasyLoading.showSuccess(
             "Welcome dear " + TheWebUser[0]['firstname']);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const DashBoard()));
+        //Navigator.push(context,
+        //    MaterialPageRoute(builder: (context) => const manageItems()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
@@ -153,6 +172,44 @@ class Httpservices {
                     bookAvalible: json[4],
                     bookLocation: json[5],
                   )));
+    } else {
+      await EasyLoading?.showError(
+          "Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  static final roles = [AllOperators[0], 'ALL', ''];
+  static List_Items_admin(opr_id, context) async {
+    http.Response response = await _client.get(Uri.parse(baseUrl +
+        "/web/items/" +
+        TheWebUser[0]['id'].toString() +
+        '/' +
+        opr_id));
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      AllItems.clear();
+      AllItems.addAll(json);
+      await EasyLoading.showSuccess(AllItems[0]['title']);
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const SelectListType()));
+    } else {
+      await EasyLoading?.showError(
+          "Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  static List_Items(context) async {
+    http.Response response = await _client.get(Uri.parse(baseUrl +
+        "/web/items/" +
+        TheWebUser[0]['admin_id'].toString() +
+        '/' +
+        TheWebUser[0]['id'].toString()));
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      AllItems.clear();
+      AllItems.addAll(json);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const ListItems()));
     } else {
       await EasyLoading?.showError(
           "Error Code : ${response.statusCode.toString()}");

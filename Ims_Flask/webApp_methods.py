@@ -70,6 +70,21 @@ def login():
     cnxn.close()
     return jsonify(data)
 
+@webApp_methods.route("/web/admins/<admin_id>", methods=["GET", "POST"])
+def admin_operators(admin_id):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    check_query = "SELECT * FROM operators WHERE admin_id = (?)"
+    cursor.execute(check_query,admin_id)
+    if cursor.rowcount == 0:
+        print("Operators Not found")
+        return jsonify(["not_found"])
+    column_names = [col[0] for col in cursor.description]
+    data = [dict(zip(column_names, row))  
+        for row in cursor.fetchall()]
+    print (data[0]['firstname'])
+    cnxn.close()
+    return jsonify(data)
 #############################################################
 # Customer and Operator Settings
 @webApp_methods.route("/web/usrcheck/<role>/<admin_id>/<usr>/<newusr>", methods=["GET", "POST"])
@@ -108,6 +123,30 @@ def settings(usr,role):
     cnxn.close()
     return jsonify("done")
 #############################################################
+
+@webApp_methods.route("/web/items/<admin_id>/<opr_id>", methods=["GET", "POST"])
+def ListItems(admin_id,opr_id):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    print("Access to items url : Successful_1")
+    print('00000000000')
+    print(opr_id)
+    if opr_id == 'ALL':
+        print('111111111111')
+        check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?)"
+        value = (admin_id)
+    else:
+        print('222222222222')
+        check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?) AND opr_id = (?)"
+        value = (admin_id,opr_id)
+    cursor.execute(check_query,value)
+    column_names = [col[0] for col in cursor.description]
+    data = [dict(zip(column_names, row))  
+        for row in cursor.fetchall()]
+    print(data[0]['title'])
+    cnxn.close()
+    return jsonify(data)
+
 
 @webApp_methods.route("/web/items", methods=["GET", "POST"])
 def items():

@@ -16,10 +16,7 @@ class MmodifyBook extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.green,
-            title:
-
-                //Text("HELLO DEAR BOOK LOVER!"),
-                const Image(
+            title: const Image(
               image: AssetImage('images/logo.png'),
               height: 50,
             )),
@@ -27,7 +24,12 @@ class MmodifyBook extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const Center(child: Text("Please select a service")),
+              const SizedBox(height: 80),
+              const Center(
+                  child: Text(
+                "Please select a service",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+              )),
               InkWell(
                 onTap: () async {
                   await HttpservicesOP.List_All_Items(context);

@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:ims/web_app/services/http_services.dart';
 import './Login.dart';
 import './Register.dart';
 
@@ -37,7 +38,7 @@ class WelcomeHome extends StatelessWidget {
               ))),
           InkWell(
             onTap: () async {
-              //await Httpservices.login('o1', 'o1', 'operators', context);
+              //await Httpservices.login('a1', 'a1', 'admins', context);
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const LoginPage()));
             },
