@@ -9,15 +9,19 @@ class SelectListType extends StatefulWidget {
   _ListUsersState createState() => _ListUsersState();
 }
 
+String dropdownvalue = 'ALL';
+List roles = [];
+
 class _ListUsersState extends State<SelectListType> {
   // Global key that uniquely identifies the form widget and is used for validation
   final _formKey = GlobalKey<FormState>();
-
-  static final List roles = [AllOperators[0]['id'].toString(), 'ALL'];
-
-  late String dropdownvalue = 'ALL';
   @override
   Widget build(BuildContext context) {
+    roles.clear();
+    roles.add('ALL');
+    for (var i = 0; i < AllOperators.length; i++) {
+      roles.add(AllOperators[i]['id'].toString());
+    }
     return Scaffold(
         appBar: AppBar(title: const Text("Available Items")),
         body: ListView(
@@ -42,10 +46,11 @@ class _ListUsersState extends State<SelectListType> {
                       width: 100,
                       color: Colors.deepOrangeAccent),
                 ),
-                onChanged: (String? newValue) {
+                onChanged: (String? newValue) async {
                   setState(() {
                     dropdownvalue = newValue!;
                   });
+                  await Httpservices.List_Items_admin(dropdownvalue, context);
                 },
                 items: roles.map<DropdownMenuItem<String>>((value) {
                   return DropdownMenuItem<String>(
@@ -58,26 +63,7 @@ class _ListUsersState extends State<SelectListType> {
                 }).toList(),
               ),
             ]),
-            const SizedBox(height: 50),
-            InkWell(
-                child: Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: const Center(
-                      child: Text("Search",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold))),
-                  height: 50,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.deepOrangeAccent),
-                ),
-                onTap: () async {
-                  await Httpservices.List_Items_admin(dropdownvalue, context);
-                }),
+            const SizedBox(height: 20),
             for (var i = 0; i < AllItems.length; i++)
               ProductBox(
                 title: AllItems[i]['title'],

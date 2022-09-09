@@ -140,10 +140,13 @@ def ListItems(admin_id,opr_id):
         check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?) AND opr_id = (?)"
         value = (admin_id,opr_id)
     cursor.execute(check_query,value)
+    if cursor.rowcount == 0:
+        cnxn.close()
+        print("There are no Items")
+        return jsonify(["not_found"])
     column_names = [col[0] for col in cursor.description]
     data = [dict(zip(column_names, row))  
         for row in cursor.fetchall()]
-    print(data[0]['title'])
     cnxn.close()
     return jsonify(data)
 

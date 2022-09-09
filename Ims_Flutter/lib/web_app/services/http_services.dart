@@ -91,10 +91,10 @@ class Httpservices {
         }
         await EasyLoading.showSuccess(
             "Welcome dear " + TheWebUser[0]['firstname']);
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const DashBoard()));
         //Navigator.push(context,
-        //    MaterialPageRoute(builder: (context) => const manageItems()));
+        //    MaterialPageRoute(builder: (context) => const DashBoard()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const manageItems()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
@@ -178,7 +178,6 @@ class Httpservices {
     }
   }
 
-  static final roles = [AllOperators[0], 'ALL', ''];
   static List_Items_admin(opr_id, context) async {
     http.Response response = await _client.get(Uri.parse(baseUrl +
         "/web/items/" +
@@ -187,9 +186,15 @@ class Httpservices {
         opr_id));
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      AllItems.clear();
-      AllItems.addAll(json);
-      await EasyLoading.showSuccess(AllItems[0]['title']);
+      if (json[0] == "not_found") {
+        AllItems.clear();
+        await EasyLoading.showError(
+            "There are No Ietms for the selected branch");
+      } else {
+        AllItems.clear();
+        AllItems.addAll(json);
+        await EasyLoading.showSuccess(AllItems[0]['title']);
+      }
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const SelectListType()));
     } else {
