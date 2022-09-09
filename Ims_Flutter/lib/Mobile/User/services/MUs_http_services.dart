@@ -68,7 +68,7 @@ class Httpservices {
   static MobileWelcome(context) async {
     http.Response response = await _client.get(_totemWelcomeUrl);
     if (response.statusCode == 200) {
-      Navigator.pushReplacement(
+      Navigator.push(
           context, MaterialPageRoute(builder: (context) => const MWelcome()));
     }
   }
@@ -85,7 +85,7 @@ class Httpservices {
         TheUser.addAll(json);
         await EasyLoading.showSuccess(
             "Welcome Back " + TheUser[0]['firstname']);
-        Navigator.pushReplacement(context,
+        Navigator.push(context,
             MaterialPageRoute(builder: (context) => const hmpage_us()));
       }
     } else {
@@ -127,13 +127,13 @@ class Httpservices {
       var json = jsonDecode(response.body);
       if (json[0] == "You don't have any Item") {
         await EasyLoading.showError(json[0]);
-        Navigator.pushReplacement(context,
+        Navigator.push(context,
             MaterialPageRoute(builder: (context) => const hmpage_us()));
       } else {
         await EasyLoading.showSuccess("You have some Items");
         AllItems.clear();
         AllItems.addAll(json);
-        Navigator.pushReplacement(context,
+        Navigator.push(context,
             MaterialPageRoute(builder: (context) => const ListItems()));
       }
     } else {
@@ -152,13 +152,13 @@ class Httpservices {
       var json = jsonDecode(response.body);
       if (json[0] == "The are No items") {
         await EasyLoading.showError(json[0]);
-        Navigator.pushReplacement(context,
+        Navigator.push(context,
             MaterialPageRoute(builder: (context) => const hmpage_us()));
       } else {
         await EasyLoading.showSuccess("The Items are here");
         AllItems.clear();
         AllItems.addAll(json);
-        Navigator.pushReplacement(context,
+        Navigator.push(context,
             MaterialPageRoute(builder: (context) => const ListItems()));
       }
     } else {
@@ -234,7 +234,7 @@ class Httpservices {
         http.Response response = await _client.get(_totemRentUrl);
         if (response.statusCode == 200) {
           await EasyLoading.showSuccess("Book rented successfully");
-          Navigator.pushReplacement(context,
+          Navigator.push(context,
               MaterialPageRoute(builder: (context) => const TRentPage()));
         }
       }
@@ -255,7 +255,7 @@ class Httpservices {
         http.Response response = await _client.get(_totemReturnUrl);
         if (response.statusCode == 200) {
           await EasyLoading.showSuccess("Book returned successfully");
-          Navigator.pushReplacement(context,
+          Navigator.push(context,
               MaterialPageRoute(builder: (context) => const TReturnPage()));
         }
       }

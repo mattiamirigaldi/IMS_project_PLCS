@@ -45,7 +45,7 @@ class HttpservicesOP {
         await EasyLoading.showSuccess(
             "Welcome Back " + TheUser[0]['firstname']);
         await EasyLoading.showSuccess("Welcome dear Operator");
-        Navigator.pushReplacement(context,
+        Navigator.push(context,
             MaterialPageRoute(builder: (context) => const hmpage_op()));
       }
     } else {
@@ -218,7 +218,7 @@ class HttpservicesOP {
         await EasyLoading.showError('User Not Found');
       } else {
         await EasyLoading.showSuccess('User removed successfully');
-        Navigator.pushReplacement(context,
+        Navigator.push(context,
             MaterialPageRoute(builder: (context) => const TRemoveCustomer()));
       }
     } else {
@@ -237,13 +237,13 @@ class HttpservicesOP {
       var json = jsonDecode(response.body);
       if (json[0] == "The are No items") {
         await EasyLoading.showError(json[0]);
-        Navigator.pushReplacement(context,
+        Navigator.push(context,
             MaterialPageRoute(builder: (context) => const MmodifyBook()));
       } else {
         await EasyLoading.showSuccess("The Items are here");
         AllItems.clear();
         AllItems.addAll(json);
-        Navigator.pushReplacement(context,
+        Navigator.push(context,
             MaterialPageRoute(builder: (context) => const ListItems()));
       }
     } else {
@@ -297,7 +297,7 @@ class HttpservicesOP {
       var json = jsonDecode(response.body);
       if (json[0] == "done") {
         await EasyLoading.showSuccess("Book removed successfully");
-        Navigator.pushReplacement(context,
+        Navigator.push(context,
             MaterialPageRoute(builder: (context) => const MmodifyBook()));
       } else {
         await EasyLoading.showError("The Book is not in the database");

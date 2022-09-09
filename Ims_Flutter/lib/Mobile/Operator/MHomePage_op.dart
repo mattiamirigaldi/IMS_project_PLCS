@@ -99,7 +99,7 @@ class hmpage_op extends StatelessWidget {
                   ),
                 ),
                 onTap: () async {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const SettingPage()));
