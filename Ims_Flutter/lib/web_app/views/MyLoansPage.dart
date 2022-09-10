@@ -29,9 +29,9 @@ class _MyLoansPageState extends State<MyLoansPage> {
           //   height: 150,
           // ),
           const SizedBox(height : 30),
-          Text("All your items ",
+          Text("MY ITEMS",
               style:
-                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                   TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.deepPurple.withOpacity(0.7))),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 50),

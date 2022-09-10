@@ -34,22 +34,24 @@ class _ModifyItemPageState extends State<ModifyItemPage> {
     return Scaffold(
       backgroundColor: item.color,
       appBar: AppBar(
-        backgroundColor: item.color,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-        ),
+          backgroundColor: item.color,
+          title: (
+            Row(children: const [
+              ClipRect(
+                child: Image(
+                  image: AssetImage("images/ims.jpg"),
+                  width: 45,
+                  height: 45,
+                ),
+              ),
+              SizedBox(width: 30,),
+              Text("Available users page")
+            ])
+          ),
       ),
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
-          // Container(
-          //   padding: const EdgeInsets.all(10),
-          //   child: CustomAppBar(userName: customer),
-          //   //alignment: Alignment.topCenter,
-          //   width: double.infinity,
-          //   height: 150,
-          // ),
+          const SizedBox(height: 40),
           SizedBox(
             height: size.height,
             child: Stack(children: <Widget>[
@@ -63,13 +65,13 @@ class _ModifyItemPageState extends State<ModifyItemPage> {
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                 child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       SizedBox(
                         height: size.height/5,
                         child: Padding(
-                            padding: const EdgeInsets.only(top: 5),
+                            padding: const EdgeInsets.only(top: 1),
                             child: TextFormField(
                               expands: true,
                               maxLines: null,

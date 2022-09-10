@@ -24,24 +24,39 @@ class _GenreListState extends State<AddBook> {
 
   @override
   Widget build(BuildContext context) {
+    double width_screen = MediaQuery.of(context).size.width;
     return Scaffold(
-        appBar: AppBar(title: const Text("Add new Item")),
+        appBar: AppBar(
+          title: (
+            Row(children: const [
+              ClipRect(
+                child: Image(
+                  image: AssetImage("images/ims.jpg"),
+                  width: 45,
+                  height: 45,
+                ),
+              ),
+              SizedBox(width: 30,),
+              Text("Register new user page")
+            ])
+          ),
+        ),
         body: Form(
           key: _formKey,
           child: ListView(
               //crossAxisAlignment: CrossAxisAlignment.start,
               //mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                   child: Center(
                     child: Text(
                       "Item details",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.deepOrangeAccent),
+                          color: Colors.black.withOpacity(0.7)),
                       textAlign: TextAlign.center,
-                      textScaleFactor: 2,
+                      textScaleFactor: 3,
                     ),
                   ),
                 ),
@@ -155,21 +170,30 @@ class _GenreListState extends State<AddBook> {
                     },
                   ),
                 ),
+                const SizedBox(height: 20,),
                 InkWell(
                     child: Container(
                       margin: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 20),
                       child: const Center(
-                          child: Text("SUBMIT new Book data",
+                          child: Text("SUBMIT NEW ITEM",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontWeight: FontWeight.bold))),
-                      height: 50,
-                      width: double.infinity,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20))),
+                      height: 60,
+                      width: width_screen*0.6,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          color: Colors.deepOrangeAccent),
+                          gradient: const LinearGradient(
+                          colors: <Color>[
+                            Color.fromARGB(255, 22, 78, 163),
+                            Color(0xFF1976D2),
+                            Color.fromARGB(255, 36, 121, 190),
+                          ],
+                        ),
+                      )
                     ),
                     onTap: () async {
                       if (_formKey.currentState != null) {

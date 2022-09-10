@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:ims/web_app/DataLists.dart';
 import 'package:ims/web_app/model/user.dart';
 import 'package:ims/web_app/services/http_services.dart';
-import 'package:ims/web_app/views/Operator/RemoveCustomerPage.dart';
 import 'package:ims/web_app/views/Operator/ModifyUserPage.dart';
 
 class ListUsers extends StatefulWidget {
@@ -16,19 +15,47 @@ class _ListUsersState extends State<ListUsers> {
   // Global key that uniquely identifies the form widget and is used for validation
   final _formKey = GlobalKey<FormState>();
   late String rl = "customers";
-  static const _roles = ["customers", "operators"];
-  String dropdownvalue = _roles[0];
+ static const _rolesOp = [
+    "customers",
+  ];
+  static const _rolesAdm = [
+    "operators"
+  ];
+  late List<String> _roles = [];
+  String dropdownvalue = _rolesOp[0];
+
   @override
   Widget build(BuildContext context) {
+    if (TheWebUser[0]['role'] == 'operators') {
+      _roles = _rolesOp;
+    } else if (TheWebUser[0]['role'] == 'operators') {
+      _roles = _rolesOp + _rolesAdm;
+    } 
+    double width_screen = MediaQuery.of(context).size.width;
+    double height_screen = MediaQuery.of(context).size.height;
     return Scaffold(
-        appBar: AppBar(title: const Text("Available Users")),
+      appBar: AppBar(
+          title: (
+            Row(children: const [
+              ClipRect(
+                child: Image(
+                  image: AssetImage("images/ims.jpg"),
+                  width: 45,
+                  height: 45,
+                ),
+              ),
+              SizedBox(width: 30,),
+              Text("Available users page")
+            ])
+          ),
+      ),
         body: ListView(
           key: _formKey,
           shrinkWrap: true,
           padding: const EdgeInsets.fromLTRB(2.0, 10.0, 2.0, 10.0),
           children: <Widget>[
             Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-              const SizedBox(width: 25),
+              const SizedBox(width: 35),
               const Text(
                 "Select user type : ",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
@@ -42,7 +69,7 @@ class _ListUsersState extends State<ListUsers> {
                       alignment: Alignment.centerLeft,
                       height: 5,
                       width: 100,
-                      color: Colors.deepOrangeAccent),
+                      color: Colors.blueGrey),
                 ),
                 onChanged: (String? newValue) {
                   setState(() {
@@ -66,17 +93,17 @@ class _ListUsersState extends State<ListUsers> {
                 child: Container(
                   margin:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: const Center(
-                      child: Text("Search",
+                  child: Center(
+                      child: Text("Search "+dropdownvalue.toLowerCase(),
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.black,
-                              fontWeight: FontWeight.bold))),
+                              fontWeight: FontWeight.bold, fontSize: 20))),
                   height: 50,
-                  width: double.infinity,
+                  width: 400,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: Colors.deepOrangeAccent),
+                      color: Colors.blueGrey.withOpacity(0.4)),
                 ),
                 onTap: () async {
                   await Httpservices.WebListCustomers(rl, context);

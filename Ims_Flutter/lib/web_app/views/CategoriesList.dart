@@ -1,49 +1,46 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+//import 'package:ims/web_app/model/category.dart';
 import 'package:ims/web_app/data/book_data.dart';
+import 'package:ims/web_app/data/genre_data.dart';
+import 'package:ims/web_app/model/category.dart';
 import 'package:ims/web_app/model/item.dart';
+import 'package:ims/web_app/views/GenrePage.dart';
 import 'package:ims/web_app/views/ItemPage.dart';
 
-class FavoriteItemsPage extends StatefulWidget {
+class CategoriesListPage extends StatefulWidget {
 
-  const FavoriteItemsPage({
+  const CategoriesListPage({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<FavoriteItemsPage> createState() => _FavoriteItemsPageState();
+  State<CategoriesListPage> createState() => _CategoriesListPageState();
 }
 
-class _FavoriteItemsPageState extends State<FavoriteItemsPage> {
-  _FavoriteItemsPageState();
+class _CategoriesListPageState extends State<CategoriesListPage> {
+  _CategoriesListPageState();
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: const Text("Favorite items")),
+        appBar: AppBar(title: Text("Categories page")),
         body: Column(children: <Widget>[
-          // Container(
-          //   padding: const EdgeInsets.all(10),
-          //   child: CustomAppBar(userName: customer),
-          //   //alignment: Alignment.topCenter,
-          //   width: double.infinity,
-          //   height: 150,
-          // ),
           const SizedBox(height : 30),
-          Text("Your favorite items ",
+          const Text("ALL CATEGORIES ",
               style:
-                  TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 216, 145, 39).withOpacity(0.9))),
+                  TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 50),
               child: GridView.builder(
-                itemCount: allItems.length,            // HERE SHOULD BE USED A LIS OF PREFERRED ITEMS
+                itemCount: allCategory.length,         //HERE SHOULD BE USED LIST OF CATEGORIES
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4,
                     mainAxisSpacing: 40,
                     crossAxisSpacing: 50,
                     childAspectRatio: 1.2),
                 itemBuilder: (context, index) =>
-                    buildCardItem(item: allItems[index], context: context),
+                    buildCardItem(category: allCategory[index], context: context),
               ),
             ),
           )
@@ -51,7 +48,7 @@ class _FavoriteItemsPageState extends State<FavoriteItemsPage> {
       );
 }
 
-Widget buildCardItem({required Item item, context}) => Container(
+Widget buildCardItem({required Category category, context}) => Container(
       child: Column(children: [
         Expanded(
           child: AspectRatio(
@@ -60,20 +57,18 @@ Widget buildCardItem({required Item item, context}) => Container(
                   borderRadius: BorderRadius.circular(20),
                   child: Material(
                     child: Ink.image(
-                      image: NetworkImage(item.urlImage),
-                      fit: BoxFit.cover,
+                      image: NetworkImage(category.urlImage),
+                      fit: BoxFit.contain,
                       child: InkWell(
                           onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ItemPage(item: item)))),
+                                  builder: (context) => GenrePage(genre: category.name)))),
                     ),
                   ))),
         ),
         const SizedBox(height: 4),
-        Text(item.title,
+        Text(category.name,
             style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-        Text(item.author,
-            style: const TextStyle(fontSize: 20, color: Colors.grey))
       ]),
     );

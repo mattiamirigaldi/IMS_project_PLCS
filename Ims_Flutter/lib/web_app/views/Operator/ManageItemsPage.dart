@@ -8,34 +8,35 @@ import 'package:ims/web_app/services/http_services.dart';
 import 'package:ims/web_app/views/Operator/AddItemPage.dart';
 import 'package:ims/web_app/views/Operator/RemoveItemPage.dart';
 import 'package:ims/web_app/views/SelectListType.dart';
+import 'package:ims/web_app/views/components/App_bar.dart';
 
 class manageItems extends StatelessWidget {
-  //final String name ;
-  // final String emaisl;
-  // final String userName;
   const manageItems({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    double width_screen = MediaQuery.of(context).size.width;
+    double height_screen = MediaQuery.of(context).size.height;
     return Scaffold(
-        appBar: AppBar(
-            backgroundColor: Colors.green,
-            title: const Image(
-              image: AssetImage('images/logo.png'),
-              height: 50,
-            )),
         body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const SizedBox(height: 80),
+               Container(
+                padding: const EdgeInsets.all(10),
+                child: CustomAppBar(),
+                //alignment: Alignment.topCenter,
+                width: double.infinity,
+                height: 150,
+              ),
+              const SizedBox(height: 10),
               const Center(
                   child: Text(
-                "Please select a service",
+                "Please select a service :",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
               )),
               const SizedBox(
-                height: 40,
+                height: 10,
               ),
               InkWell(
                 onTap: () {
@@ -52,10 +53,11 @@ class manageItems extends StatelessWidget {
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black))),
-                    height: 100,
-                    width: 1500,
+                    height: height_screen/6,
+                    width: width_screen*0.8,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: Colors.grey.withOpacity(0.15),
+                      border: Border.all(color: Colors.black87),
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
@@ -78,10 +80,11 @@ class manageItems extends StatelessWidget {
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black))),
-                    height: 100,
-                    width: 1500,
+                    height: height_screen/6,
+                    width: width_screen*0.8,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: Colors.grey.withOpacity(0.15),
+                      border: Border.all(color: Colors.black87),
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
@@ -100,15 +103,16 @@ class manageItems extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(
                         horizontal: 50, vertical: 30),
                     child: const Center(
-                        child: Text("List All Items",
+                        child: Text("List all items",
                             style: TextStyle(
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black))),
-                    height: 100,
-                    width: 1500,
+                    height: height_screen/6,
+                    width: width_screen*0.8,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: Colors.grey.withOpacity(0.15),
+                      border: Border.all(color: Colors.black87),
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),

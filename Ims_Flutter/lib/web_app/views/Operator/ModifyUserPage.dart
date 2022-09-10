@@ -45,6 +45,20 @@ class _ModifyUserPageState extends State<ModifyUserPage> {
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
+        title: (
+            Row(children: const [
+              ClipRect(
+                child: Image(
+                  image: AssetImage("images/ims.jpg"),
+                  width: 45,
+                  height: 45,
+                ),
+              ),
+              SizedBox(width: 30,),
+              Text("Modify user")
+            ])
+          ),
+
       ),
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
@@ -376,7 +390,7 @@ class _ModifyUserPageState extends State<ModifyUserPage> {
                 primary: Colors.white,
                 textStyle: const TextStyle(fontSize: 20),
               ),
-              child: Text("DELETE IT"),
+              child: Text("DELETE  USER"),
               onPressed: () {
                 setState(() {
                     EasyLoading.showSuccess("NEEDED DELETE HTTP METHOD");

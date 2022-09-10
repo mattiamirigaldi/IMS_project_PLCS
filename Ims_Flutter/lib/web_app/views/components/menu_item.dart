@@ -1,7 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, no_logic_in_create_state
 
 import 'package:flutter/material.dart';
-import 'package:ims/web_app/views/GenreList.dart';
+import 'package:ims/web_app/views/CategoriesList.dart';
 import 'package:ims/web_app/views/MyLoansPage.dart';
 import 'package:ims/web_app/views/Operator/FavoriteItems.dart';
 import 'package:ims/web_app/views/Operator/ManageCustomerPage.dart';
@@ -65,18 +65,13 @@ void choiceAction(String choice, BuildContext context) async {
   if (choice == "My profile") {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => const SettingPage()));
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text("Settings")));
   } else if (choice == "Subjects") {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(choice)));
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const GenreList()));
+        context, MaterialPageRoute(builder: (context) => const CategoriesListPage()));
   } else if (choice == "Manage users") {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(choice)));
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => const manageCustomer()));
   } else if (choice == "Manage items") {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(choice)));
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const manageItems()));
   } else if (choice == "Logout") {

@@ -9,7 +9,21 @@ class ListItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Available Titles")),
+        appBar: AppBar(
+          title: (
+            Row(children: const [
+              ClipRect(
+                child: Image(
+                  image: AssetImage("images/ims.jpg"),
+                  width: 45,
+                  height: 45,
+                ),
+              ),
+              SizedBox(width: 30,),
+              Text("All items page")
+            ])
+          ),
+      ),
         body: ListView(
           shrinkWrap: true,
           padding: const EdgeInsets.fromLTRB(2.0, 10.0, 2.0, 10.0),

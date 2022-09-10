@@ -18,12 +18,21 @@ class _GenreListState extends State<RemoveBook> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          backgroundColor: Colors.green,
-          title: const Image(
-            image: AssetImage('images/logo.png'),
-            height: 50,
-          )),
+     appBar: AppBar(
+          title: (
+            Row(children: const [
+              ClipRect(
+                child: Image(
+                  image: AssetImage("images/ims.jpg"),
+                  width: 45,
+                  height: 45,
+                ),
+              ),
+              SizedBox(width: 30,),
+              Text("Delete item page")
+            ])
+          ),
+        ),
       body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -33,7 +42,7 @@ class _GenreListState extends State<RemoveBook> {
               child: Column(
                 children: <Widget>[
                   const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 40),
                     child: Center(
                         child: Text(
                             "Please enter Title and Author of the Book you want to remove",
@@ -41,7 +50,7 @@ class _GenreListState extends State<RemoveBook> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black),
                             textAlign: TextAlign.center,
-                            textScaleFactor: 1.6)),
+                            textScaleFactor: 2)),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -66,7 +75,7 @@ class _GenreListState extends State<RemoveBook> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 10),
+                        horizontal: 30, vertical: 20),
                     child: TextFormField(
                       decoration: const InputDecoration(
                           hintText: "Enter the Author",
@@ -85,6 +94,7 @@ class _GenreListState extends State<RemoveBook> {
                       },
                     ),
                   ),
+                  const SizedBox(height: 20,),
                   InkWell(
                       child: Container(
                         margin: const EdgeInsets.symmetric(
@@ -100,7 +110,7 @@ class _GenreListState extends State<RemoveBook> {
                         width: 800,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Colors.green),
+                            color: Colors.amber),
                       ),
                       onTap: () async {
                         if (_formKey.currentState != null) {

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:ims/web_app/DataLists.dart';
 import 'package:ims/web_app/services/http_services.dart';
 //import 'package:ims/web_app/data/user_data.dart';
 import 'package:ims/web_app/views/Operator/AddCustomerRFID.dart';
@@ -26,32 +27,54 @@ class _GenreListState extends State<AddCustomer> {
   late String user_chk_flag;
   //late User newUser;
   late String role = "customers";
-  static const _roles = [
+  static const _rolesOp = [
     "customers",
-    "operators",
   ];
-  String dropdownvalue = _roles[0];
+  static const _rolesAdm = [
+    "operators"
+  ];
+  late List<String> _roles = [];
+  String dropdownvalue = _rolesOp[0];
 
   @override
   Widget build(BuildContext context) {
+    if (TheWebUser[0]['role'] == 'operators') {
+      _roles = _rolesOp;
+    } else if (TheWebUser[0]['role'] == 'operators') {
+      _roles = _rolesOp + _rolesAdm;
+    } 
+    double width_screen = MediaQuery.of(context).size.width;
+    double height_screen = MediaQuery.of(context).size.height;
     return Scaffold(
-        appBar: AppBar(title: const Text("Register page")),
+        appBar: AppBar(
+          title: (
+            Row(children: const [
+              ClipRect(
+                child: Image(
+                  image: AssetImage("images/ims.jpg"),
+                  width: 45,
+                  height: 45,
+                ),
+              ),
+              SizedBox(width: 30,),
+              Text("Register new user page")
+            ])
+          ),
+        ),
         body: Form(
           key: _formKey,
           child: ListView(
-              //crossAxisAlignment: CrossAxisAlignment.start,
-              //mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                   child: Center(
                     child: Text(
-                      "Register New User",
+                      "User details",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.deepOrangeAccent),
+                          color: Colors.black.withOpacity(0.7)),
                       textAlign: TextAlign.center,
-                      textScaleFactor: 2,
+                      textScaleFactor: 3,
                     ),
                   ),
                 ),
@@ -188,21 +211,29 @@ class _GenreListState extends State<AddCustomer> {
                   ),
                 ),
                 selectRole(),
+                const SizedBox(height: 20,),
                 InkWell(
                     child: Container(
                       margin: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 20),
                       child: const Center(
-                          child: Text("SUBMIT new user data",
+                          child: Text("SUBMIT NEW USER",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold))),
-                      height: 50,
-                      width: double.infinity,
+                      height: 60,
+                      width: width_screen*0.6,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          color: Colors.deepOrangeAccent),
+                          gradient: const LinearGradient(
+                          colors: <Color>[
+                            Color.fromARGB(255, 22, 78, 163),
+                            Color(0xFF1976D2),
+                            Color.fromARGB(255, 36, 121, 190),
+                          ],
+                        ),
+                      )
                     ),
                     onTap: () async {
                       if (_formKey.currentState != null) {
@@ -250,7 +281,7 @@ class _GenreListState extends State<AddCustomer> {
               alignment: Alignment.centerLeft,
               height: 5,
               width: 100,
-              color: Colors.deepOrangeAccent),
+              color: Colors.lightBlue),
         ),
         onChanged: (String? newValue) {
           setState(() {

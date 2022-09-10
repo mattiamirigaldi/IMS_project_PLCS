@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, camel_case_types, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:ims/web_app/DataLists.dart';
 import 'package:ims/web_app/services/http_services.dart';
 
 class RemoveCustomer extends StatefulWidget {
@@ -13,24 +14,43 @@ late String cst_username;
 late String role = "customers";
 
 class _GenreListState extends State<RemoveCustomer> {
-  static const _roles = [
+  static const _rolesOp = [
     "customers",
-    "operators",
   ];
-  String dropdownvalue = _roles[0];
+  static const _rolesAdm = [
+    "operators"
+  ];
+  late List<String> _roles = [];
+  String dropdownvalue = _rolesOp[0];
 
   // ignore: unused_field
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    if (TheWebUser[0]['role'] == 'operators') {
+      _roles = _rolesOp;
+    } else if (TheWebUser[0]['role'] == 'operators') {
+      _roles = _rolesOp + _rolesAdm;
+    } 
+    double width_screen = MediaQuery.of(context).size.width;
+    double height_screen = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.green,
-          title: const Image(
-            image: AssetImage('images/logo.png'),
-            height: 50,
-          )),
+          title: (
+            Row(children: const [
+              ClipRect(
+                child: Image(
+                  image: AssetImage("images/ims.jpg"),
+                  width: 45,
+                  height: 45,
+                ),
+              ),
+              SizedBox(width: 30,),
+              Text("Delete user page")
+            ])
+          ),
+        ),
       body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -40,15 +60,15 @@ class _GenreListState extends State<RemoveCustomer> {
               child: Column(
                 children: <Widget>[
                   const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 40),
                     child: Center(
                         child: Text(
-                            "Please enter username of the User you want to remove",
+                            "Please enter username of the user you'd like to remove",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black),
                             textAlign: TextAlign.center,
-                            textScaleFactor: 1.6)),
+                            textScaleFactor: 2)),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -71,12 +91,13 @@ class _GenreListState extends State<RemoveCustomer> {
                       },
                     ),
                   ),
+                  const SizedBox(height: 30,),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        const SizedBox(width: 25),
+                        const SizedBox(width: 35),
                         const Text(
-                          "Select your role : ",
+                          "Select user role : ",
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.normal),
                         ),
@@ -89,7 +110,7 @@ class _GenreListState extends State<RemoveCustomer> {
                                 alignment: Alignment.centerLeft,
                                 height: 5,
                                 width: 100,
-                                color: Colors.deepOrangeAccent),
+                                color: Colors.black.withOpacity(0.4))
                           ),
                           onChanged: (String? newValue) {
                             setState(() {
@@ -109,6 +130,7 @@ class _GenreListState extends State<RemoveCustomer> {
                           }).toList(),
                         ),
                       ]),
+                      const SizedBox(height: 40),
                   InkWell(
                       child: Container(
                         margin: const EdgeInsets.symmetric(
@@ -124,7 +146,7 @@ class _GenreListState extends State<RemoveCustomer> {
                         width: 800,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Colors.green),
+                            color: Colors.amber),
                       ),
                       onTap: () async {
                         if (_formKey.currentState != null) {
