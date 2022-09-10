@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:ims/web_app/views/GenreList.dart';
+import 'package:ims/web_app/views/MyLoansPage.dart';
+import 'package:ims/web_app/views/Operator/FavoriteItems.dart';
 import 'package:ims/web_app/views/Operator/ManageCustomerPage.dart';
 import 'package:ims/web_app/views/Operator/ManageItemsPage.dart';
 import 'package:ims/web_app/views/UserSettings.dart';
@@ -80,7 +82,13 @@ void choiceAction(String choice, BuildContext context) async {
   } else if (choice == "Logout") {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const WelcomeHome()));
-  } else {
+  } else if (choice == "My loans") {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const MyLoansPage()));
+  }  else if (choice == "Favorites") {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const FavoriteItemsPage()));
+  }  else {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(choice)));
   }
 }

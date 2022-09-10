@@ -1,29 +1,25 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-//import 'package:ims/web_app/model/category.dart';
 import 'package:ims/web_app/data/book_data.dart';
 import 'package:ims/web_app/model/item.dart';
 import 'package:ims/web_app/views/ItemPage.dart';
 
-class GenrePage extends StatefulWidget {
-  final String genre;
+class MyLoansPage extends StatefulWidget {
 
-  const GenrePage({
+  const MyLoansPage({
     Key? key,
-    required this.genre,
   }) : super(key: key);
 
   @override
-  State<GenrePage> createState() => _GenrePageState(genre: genre);
+  State<MyLoansPage> createState() => _MyLoansPageState();
 }
 
-class _GenrePageState extends State<GenrePage> {
-  final String genre;
-  _GenrePageState({required this.genre});
+class _MyLoansPageState extends State<MyLoansPage> {
+  _MyLoansPageState();
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: Text(genre+" items")),
+        appBar: AppBar(title: const Text("My loans")),
         body: Column(children: <Widget>[
           // Container(
           //   padding: const EdgeInsets.all(10),
@@ -33,24 +29,14 @@ class _GenrePageState extends State<GenrePage> {
           //   height: 150,
           // ),
           const SizedBox(height : 30),
-          RichText(
-            text: TextSpan(children: [
-              const TextSpan(
-                text: "All items that are ",
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.normal, color:  Colors.black)
-              ),
-              TextSpan(
-                text: genre.toUpperCase(),
-                style: 
-                    const TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.black54)
-              )
-            ]),
-          ),
+          Text("All your items ",
+              style:
+                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 50),
               child: GridView.builder(
-                itemCount: allItems.length,
+                itemCount: allItems.length,            // HERE SHOULD BE USED A LIS OF YOUR ITEMS
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4,
                     mainAxisSpacing: 40,

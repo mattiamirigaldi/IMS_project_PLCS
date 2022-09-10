@@ -66,8 +66,6 @@ class _TLoginPageState extends State<MLoginPage> {
                 )),
                 onTap: () async {
                   await Httpservices.MobileLoginUs(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("ey babaaaa")));
                 }),
             // If wanted to implement with inf loop :
             const Padding(
