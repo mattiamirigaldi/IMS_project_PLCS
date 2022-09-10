@@ -17,9 +17,7 @@ class _GenreListState extends State<RemoveCustomer> {
   static const _rolesOp = [
     "customers",
   ];
-  static const _rolesAdm = [
-    "operators"
-  ];
+  static const _rolesAdm = ["operators"];
   late List<String> _roles = [];
   String dropdownvalue = _rolesOp[0];
 
@@ -30,27 +28,27 @@ class _GenreListState extends State<RemoveCustomer> {
   Widget build(BuildContext context) {
     if (TheWebUser[0]['role'] == 'operators') {
       _roles = _rolesOp;
-    } else if (TheWebUser[0]['role'] == 'operators') {
+    } else if (TheWebUser[0]['role'] == 'admins') {
       _roles = _rolesOp + _rolesAdm;
-    } 
+    }
     double width_screen = MediaQuery.of(context).size.width;
     double height_screen = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-          title: (
-            Row(children: const [
-              ClipRect(
-                child: Image(
-                  image: AssetImage("images/ims.jpg"),
-                  width: 45,
-                  height: 45,
-                ),
-              ),
-              SizedBox(width: 30,),
-              Text("Delete user page")
-            ])
+        title: (Row(children: const [
+          ClipRect(
+            child: Image(
+              image: AssetImage("images/ims.jpg"),
+              width: 45,
+              height: 45,
+            ),
           ),
-        ),
+          SizedBox(
+            width: 30,
+          ),
+          Text("Delete user page")
+        ])),
+      ),
       body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -91,7 +89,9 @@ class _GenreListState extends State<RemoveCustomer> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 30,),
+                  const SizedBox(
+                    height: 30,
+                  ),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
@@ -105,13 +105,13 @@ class _GenreListState extends State<RemoveCustomer> {
                           value: dropdownvalue,
                           icon: const Icon(Icons.arrow_downward),
                           underline: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: Container(
-                                alignment: Alignment.centerLeft,
-                                height: 5,
-                                width: 100,
-                                color: Colors.black.withOpacity(0.4))
-                          ),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 30),
+                              child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  height: 5,
+                                  width: 100,
+                                  color: Colors.black.withOpacity(0.4))),
                           onChanged: (String? newValue) {
                             setState(() {
                               dropdownvalue = newValue!;
@@ -130,7 +130,7 @@ class _GenreListState extends State<RemoveCustomer> {
                           }).toList(),
                         ),
                       ]),
-                      const SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   InkWell(
                       child: Container(
                         margin: const EdgeInsets.symmetric(

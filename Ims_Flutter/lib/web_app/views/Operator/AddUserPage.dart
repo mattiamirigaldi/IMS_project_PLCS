@@ -30,9 +30,7 @@ class _GenreListState extends State<AddCustomer> {
   static const _rolesOp = [
     "customers",
   ];
-  static const _rolesAdm = [
-    "operators"
-  ];
+  static const _rolesAdm = ["operators"];
   late List<String> _roles = [];
   String dropdownvalue = _rolesOp[0];
 
@@ -40,228 +38,222 @@ class _GenreListState extends State<AddCustomer> {
   Widget build(BuildContext context) {
     if (TheWebUser[0]['role'] == 'operators') {
       _roles = _rolesOp;
-    } else if (TheWebUser[0]['role'] == 'operators') {
+    } else if (TheWebUser[0]['role'] == 'admins') {
       _roles = _rolesOp + _rolesAdm;
-    } 
+    }
     double width_screen = MediaQuery.of(context).size.width;
     double height_screen = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: AppBar(
-          title: (
-            Row(children: const [
-              ClipRect(
-                child: Image(
-                  image: AssetImage("images/ims.jpg"),
-                  width: 45,
-                  height: 45,
-                ),
+          title: (Row(children: const [
+            ClipRect(
+              child: Image(
+                image: AssetImage("images/ims.jpg"),
+                width: 45,
+                height: 45,
               ),
-              SizedBox(width: 30,),
-              Text("Register new user page")
-            ])
-          ),
+            ),
+            SizedBox(
+              width: 30,
+            ),
+            Text("Register new user page")
+          ])),
         ),
         body: Form(
           key: _formKey,
-          child: ListView(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                  child: Center(
-                    child: Text(
-                      "User details",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black.withOpacity(0.7)),
-                      textAlign: TextAlign.center,
-                      textScaleFactor: 3,
-                    ),
-                  ),
+          child: ListView(children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+              child: Center(
+                child: Text(
+                  "User details",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black.withOpacity(0.7)),
+                  textAlign: TextAlign.center,
+                  textScaleFactor: 3,
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      hintText: "Enter first name",
-                      labelText: 'First Name',
-                      border: OutlineInputBorder(),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        firstName = value;
-                      });
-                    },
-                    validator: (String? value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter some text';
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  hintText: "Enter first name",
+                  labelText: 'First Name',
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    firstName = value;
+                  });
+                },
+                validator: (String? value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  hintText: "Enter last name",
+                  labelText: 'Last Name',
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    lastName = value;
+                  });
+                },
+                validator: (String? value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                    hintText: "Enter username",
+                    labelText: 'Username',
+                    border: OutlineInputBorder()),
+                onChanged: (value) async {
+                  setState(() {
+                    username = value;
+                  });
+                  user_chk_flag =
+                      await Httpservices.webAddCustomerCheck(role, username);
+                  //if (user_chk_flag ==
+                  //    "the entered username is used before") {
+                  //  await EasyLoading.showInfo(user_chk_flag);
+                  //}
+                },
+                validator: (String? value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter some text';
+                  } else if (user_chk_flag ==
+                      "the entered username is used before") {
+                    return user_chk_flag;
+                  } else {}
+                  return null;
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                    hintText: "Enter email address",
+                    labelText: 'Email',
+                    border: OutlineInputBorder()),
+                onChanged: (value) {
+                  setState(() {
+                    email = value;
+                  });
+                },
+                validator: (String? value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                    hintText: "Enter password",
+                    labelText: 'Password',
+                    border: OutlineInputBorder()),
+                onChanged: (value) {
+                  setState(() {
+                    password = value;
+                  });
+                },
+                validator: (String? value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                    hintText: "Confirm password",
+                    labelText: 'Password validation',
+                    border: OutlineInputBorder()),
+                validator: (String? value) {
+                  if (value != password) {
+                    return 'Password is not correct';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            selectRole(),
+            const SizedBox(
+              height: 20,
+            ),
+            InkWell(
+                child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 20),
+                    child: const Center(
+                        child: Text("SUBMIT NEW USER",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold))),
+                    height: 60,
+                    width: width_screen * 0.6,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      gradient: const LinearGradient(
+                        colors: <Color>[
+                          Color.fromARGB(255, 22, 78, 163),
+                          Color(0xFF1976D2),
+                          Color.fromARGB(255, 36, 121, 190),
+                        ],
+                      ),
+                    )),
+                onTap: () async {
+                  if (_formKey.currentState != null) {
+                    if (_formKey.currentState!.validate()) {
+                      if (user_chk_flag == "username is valid") {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text("Register user data")));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => TAddCustomerRFID(
+                                      firstName: firstName,
+                                      lastName: lastName,
+                                      username: username,
+                                      email: email,
+                                      password: password,
+                                      role: role,
+                                      context: context,
+                                    )));
+                      } else {
+                        await EasyLoading.showError(
+                            "please change the entered username");
                       }
-                      return null;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      hintText: "Enter last name",
-                      labelText: 'Last Name',
-                      border: OutlineInputBorder(),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        lastName = value;
-                      });
-                    },
-                    validator: (String? value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                        hintText: "Enter username",
-                        labelText: 'Username',
-                        border: OutlineInputBorder()),
-                    onChanged: (value) async {
-                      setState(() {
-                        username = value;
-                      });
-                      user_chk_flag = await Httpservices.webAddCustomerCheck(
-                          role, username);
-                      //if (user_chk_flag ==
-                      //    "the entered username is used before") {
-                      //  await EasyLoading.showInfo(user_chk_flag);
-                      //}
-                    },
-                    validator: (String? value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter some text';
-                      } else if (user_chk_flag ==
-                          "the entered username is used before") {
-                        return user_chk_flag;
-                      } else {}
-                      return null;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                        hintText: "Enter email address",
-                        labelText: 'Email',
-                        border: OutlineInputBorder()),
-                    onChanged: (value) {
-                      setState(() {
-                        email = value;
-                      });
-                    },
-                    validator: (String? value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                        hintText: "Enter password",
-                        labelText: 'Password',
-                        border: OutlineInputBorder()),
-                    onChanged: (value) {
-                      setState(() {
-                        password = value;
-                      });
-                    },
-                    validator: (String? value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                        hintText: "Confirm password",
-                        labelText: 'Password validation',
-                        border: OutlineInputBorder()),
-                    validator: (String? value) {
-                      if (value != password) {
-                        return 'Password is not correct';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                selectRole(),
-                const SizedBox(height: 20,),
-                InkWell(
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 20),
-                      child: const Center(
-                          child: Text("SUBMIT NEW USER",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold))),
-                      height: 60,
-                      width: width_screen*0.6,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          gradient: const LinearGradient(
-                          colors: <Color>[
-                            Color.fromARGB(255, 22, 78, 163),
-                            Color(0xFF1976D2),
-                            Color.fromARGB(255, 36, 121, 190),
-                          ],
-                        ),
-                      )
-                    ),
-                    onTap: () async {
-                      if (_formKey.currentState != null) {
-                        if (_formKey.currentState!.validate()) {
-                          if (user_chk_flag == "username is valid") {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text("Register user data")));
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => TAddCustomerRFID(
-                                          firstName: firstName,
-                                          lastName: lastName,
-                                          username: username,
-                                          email: email,
-                                          password: password,
-                                          role: role,
-                                          context: context,
-                                        )));
-                          } else {
-                            await EasyLoading.showError(
-                                "please change the entered username");
-                          }
-                        }
-                      } else {}
-                    })
-              ]),
+                    }
+                  } else {}
+                })
+          ]),
         ));
   }
 
