@@ -11,19 +11,20 @@ class ListItems extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: (
-            Row(children: const [
-              ClipRect(
-                child: Image(
+            Row(children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: const Image(
                   image: AssetImage("images/ims.jpg"),
                   width: 45,
                   height: 45,
                 ),
               ),
-              SizedBox(width: 30,),
-              Text("All items page")
+              const SizedBox(width: 30,),
+              const Text("All items page")
             ])
           ),
-      ),
+        ),
         body: ListView(
           shrinkWrap: true,
           padding: const EdgeInsets.fromLTRB(2.0, 10.0, 2.0, 10.0),

@@ -46,13 +46,6 @@ class _UserPageState extends State<UserPage> {
       ),
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
-          // Container(
-          //   padding: const EdgeInsets.all(10),
-          //   child: CustomAppBar(userName: customer),
-          //   //alignment: Alignment.topCenter,
-          //   width: double.infinity,
-          //   height: 150,
-          // ),
           SizedBox(
             height: size.height,
             child: Stack(children: <Widget>[

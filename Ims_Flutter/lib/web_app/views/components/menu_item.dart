@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:ims/web_app/views/CategoriesList.dart';
 import 'package:ims/web_app/views/MyLoansPage.dart';
-import 'package:ims/web_app/views/Operator/FavoriteItems.dart';
+import 'package:ims/web_app/views/FavoriteItemsPage.dart';
 import 'package:ims/web_app/views/Operator/ManageCustomerPage.dart';
 import 'package:ims/web_app/views/Operator/ManageItemsPage.dart';
 import 'package:ims/web_app/views/UserSettings.dart';

@@ -34,23 +34,30 @@ class _ModifyItemPageState extends State<ModifyItemPage> {
     return Scaffold(
       backgroundColor: item.color,
       appBar: AppBar(
-          backgroundColor: item.color,
+        backgroundColor: item.color,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
+        ), 
           title: (
-            Row(children: const [
-              ClipRect(
-                child: Image(
+            Row(children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: const Image(
                   image: AssetImage("images/ims.jpg"),
                   width: 45,
                   height: 45,
                 ),
               ),
-              SizedBox(width: 30,),
-              Text("Available users page")
+              const SizedBox(width: 30,),
+              const Text("Modify item page")
             ])
           ),
       ),
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
+          Divider(),
           const SizedBox(height: 40),
           SizedBox(
             height: size.height,
@@ -59,7 +66,7 @@ class _ModifyItemPageState extends State<ModifyItemPage> {
                 margin: EdgeInsets.only(top: size.height * 0.4),
                 padding: EdgeInsets.only(
                     top: size.height * 0.12, left: 40, right: 40),
-                height: 500,
+                height: 400,
                 width: size.width,
                 decoration: const BoxDecoration(
                     color: Colors.white,

@@ -36,19 +36,20 @@ class _ListUsersState extends State<ListUsers> {
     return Scaffold(
       appBar: AppBar(
           title: (
-            Row(children: const [
-              ClipRect(
-                child: Image(
+            Row(children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: const Image(
                   image: AssetImage("images/ims.jpg"),
                   width: 45,
                   height: 45,
                 ),
               ),
-              SizedBox(width: 30,),
-              Text("Available users page")
+              const SizedBox(width: 30,),
+              const Text("All users page")
             ])
           ),
-      ),
+        ),
         body: ListView(
           key: _formKey,
           shrinkWrap: true,

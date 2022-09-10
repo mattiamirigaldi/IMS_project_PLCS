@@ -23,7 +23,22 @@ class _CategoriesListPageState extends State<CategoriesListPage> {
   _CategoriesListPageState();
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: Text("Categories page")),
+        appBar: AppBar(
+          title: (
+            Row(children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: const Image(
+                  image: AssetImage("images/ims.jpg"),
+                  width: 45,
+                  height: 45,
+                ),
+              ),
+              const SizedBox(width: 30,),
+              const Text("Categories page")
+            ])
+          ),
+        ),
         body: Column(children: <Widget>[
           const SizedBox(height : 30),
           const Text("ALL CATEGORIES ",

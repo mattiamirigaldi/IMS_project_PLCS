@@ -20,16 +20,17 @@ class _GenreListState extends State<RemoveBook> {
     return Scaffold(
      appBar: AppBar(
           title: (
-            Row(children: const [
-              ClipRect(
-                child: Image(
+            Row(children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: const Image(
                   image: AssetImage("images/ims.jpg"),
                   width: 45,
                   height: 45,
                 ),
               ),
-              SizedBox(width: 30,),
-              Text("Delete item page")
+              const SizedBox(width: 30,),
+              const Text("Delete item page")
             ])
           ),
         ),

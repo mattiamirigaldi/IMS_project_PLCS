@@ -23,7 +23,22 @@ class _GenrePageState extends State<GenrePage> {
   _GenrePageState({required this.genre});
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: Text(genre+" items")),
+      appBar: AppBar(
+          title: (
+            Row(children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: const Image(
+                  image: AssetImage("images/ims.jpg"),
+                  width: 45,
+                  height: 45,
+                ),
+              ),
+              const SizedBox(width: 30,),
+              Text(genre+" items")
+            ])
+          ),
+        ),
         body: Column(children: <Widget>[
           // Container(
           //   padding: const EdgeInsets.all(10),

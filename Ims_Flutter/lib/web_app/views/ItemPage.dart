@@ -30,17 +30,25 @@ class _ItemPageState extends State<ItemPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
-        ),
+        ), 
+          title: (
+            Row(children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: const Image(
+                  image: AssetImage("images/ims.jpg"),
+                  width: 45,
+                  height: 45,
+                ),
+              ),
+              const SizedBox(width: 30,),
+              const Text("Item page")
+            ])
+          ),
       ),
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
-          // Container(
-          //   padding: const EdgeInsets.all(10),
-          //   child: CustomAppBar(userName: customer),
-          //   //alignment: Alignment.topCenter,
-          //   width: double.infinity,
-          //   height: 150,
-          // ),
+          Divider(),
           SizedBox(
             height: size.height,
             child: Stack(children: <Widget>[

@@ -19,17 +19,25 @@ class _FavoriteItemsPageState extends State<FavoriteItemsPage> {
   _FavoriteItemsPageState();
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: const Text("Favorite items")),
+        appBar: AppBar(
+          title: (
+            Row(children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: const Image(
+                  image: AssetImage("images/ims.jpg"),
+                  width: 45,
+                  height: 45,
+                ),
+              ),
+              const SizedBox(width: 30,),
+              const Text("Favorite items page")
+            ])
+          ),
+        ),
         body: Column(children: <Widget>[
-          // Container(
-          //   padding: const EdgeInsets.all(10),
-          //   child: CustomAppBar(userName: customer),
-          //   //alignment: Alignment.topCenter,
-          //   width: double.infinity,
-          //   height: 150,
-          // ),
           const SizedBox(height : 30),
-          Text("Your favorite items ",
+          Text("My favorite items ",
               style:
                   TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 216, 145, 39).withOpacity(0.9))),
           Expanded(

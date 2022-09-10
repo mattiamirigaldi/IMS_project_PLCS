@@ -19,7 +19,22 @@ class _MyLoansPageState extends State<MyLoansPage> {
   _MyLoansPageState();
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: const Text("My loans")),
+        appBar: AppBar(
+          title: (
+            Row(children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: const Image(
+                  image: AssetImage("images/ims.jpg"),
+                  width: 45,
+                  height: 45,
+                ),
+              ),
+              const SizedBox(width: 30,),
+              const Text("My loans")
+            ])
+          ),
+        ),
         body: Column(children: <Widget>[
           // Container(
           //   padding: const EdgeInsets.all(10),
