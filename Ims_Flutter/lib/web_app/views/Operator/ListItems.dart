@@ -1,6 +1,8 @@
 // ignore_for_file: file_names, use_key_in_widget_constructors
 import 'package:flutter/material.dart';
 import 'package:ims/web_app/DataLists.dart';
+import 'package:ims/web_app/model/item.dart';
+import 'package:ims/web_app/views/Operator/ModifyItemPage.dart';
 
 class ListItems extends StatelessWidget {
   const ListItems();
@@ -13,13 +15,33 @@ class ListItems extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(2.0, 10.0, 2.0, 10.0),
           children: <Widget>[
             for (var i = 0; i < AllItems.length; i++)
-              ProductBox(
-                title: AllItems[i]['title'],
-                author: AllItems[i]['author'],
-                genre: AllItems[i]['genre'],
-                rfid: AllItems[i]['rfid'].toString(),
-                date: AllItems[i]['date'].toString(),
-                publisher: AllItems[i]['publisher'],
+              InkWell(
+                child: ProductBox(
+                  title: AllItems[i]['title'],
+                  author: AllItems[i]['author'],
+                  genre: AllItems[i]['genre'],
+                  rfid: AllItems[i]['rfid'].toString(),
+                  date: AllItems[i]['date'].toString(),
+                  publisher: AllItems[i]['publisher'],
+                ),
+                onTap: () {
+                  Item item = Item(
+                    id: AllItems[i]['rfid'].toString(),
+                    author: AllItems[i]['author'], 
+                    title: AllItems[i]['title'], 
+                   // urlImage: AllItems[i]['urlImage'],
+                    urlImage: 'https://thumbs.dreamstime.com/z/old-mystery-book-icon-outline-style-old-mystery-book-icon-outline-old-mystery-book-vector-icon-web-design-isolated-white-198523618.jpg',
+                    color: Color.fromARGB(255, 211, 255, 89),
+                    price: 20.0, 
+                    description: "NEEDED TO BE ADD IN BACKEDN",
+                    available: true, 
+                    favorite: false, 
+                    location: "NEEDED TO BE ADD IN BACKED", 
+                    category: AllItems[i]['genre']
+                  );
+                  Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ModifyItemPage(item: item)));
+                },
               ),
           ],
         ));
@@ -54,7 +76,7 @@ class ProductBox extends StatelessWidget {
     // ;
     return Container(
         padding: const EdgeInsets.all(2),
-        height: 120,
+        height: 170,
         child: Card(
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

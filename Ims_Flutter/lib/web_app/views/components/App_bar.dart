@@ -15,7 +15,7 @@ class CustomAppBar extends StatelessWidget {
     "Random book",
   ];
   static const _ServicesCustomerItems = ["Request book", "Help & support"];
-  static const _ServicesOperatorItems = ["Manage customers", "Manage items"];
+  static const _ServicesOperatorItems = ["Manage users", "Manage items"];
   static const _ServicesAdminItems = ["Manage operators"];
   static const _UserItems = ["My profile", "My loans", "Favorites", "Logout"];
   late List<String> _Services = [];

@@ -1,7 +1,10 @@
 // ignore_for_file: file_names, use_key_in_widget_constructors
 import 'package:flutter/material.dart';
 import 'package:ims/web_app/DataLists.dart';
+import 'package:ims/web_app/model/user.dart';
 import 'package:ims/web_app/services/http_services.dart';
+import 'package:ims/web_app/views/Operator/RemoveCustomerPage.dart';
+import 'package:ims/web_app/views/Operator/ModifyUserPage.dart';
 
 class ListUsers extends StatefulWidget {
   const ListUsers({Key? key}) : super(key: key);
@@ -79,12 +82,32 @@ class _ListUsersState extends State<ListUsers> {
                   await Httpservices.WebListCustomers(rl, context);
                 }),
             for (var i = 0; i < AllUsers.length; i++)
-              ProductBox(
-                firstname: AllUsers[i]['firstname'],
-                lastname: AllUsers[i]['lastname'],
-                username: AllUsers[i]['username'],
-                mail: AllUsers[i]['mail'],
-                rfid: AllUsers[i]['rfid'].toString(),
+              InkWell(
+                child: ProductBox(
+                  firstname: AllUsers[i]['firstname'],
+                  lastname: AllUsers[i]['lastname'],
+                  username: AllUsers[i]['username'],
+                  mail: AllUsers[i]['mail'],
+                  rfid: AllUsers[i]['rfid'].toString(),
+                ),
+                onTap: () {
+                  User user = User(
+                  firstName: AllUsers[i]['firstname'],
+                  lastname: AllUsers[i]['lastname'],
+                  username: AllUsers[i]['username'],
+                  mail: AllUsers[i]['mail'],
+                  rfid: AllUsers[i]['rfid'].toString(), 
+                  imagePath: 'https://img.icons8.com/ios-filled/50/000000/user-male-circle.png',
+                  role: "customer",
+                  admin_id: AllUsers[i]['admin_id'].toString(),
+                  news:  'He is often considered a "goofy" boss by the employees of Dunder Mifflin. He is often the butt of everybodies jokes. Michael constantly tries to intermix his work life with his social life by inviting employees of Dunder Mifflin to come over house or get coffee',
+                  pwd: AllUsers[i]['pwd'],
+                  opr_id: AllUsers[i]['opr_id'].toString(),
+                  color: Color.fromARGB(255, 99, 181, 221),
+                  );
+                  Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ModifyUserPage(user :user)));
+                } 
               ),
           ],
         ));

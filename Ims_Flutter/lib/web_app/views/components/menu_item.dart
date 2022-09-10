@@ -69,7 +69,7 @@ void choiceAction(String choice, BuildContext context) async {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(choice)));
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const GenreList()));
-  } else if (choice == "Manage customers") {
+  } else if (choice == "Manage users") {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(choice)));
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => const manageCustomer()));

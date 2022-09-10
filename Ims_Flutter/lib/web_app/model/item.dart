@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 
 class Item {
@@ -6,7 +8,7 @@ class Item {
   final String author;
   final String urlImage;
   final Color color;
-  final String price;
+  final double price;
   final String description;
   final String location;
   final String category;

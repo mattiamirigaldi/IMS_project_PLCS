@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/Totem/TWelcomePage.dart';
-// import 'package:ims/web_app/views/DashBoard.dart';
+import 'package:ims/web_app/views/DashBoard.dart';
 import 'package:ims/Mobile/MWelcomePage.dart';
 import 'package:url_strategy/url_strategy.dart';
-import 'Web_app/views/WelcomPage.dart';
+import 'web_app/views/WelcomPage.dart';
 import 'routes.dart';
 
 Future main() async {
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/web',
       routes: {
         Myroutes.webWelcomePage: (context) => const WelcomeHome(),
-        //Myroutes.webWelcomePage: (context) => const DashBoard(user: UserData.myCustomer),
+        //Myroutes.webWelcomePage: (context) => const DashBoard(),
         Myroutes.totemWelcomePage: (context) => const TWelcome(),
         Myroutes.mobileWelcomePage: (context) => const MWelcome(),
       },

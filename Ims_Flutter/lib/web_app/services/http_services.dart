@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 // to display loading animation
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/web_app/DataLists.dart';
-import 'package:ims/web_app/views/ListItems.dart';
+import 'package:ims/web_app/views/Operator/ListItems.dart';
 import 'package:ims/web_app/views/Operator/ManageCustomerPage.dart';
 import 'package:ims/web_app/views/Operator/ManageItemsPage.dart';
 import 'package:ims/web_app/views/SelectListType.dart';
@@ -16,7 +16,7 @@ import '../../routes.dart';
 // parameters
 import './../views/DashBoard.dart';
 import '../views/ItemsList.dart';
-import '../views/ListIUsers.dart';
+import '../views/Operator/ListIUsers.dart';
 
 String baseUrl = Myroutes.baseUrl;
 String AddCustomerUrl = baseUrl + '/web/AddCustomer/';

@@ -1,12 +1,12 @@
-// Date associated to the profile logged in
+// // Date associated to the profile logged in
 
-import 'dart:convert';
-// ignore_for_file: camel_case_types
+// import 'dart:convert';
+// // ignore_for_file: camel_case_types
 
-import 'package:ims/web_app/model/user.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:ims/web_app/model/user.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
-// Data are persisted locally on the device using the package shared preferences
+// // Data are persisted locally on the device using the package shared preferences
 
 // class UserData {
 //  static late SharedPreferences _preferences;
@@ -24,26 +24,26 @@ import 'package:shared_preferences/shared_preferences.dart';
 //    pwd: "123",
 //    role: 1,
 //  );
-//
+
 //  // method to get at initalization the user locally stored in the device
 //  static Future init() async =>
 //      _preferences = await SharedPreferences.getInstance();
-//
+
 //  // method to have new user in disk
 //  static Future setUser(User user) async {
 //    final json = jsonEncode(user.toJson());
 //    await _preferences.setString(_keyUser, json);
 //  }
-//
+
 //  static User getUser() {
 //    final json = _preferences.getString(_keyUser);
 //    return json == null ? myCustomer : User.fromJson(jsonDecode(json));
 //  }
-//
+
 //  static addPendingUser(User user) {
 //    pendingUsers.add(user);
 //  }
-//
+
 //  static removePendingUser(User user) {
 //    pendingUsers.remove(user);
 //  }
