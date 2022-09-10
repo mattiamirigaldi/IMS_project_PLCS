@@ -30,7 +30,7 @@ class _GenreListState extends State<RemoveCustomer> {
   Widget build(BuildContext context) {
     if (TheWebUser[0]['role'] == 'operators') {
       _roles = _rolesOp;
-    } else if (TheWebUser[0]['role'] == 'operators') {
+    } else if (TheWebUser[0]['role'] == 'admins') {
       _roles = _rolesOp + _rolesAdm;
     } 
     double width_screen = MediaQuery.of(context).size.width;
