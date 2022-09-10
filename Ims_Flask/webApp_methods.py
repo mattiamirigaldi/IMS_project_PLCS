@@ -90,17 +90,31 @@ def admin_operators(admin_id):
 @webApp_methods.route("/web/usrcheck/<role>/<admin_id>/<usr>/<newusr>", methods=["GET", "POST"])
 def UsernameCheck(role,admin_id,usr,newusr):
     print('hellllllllllooooooooo')
+    print(role)
     cnxn = db.connection()
     cursor = cnxn.cursor()    
-    check_query = "SELECT * FROM %s WHERE username = (?) AND admin_id = (?)" %role
-    cursor.execute(check_query,newusr,admin_id)
-    if cursor.rowcount == 0 or usr == newusr:
+    if role == ("operators" or "customers")  :
+        check_query = "SELECT * FROM %s WHERE username = (?) AND admin_id = (?)" %role
+        cursor.execute(check_query,newusr,admin_id)
+        if cursor.rowcount == 0 or usr == newusr:
+            cnxn.close()
+            print('Username is fine')
+            return jsonify("ok")
         cnxn.close()
-        print('Username is fine')
-        return jsonify("ok")
-    cnxn.close()
-    print('Username is in the database')
-    return jsonify("The Entered Username is Already Used! Choose a new one please.")
+        print('Username is in the database')
+        return jsonify("The Entered Username is Already Used! Choose a new one please.")
+    else:
+        check_query = "SELECT * FROM %s WHERE username = (?) " %role
+        cursor.execute(check_query,newusr)
+        if cursor.rowcount == 0 or usr == newusr:
+            cnxn.close()
+            print('Username is fine')
+            return jsonify("ok")
+        cnxn.close()
+        print('Username is in the database')
+        return jsonify("The Entered Username is Already Used! Choose a new one please.")
+    
+    
 
 @webApp_methods.route("/web/settings/<usr>/<role>", methods=["GET", "POST"])
 def settings(usr,role):
@@ -123,6 +137,37 @@ def settings(usr,role):
     cnxn.close()
     return jsonify("done")
 #############################################################
+
+
+
+
+@webApp_methods.route("/web/user_edit/<usr>/<role>", methods=["GET", "POST"])
+def user_edit(usr,role):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()   
+    if request.method == 'POST':
+        firstname = request.form["firstname"]
+        lastname = request.form["lastname"]
+        username = request.form["username"]
+        oldUsername = request.form["oldUsername"]
+        mail = request.form["mail"]
+        password = request.form["password"]
+        rfid = request.form["rfid"]
+        userRole = request.form["userRole"]
+    print("SETTINGS : FIRSTNAME is " + firstname)
+    print("SETTINGS : username is " + username)
+    print("user role is"+ userRole)
+    print("************************************")
+    insert_query = "UPDATE %s SET firstname = (?), lastname = (?), username = (?), mail= (?), pwd= (?), rfid=(?),id = (?) WHERE username = (?)"%userRole
+    value = (firstname, lastname, username, mail, password,rfid,rfid, oldUsername)
+    cursor.execute(insert_query, value)
+    cnxn.commit()
+    cnxn.close()
+    return jsonify("done")
+
+
+
+
 
 @webApp_methods.route("/web/items/<admin_id>/<opr_id>", methods=["GET", "POST"])
 def ListItems(admin_id,opr_id):
@@ -326,6 +371,43 @@ def web_RemoveCustomer(adminID,rfid,role_type):
         print("user not found")
         return jsonify(["no"])
 
+
+
+# Remove User
+@webApp_methods.route("/web/RemoveUser/<adminID>/<rfid>/<role_type>", methods=["GET", "POST"])
+def web_RemoveUser(adminID,rfid,role_type):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    print("33333333")
+    if request.method == 'POST':
+        username = request.form["username"]
+        role = request.form["role"]
+        print("role is " + role)
+        if role_type == "operators":
+            print("user is operator")
+            check_query = "SELECT * FROM %s WHERE username = (?) AND admin_id = (?) AND opr_id =(?) "%role
+            value = (username,adminID,rfid)
+            delete_query = "DELETE FROM %s WHERE username = (?) AND admin_id = (?) AND opr_id =(?)"%role
+            delete_value = (username,adminID,rfid)
+        if role_type == "admins":
+            print("user is admin")
+            check_query = "SELECT * FROM %s WHERE username = (?) AND admin_id = (?) "%role
+            value = (username,rfid)
+            delete_query = "DELETE FROM %s WHERE username = (?) AND admin_id = (?)"%role
+            delete_value = (username,rfid)           
+    cursor.execute(check_query, value)
+    row = cursor.fetchone()
+    print("66666666")
+    if row != None :
+        cursor.execute(delete_query, delete_value)
+        cnxn.commit()
+        cnxn.close()
+        print("Operator removed a User successfully")
+        return jsonify(["Done"])
+    else:
+        cnxn.close()
+        print("user not found")
+        return jsonify(["no"])
 
         ######################################################################
 

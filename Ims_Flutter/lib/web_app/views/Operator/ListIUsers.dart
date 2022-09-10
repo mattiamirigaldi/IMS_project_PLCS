@@ -15,6 +15,7 @@ class _ListUsersState extends State<ListUsers> {
   // Global key that uniquely identifies the form widget and is used for validation
   final _formKey = GlobalKey<FormState>();
   late String rl = "customers";
+  late String userRole;
   static const _rolesOp = [
     "customers",
   ];
@@ -73,6 +74,7 @@ class _ListUsersState extends State<ListUsers> {
                   setState(() {
                     dropdownvalue = newValue!;
                     rl = dropdownvalue;
+                    userRole = newValue;
                   });
                 },
                 items: _roles.map<DropdownMenuItem<String>>((String value) {
@@ -125,7 +127,7 @@ class _ListUsersState extends State<ListUsers> {
                       rfid: AllUsers[i]['rfid'].toString(),
                       imagePath:
                           'https://img.icons8.com/ios-filled/50/000000/user-male-circle.png',
-                      role: "customer",
+                      role: userRole,
                       admin_id: AllUsers[i]['admin_id'].toString(),
                       news:
                           'He is often considered a "goofy" boss by the employees of Dunder Mifflin. He is often the butt of everybodies jokes. Michael constantly tries to intermix his work life with his social life by inviting employees of Dunder Mifflin to come over house or get coffee',
