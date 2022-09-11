@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, use_key_in_widget_constructors
+// ignore_for_file: file_names, use_key_in_widget_constructors, non_constant_identifier_names
 import 'package:flutter/material.dart';
 import 'package:ims/web_app/DataLists.dart';
 import 'package:ims/web_app/model/item.dart';
@@ -9,6 +9,7 @@ class ListItems extends StatelessWidget {
   static late List avaflag = [];
   @override
   Widget build(BuildContext context) {
+    avaflag.clear();
     for (var i = 0; i < AllItems.length; i++) {
       if (AllItems[i]['cus_id'] == null) {
         avaflag.add('yes');
@@ -59,7 +60,7 @@ class ListItems extends StatelessWidget {
                       description: AllItems[i]['description'],
                       available: (avaflag[i] == 'yes'),
                       favorite: false,
-                      location: AllItems[i]['location'],
+                      location: AllItems[i]['loc'],
                       category: AllItems[i]['genre']);
                   Navigator.push(
                       context,
@@ -89,7 +90,7 @@ class ProductBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String TextToShow;
+    late String TextToShow;
     TextStyle sty1;
     if (availability == 'yes') {
       TextToShow = "Book is Avalible";

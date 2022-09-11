@@ -166,15 +166,11 @@ def user_edit(usr,role):
     return jsonify("done")
 
 
-
-
-
 @webApp_methods.route("/web/items/<admin_id>/<opr_id>", methods=["GET", "POST"])
 def ListItems(admin_id,opr_id):
     cnxn = db.connection()
     cursor = cnxn.cursor()
     print("Access to items url : Successful_1")
-    print('00000000000')
     print(opr_id)
     if opr_id == 'ALL':
         print('111111111111')
@@ -195,6 +191,41 @@ def ListItems(admin_id,opr_id):
     cnxn.close()
     return jsonify(data)
 
+@webApp_methods.route("/web/item_edit/<usr>/<oldrfid>", methods=["GET", "POST"])
+def item_edit(usr,oldrfid):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()   
+    if request.method == 'POST':
+        newTitle = request.form["newTitle"]
+        newAuthor = request.form["newAuthor"]
+        newDescription = request.form["newDescription"]
+        newLocation = request.form["newLocation"]
+        newCategory = request.form["newCategory"]
+        newRfid = request.form["newRfid"]
+    print("SETTINGS : newTitle is " + newTitle)
+    print("************************************")
+    insert_query = "UPDATE books SET title = (?), author = (?), genre = (?), rfid= (?), loc= (?), description = (?) WHERE rfid = (?)"
+    value = (newTitle, newAuthor, newCategory, newRfid, newLocation, newDescription, oldrfid)
+    cursor.execute(insert_query, value)
+    cnxn.commit()
+    cnxn.close()
+    return jsonify("done")
+
+@webApp_methods.route("/web/item_remove/<role_type>/<usr>/<id>", methods=["GET", "POST"])
+def item_remove(role_type,usr,id):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()   
+    if role_type == "admins":
+        delete_query = '''  DELETE FROM items WHERE id = (?) AND admin_id = (?);
+                            DELETE FROM books WHERE id = (?); '''
+    if role_type == "operators":
+        delete_query = '''  DELETE FROM items WHERE id = (?) AND opr_id = (?);
+                            DELETE FROM books WHERE id = (?); '''
+    print("111111111")
+    cursor.execute(delete_query,id,usr,id)
+    cnxn.commit()
+    cnxn.close()
+    return jsonify(["done"])
 
 @webApp_methods.route("/web/items", methods=["GET", "POST"])
 def items():

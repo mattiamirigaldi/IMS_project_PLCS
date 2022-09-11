@@ -29,6 +29,8 @@ String ListCustomersUrl = baseUrl + '/web/ListCustomers/';
 String SettingsUrl = baseUrl + '/web/settings/';
 String usrcheckUrl = baseUrl + '/web/usrcheck/';
 String UserEditUrl = baseUrl + '/web/user_edit/';
+String ItemEditUrl = baseUrl + '/web/item_edit/';
+String ItemRemoveUrl = baseUrl + '/web/item_remove/';
 String RemoveUserUrl = baseUrl + '/web/RemoveUser/';
 
 class Httpservices {
@@ -201,6 +203,47 @@ class Httpservices {
                     bookAvalible: json[4],
                     bookLocation: json[5],
                   )));
+    } else {
+      await EasyLoading?.showError(
+          "Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  static item_edit(oldrfid, newTitle, newAuthor, newDescription, newLocation,
+      newCategory, newRfid, context) async {
+    http.Response response = await _client.post(
+        Uri.parse(ItemEditUrl + TheWebUser[0]['username'] + '/' + oldrfid),
+        body: {
+          "newTitle": newTitle,
+          "newAuthor": newAuthor,
+          "newDescription": newDescription,
+          "newLocation": newLocation,
+          "newCategory": newCategory,
+          "newRfid": newRfid,
+        });
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Item edited successfully")));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const ListItems()));
+    } else {
+      await EasyLoading?.showError(
+          "Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  static item_remove(id, context) async {
+    http.Response response = await _client.post(Uri.parse(ItemRemoveUrl +
+        TheWebUser[0]['role'] +
+        '/' +
+        TheWebUser[0]['id'].toString() +
+        '/' +
+        id));
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Item edited successfully")));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const ListItems()));
     } else {
       await EasyLoading?.showError(
           "Error Code : ${response.statusCode.toString()}");
