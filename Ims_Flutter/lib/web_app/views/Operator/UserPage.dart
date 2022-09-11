@@ -120,8 +120,8 @@ class _UserPageState extends State<UserPage> {
               child: ClipOval(
                 child: Container(
                   color: Colors.white,
-                  padding: EdgeInsets.all(2),
-                  child: Icon( 
+                  padding: const EdgeInsets.all(2),
+                  child: const Icon( 
                     Icons.edit,
                     size: 20,),
                 ),

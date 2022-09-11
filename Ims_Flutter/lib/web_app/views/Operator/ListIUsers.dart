@@ -33,7 +33,6 @@ class _ListUsersState extends State<ListUsers> {
     double width_screen = MediaQuery.of(context).size.width;
     double height_screen = MediaQuery.of(context).size.height;
     return Scaffold(
-<<<<<<< HEAD
       appBar: AppBar(
           title: (
             Row(children: [
@@ -49,22 +48,6 @@ class _ListUsersState extends State<ListUsers> {
               const Text("All users page")
             ])
           ),
-=======
-        appBar: AppBar(
-          title: (Row(children: const [
-            ClipRect(
-              child: Image(
-                image: AssetImage("images/ims.jpg"),
-                width: 45,
-                height: 45,
-              ),
-            ),
-            SizedBox(
-              width: 30,
-            ),
-            Text("Available users page")
-          ])),
->>>>>>> 3ad2498e8695755bdddf5bca85f40de523d40c56
         ),
         body: ListView(
           key: _formKey,
