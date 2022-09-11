@@ -10,6 +10,7 @@ import 'package:ims/web_app/views/Operator/ListItems.dart';
 import 'package:ims/web_app/views/Operator/ManageCustomerPage.dart';
 import 'package:ims/web_app/views/Operator/ManageItemsPage.dart';
 import 'package:ims/web_app/views/SelectListType.dart';
+import 'package:ims/web_app/views/Operator/ListUserItems.dart';
 
 // to route
 import '../../routes.dart';
@@ -378,6 +379,31 @@ class Httpservices {
         await EasyLoading.showSuccess('User removed successfully');
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const ListUsers()));
+      }
+    } else {
+      EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+// List the Rented Items
+  static List_User_Items(context) async {
+    http.Response response = await _client.get(Uri.parse(baseUrl +
+        "/web/UserItems/" +
+        TheWebUser[0]['admin_id'].toString() +
+        '/' +
+        TheWebUser[0]['opr_id'].toString() +
+        '/' +
+        TheWebUser[0]['rfid'].toString()));
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == "You don't have any Items") {
+        await EasyLoading.showError(json[0]);
+      } else {
+        await EasyLoading.showSuccess("You have some Items");
+        AllItems.clear();
+        AllItems.addAll(json);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const ListUserItems()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");

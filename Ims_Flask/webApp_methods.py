@@ -503,3 +503,21 @@ def totem_RemoveBook(adminID,rfid,role_type):
         return jsonify(["done"])
 
 #############################################################
+# List the User Items
+@webApp_methods.route("/web/UserItems/<adminID>/<opr>/<usr>", methods=["GET", "POST"])
+def mobile_ListUserItems(adminID,opr,usr):
+    print(adminID,opr,usr)
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id where admin_id = (?) AND opr_id = (?) AND items.cus_id = (?)"
+    cursor.execute(check_query,adminID,opr,usr)
+    if cursor.rowcount == 0:
+        cnxn.close()
+        print("User does not have any Item")
+        return jsonify(["You don't have any Items"])
+    column_names = [col[0] for col in cursor.description]
+    data = [dict(zip(column_names, row))  
+        for row in cursor.fetchall()]
+    print("There are some Items")
+    cnxn.close()
+    return jsonify(data)
