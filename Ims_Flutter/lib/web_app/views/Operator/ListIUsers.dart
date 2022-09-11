@@ -15,12 +15,11 @@ class _ListUsersState extends State<ListUsers> {
   // Global key that uniquely identifies the form widget and is used for validation
   final _formKey = GlobalKey<FormState>();
   late String rl = "customers";
- static const _rolesOp = [
+  late String userRole;
+  static const _rolesOp = [
     "customers",
   ];
-  static const _rolesAdm = [
-    "operators"
-  ];
+  static const _rolesAdm = ["operators"];
   late List<String> _roles = [];
   String dropdownvalue = _rolesOp[0];
 
@@ -28,12 +27,13 @@ class _ListUsersState extends State<ListUsers> {
   Widget build(BuildContext context) {
     if (TheWebUser[0]['role'] == 'operators') {
       _roles = _rolesOp;
-    } else if (TheWebUser[0]['role'] == 'operators') {
+    } else if (TheWebUser[0]['role'] == 'admins') {
       _roles = _rolesOp + _rolesAdm;
-    } 
+    }
     double width_screen = MediaQuery.of(context).size.width;
     double height_screen = MediaQuery.of(context).size.height;
     return Scaffold(
+<<<<<<< HEAD
       appBar: AppBar(
           title: (
             Row(children: [
@@ -49,6 +49,22 @@ class _ListUsersState extends State<ListUsers> {
               const Text("All users page")
             ])
           ),
+=======
+        appBar: AppBar(
+          title: (Row(children: const [
+            ClipRect(
+              child: Image(
+                image: AssetImage("images/ims.jpg"),
+                width: 45,
+                height: 45,
+              ),
+            ),
+            SizedBox(
+              width: 30,
+            ),
+            Text("Available users page")
+          ])),
+>>>>>>> 3ad2498e8695755bdddf5bca85f40de523d40c56
         ),
         body: ListView(
           key: _formKey,
@@ -76,6 +92,7 @@ class _ListUsersState extends State<ListUsers> {
                   setState(() {
                     dropdownvalue = newValue!;
                     rl = dropdownvalue;
+                    userRole = newValue;
                   });
                 },
                 items: _roles.map<DropdownMenuItem<String>>((String value) {
@@ -95,11 +112,12 @@ class _ListUsersState extends State<ListUsers> {
                   margin:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: Center(
-                      child: Text("Search "+dropdownvalue.toLowerCase(),
+                      child: Text("Search " + dropdownvalue.toLowerCase(),
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                               color: Colors.black,
-                              fontWeight: FontWeight.bold, fontSize: 20))),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20))),
                   height: 50,
                   width: 400,
                   decoration: BoxDecoration(
@@ -111,32 +129,35 @@ class _ListUsersState extends State<ListUsers> {
                 }),
             for (var i = 0; i < AllUsers.length; i++)
               InkWell(
-                child: ProductBox(
-                  firstname: AllUsers[i]['firstname'],
-                  lastname: AllUsers[i]['lastname'],
-                  username: AllUsers[i]['username'],
-                  mail: AllUsers[i]['mail'],
-                  rfid: AllUsers[i]['rfid'].toString(),
-                ),
-                onTap: () {
-                  User user = User(
-                  firstName: AllUsers[i]['firstname'],
-                  lastname: AllUsers[i]['lastname'],
-                  username: AllUsers[i]['username'],
-                  mail: AllUsers[i]['mail'],
-                  rfid: AllUsers[i]['rfid'].toString(), 
-                  imagePath: 'https://img.icons8.com/ios-filled/50/000000/user-male-circle.png',
-                  role: "customer",
-                  admin_id: AllUsers[i]['admin_id'].toString(),
-                  news:  'He is often considered a "goofy" boss by the employees of Dunder Mifflin. He is often the butt of everybodies jokes. Michael constantly tries to intermix his work life with his social life by inviting employees of Dunder Mifflin to come over house or get coffee',
-                  pwd: AllUsers[i]['pwd'],
-                  opr_id: AllUsers[i]['opr_id'].toString(),
-                  color: Color.fromARGB(255, 99, 181, 221),
-                  );
-                  Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ModifyUserPage(user :user)));
-                } 
-              ),
+                  child: ProductBox(
+                    firstname: AllUsers[i]['firstname'],
+                    lastname: AllUsers[i]['lastname'],
+                    username: AllUsers[i]['username'],
+                    mail: AllUsers[i]['mail'],
+                    rfid: AllUsers[i]['rfid'].toString(),
+                  ),
+                  onTap: () {
+                    User user = User(
+                      firstName: AllUsers[i]['firstname'],
+                      lastname: AllUsers[i]['lastname'],
+                      username: AllUsers[i]['username'],
+                      mail: AllUsers[i]['mail'],
+                      rfid: AllUsers[i]['rfid'].toString(),
+                      imagePath:
+                          'https://img.icons8.com/ios-filled/50/000000/user-male-circle.png',
+                      role: userRole,
+                      admin_id: AllUsers[i]['admin_id'].toString(),
+                      news:
+                          'He is often considered a "goofy" boss by the employees of Dunder Mifflin. He is often the butt of everybodies jokes. Michael constantly tries to intermix his work life with his social life by inviting employees of Dunder Mifflin to come over house or get coffee',
+                      pwd: AllUsers[i]['pwd'],
+                      opr_id: AllUsers[i]['opr_id'].toString(),
+                      color: Color.fromARGB(255, 99, 181, 221),
+                    );
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ModifyUserPage(user: user)));
+                  }),
           ],
         ));
   }

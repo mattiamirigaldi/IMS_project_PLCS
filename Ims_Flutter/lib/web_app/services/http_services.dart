@@ -27,6 +27,8 @@ String AddBookUrl = baseUrl + '/web/AddBook/';
 String ListCustomersUrl = baseUrl + '/web/ListCustomers/';
 String SettingsUrl = baseUrl + '/web/settings/';
 String usrcheckUrl = baseUrl + '/web/usrcheck/';
+String UserEditUrl = baseUrl + '/web/user_edit/';
+String RemoveUserUrl = baseUrl + '/web/RemoveUser/';
 
 class Httpservices {
   static final _client = http.Client();
@@ -92,7 +94,7 @@ class Httpservices {
         await EasyLoading.showSuccess(
             "Welcome dear " + TheWebUser[0]['firstname']);
         Navigator.push(context,
-           MaterialPageRoute(builder: (context) => const DashBoard()));
+            MaterialPageRoute(builder: (context) => const DashBoard()));
         // Navigator.push(context,
         //     MaterialPageRoute(builder: (context) => const manageItems()));
       }
@@ -150,6 +152,34 @@ class Httpservices {
           const SnackBar(content: Text("User edited successfully")));
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const DashBoard()));
+    } else {
+      await EasyLoading?.showError(
+          "Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  static user_edit(newFirstName, newLastname, newUsername, oldUsername, newMail,
+      newPwd, newRfid, userRole, context) async {
+    http.Response response = await _client.post(
+        Uri.parse(UserEditUrl +
+            TheWebUser[0]['username'] +
+            '/' +
+            TheWebUser[0]['role']),
+        body: {
+          "firstname": newFirstName,
+          "lastname": newLastname,
+          "username": newUsername,
+          "oldUsername": oldUsername,
+          "mail": newMail,
+          "password": newPwd,
+          "rfid": newRfid,
+          "userRole": userRole,
+        });
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("User edited successfully")));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const ListUsers()));
     } else {
       await EasyLoading?.showError(
           "Error Code : ${response.statusCode.toString()}");
@@ -324,6 +354,30 @@ class Httpservices {
         await EasyLoading.showSuccess('User removed successfully');
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const manageCustomer()));
+      }
+    } else {
+      EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+// Remove user
+  static webRemoveUser(oldUsername, userRole, BuildContext context) async {
+    http.Response response = await _client.post(
+        RemoveUserUrl +
+            TheWebUser[0]['admin_id'].toString() +
+            '/' +
+            TheWebUser[0]['rfid'].toString() +
+            '/' +
+            TheWebUser[0]['role'],
+        body: {"username": oldUsername, "role": userRole});
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == "no") {
+        await EasyLoading.showError('User Not Found');
+      } else {
+        await EasyLoading.showSuccess('User removed successfully');
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const ListUsers()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");

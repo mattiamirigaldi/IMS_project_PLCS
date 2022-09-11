@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 
 class Item {
@@ -15,8 +13,7 @@ class Item {
   bool available;
   bool favorite;
 
-
-  Item ({
+  Item({
     required this.id,
     required this.author,
     required this.title,
@@ -29,6 +26,4 @@ class Item {
     required this.location,
     required this.category,
   });
-
 }
-
