@@ -87,17 +87,15 @@ class Httpservices {
             } else {
               AllOperators.clear();
               AllOperators.addAll(json2);
-              //await EasyLoading.showSuccess(
-              //    "Welcome dear " + AllOperators[1]['firstname']);
             }
           }
         }
         await EasyLoading.showSuccess(
             "Welcome dear " + TheWebUser[0]['firstname']);
+        //Navigator.push(context,
+        //    MaterialPageRoute(builder: (context) => const DashBoard()));
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const DashBoard()));
-        // Navigator.push(context,
-        //     MaterialPageRoute(builder: (context) => const manageItems()));
+            MaterialPageRoute(builder: (context) => const manageItems()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");

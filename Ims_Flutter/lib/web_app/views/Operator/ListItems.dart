@@ -6,24 +6,32 @@ import 'package:ims/web_app/views/Operator/ModifyItemPage.dart';
 
 class ListItems extends StatelessWidget {
   const ListItems();
+  static late List avaflag = [];
   @override
   Widget build(BuildContext context) {
+    for (var i = 0; i < AllItems.length; i++) {
+      if (AllItems[i]['cus_id'] == null) {
+        avaflag.add('yes');
+      } else {
+        avaflag.add(AllItems[i]['cus_id'].toString());
+      }
+    }
     return Scaffold(
         appBar: AppBar(
-          title: (
-            Row(children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: const Image(
-                  image: AssetImage("images/ims.jpg"),
-                  width: 45,
-                  height: 45,
-                ),
+          title: (Row(children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: const Image(
+                image: AssetImage("images/ims.jpg"),
+                width: 45,
+                height: 45,
               ),
-              const SizedBox(width: 30,),
-              const Text("All items page")
-            ])
-          ),
+            ),
+            const SizedBox(
+              width: 30,
+            ),
+            const Text("All items page")
+          ])),
         ),
         body: ListView(
           shrinkWrap: true,
@@ -32,30 +40,31 @@ class ListItems extends StatelessWidget {
             for (var i = 0; i < AllItems.length; i++)
               InkWell(
                 child: ProductBox(
-                  title: AllItems[i]['title'],
-                  author: AllItems[i]['author'],
-                  genre: AllItems[i]['genre'],
+                  name: AllItems[i]['name'],
+                  category: AllItems[i]['category'],
+                  location: AllItems[i]['location'],
                   rfid: AllItems[i]['rfid'].toString(),
-                  date: AllItems[i]['date'].toString(),
-                  publisher: AllItems[i]['publisher'],
+                  availability: avaflag[i],
                 ),
                 onTap: () {
                   Item item = Item(
-                    id: AllItems[i]['rfid'].toString(),
-                    author: AllItems[i]['author'], 
-                    title: AllItems[i]['title'], 
-                   // urlImage: AllItems[i]['urlImage'],
-                    urlImage: 'https://thumbs.dreamstime.com/z/old-mystery-book-icon-outline-style-old-mystery-book-icon-outline-old-mystery-book-vector-icon-web-design-isolated-white-198523618.jpg',
-                    color: Color.fromARGB(255, 211, 255, 89),
-                    price: 20.0, 
-                    description: "NEEDED TO BE ADD IN BACKEDN",
-                    available: true, 
-                    favorite: false, 
-                    location: "NEEDED TO BE ADD IN BACKED", 
-                    category: AllItems[i]['genre']
-                  );
-                  Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ModifyItemPage(item: item)));
+                      id: AllItems[i]['rfid'].toString(),
+                      author: AllItems[i]['author'],
+                      title: AllItems[i]['title'],
+                      // urlImage: AllItems[i]['imagePath'],
+                      urlImage:
+                          'https://thumbs.dreamstime.com/z/old-mystery-book-icon-outline-style-old-mystery-book-icon-outline-old-mystery-book-vector-icon-web-design-isolated-white-198523618.jpg',
+                      color: Color.fromARGB(255, 211, 255, 89),
+                      price: 20.0,
+                      description: AllItems[i]['description'],
+                      available: (avaflag[i] == 'yes'),
+                      favorite: false,
+                      location: AllItems[i]['location'],
+                      category: AllItems[i]['genre']);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ModifyItemPage(item: item)));
                 },
               ),
           ],
@@ -66,29 +75,30 @@ class ListItems extends StatelessWidget {
 class ProductBox extends StatelessWidget {
   const ProductBox({
     Key? key,
-    required this.title,
-    required this.author,
-    required this.genre,
+    required this.name,
+    required this.category,
+    required this.location,
     required this.rfid,
-    required this.date,
-    required this.publisher,
+    required this.availability,
   }) : super(key: key);
-  final String title;
-  final String author;
-  final String genre;
+  final String name;
+  final String category;
+  final String location;
   final String rfid;
-  final String date;
-  final String publisher;
+  final String availability;
 
   @override
   Widget build(BuildContext context) {
-    // String TextToShow;
-    // if (Avalible == null) {
-    //   TextToShow = "Book is not Avalible";
-    // } else {
-    //   TextToShow = "Location is: " + Location;
-    // }
-    // ;
+    String TextToShow;
+    TextStyle sty1;
+    if (availability == 'yes') {
+      TextToShow = "Book is Avalible";
+      sty1 = const TextStyle(fontWeight: FontWeight.bold, color: Colors.green);
+    } else {
+      TextToShow = "Rented by user " + availability;
+      sty1 = const TextStyle(fontWeight: FontWeight.bold, color: Colors.red);
+    }
+    ;
     return Container(
         padding: const EdgeInsets.all(2),
         height: 170,
@@ -102,14 +112,13 @@ class ProductBox extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Text(title,
+                          Text(name,
                               style:
                                   const TextStyle(fontWeight: FontWeight.bold)),
-                          Text("By " + author),
-                          Text("Genre: " + genre),
+                          Text("Category: " + category),
+                          Text("Location: " + location),
                           Text("RFID: " + rfid),
-                          Text("date: " + date),
-                          Text("Publisher: " + publisher),
+                          Text(TextToShow, style: sty1),
                         ],
                       )))
             ])));
