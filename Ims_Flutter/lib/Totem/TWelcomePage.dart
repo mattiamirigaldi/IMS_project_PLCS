@@ -32,9 +32,11 @@ class TWelcome extends StatelessWidget {
                       style: TextStyle(fontWeight: FontWeight.bold),
                       textScaleFactor: 2)),
               Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
                   child: Center(
-                      child: Image.asset('images/bookies.png', width: 500, height: 300))),
+                      child: Image.asset('images/bookies.png',
+                          width: 500, height: 300))),
               InkWell(
                 onTap: () {
                   Navigator.push(

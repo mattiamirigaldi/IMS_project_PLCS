@@ -151,15 +151,16 @@ class Httpservices {
 
   // Add book method
   static totemAddbook(
-      Title, Author, Genre, Publisher, Date, Description, context) async {
+      Titlee, Author, Genre, Publisher, Date, Loc, Description, context) async {
     http.Response response = await _client.post(
         totemAddBookUrl + opr_buffer.adminID + '/' + opr_buffer.rfid,
         body: {
-          "Title": Title,
+          "Title": Titlee,
           "Author": Author,
           "Genre": Genre,
           "Publisher": Publisher,
           "Date": Date,
+          "Loc": Loc,
           "Description": Description,
         });
     if (response.statusCode == 200) {

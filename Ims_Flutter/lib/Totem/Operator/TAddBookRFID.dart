@@ -9,6 +9,7 @@ class TAddBookRFID extends StatefulWidget {
   final String Genre;
   final String Publisher;
   final String Date;
+  final String Loc;
   final String Description;
 
   const TAddBookRFID(
@@ -18,6 +19,7 @@ class TAddBookRFID extends StatefulWidget {
       required this.Genre,
       required this.Publisher,
       required this.Date,
+      required this.Loc,
       required this.Description,
       context})
       : super(key: key);
@@ -53,6 +55,7 @@ class _GenreListState extends State<TAddBookRFID> {
                       widget.Genre,
                       widget.Publisher,
                       widget.Date,
+                      widget.Loc,
                       widget.Description,
                       context);
                 },

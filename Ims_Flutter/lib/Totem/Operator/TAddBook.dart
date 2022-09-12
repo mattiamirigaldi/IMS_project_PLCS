@@ -22,6 +22,7 @@ class _GenreListState extends State<TAddBook> {
   late String Publisher;
   late String Date;
   late String RFID;
+  late String Loc;
   late String Description;
 
   @override
@@ -162,6 +163,28 @@ class _GenreListState extends State<TAddBook> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextFormField(
                     decoration: const InputDecoration(
+                      hintText: "Enter the Location of the item",
+                      labelText: 'Location',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        Loc = value;
+                      });
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
                       hintText: "Enter the description of the item",
                       labelText: 'Description',
                       border: OutlineInputBorder(),
@@ -207,6 +230,7 @@ class _GenreListState extends State<TAddBook> {
                                         Genre: Genre,
                                         Publisher: Publisher,
                                         Date: Date,
+                                        Loc: Loc,
                                         Description: Description,
                                         context: context,
                                       )));

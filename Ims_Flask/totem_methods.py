@@ -285,6 +285,7 @@ def totem_AddBook(adminID,oprID):
         Genre = request.form["Genre"]
         Publisher = request.form["Publisher"]
         Date = request.form["Date"]
+        Loc = request.form["Loc"]
         Description = request.form["Description"]
     check_query1 = " SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE books.rfid = (?) AND admin_id = (?) and opr_id = (?)"
     cursor.execute(check_query1,rfid,adminID,oprID)
@@ -305,8 +306,8 @@ def totem_AddBook(adminID,oprID):
                 returnMSG = "Please Scan the RFID"
                 if rfid != -1 : 
                     returnMSG = "done"
-                    insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?);INSERT INTO items VALUES (?,?,?,?,?,?,?,?)'''
-                    insert_value = (rfid,rfid,Title,Author,Genre,Publisher,Date,rfid,adminID,oprID,None,rfid,Title,"BK","Turin",rfid)
+                    insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?);INSERT INTO items VALUES (?,?,?,?,?,?,?,?)'''
+                    insert_value = (rfid,rfid,Title,Author,Genre,Publisher,Date,rfid,Loc,Description,adminID,oprID,None,rfid,Title,"BK","Turin",rfid)
                     cursor.execute(insert_query, insert_value)
                     cnxn.commit()
     cnxn.close()

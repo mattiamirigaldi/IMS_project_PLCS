@@ -39,7 +39,7 @@ class _TLoginPageState extends State<TLoginPage> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                     textScaleFactor: 3)),
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
               child: Center(
                   child: Text("Please scan your RFID then click LOGIN button",
                       textAlign: TextAlign.center,
@@ -47,12 +47,12 @@ class _TLoginPageState extends State<TLoginPage> {
                       textScaleFactor: 2)),
             ),
             // If wanted to implement with inf loop :
-            // Padding(
-            //       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
-            //       child: Center(
-            //           child: CircularProgressIndicator(
-            //               valueColor:
-            //                   AlwaysStoppedAnimation<Color>(Colors.green)))),
+            const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: Center(
+                    child: CircularProgressIndicator(
+                        valueColor:
+                            AlwaysStoppedAnimation<Color>(Colors.green)))),
             InkWell(
                 child: Center(
                     child: Container(

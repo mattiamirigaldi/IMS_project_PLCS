@@ -66,8 +66,10 @@ class HttpservicesOP {
         TheUser.addAll(json);
         await EasyLoading.showSuccess(
             "Welcome Back " + TheUser[0]['firstname']);
+        //Navigator.push(context,
+        //    MaterialPageRoute(builder: (context) => const hmpage_op()));
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const hmpage_op()));
+            MaterialPageRoute(builder: (context) => const MmodifyBook()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
@@ -252,19 +254,21 @@ class HttpservicesOP {
   }
 
   // Add book method
-  static MobileAddbook(
-      Title, Author, Genre, Publisher, Date, rfid_flag, context) async {
+  static MobileAddbook(Titlee, Author, Genre, Publisher, Date, Loc, Description,
+      rfid_flag, context) async {
     http.Response response = await _client.post(
         MobileAddBook +
             TheUser[0]['admin_id'].toString() +
             '/' +
             TheUser[0]['rfid'].toString(),
         body: {
-          "Title": Title,
+          "Title": Titlee,
           "Author": Author,
           "Genre": Genre,
           "Publisher": Publisher,
           "Date": Date,
+          "Loc": Loc,
+          "Description": Description,
           "rfid_flag": rfid_flag,
         });
     if (response.statusCode == 200) {

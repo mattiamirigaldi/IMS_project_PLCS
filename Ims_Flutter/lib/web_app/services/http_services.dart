@@ -96,10 +96,10 @@ class Httpservices {
         }
         await EasyLoading.showSuccess(
             "Welcome dear " + TheWebUser[0]['firstname']);
-        //Navigator.push(context,
-        //    MaterialPageRoute(builder: (context) => const DashBoard()));
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const manageItems()));
+            MaterialPageRoute(builder: (context) => const DashBoard()));
+        //Navigator.push(context,
+        //    MaterialPageRoute(builder: (context) => const manageItems()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
@@ -211,18 +211,17 @@ class Httpservices {
     }
   }
 
-  static item_edit(oldrfid, newTitle, newAuthor, newDescription, newLocation,
+  static item_edit(oldid, newTitle, newAuthor, newDescription, newLocation,
       newCategory, newRfid, context) async {
-    http.Response response = await _client.post(
-        Uri.parse(ItemEditUrl + TheWebUser[0]['username'] + '/' + oldrfid),
-        body: {
-          "newTitle": newTitle,
-          "newAuthor": newAuthor,
-          "newDescription": newDescription,
-          "newLocation": newLocation,
-          "newCategory": newCategory,
-          "newRfid": newRfid,
-        });
+    http.Response response =
+        await _client.post(Uri.parse(ItemEditUrl + oldid), body: {
+      "newTitle": newTitle,
+      "newAuthor": newAuthor,
+      "newDescription": newDescription,
+      "newLocation": newLocation,
+      "newCategory": newCategory,
+      "newRfid": newRfid,
+    });
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Item edited successfully")));

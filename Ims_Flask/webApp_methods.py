@@ -191,8 +191,8 @@ def ListItems(role,id,opr_id):
     cnxn.close()
     return jsonify(data)
 
-@webApp_methods.route("/web/item_edit/<usr>/<oldrfid>", methods=["GET", "POST"])
-def item_edit(usr,oldrfid):
+@webApp_methods.route("/web/item_edit/<oldid>", methods=["GET", "POST"])
+def item_edit(oldid):
     cnxn = db.connection()
     cursor = cnxn.cursor()   
     if request.method == 'POST':
@@ -204,8 +204,8 @@ def item_edit(usr,oldrfid):
         newRfid = request.form["newRfid"]
     print("SETTINGS : newTitle is " + newTitle)
     print("************************************")
-    insert_query = "UPDATE books SET title = (?), author = (?), genre = (?), rfid= (?), loc= (?), description = (?) WHERE rfid = (?)"
-    value = (newTitle, newAuthor, newCategory, newRfid, newLocation, newDescription, oldrfid)
+    insert_query = "UPDATE books SET title = (?), author = (?), genre = (?), rfid= (?), loc= (?), description = (?) WHERE id = (?)"
+    value = (newTitle, newAuthor, newCategory, newRfid, newLocation, newDescription, oldid)
     cursor.execute(insert_query, value)
     cnxn.commit()
     cnxn.close()
