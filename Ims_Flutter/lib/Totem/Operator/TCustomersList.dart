@@ -3,6 +3,7 @@
 //import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:ims/Totem/Operator/TInsertCustomerRFID.dart';
 
 class TCustomersList extends StatelessWidget {
   final List FirstName;
@@ -21,18 +22,31 @@ class TCustomersList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Available Titles")),
+        appBar: AppBar(title: const Text("RFID Pending Customers")),
         body: ListView(
           shrinkWrap: true,
           padding: const EdgeInsets.fromLTRB(2.0, 10.0, 2.0, 10.0),
           children: <Widget>[
             for (var i = 0; i < FirstName.length; i++)
-              ProductBox(
-                FirstName: FirstName[i],
-                LastName: LastName[i],
-                UserName: UserName[i],
-                Email: Email[i],
-              ),
+              InkWell(
+                  child: ProductBox(
+                    FirstName: FirstName[i],
+                    LastName: LastName[i],
+                    UserName: UserName[i],
+                    Email: Email[i],
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => TInsertCustomerRFID(
+                                  FirstName: FirstName[i],
+                                  LastName: LastName[i],
+                                  UserName: UserName[i],
+                                  Email: Email[i],
+                                  context: context,
+                                )));
+                  })
           ],
         ));
   }
@@ -53,13 +67,6 @@ class ProductBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // String TextToShow;
-    // if (Avalible == null) {
-    //   TextToShow = "Book is not Avalible";
-    // } else {
-    //   TextToShow = "Location is: " + Location;
-    // }
-    // ;
     return Container(
         padding: const EdgeInsets.all(2),
         height: 120,

@@ -22,6 +22,7 @@ String totemRemoveBookUrl = baseUrl + '/totem/Operator/RemoveBook/';
 String totemRemoveCst = baseUrl + '/totem/Operator/RemoveCustomer/';
 String totemPendingItems = baseUrl + '/totem/Operator/PendingItems/';
 String totemPendingCustomers = baseUrl + '/totem/Operator/PendingCustomers/';
+String totemCstRFID = baseUrl + '/totem/Operator/InsertCustomerRFID/';
 
 class Httpservices {
   static final _client = http.Client();
@@ -166,6 +167,36 @@ class Httpservices {
         await EasyLoading.showSuccess("Book added successfully");
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const hmpage_op()));
+      } else {
+        await EasyLoading.showError(json[0]);
+      }
+    } else {
+      EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+    }
+  }
+
+  //Insert customer RFID
+
+  static totemInsertCustomerRFID(
+    FirstName,
+    LastName,
+    UserName,
+    Email,
+    context,
+  ) async {
+    http.Response response = await _client
+        .post(totemCstRFID + opr_buffer.adminID + '/' + opr_buffer.rfid, body: {
+      "firstName": FirstName,
+      "lastName": LastName,
+      "email": Email,
+      "username": UserName,
+    });
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == "new User added to the database successfully") {
+        await EasyLoading.showSuccess(json[0]);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const TmodifyCustomer()));
       } else {
         await EasyLoading.showError(json[0]);
       }
