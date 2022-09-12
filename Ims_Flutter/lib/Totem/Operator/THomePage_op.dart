@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, camel_case_types
 
 import 'package:flutter/material.dart';
+import 'package:ims/Totem/TWelcomePage.dart';
 import 'TModifyCustomer.dart';
 import 'TModifyBook.dart';
 
@@ -21,7 +22,19 @@ class hmpage_op extends StatelessWidget {
                 const Image(
               image: AssetImage('images/logo.png'),
               height: 50,
-            )),
+            ),
+            actions: <Widget>[
+              FloatingActionButton(
+                onPressed: () async {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const TWelcome()));
+                },
+                child: const Icon(Icons.exit_to_app_rounded),
+                backgroundColor: const Color.fromARGB(255, 28, 67, 29),
+              ),
+            ]),
         body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,

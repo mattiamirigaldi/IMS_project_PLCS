@@ -3,6 +3,7 @@
 //import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:ims/Totem/Operator/TInsertItemRFID.dart';
 
 class TItemsList extends StatelessWidget {
   final List bookTitle;
@@ -24,20 +25,31 @@ class TItemsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Available Titles")),
+        appBar: AppBar(title: const Text("items pending RFID")),
         body: ListView(
           shrinkWrap: true,
           padding: const EdgeInsets.fromLTRB(2.0, 10.0, 2.0, 10.0),
           children: <Widget>[
             for (var i = 0; i < bookTitle.length; i++)
-              ProductBox(
-                name: bookTitle[i],
-                description: bookAuthor[i],
-                price: bookGenre[i],
-                RFID: bookRFID[i],
-                Avalible: bookAvalible[i],
-                Location: bookLocation[i],
-              ),
+              InkWell(
+                  child: ProductBox(
+                    name: bookTitle[i],
+                    description: bookAuthor[i],
+                    price: bookGenre[i],
+                    RFID: bookRFID[i],
+                    Avalible: bookAvalible[i],
+                    Location: bookLocation[i],
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => TInsertItemRFID(
+                                  name: bookTitle[i],
+                                  Location: bookLocation[i],
+                                  context: context,
+                                )));
+                  })
           ],
         ));
   }

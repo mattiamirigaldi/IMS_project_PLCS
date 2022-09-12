@@ -18,12 +18,12 @@ def totem():
         global mac  
         if request.method == 'POST':
             rfid_received = request.form['rfid']
-            mac = request.form['mac']
+      #      mac = request.form['mac']
             print(rfid_received)
             print(mac)
             cnxn = db.connection()
             cursor = cnxn.cursor()
-            cursor.execute("SELECT * FROM totems WHERE macAddress = (?)",mac)
+     #       cursor.execute("SELECT * FROM totems WHERE macAddress = (?)",mac)
             if cursor.rowcount == 0:
                 rfid = -1
             else:
@@ -214,6 +214,44 @@ def totem_op_add_customer(adminID,oprID):
         return jsonify([user_add_flag])
 
 #############################################################
+# insert customer RFID
+@totem_methods.route("/totem/Operator/InsertCustomerRFID/<adminID>/<oprID>", methods=["GET", "POST"])
+def totem_op_insert_customer_rfid(adminID,oprID):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    global user_add_flag
+    print("1111111111111")
+
+    if request.method == 'POST':
+        firstName = request.form["firstName"]
+        lastName = request.form["lastName"]
+        username = request.form["username"]
+        mail = request.form["email"]
+    print("2222222222222")
+    print(username)
+
+        
+    check_query = "SELECT * FROM customers WHERE rfid = (?) and admin_id = (?) and opr_id = (?) "
+    value = (rfid,adminID,oprID)
+    cursor.execute(check_query, value)
+    row = cursor.fetchone()
+    print("3333333333333333333")
+    if row == None:
+        insert_query = "UPDATE customers SET rfid = (?),id=(?) WHERE firstname = (?) AND lastname = (?) AND username = (?)"  # the '?' are placeholders
+        value = (rfid,rfid,firstName, lastName, username)
+        cursor.execute(insert_query, value)
+        cnxn.commit()
+        cnxn.close()
+        user_add_flag = "new User added to the database successfully"
+        print(user_add_flag)
+        return jsonify([user_add_flag])
+    else:
+        user_add_flag = "RFID is already in the db"
+        print(user_add_flag)
+        return jsonify([user_add_flag])
+
+#############################################################
+
 
 # Remove Customer
 @totem_methods.route("/totem/Operator/RemoveCustomer/<adminID>/<oprID>", methods=["GET", "POST"])
@@ -275,6 +313,42 @@ def totem_AddBook(adminID,oprID):
     print(returnMSG)
     return jsonify([returnMSG])
 
+# insert item RFID
+@totem_methods.route("/totem/Operator/InsertItemRFID/<adminID>/<oprID>", methods=["GET", "POST"])
+def totem_op_insert_item_rfid(adminID,oprID):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    global user_add_flag
+    print("1111111111111")
+
+    if request.method == 'POST':
+        name = request.form["name"]
+        Location = request.form["Location"]
+
+    print("2222222222222")
+    print(name)
+
+        
+    check_query = "SELECT * FROM items WHERE rfid = (?) and admin_id = (?) and opr_id = (?) "
+    value = (rfid,adminID,oprID)
+    cursor.execute(check_query, value)
+    row = cursor.fetchone()
+    print("3333333333333333333")
+    if row == None:
+        insert_query = "UPDATE items SET rfid = (?),id=(?) WHERE name = (?) and location = (?)"  # the '?' are placeholders
+        value = (rfid,rfid,name, Location)
+        cursor.execute(insert_query, value)
+        cnxn.commit()
+        cnxn.close()
+        user_add_flag = "new Item added to the database successfully"
+        print(user_add_flag)
+        return jsonify([user_add_flag])
+    else:
+        user_add_flag = "RFID is already in the db"
+        print(user_add_flag)
+        return jsonify([user_add_flag])
+
+#############################################################
 
 # Remove Book
 @totem_methods.route("/totem/Operator/RemoveBook/<adminID>/<oprID>", methods=["GET", "POST"])

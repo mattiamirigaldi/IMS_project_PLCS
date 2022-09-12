@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:ims/Mobile/DataLists.dart';
+import 'package:ims/Mobile/MLogin.dart';
 import 'package:ims/Mobile/User/UserSettings.dart';
+import 'package:ims/web_app/views/Login.dart';
 import 'services/MUs_http_services.dart';
 
 class hmpage_us extends StatelessWidget {
@@ -16,7 +18,19 @@ class hmpage_us extends StatelessWidget {
             title: const Image(
               image: AssetImage('images/logo.png'),
               height: 50,
-            )),
+            ),
+            actions: <Widget>[
+              FloatingActionButton(
+                onPressed: () async {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MLoginPage()));
+                },
+                child: const Icon(Icons.exit_to_app_rounded),
+                backgroundColor: const Color.fromARGB(255, 28, 67, 29),
+              ),
+            ]),
         body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
