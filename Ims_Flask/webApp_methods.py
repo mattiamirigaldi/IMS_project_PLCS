@@ -489,6 +489,8 @@ def totem_AddBook(adminID,rfid,role_type):
         Genre = request.form["Genre"]
         Publisher = request.form["Publisher"]
         Date = request.form["Date"]
+        Loc = request.form["Loc"]
+        Description = request.form["Description"]
         rfid_flag = request.form["rfid_flag"]
     if role_type == "operators":
         check_query1 = " SELECT * FROM books WHERE title = (?) AND author = (?)"
@@ -500,8 +502,8 @@ def totem_AddBook(adminID,rfid,role_type):
             if rfiddd == -1 : 
                 cnxn.close()
                 return jsonify(["Please Scan the RFID"])
-            insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?,?);'''
-            insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,adminID,rfid,None,rfiddd,Title,"Book","Turin",0,rfiddd)
+            insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?);'''
+            insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,Loc,Description,adminID,rfid,None,rfiddd,Title,"Book","Turin",0)
             cursor.execute(insert_query, insert_value)
             cnxn.commit()
             return jsonify(["done"])
@@ -518,8 +520,8 @@ def totem_AddBook(adminID,rfid,role_type):
             if rfiddd == -1 : 
                 cnxn.close()
                 return jsonify(["Please Scan the RFID"])
-            insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?,?);'''
-            insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,rfid,None,None,rfiddd,Title,"Book","Turin",0,rfiddd)
+            insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?);'''
+            insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,Loc,Description,rfid,None,None,rfiddd,Title,"Book","Turin",0)
             cursor.execute(insert_query, insert_value)
             cnxn.commit()
             return jsonify(["done"])

@@ -21,30 +21,32 @@ class _GenreListState extends State<AddBook> {
   late String Author;
   late String Genre;
   late String RFID;
+  late String Loc;
+  late String Description;
 
   @override
   Widget build(BuildContext context) {
     double width_screen = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
-          title: (
-            Row(children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: const Image(
-                  image: AssetImage("images/ims.jpg"),
-                  width: 45,
-                  height: 45,
-                ),
+          title: (Row(children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: const Image(
+                image: AssetImage("images/ims.jpg"),
+                width: 45,
+                height: 45,
               ),
-              const SizedBox(width: 30,),
-              const Text("Register new item page")
-            ])
-          ),
+            ),
+            const SizedBox(
+              width: 30,
+            ),
+            const Text("Register new item page")
+          ])),
         ),
         body: Center(
           child: Container(
-            width: width_screen*0.7,
+            width: width_screen * 0.7,
             child: Form(
               key: _formKey,
               child: ListView(
@@ -52,7 +54,8 @@ class _GenreListState extends State<AddBook> {
                   //mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                       child: Center(
                         child: Text(
                           "Item details",
@@ -65,8 +68,8 @@ class _GenreListState extends State<AddBook> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
                       child: TextFormField(
                         decoration: const InputDecoration(
                           hintText: "Enter the Book's Title",
@@ -87,8 +90,8 @@ class _GenreListState extends State<AddBook> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
                       child: TextFormField(
                         decoration: const InputDecoration(
                           hintText: "Enter the Book's Author",
@@ -109,8 +112,8 @@ class _GenreListState extends State<AddBook> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
                       child: TextFormField(
                         decoration: const InputDecoration(
                           hintText: "Enter the Book's Genre",
@@ -131,8 +134,8 @@ class _GenreListState extends State<AddBook> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
                       child: TextFormField(
                         decoration: const InputDecoration(
                           hintText: "Enter the Book's Publisher",
@@ -153,8 +156,8 @@ class _GenreListState extends State<AddBook> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
                       child: TextFormField(
                         decoration: const InputDecoration(
                           hintText: "Enter the Book's Date",
@@ -174,31 +177,76 @@ class _GenreListState extends State<AddBook> {
                         },
                       ),
                     ),
-                    const SizedBox(height: 20,),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          hintText: "Enter the Book's Location",
+                          labelText: 'Location',
+                          border: OutlineInputBorder(),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            Loc = value;
+                          });
+                        },
+                        validator: (String? value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          hintText: "Enter the Book's Description",
+                          labelText: 'Description',
+                          border: OutlineInputBorder(),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            Description = value;
+                          });
+                        },
+                        validator: (String? value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     InkWell(
                         child: Container(
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 20),
-                          child: const Center(
-                              child: Text("SUBMIT NEW ITEM",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20))),
-                          height: 60,
-                          width: width_screen*0.6,
-                          decoration: BoxDecoration(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 20),
+                            child: const Center(
+                                child: Text("SUBMIT NEW ITEM",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20))),
+                            height: 60,
+                            width: width_screen * 0.6,
+                            decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
                               gradient: const LinearGradient(
-                              colors: <Color>[
-                                Color.fromARGB(255, 22, 78, 163),
-                                Color(0xFF1976D2),
-                                Color.fromARGB(255, 36, 121, 190),
-                              ],
-                            ),
-                          )
-                        ),
+                                colors: <Color>[
+                                  Color.fromARGB(255, 22, 78, 163),
+                                  Color(0xFF1976D2),
+                                  Color.fromARGB(255, 36, 121, 190),
+                                ],
+                              ),
+                            )),
                         onTap: () async {
                           if (_formKey.currentState != null) {
                             if (_formKey.currentState!.validate()) {
@@ -211,11 +259,14 @@ class _GenreListState extends State<AddBook> {
                                             Genre: Genre,
                                             Publisher: Publisher,
                                             Date: Date,
+                                            Loc: Loc,
+                                            Description: Description,
                                             context: context,
                                           )));
                               ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                      content: Text("Register item data success")));
+                                      content:
+                                          Text("Register item data success")));
                             }
                           } else {}
                         })

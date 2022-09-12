@@ -508,8 +508,8 @@ class Httpservices {
   }
 
   // Add book method
-  static webAddbook(
-      Title, Author, Genre, Publisher, Date, rfid_flag, context) async {
+  static webAddbook(Titlee, Author, Genre, Publisher, Date, Loc, Description,
+      rfid_flag, context) async {
     http.Response response = await _client.post(
         AddBookUrl +
             TheWebUser[0]['admin_id'].toString() +
@@ -518,11 +518,13 @@ class Httpservices {
             '/' +
             TheWebUser[0]['role'],
         body: {
-          "Title": Title,
+          "Title": Titlee,
           "Author": Author,
           "Genre": Genre,
           "Publisher": Publisher,
           "Date": Date,
+          "Loc": Loc,
+          "Description": Description,
           "rfid_flag": rfid_flag,
         });
     if (response.statusCode == 200) {
