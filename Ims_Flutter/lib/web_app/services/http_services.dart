@@ -31,6 +31,8 @@ String usrcheckUrl = baseUrl + '/web/usrcheck/';
 String UserEditUrl = baseUrl + '/web/user_edit/';
 String ItemEditUrl = baseUrl + '/web/item_edit/';
 String ItemRemoveUrl = baseUrl + '/web/item_remove/';
+String ItemRentUrl = baseUrl + '/web/item_rent/';
+String ItemReturnUrl = baseUrl + '/web/item_return/';
 String RemoveUserUrl = baseUrl + '/web/RemoveUser/';
 
 class Httpservices {
@@ -224,6 +226,7 @@ class Httpservices {
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Item edited successfully")));
+      await Httpservices.List_Items('ALL', context);
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const ListItems()));
     } else {
@@ -242,6 +245,7 @@ class Httpservices {
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Item edited successfully")));
+      await Httpservices.List_Items('ALL', context);
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const ListItems()));
     } else {
@@ -250,43 +254,95 @@ class Httpservices {
     }
   }
 
-  static List_Items_admin(opr_id, context) async {
+  // item Rent
+  static item_rent(bookid, username, context) async {
+    http.Response response = await _client.get(Uri.parse(ItemRentUrl +
+        TheWebUser[0]['role'] +
+        '/' +
+        TheWebUser[0]['id'].toString() +
+        '/' +
+        username +
+        '/' +
+        bookid));
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == "User not found") {
+        await EasyLoading.showError(json[0]);
+      } else {
+        await EasyLoading.showSuccess(json[0]);
+        await Httpservices.List_Items('ALL', context);
+        //Navigator.pushReplacement(context,
+        //    MaterialPageRoute(builder: (context) => const TReturnPage()));
+      }
+    } else {
+      EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  // item Return
+  static item_return(bookid, context) async {
+    http.Response response = await _client.get(Uri.parse(ItemReturnUrl +
+        TheWebUser[0]['role'] +
+        '/' +
+        TheWebUser[0]['id'].toString() +
+        '/' +
+        bookid));
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == "User not found") {
+        await EasyLoading.showError(json[0]);
+      } else {
+        await EasyLoading.showSuccess(json[0]);
+        await Httpservices.List_Items('ALL', context);
+        //Navigator.pushReplacement(context,
+        //    MaterialPageRoute(builder: (context) => const TReturnPage()));
+      }
+    } else {
+      EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  //static List_Items_admin(opr_id, context) async {
+  //  http.Response response = await _client.get(Uri.parse(baseUrl +
+  //      "/web/items/" +
+  //      TheWebUser[0]['id'].toString() +
+  //      '/' +
+  //      opr_id.toString()));
+  //  if (response.statusCode == 200) {
+  //    var json = jsonDecode(response.body);
+  //    if (json[0] == "not_found") {
+  //      AllItems.clear();
+  //      await EasyLoading.showError(
+  //          "There are No Ietms for the selected branch");
+  //    } else {
+  //      AllItems.clear();
+  //      AllItems.addAll(json);
+  //      await EasyLoading.showSuccess(AllItems[0]['title']);
+  //    }
+  //    Navigator.push(context,
+  //        MaterialPageRoute(builder: (context) => const SelectListType()));
+  //  } else {
+  //    await EasyLoading?.showError(
+  //        "Error Code : ${response.statusCode.toString()}");
+  //  }
+  //}
+
+  static List_Items(opr_id, context) async {
     http.Response response = await _client.get(Uri.parse(baseUrl +
         "/web/items/" +
+        TheWebUser[0]['role'] +
+        '/' +
         TheWebUser[0]['id'].toString() +
         '/' +
         opr_id));
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json[0] == "not_found") {
-        AllItems.clear();
-        await EasyLoading.showError(
-            "There are No Ietms for the selected branch");
-      } else {
-        AllItems.clear();
-        AllItems.addAll(json);
-        await EasyLoading.showSuccess(AllItems[0]['title']);
-      }
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const SelectListType()));
-    } else {
-      await EasyLoading?.showError(
-          "Error Code : ${response.statusCode.toString()}");
-    }
-  }
-
-  static List_Items(context) async {
-    http.Response response = await _client.get(Uri.parse(baseUrl +
-        "/web/items/" +
-        TheWebUser[0]['admin_id'].toString() +
-        '/' +
-        TheWebUser[0]['id'].toString()));
-    if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
       AllItems.clear();
       AllItems.addAll(json);
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const ListItems()));
+      if (json[0] == "not_found") {
+        AllItems.clear();
+        await EasyLoading.showError("There are No Ietms");
+      }
     } else {
       await EasyLoading?.showError(
           "Error Code : ${response.statusCode.toString()}");

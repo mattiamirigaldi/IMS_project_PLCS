@@ -49,7 +49,8 @@ class ListItems extends StatelessWidget {
                 ),
                 onTap: () {
                   Item item = Item(
-                      id: AllItems[i]['rfid'].toString(),
+                      id: AllItems[i]['id'].toString(),
+                      rfid: AllItems[i]['rfid'].toString(),
                       author: AllItems[i]['author'],
                       title: AllItems[i]['title'],
                       // urlImage: AllItems[i]['imagePath'],
@@ -58,6 +59,7 @@ class ListItems extends StatelessWidget {
                       color: Color.fromARGB(255, 211, 255, 89),
                       price: 20.0,
                       description: AllItems[i]['description'],
+                      avaflag: avaflag[i],
                       available: (avaflag[i] == 'yes'),
                       favorite: false,
                       location: AllItems[i]['loc'],
@@ -99,7 +101,6 @@ class ProductBox extends StatelessWidget {
       TextToShow = "Rented by user " + availability;
       sty1 = const TextStyle(fontWeight: FontWeight.bold, color: Colors.red);
     }
-    ;
     return Container(
         padding: const EdgeInsets.all(2),
         height: 170,
