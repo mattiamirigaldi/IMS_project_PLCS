@@ -2,21 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:ims/web_app/DataLists.dart';
 import 'package:ims/web_app/model/item.dart';
-import 'package:ims/web_app/services/http_services.dart';
 import 'package:ims/web_app/views/Operator/ModifyItemPage.dart';
 
-class SelectListType extends StatefulWidget {
-  const SelectListType({Key? key}) : super(key: key);
-  @override
-  _ListUsersState createState() => _ListUsersState();
-}
-
-String dropdownvalue = 'ALL';
-List roles = [];
-
-class _ListUsersState extends State<SelectListType> {
-  // Global key that uniquely identifies the form widget and is used for validation
-  final _formKey = GlobalKey<FormState>();
+class ListItemsOperator extends StatelessWidget {
+  const ListItemsOperator();
   static late List avaflag = [];
   @override
   Widget build(BuildContext context) {
@@ -28,57 +17,27 @@ class _ListUsersState extends State<SelectListType> {
         avaflag.add(AllItems[i]['cus_id'].toString());
       }
     }
-    roles.clear();
-    roles.add('ALL');
-    for (var i = 0; i < AllOperators.length; i++) {
-      roles.add(AllOperators[i]['id'].toString());
-    }
     return Scaffold(
-        appBar: AppBar(title: const Text("Available Items")),
+        appBar: AppBar(
+          title: (Row(children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: const Image(
+                image: AssetImage("images/ims.jpg"),
+                width: 45,
+                height: 45,
+              ),
+            ),
+            const SizedBox(
+              width: 30,
+            ),
+            const Text("All items page")
+          ])),
+        ),
         body: ListView(
-          key: _formKey,
           shrinkWrap: true,
           padding: const EdgeInsets.fromLTRB(2.0, 10.0, 2.0, 10.0),
           children: <Widget>[
-            Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-              const SizedBox(width: 25),
-              const Text(
-                "Select the Branch (operator): ",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
-              ),
-              DropdownButton<String>(
-                value: dropdownvalue,
-                icon: const Icon(Icons.arrow_downward),
-                underline: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Container(
-                      alignment: Alignment.centerLeft,
-                      height: 5,
-                      width: 100,
-                      color: Colors.deepOrangeAccent),
-                ),
-                onChanged: (String? newValue) async {
-                  setState(() {
-                    dropdownvalue = newValue!;
-                  });
-                  await Httpservices.List_Items(dropdownvalue, context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SelectListType()));
-                },
-                items: roles.map<DropdownMenuItem<String>>((value) {
-                  return DropdownMenuItem<String>(
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 30, vertical: 10),
-                        child: Text(value.toString())),
-                    value: value,
-                  );
-                }).toList(),
-              ),
-            ]),
-            const SizedBox(height: 20),
             for (var i = 0; i < AllItems.length; i++)
               InkWell(
                 child: ProductBox(
@@ -130,6 +89,7 @@ class ProductBox extends StatelessWidget {
   final String location;
   final String rfid;
   final String availability;
+
   @override
   Widget build(BuildContext context) {
     late String TextToShow;
@@ -143,7 +103,7 @@ class ProductBox extends StatelessWidget {
     }
     return Container(
         padding: const EdgeInsets.all(2),
-        height: 120,
+        height: 170,
         child: Card(
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

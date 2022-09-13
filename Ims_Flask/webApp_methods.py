@@ -181,6 +181,9 @@ def ListItems(role,id,opr_id):
     if role == "operators" :
         check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE opr_id = (?)"
         cursor.execute(check_query,id)
+    if role == "customers" :
+        check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE opr_id = (?)"
+        cursor.execute(check_query,opr_id)
     if cursor.rowcount == 0:
         cnxn.close()
         print("There are no Items")

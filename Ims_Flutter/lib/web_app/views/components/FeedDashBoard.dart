@@ -1,12 +1,15 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:ims/web_app/DataLists.dart';
 import 'package:ims/web_app/model/item.dart';
 import 'package:ims/web_app/data/book_data.dart';
 import 'package:ims/web_app/model/category.dart';
 import 'package:ims/web_app/data/genre_data.dart';
+import 'package:ims/web_app/services/http_services.dart';
 import 'package:ims/web_app/views/GenrePage.dart';
 import 'package:ims/web_app/views/ItemPage.dart';
+import 'package:ims/web_app/views/ListItemsCustomer.dart';
 
 class FeedDashBoard extends StatefulWidget {
   const FeedDashBoard({Key? key}) : super(key: key);
@@ -19,11 +22,25 @@ class _FeedDashBoardState extends State<FeedDashBoard> {
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
-      const Text("All items",
-          style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.blueGrey)),
+      InkWell(
+        onTap: () async {
+          if (TheWebUser[0]['role'] == 'customers') {
+            await Httpservices.List_Items(
+                TheWebUser[0]['opr_id'].toString(), context);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ListItemsCustomer()));
+          }
+        },
+        child: const Center(
+          child: Text("All items",
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueGrey)),
+        ),
+      ),
       Container(
           height: 250,
           child: ListView.separated(

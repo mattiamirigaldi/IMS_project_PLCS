@@ -6,9 +6,9 @@ import 'package:ims/web_app/services/http_services.dart';
 //import 'package:ims/Totem/Operator/TAddBook.dart';
 //import 'package:ims/Totem/Operator/TRemoveBook.dart';
 import 'package:ims/web_app/views/Operator/AddItemPage.dart';
-import 'package:ims/web_app/views/Operator/ListItems.dart';
+import 'package:ims/web_app/views/Operator/ListItemsOperator.dart';
 import 'package:ims/web_app/views/Operator/RemoveItemPage.dart';
-import 'package:ims/web_app/views/SelectListType.dart';
+import 'package:ims/web_app/views/ListItemsAdmin.dart';
 import 'package:ims/web_app/views/components/App_bar.dart';
 
 class manageItems extends StatelessWidget {
@@ -93,13 +93,15 @@ class manageItems extends StatelessWidget {
             onTap: () async {
               await Httpservices.List_Items('ALL', context);
               if (TheWebUser[0]['role'] == 'operators') {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const ListItems()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ListItemsOperator()));
               } else if (TheWebUser[0]['role'] == 'admins') {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const SelectListType()));
+                        builder: (context) => const ListItemsAdmin()));
               }
             },
             child: Center(

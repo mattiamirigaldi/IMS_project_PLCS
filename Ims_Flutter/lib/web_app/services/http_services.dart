@@ -6,10 +6,10 @@ import 'package:http/http.dart' as http;
 // to display loading animation
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/web_app/DataLists.dart';
-import 'package:ims/web_app/views/Operator/ListItems.dart';
+import 'package:ims/web_app/views/Operator/ListItemsOperator.dart';
 import 'package:ims/web_app/views/Operator/ManageCustomerPage.dart';
 import 'package:ims/web_app/views/Operator/ManageItemsPage.dart';
-import 'package:ims/web_app/views/SelectListType.dart';
+import 'package:ims/web_app/views/ListItemsAdmin.dart';
 import 'package:ims/web_app/views/Operator/ListUserItems.dart';
 
 // to route
@@ -226,8 +226,8 @@ class Httpservices {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Item edited successfully")));
       await Httpservices.List_Items('ALL', context);
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const ListItems()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ListItemsOperator()));
     } else {
       await EasyLoading?.showError(
           "Error Code : ${response.statusCode.toString()}");
@@ -245,8 +245,8 @@ class Httpservices {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Item edited successfully")));
       await Httpservices.List_Items('ALL', context);
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const ListItems()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ListItemsOperator()));
     } else {
       await EasyLoading?.showError(
           "Error Code : ${response.statusCode.toString()}");
