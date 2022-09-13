@@ -12,7 +12,7 @@ class ListItemsAdmin extends StatefulWidget {
 }
 
 String dropdownvalue = 'ALL';
-List roles = [];
+List<String> branches = ['ALL'];
 
 class _ListUsersState extends State<ListItemsAdmin> {
   // Global key that uniquely identifies the form widget and is used for validation
@@ -28,10 +28,10 @@ class _ListUsersState extends State<ListItemsAdmin> {
         avaflag.add(AllItems[i]['cus_id'].toString());
       }
     }
-    roles.clear();
-    roles.add('ALL');
-    for (var i = 0; i < AllOperators.length; i++) {
-      roles.add(AllOperators[i]['id'].toString());
+    branches.clear();
+    branches.add('ALL');
+    for (var i = 0; i < AllBranches.length; i++) {
+      branches.add(AllBranches[i]);
     }
     return Scaffold(
         appBar: AppBar(title: const Text("Available Items")),
@@ -67,7 +67,7 @@ class _ListUsersState extends State<ListItemsAdmin> {
                       MaterialPageRoute(
                           builder: (context) => const ListItemsAdmin()));
                 },
-                items: roles.map<DropdownMenuItem<String>>((value) {
+                items: branches.map<DropdownMenuItem<String>>((value) {
                   return DropdownMenuItem<String>(
                     child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -84,7 +84,7 @@ class _ListUsersState extends State<ListItemsAdmin> {
                 child: ProductBox(
                   name: AllItems[i]['name'],
                   category: AllItems[i]['category'],
-                  location: AllItems[i]['location'],
+                  location: AllItems[i]['branch'],
                   rfid: AllItems[i]['rfid'].toString(),
                   availability: avaflag[i],
                 ),
@@ -158,7 +158,7 @@ class ProductBox extends StatelessWidget {
                               style:
                                   const TextStyle(fontWeight: FontWeight.bold)),
                           Text("Category: " + category),
-                          Text("Location: " + location),
+                          Text("Branch: " + location),
                           Text("RFID: " + rfid),
                           Text(TextToShow, style: sty1),
                         ],

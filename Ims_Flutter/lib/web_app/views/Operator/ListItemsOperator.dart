@@ -43,7 +43,7 @@ class ListItemsOperator extends StatelessWidget {
                 child: ProductBox(
                   name: AllItems[i]['name'],
                   category: AllItems[i]['category'],
-                  location: AllItems[i]['location'],
+                  location: AllItems[i]['loc'],
                   rfid: AllItems[i]['rfid'].toString(),
                   availability: avaflag[i],
                 ),

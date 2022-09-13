@@ -41,10 +41,10 @@ class ListItemsCustomer extends StatelessWidget {
             for (var i = 0; i < AllItems.length; i++)
               InkWell(
                 child: ProductBox(
-                  name: AllItems[i]['name'],
-                  category: AllItems[i]['category'],
-                  location: AllItems[i]['location'],
-                  rfid: AllItems[i]['rfid'].toString(),
+                  title: AllItems[i]['title'],
+                  author: AllItems[i]['author'],
+                  genre: AllItems[i]['genre'],
+                  publisher: AllItems[i]['publisher'],
                   availability: avaflag[i],
                 ),
                 onTap: () {
@@ -80,16 +80,16 @@ class ListItemsCustomer extends StatelessWidget {
 class ProductBox extends StatelessWidget {
   const ProductBox({
     Key? key,
-    required this.name,
-    required this.category,
-    required this.location,
-    required this.rfid,
+    required this.title,
+    required this.author,
+    required this.genre,
+    required this.publisher,
     required this.availability,
   }) : super(key: key);
-  final String name;
-  final String category;
-  final String location;
-  final String rfid;
+  final String title;
+  final String author;
+  final String genre;
+  final String publisher;
   final String availability;
 
   @override
@@ -116,12 +116,12 @@ class ProductBox extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Text(name,
+                          Text(title,
                               style:
                                   const TextStyle(fontWeight: FontWeight.bold)),
-                          Text("Category: " + category),
-                          Text("Location: " + location),
-                          Text("RFID: " + rfid),
+                          Text("Author: " + author),
+                          Text("Genre: " + genre),
+                          Text("Publisher: " + publisher),
                           Text(TextToShow, style: sty1),
                         ],
                       )))

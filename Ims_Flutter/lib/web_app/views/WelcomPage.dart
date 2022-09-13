@@ -38,7 +38,9 @@ class WelcomeHome extends StatelessWidget {
               ))),
           InkWell(
             onTap: () async {
-              await Httpservices.login('c1', 'c1', 'customers', context);
+              await Httpservices.login('a1', 'a1', 'admins', context);
+              //await Httpservices.login('o1', 'o1', 'operators', context);
+              //await Httpservices.login('c1', 'c1', 'customers', context);
               //Navigator.push(context,
               //    MaterialPageRoute(builder: (context) => const LoginPage()));
             },

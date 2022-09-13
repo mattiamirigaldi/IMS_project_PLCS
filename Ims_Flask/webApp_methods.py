@@ -71,6 +71,23 @@ def login():
     cnxn.close()
     return jsonify(data)
 
+@webApp_methods.route("/web/admins/branch/<admin_id>", methods=["GET", "POST"])
+def admin_branches(admin_id):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    check_query = "SELECT DISTINCT branch FROM operators WHERE admin_id = (?)"
+    cursor.execute(check_query,admin_id)
+    if cursor.rowcount == 0:
+        print("Branhces Not found")
+        return jsonify(["not_found"])
+    #column_names = [col[0] for col in cursor.description]
+    #data = [dict(zip(column_names, row))  
+    #    for row in cursor.fetchall()]
+    data = [item[0] for item in cursor.fetchall()]
+    print (data)
+    cnxn.close()
+    return jsonify(data)
+
 @webApp_methods.route("/web/admins/<admin_id>", methods=["GET", "POST"])
 def admin_operators(admin_id):
     cnxn = db.connection()
@@ -165,25 +182,25 @@ def user_edit(usr,role):
     return jsonify("done")
 
 
-@webApp_methods.route("/web/items/<role>/<id>/<opr_id>", methods=["GET", "POST"])
-def ListItems(role,id,opr_id):
+@webApp_methods.route("/web/items/<role>/<id>/<branch>", methods=["GET", "POST"])
+def ListItems(role,id,branch):
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    print("Access to items url : Successful_1")
+    print("Access to List Items url")
     if role == "admins" :
-        if opr_id == 'ALL':
+        if branch == 'ALL':
             check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?)"
             value = (id)
         else:
-            check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?) AND opr_id = (?)"
-            value = (id,opr_id)
+            check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?) AND branch = (?)"
+            value = (id,branch)
         cursor.execute(check_query,value)
     if role == "operators" :
-        check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE opr_id = (?)"
-        cursor.execute(check_query,id)
+        check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE branch = (?)"
+        cursor.execute(check_query,branch)
     if role == "customers" :
         check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE opr_id = (?)"
-        cursor.execute(check_query,opr_id)
+        cursor.execute(check_query,branch)
     if cursor.rowcount == 0:
         cnxn.close()
         print("There are no Items")
@@ -265,37 +282,37 @@ def item_return(role_type,id,bookid):
     cnxn.close()
     return jsonify(["done"])
 
-@webApp_methods.route("/web/items", methods=["GET", "POST"])
-def items():
-    cnxn = db.connection()
-    cursor = cnxn.cursor()
-    if request.method == 'GET':
-        print("GET request")
-    print("Access to items url : Successful_1")
-    check_query = 'SELECT * FROM [Items]'
-    cursor.execute(check_query)
-    j = 0
-    tit = []
-    aut = []
-    gen = []
-    rfid = []
-    usr = []
-    loc = []
-    data = []
-    for row in cursor:
-        print("Access to items url : Successful_3")
-        books = {"Title": row[0], "Author": row[1], "Genre": row[2], "RFID": row[3], "userName": row[4], "Location": row[5]}
-        data.append(books)
-    for i in data:
-        tit.append(data[j]["Title"])
-        aut.append(data[j]["Author"])
-        gen.append(data[j]["Genre"])
-        rfid.append(data[j]["RFID"])
-        usr.append(data[j]["userName"])
-        loc.append(data[j]["Location"])
-        j += 1
-    cnxn.close()
-    return jsonify(tit, aut, gen, rfid, usr, loc)
+#@webApp_methods.route("/web/items", methods=["GET", "POST"])
+#def items():
+#    cnxn = db.connection()
+#    cursor = cnxn.cursor()
+#    if request.method == 'GET':
+#        print("GET request")
+#    print("Access to items url : Successful_1")
+#    check_query = 'SELECT * FROM [Items]'
+#    cursor.execute(check_query)
+#    j = 0
+#    tit = []
+#    aut = []
+#    gen = []
+#    rfid = []
+#    usr = []
+#    loc = []
+#    data = []
+#    for row in cursor:
+#        print("Access to items url : Successful_3")
+#        books = {"Title": row[0], "Author": row[1], "Genre": row[2], "RFID": row[3], "userName": row[4], "Location": row[5]}
+#        data.append(books)
+#    for i in data:
+#        tit.append(data[j]["Title"])
+#        aut.append(data[j]["Author"])
+#        gen.append(data[j]["Genre"])
+#        rfid.append(data[j]["RFID"])
+#        usr.append(data[j]["userName"])
+#        loc.append(data[j]["Location"])
+#        j += 1
+#    cnxn.close()
+#    return jsonify(tit, aut, gen, rfid, usr, loc)
 
 
 # List Customers
@@ -366,6 +383,7 @@ def web_op_add_customer(adminID,rfid,role_type):
         username = request.form["username"]
         mail = request.form["email"]
         pwd = request.form["password"]
+        branch = request.form["branch"]
         rfid_flag = request.form["rfid_flag"]
         role = request.form["role"]
     print("11111111111")
@@ -383,14 +401,14 @@ def web_op_add_customer(adminID,rfid,role_type):
     if row == None:
         if role_type == "admins":
             if role == 'operators':
-                insert_query = '''INSERT INTO %s VALUES (?,?,?,?,?,?,?,?);''' %role
-                value = (rfid, rfiddd, firstname, lastname, username, mail, pwd, rfiddd)
-            if role == 'customers':
                 insert_query = '''INSERT INTO %s VALUES (?,?,?,?,?,?,?,?,?);''' %role
-                value = (rfid,rfiddd, rfiddd, firstname, lastname, username, mail, pwd, rfiddd)
+                value = (rfid, rfiddd, firstname, lastname, username, mail, pwd, rfiddd, branch)
+            if role == 'customers':
+                insert_query = '''INSERT INTO %s VALUES (?,?,?,?,?,?,?,?,?,?);''' %role
+                value = (rfid,rfiddd, rfiddd, firstname, lastname, username, mail, pwd, rfiddd, branch)
         if role_type == "operators":
-            insert_query = '''INSERT INTO %s VALUES (?,?,?,?,?,?,?,?,?);''' %role
-            value = (adminID, rfid, rfiddd, firstname, lastname, username, mail, pwd, rfiddd)
+            insert_query = '''INSERT INTO %s VALUES (?,?,?,?,?,?,?,?,?,?);''' %role
+            value = (adminID, rfid, rfiddd, firstname, lastname, username, mail, pwd, rfiddd, branch)
         cursor.execute(insert_query, value)
         cnxn.commit()
         cnxn.close()

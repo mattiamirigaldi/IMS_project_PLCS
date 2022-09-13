@@ -93,13 +93,24 @@ class Httpservices {
               AllOperators.addAll(json2);
             }
           }
+          http.Response response3 = await _client.get(
+              baseUrl + '/web/admins/branch/' + TheWebUser[0]['id'].toString());
+          if (response3.statusCode == 200) {
+            var json3 = jsonDecode(response3.body);
+            if (json3[0] == "not_found") {
+              await EasyLoading.showError(json[0]);
+            } else {
+              AllBranches.clear();
+              AllBranches.addAll(json3);
+            }
+          }
         }
-        await EasyLoading.showSuccess(
-            "Welcome dear " + TheWebUser[0]['firstname']);
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const DashBoard()));
+        //await EasyLoading.showSuccess(
+        //    "Welcome dear " + TheWebUser[0]['firstname']);
         //Navigator.push(context,
-        //    MaterialPageRoute(builder: (context) => const manageItems()));
+        //    MaterialPageRoute(builder: (context) => const DashBoard()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const manageCustomer()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
@@ -326,14 +337,14 @@ class Httpservices {
   //  }
   //}
 
-  static List_Items(opr_id, context) async {
+  static List_Items(branch, context) async {
     http.Response response = await _client.get(Uri.parse(baseUrl +
         "/web/items/" +
         TheWebUser[0]['role'] +
         '/' +
         TheWebUser[0]['id'].toString() +
         '/' +
-        opr_id));
+        branch));
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       AllItems.clear();
@@ -399,6 +410,7 @@ class Httpservices {
     username,
     email,
     password,
+    branch,
     rfid_flag,
     role,
     context,
@@ -416,6 +428,7 @@ class Httpservices {
           "email": email,
           "username": username,
           "password": password,
+          "branch": branch,
           "rfid_flag": rfid_flag,
           "role": role,
         });

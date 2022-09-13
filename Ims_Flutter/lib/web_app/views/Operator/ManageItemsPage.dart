@@ -91,13 +91,14 @@ class manageItems extends StatelessWidget {
           ),
           InkWell(
             onTap: () async {
-              await Httpservices.List_Items('ALL', context);
               if (TheWebUser[0]['role'] == 'operators') {
+                await Httpservices.List_Items(TheWebUser[0]['branch'], context);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const ListItemsOperator()));
               } else if (TheWebUser[0]['role'] == 'admins') {
+                await Httpservices.List_Items('ALL', context);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
