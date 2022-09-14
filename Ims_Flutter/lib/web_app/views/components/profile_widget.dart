@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ProfileWidget extends StatelessWidget {
+class ProfileWidget extends StatefulWidget {
   final String imagePath;
   final VoidCallback onClicked;
   final bool isEdit;
@@ -12,6 +12,13 @@ class ProfileWidget extends StatelessWidget {
     this.isEdit = false,
     required this.onClicked,
   }) : super(key: key);
+
+  @override
+  State<ProfileWidget> createState() => _ProfileWidgetState();
+}
+
+class _ProfileWidgetState extends State<ProfileWidget> {
+  late String NewUrlImage;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -27,7 +34,7 @@ class ProfileWidget extends StatelessWidget {
 
   // oval picture
   Widget buildImage() {
-    final image = NetworkImage(imagePath);
+    final image = NetworkImage(widget.imagePath);
 
     return ClipOval(
       child: Material(
@@ -36,12 +43,41 @@ class ProfileWidget extends StatelessWidget {
           image: image,
           width: 100,
           height: 100,
-          // to create a splash effect when image clicked
-          child: InkWell(onTap: onClicked),
+          // when image tapped will pop up a dialog box to insert url of new image
+          child: InkWell(
+            onTap: () => showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text("Enter url of new image"),
+                content: TextFormField(
+                  decoration: InputDecoration(hintText: 'url image'),
+                  onChanged: (value){
+                    NewUrlImage = value;
+                  },
+                  validator: (String? value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: (){
+                      Navigator.of(context).pop();
+                    }, 
+                    child: Text("SUBMIT")
+                  )
+                ],
+              ),
+            )
+            
+            ),
         ),
     ),
   );
 }
+
   // edit button
   Widget buildEditIcon() => buildCircle(
     color: Colors.white,
@@ -50,12 +86,12 @@ class ProfileWidget extends StatelessWidget {
       color: Colors.blue,
       all: 8,
       child: Icon(
-        isEdit ? Icons.add_a_photo : Icons.edit,
+        widget.isEdit ? Icons.add_a_photo : Icons.edit,
         color: Colors.white,
         size: 20,),
     ),
   );
-  
+
   Widget buildCircle({
     required color, 
     required double all, 
@@ -67,5 +103,5 @@ class ProfileWidget extends StatelessWidget {
         child: child,
       ),
     );
-  }
+}
 

@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/web_app/DataLists.dart';
 import 'package:ims/web_app/views/Operator/ListItems.dart';
-import 'package:ims/web_app/views/Operator/ManageCustomerPage.dart';
+import 'package:ims/web_app/views/Operator/ManageUsersPage.dart';
 import 'package:ims/web_app/views/Operator/ManageItemsPage.dart';
 import 'package:ims/web_app/views/SelectListType.dart';
 
@@ -225,8 +225,10 @@ class Httpservices {
         AllItems.addAll(json);
         await EasyLoading.showSuccess(AllItems[0]['title']);
       }
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const SelectListType()));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const ListItems()));
+      // Navigator.push(context,
+      //     MaterialPageRoute(builder: (context) => const SelectListType()));
     } else {
       await EasyLoading?.showError(
           "Error Code : ${response.statusCode.toString()}");

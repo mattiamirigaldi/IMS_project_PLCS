@@ -223,7 +223,8 @@ class _GenreListState extends State<AddCustomer> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontWeight: FontWeight.bold))),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18))),
                           height: 60,
                           width: width_screen*0.6,
                           decoration: BoxDecoration(

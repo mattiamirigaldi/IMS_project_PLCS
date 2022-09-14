@@ -144,8 +144,34 @@ class _ModifyItemPageState extends State<ModifyItemPage> {
                 image: NetworkImage(item.urlImage),
                 width: 230,
                 height: 230,
-                // to create a splash effect when image clicked
-                child: InkWell(onTap: () {}), //Neded the rerout for change image
+                child: InkWell(
+            onTap: () => showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text("Enter url of new image"),
+                content: TextFormField(
+                  decoration: InputDecoration(hintText: 'url image'),
+                  onChanged: (value){
+                    newUrlImage = value;
+                  },
+                  validator: (String? value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: (){
+                      Navigator.of(context).pop();
+                    }, 
+                    child: Text("SUBMIT")
+                  )
+                ],
+              ),
+            )
+            ),
               ),
             ),
             Positioned(

@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:ims/web_app/views/components/App_bar.dart';
 import 'AddUserPage.dart';
-import './RemoveCustomerPage.dart';
+import 'RemoveUserPage.dart';
 import '../../services/http_services.dart';
 
 class manageCustomer extends StatelessWidget {

@@ -5,7 +5,7 @@ import 'package:ims/web_app/model/item.dart';
 import 'package:ims/web_app/data/book_data.dart';
 import 'package:ims/web_app/model/category.dart';
 import 'package:ims/web_app/data/genre_data.dart';
-import 'package:ims/web_app/views/GenrePage.dart';
+import 'package:ims/web_app/views/CategoryPage.dart';
 import 'package:ims/web_app/views/ItemPage.dart';
 
 class FeedDashBoard extends StatefulWidget {

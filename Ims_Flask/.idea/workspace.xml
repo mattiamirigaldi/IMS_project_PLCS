@@ -2,17 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c0fe7fc-4b70-4f13-828c-0dcd61a577d3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/webApp_methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/webApp_methods.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/MLogin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/MLogin.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/MWelcomePage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/MWelcomePage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/Operator/MHomePage_op.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/Operator/MHomePage_op.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/Operator/services/MOp_http_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/Operator/services/MOp_http_services.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/User/MHomePage_us.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/User/MHomePage_us.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/User/MLoginCredentials.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/User/MLoginCredentials.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/User/services/MUs_http_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/User/services/MUs_http_services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connectionToDb.py" beforeDir="false" afterPath="$PROJECT_DIR$/connectionToDb.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/routes.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/services/http_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/services/http_services.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/SelectListType.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/SelectListType.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Login.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/AddUserPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/AddUserPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/RemoveCustomerPage.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Register.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Register.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/WelcomPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/WelcomPage.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -196,6 +192,9 @@
       <workItem from="1661789359272" duration="1152000" />
       <workItem from="1662719695804" duration="2213000" />
       <workItem from="1662740347430" duration="1624000" />
+      <workItem from="1662847920365" duration="624000" />
+      <workItem from="1662884062500" duration="721000" />
+      <workItem from="1663171451038" duration="1667000" />
     </task>
     <servers />
   </component>
@@ -216,7 +215,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/app_py$flaskProject.coverage" NAME="flaskProject Coverage Results" MODIFIED="1657796470675" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/flaskProject$flaskProject.coverage" NAME="flaskProject Coverage Results" MODIFIED="1651571246353" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/app_py$app.coverage" NAME="app Coverage Results" MODIFIED="1662824631111" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/app_py$app.coverage" NAME="app Coverage Results" MODIFIED="1663171929930" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/app_py$totem_methods.coverage" NAME="totem_methods Coverage Results" MODIFIED="1657722470164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

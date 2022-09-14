@@ -9,21 +9,25 @@ import 'package:ims/web_app/views/DashBoard.dart';
 
 class CustomAppBar extends StatelessWidget {
   static const _BrowseItems = [
-    "Subjects",
+    "Categories",
     "Trending",
     "Collections",
     "Random book",
   ];
-  static const _ServicesCustomerItems = ["Request book", "Help & support"];
+  static const _ServicesGuestItems = ["Help & support"];
+  static const _ServicesCustomerItems = ["Request item", "Help & support"];
   static const _ServicesOperatorItems = ["Manage users", "Manage items"];
   static const _ServicesAdminItems = ["Manage operators"];
+  static const _GuestItems =["Login"];
   static const _UserItems = ["My profile", "My loans", "Favorites", "Logout"];
   late List<String> _Services = [];
 
   CustomAppBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    if (TheWebUser[0]['role'] == 'customers') {
+    if (TheWebUser[0]['role'] == "guest"){
+      _Services = _ServicesGuestItems;
+    } else if (TheWebUser[0]['role'] == 'customers') {
       _Services = _ServicesCustomerItems;
     } else if (TheWebUser[0]['role'] == 'operators') {
       _Services = _ServicesOperatorItems + _ServicesCustomerItems;
@@ -75,12 +79,12 @@ class CustomAppBar extends StatelessWidget {
             DropDownItems: _Services,
             //userName: TheUser[0]['username'],
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(right: 70),
             child: MenuItems(
               title: "",
               icon: Icons.manage_accounts,
-              DropDownItems: _UserItems,
+              DropDownItems: (TheWebUser[0]['role'] == "guest") ? _GuestItems : _UserItems,
               //userName: TheUser[0]['username'],
             ),
           )

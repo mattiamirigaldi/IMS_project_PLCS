@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:ims/web_app/views/Operator/GuestDashboard.dart';
 import './Login.dart';
 import './Register.dart';
 
@@ -30,11 +31,14 @@ class WelcomeHome extends StatelessWidget {
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
               child: Center(
-                  child: Image.asset(
-                'images/ims.jpg',
-                width: 200,
-                height: 200,
-              ))),
+                  child: ClipRRect(
+                    child: Image.asset(
+                                  'images/ims.jpg',
+                                  width: 200,
+                                  height: 200,
+                                ),
+                    borderRadius: BorderRadius.circular(20),
+                  ))),
           InkWell(
             onTap: () async {
               Navigator.push(context,
@@ -43,7 +47,7 @@ class WelcomeHome extends StatelessWidget {
             child: Center(
               child: Container(
                 margin:
-                    const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                 child: const Center(
                     child: Text("LOGIN",
                         style: TextStyle(
@@ -67,9 +71,9 @@ class WelcomeHome extends StatelessWidget {
               child: Center(
                   child: Container(
                 margin:
-                    const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                 child: const Center(
-                    child: Text("REGISTER",
+                    child: Text("REGISTER AS ADMIN",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.black))),
                 height: 50,
@@ -77,6 +81,28 @@ class WelcomeHome extends StatelessWidget {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: const Color.fromARGB(255, 1, 154, 16)),
+              ))),
+
+              InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const GuestDashBoard()));
+              },
+              child: Center(
+                  child: Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                child: const Center(
+                    child: Text("ENTER AS GUEST",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.black))),
+                height: 50,
+                width: 800,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Color.fromARGB(255, 224, 48, 48)),
               ))),
         ]));
   }

@@ -44,12 +44,12 @@ class _MyLoansPageState extends State<MyLoansPage> {
           //   height: 150,
           // ),
           const SizedBox(height : 30),
-          Text("MY ITEMS",
+          Text("MY ITEMS".toUpperCase(),
               style:
-                   TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.deepPurple.withOpacity(0.7))),
+                   TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black.withOpacity(0.8))),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 50),
+              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 60),
               child: GridView.builder(
                 itemCount: allItems.length,            // HERE SHOULD BE USED A LIS OF YOUR ITEMS
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
