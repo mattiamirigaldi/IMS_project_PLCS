@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:ims/web_app/DataLists.dart';
+import 'package:ims/web_app/views/Guest/GuestDashboard.dart';
 import 'Searchbar.dart';
 import 'menu_item.dart';
 //import 'dart:developer' as devlog;
@@ -59,12 +60,24 @@ class CustomAppBar extends StatelessWidget {
                         alignment: Alignment.center),
                     borderRadius: BorderRadius.circular(25),
                   )),
-              onTap: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const DashBoard()))),
+              onTap: () => (TheWebUser[0]['role'] != "guest") ?
+               Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const DashBoard()))
+               :  Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const GuestDashBoard()))
+          ),
           const SizedBox(width: 20),
-          Text("Welcome ".toUpperCase() + TheWebUser[0]['username'],
-              style:
-                  const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+          Row(
+            children: [
+              Text("Welcome ".toUpperCase(),
+                style:
+                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+              const SizedBox(width: 10),
+               Text(TheWebUser[0]['username'],
+                style:
+                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color : Colors.grey)),     
+            ],
+          ),
           const Spacer(),
           const SearchBar(),
           const MenuItems(

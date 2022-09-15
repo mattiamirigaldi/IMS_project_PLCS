@@ -83,7 +83,10 @@ void choiceAction(String choice, BuildContext context) async {
   }  else if (choice == "Favorites") {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const FavoriteItemsPage()));
-  }  else {
+  }  else if (choice == "Login") {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const WelcomeHome()));
+  } else {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(choice)));
   }
 }
