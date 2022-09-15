@@ -28,7 +28,6 @@ class MyApp extends StatelessWidget {
       initialRoute: '/web',
       routes: {
         Myroutes.webWelcomePage: (context) => const WelcomeHome(),
-        //Myroutes.webWelcomePage: (context) => const DashBoard(),
         Myroutes.totemWelcomePage: (context) => const TWelcome(),
         Myroutes.mobileWelcomePage: (context) => const MWelcome(),
       },

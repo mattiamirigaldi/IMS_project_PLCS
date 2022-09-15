@@ -42,13 +42,13 @@ class WelcomeHome extends StatelessWidget {
               ))),
           InkWell(
             onTap: () async {
-              //await Httpservices.login('o1', 'o1', 'operators', context);
+              await Httpservices.login('o1', 'o1', 'operators', context);
               //await Httpservices.login('c1', 'c1', 'customers', context);
               //Navigator.push(context,
               //    MaterialPageRoute(builder: (context) => const LoginPage()));
-              // await Httpservices.login('c1', 'c1', 'customers', context);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()));
+              //await Httpservices.login('a1', 'a1', 'admins', context);
+              //Navigator.push(context,
+              //    MaterialPageRoute(builder: (context) => const LoginPage()));
             },
             child: Center(
               child: Container(

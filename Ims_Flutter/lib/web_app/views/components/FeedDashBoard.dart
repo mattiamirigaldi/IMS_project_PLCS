@@ -10,7 +10,9 @@ import 'package:ims/web_app/data/genre_data.dart';
 import 'package:ims/web_app/views/CategoryPage.dart';
 import 'package:ims/web_app/services/http_services.dart';
 import 'package:ims/web_app/views/ItemPage.dart';
+import 'package:ims/web_app/views/ListItemsAdmin.dart';
 import 'package:ims/web_app/views/ListItemsCustomer.dart';
+import 'package:ims/web_app/views/Operator/ListItemsOperator.dart';
 
 class FeedDashBoard extends StatefulWidget {
   const FeedDashBoard({Key? key}) : super(key: key);
@@ -45,14 +47,22 @@ class _FeedDashBoardState extends State<FeedDashBoard> {
     return Column(children: <Widget>[
       InkWell(
         onTap: () async {
+          await EasyLoading.showError(allitemslist.length.toString());
           if (TheWebUser[0]['role'] == 'customers') {
-            await EasyLoading.showError(allitemslist.length.toString());
-            //await Httpservices.List_Items(
-            //    TheWebUser[0]['branch'].toString(), context);
-            //Navigator.push(
-            //    context,
-            //    MaterialPageRoute(
-            //        builder: (context) => const ListItemsCustomer()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ListItemsCustomer()));
+          } else if (TheWebUser[0]['role'] == 'operators') {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ListItemsOperator()));
+          } else {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ListItemsAdmin()));
           }
         },
         child: const Center(
