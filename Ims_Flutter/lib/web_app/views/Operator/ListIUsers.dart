@@ -11,93 +11,60 @@ class ListUsers extends StatefulWidget {
   _ListUsersState createState() => _ListUsersState();
 }
 
+List<String> branches = ['ALL'];
+List<String> roles = ['customers', 'operators'];
+String dropdownvalueBranch = 'ALL';
+String dropdownvalueTable = roles[0];
+
 class _ListUsersState extends State<ListUsers> {
   // Global key that uniquely identifies the form widget and is used for validation
   final _formKey = GlobalKey<FormState>();
-  late String rl = "customers";
-  late String userRole;
-  static const _rolesOp = [
-    "customers",
-  ];
-  static const _rolesAdm = ["operators"];
-  late List<String> _roles = [];
-  String dropdownvalue = _rolesOp[0];
 
   @override
   Widget build(BuildContext context) {
-    if (TheWebUser[0]['role'] == 'operators') {
-      _roles = _rolesOp;
-    } else if (TheWebUser[0]['role'] == 'admins') {
-      _roles = _rolesOp + _rolesAdm;
+    branches.clear();
+    branches.add('ALL');
+    for (var i = 0; i < AllBranches.length; i++) {
+      branches.add(AllBranches[i]);
     }
     double width_screen = MediaQuery.of(context).size.width;
     double height_screen = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(
-          title: (
-            Row(children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: const Image(
-                  image: AssetImage("images/ims.jpg"),
-                  width: 45,
-                  height: 45,
-                ),
+        appBar: AppBar(
+          title: (Row(children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: const Image(
+                image: AssetImage("images/ims.jpg"),
+                width: 45,
+                height: 45,
               ),
-              const SizedBox(width: 30,),
-              const Text("All users page")
-            ])
-          ),
+            ),
+            const SizedBox(
+              width: 30,
+            ),
+            const Text("All users page")
+          ])),
         ),
         body: ListView(
           key: _formKey,
           shrinkWrap: true,
           padding: const EdgeInsets.fromLTRB(2.0, 10.0, 2.0, 10.0),
           children: <Widget>[
-            Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-              const SizedBox(width: 35),
-              const Text(
-                "Select user type : ",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
-              ),
-              DropdownButton<String>(
-                value: dropdownvalue,
-                icon: const Icon(Icons.arrow_downward),
-                underline: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Container(
-                      alignment: Alignment.centerLeft,
-                      height: 5,
-                      width: 100,
-                      color: Colors.blueGrey),
-                ),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    dropdownvalue = newValue!;
-                    rl = dropdownvalue;
-                    userRole = newValue;
-                  });
-                },
-                items: _roles.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 30, vertical: 10),
-                        child: Text(value)),
-                    value: value,
-                  );
-                }).toList(),
-              ),
-            ]),
-            const SizedBox(height: 50),
+            (TheWebUser[0]['role'] == 'admins')
+                ? (selectBranch())
+                : (const SizedBox(
+                    height: 20,
+                  )),
+            //const SizedBox(height: 50),
             InkWell(
                 child: Container(
                   margin:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: Center(
-                      child: Text("Search " + dropdownvalue.toLowerCase(),
+                  child: const Center(
+                      child: Text("Search",
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
+                          style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 20))),
@@ -108,7 +75,13 @@ class _ListUsersState extends State<ListUsers> {
                       color: Colors.blueGrey.withOpacity(0.4)),
                 ),
                 onTap: () async {
-                  await Httpservices.WebListCustomers(rl, context);
+                  if (TheWebUser[0]['role'] == 'admins') {
+                    await Httpservices.WebListUsers(
+                        dropdownvalueTable, dropdownvalueBranch, context);
+                  } else {
+                    await Httpservices.WebListUsers(TheWebUser[0]['admin_id'],
+                        TheWebUser[0]['branch'], context);
+                  }
                 }),
             for (var i = 0; i < AllUsers.length; i++)
               InkWell(
@@ -128,7 +101,7 @@ class _ListUsersState extends State<ListUsers> {
                       rfid: AllUsers[i]['rfid'].toString(),
                       imagePath:
                           'https://img.icons8.com/ios-filled/50/000000/user-male-circle.png',
-                      role: userRole,
+                      role: dropdownvalueTable,
                       admin_id: AllUsers[i]['admin_id'].toString(),
                       news:
                           'He is often considered a "goofy" boss by the employees of Dunder Mifflin. He is often the butt of everybodies jokes. Michael constantly tries to intermix his work life with his social life by inviting employees of Dunder Mifflin to come over house or get coffee',
@@ -143,6 +116,79 @@ class _ListUsersState extends State<ListUsers> {
                   }),
           ],
         ));
+  }
+
+  Row selectBranch() {
+    return Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+      selectTable(),
+      const SizedBox(width: 35),
+      const Text(
+        "Select the Branch : ",
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+      ),
+      DropdownButton<String>(
+        value: dropdownvalueBranch,
+        icon: const Icon(Icons.arrow_downward),
+        underline: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Container(
+              alignment: Alignment.centerLeft,
+              height: 5,
+              width: 100,
+              color: Colors.blueGrey),
+        ),
+        onChanged: (String? newValue) {
+          setState(() {
+            dropdownvalueBranch = newValue!;
+          });
+        },
+        items: branches.map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                child: Text(value)),
+            value: value,
+          );
+        }).toList(),
+      ),
+    ]);
+  }
+
+  Row selectTable() {
+    return Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+      const SizedBox(width: 35),
+      const Text(
+        "Select user type : ",
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+      ),
+      DropdownButton<String>(
+        value: dropdownvalueTable,
+        icon: const Icon(Icons.arrow_downward),
+        underline: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Container(
+              alignment: Alignment.centerLeft,
+              height: 5,
+              width: 100,
+              color: Colors.blueGrey),
+        ),
+        onChanged: (String? newValue) {
+          setState(() {
+            dropdownvalueTable = newValue!;
+          });
+        },
+        items: roles.map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                child: Text(value)),
+            value: value,
+          );
+        }).toList(),
+      ),
+    ]);
   }
 }
 

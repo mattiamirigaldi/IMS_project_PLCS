@@ -315,23 +315,22 @@ def item_return(role_type,id,bookid):
 #    return jsonify(tit, aut, gen, rfid, usr, loc)
 
 
-# List Customers
-@webApp_methods.route("/web/ListCustomers/<adminID>/<oprRFID>/<role>", methods=["GET", "POST"])
-def mobile_ListCustomers(adminID,oprRFID,role):
-    print(adminID,oprRFID,role)
+# List Users
+@webApp_methods.route("/web/ListUsers/<role>/<id>/<table_adminID>/<branch>", methods=["GET", "POST"])
+def mobile_ListUsers(role,id,table_adminID,branch):
+    print(role,id,table_adminID,branch)
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    if request.method == 'POST':
-        rl = request.form["rl"]
-    if role == 'operators' :
-        print(rl)
-        cursor.execute("SELECT * FROM %s where admin_id = (?) AND opr_id = (?)"%rl,adminID,oprRFID)
-    else :
-        print(rl)
-        cursor.execute("SELECT * FROM %s where admin_id = (?)"%rl,oprRFID,)
+    if role == 'operators': # we need admin_id + branch + ID + role
+        cursor.execute("SELECT * FROM customers where admin_id = (?) AND branch = (?)",table_adminID,branch)
+    if role == 'admins':    # we need table + branch + ID + role
+        if branch == 'ALL':
+            cursor.execute("SELECT * FROM %s where admin_id = (?)"%table_adminID,id)
+        else : 
+            cursor.execute("SELECT * FROM %s where admin_id = (?) AND branch = (?)"%table_adminID,id,branch)
     if cursor.rowcount == 0:
         cnxn.close()
-        print("There are no Customer for you")
+        print("There are no user for you")
         return jsonify(["not_found"])
     column_names = [col[0] for col in cursor.description]
     data = [dict(zip(column_names, row))  

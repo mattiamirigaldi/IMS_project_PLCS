@@ -25,7 +25,7 @@ String AddCustomerCheckUrl = baseUrl + '/web/AddCustomerCheck/';
 String RemoveCustomerUrl = baseUrl + '/web/RemoveCustomer/';
 String RemoveBookUrl = baseUrl + '/web/RemoveBook/';
 String AddBookUrl = baseUrl + '/web/AddBook/';
-String ListCustomersUrl = baseUrl + '/web/ListCustomers/';
+String ListUsersUrl = baseUrl + '/web/ListUsers/';
 String SettingsUrl = baseUrl + '/web/settings/';
 String usrcheckUrl = baseUrl + '/web/usrcheck/';
 String UserEditUrl = baseUrl + '/web/user_edit/';
@@ -360,15 +360,16 @@ class Httpservices {
   }
 
   // List Customers
-  static WebListCustomers(rl, context) async {
-    http.Response response = await _client.post(
-        ListCustomersUrl +
-            TheWebUser[0]['admin_id'].toString() +
-            '/' +
-            TheWebUser[0]['rfid'].toString() +
-            '/' +
-            TheWebUser[0]['role'],
-        body: {"rl": rl});
+  static WebListUsers(table_adminID, branch, context) async {
+    http.Response response = await _client.get(ListUsersUrl +
+        TheWebUser[0]['role'] +
+        '/' +
+        TheWebUser[0]['id'].toString() +
+        '/' +
+        table_adminID.toString() +
+        '/' +
+        branch);
+
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "not_found") {
