@@ -46,7 +46,7 @@ class TItemsList extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) => TInsertItemRFID(
                                   name: bookTitle[i],
-                                  Location: bookLocation[i],
+                                  location: bookLocation[i],
                                   context: context,
                                 )));
                   })

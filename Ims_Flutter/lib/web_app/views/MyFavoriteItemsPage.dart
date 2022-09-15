@@ -37,12 +37,12 @@ class _FavoriteItemsPageState extends State<FavoriteItemsPage> {
         ),
         body: Column(children: <Widget>[
           const SizedBox(height : 30),
-          Text("My favorite items ",
+          Text("My favorite items ".toUpperCase(),
               style:
-                  TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 216, 145, 39).withOpacity(0.9))),
+                  TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black.withOpacity(0.8))),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 50),
+              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 60),
               child: GridView.builder(
                 itemCount: allItems.length,            // HERE SHOULD BE USED A LIS OF PREFERRED ITEMS
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

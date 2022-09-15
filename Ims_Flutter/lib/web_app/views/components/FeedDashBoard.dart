@@ -6,8 +6,8 @@ import 'package:ims/web_app/model/item.dart';
 import 'package:ims/web_app/data/book_data.dart';
 import 'package:ims/web_app/model/category.dart';
 import 'package:ims/web_app/data/genre_data.dart';
+import 'package:ims/web_app/views/CategoryPage.dart';
 import 'package:ims/web_app/services/http_services.dart';
-import 'package:ims/web_app/views/GenrePage.dart';
 import 'package:ims/web_app/views/ItemPage.dart';
 import 'package:ims/web_app/views/ListItemsCustomer.dart';
 
@@ -41,7 +41,7 @@ class _FeedDashBoardState extends State<FeedDashBoard> {
                   color: Colors.blueGrey)),
         ),
       ),
-      Container(
+      SizedBox(
           height: 250,
           child: ListView.separated(
               padding: const EdgeInsets.all(22),
@@ -55,7 +55,7 @@ class _FeedDashBoardState extends State<FeedDashBoard> {
               fontSize: 24,
               fontWeight: FontWeight.bold,
               color: Colors.blueGrey)),
-      Container(
+      SizedBox(
           height: 250,
           child: ListView.separated(
               padding: const EdgeInsets.all(22),
@@ -68,7 +68,7 @@ class _FeedDashBoardState extends State<FeedDashBoard> {
   }
 }
 
-Widget buildCardItem({required Item item, context}) => Container(
+Widget buildCardItem({required Item item, context}) => SizedBox(
       width: 220,
       child: Column(children: [
         Expanded(
@@ -78,7 +78,7 @@ Widget buildCardItem({required Item item, context}) => Container(
                   borderRadius: BorderRadius.circular(20),
                   child: Material(
                     child: Hero(
-                      tag: "${item.id}",
+                      tag: item.id,
                       child: Ink.image(
                         image: NetworkImage(item.urlImage),
                         fit: BoxFit.fill,
@@ -87,7 +87,7 @@ Widget buildCardItem({required Item item, context}) => Container(
                                 context,
                                 PageRouteBuilder(
                                     transitionDuration:
-                                        Duration(milliseconds: 350),
+                                        const Duration(milliseconds: 350),
                                     pageBuilder: (context, __, ___) =>
                                         ItemPage(item: item)))),
                       ),
@@ -102,7 +102,7 @@ Widget buildCardItem({required Item item, context}) => Container(
       ]),
     );
 
-Widget buildCardCategory({required Category item, context}) => Container(
+Widget buildCardCategory({required Category item, context}) => SizedBox(
       width: 200,
       child: Column(children: [
         Expanded(

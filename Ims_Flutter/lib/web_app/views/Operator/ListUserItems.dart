@@ -45,13 +45,6 @@ class ProductBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // String TextToShow;
-    // if (Avalible == null) {
-    //   TextToShow = "Book is not Avalible";
-    // } else {
-    //   TextToShow = "Location is: " + Location;
-    // }
-    // ;
     return Container(
         padding: const EdgeInsets.all(2),
         height: 120,

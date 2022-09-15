@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/web_app/model/user.dart';
 import 'package:ims/web_app/services/http_services.dart';
 //import 'package:ims/web_app/views/components/App_bar.dart';
@@ -24,8 +23,8 @@ class _ModifyUserPageState extends State<ModifyUserPage> {
   late String newUsername = user.username;
   late String newMail = user.mail;
   late String newRfid = user.rfid;
-  late String newAdmin_id = user.admin_id;
-  late String newOpr_id = user.opr_id;
+  late String newAdminId = user.admin_id;
+  late String newOprId = user.opr_id;
   late String newImagePath = user.imagePath;
   late String newNews = user.news;
   late String newPwd = user.pwd;
@@ -62,7 +61,7 @@ class _ModifyUserPageState extends State<ModifyUserPage> {
       ),
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
-          Divider(),
+          const Divider(),
           // Container(
           //   padding: const EdgeInsets.all(10),
           //   child: CustomAppBar(userName: customer),
@@ -112,7 +111,7 @@ class _ModifyUserPageState extends State<ModifyUserPage> {
                                   newNews = value;
                                 })),
                       ),
-                      EditOrRemove()
+                      editOrRemove()
                     ]),
               ),
               Align(
@@ -120,14 +119,14 @@ class _ModifyUserPageState extends State<ModifyUserPage> {
                 child: Container(
                   width: size.width * 0.8,
                   height: 800,
-                  padding: EdgeInsets.symmetric(vertical: 20),
+                  padding: const EdgeInsets.symmetric(vertical: 20),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       userData(size),
                       const SizedBox(width: 120),
-                      UserIcon(size)
+                      userIcon(size)
                     ]),
                 ),
               )
@@ -138,11 +137,11 @@ class _ModifyUserPageState extends State<ModifyUserPage> {
     );
   }
 
-  Container UserIcon(Size size) {
-    return Container(
+  SizedBox userIcon(Size size) {
+    return SizedBox(
         width: size.width * 0.25,
         child: Hero(
-            tag: "${user.username}",
+            tag: user.username,
             child: Stack(
               //alignment: Alignment.bottomCenter,
               children: [
@@ -334,8 +333,8 @@ class _ModifyUserPageState extends State<ModifyUserPage> {
     );
   }
 
-  Container EditOrRemove() {
-    return Container(
+  SizedBox editOrRemove() {
+    return SizedBox(
       height: 140,
       child:
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
@@ -369,7 +368,7 @@ class _ModifyUserPageState extends State<ModifyUserPage> {
                 primary: Colors.white,
                 textStyle: const TextStyle(fontSize: 20),
               ),
-              child: Text("SAVE CHANGES"),
+              child: const Text("SAVE CHANGES"),
               onPressed: () async {
                 await Httpservices.user_edit(
                     newFirstName,
@@ -410,7 +409,7 @@ class _ModifyUserPageState extends State<ModifyUserPage> {
                 primary: Colors.white,
                 textStyle: const TextStyle(fontSize: 20),
               ),
-              child: Text("DELETE  USER"),
+              child: const Text("DELETE  USER"),
               onPressed: () async {
                 await Httpservices.webRemoveUser(
                     oldUsername, userRole, context);

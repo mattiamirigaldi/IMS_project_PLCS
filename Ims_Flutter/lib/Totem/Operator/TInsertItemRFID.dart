@@ -5,10 +5,10 @@ import './services/TOp_http_services.dart';
 
 class TInsertItemRFID extends StatefulWidget {
   final String name;
-  final String Location;
+  final String location;
 
   const TInsertItemRFID(
-      {Key? key, required this.name, required this.Location, context})
+      {Key? key, required this.name, required this.location, context})
       : super(key: key);
   @override
   _GenreListState createState() => _GenreListState();
@@ -37,7 +37,7 @@ class _GenreListState extends State<TInsertItemRFID> {
               InkWell(
                 onTap: () async {
                   await Httpservices.totemInsertItemRFID(
-                      widget.name, widget.Location, context);
+                      widget.name, widget.location, context);
                 },
                 child: Center(
                   child: Container(

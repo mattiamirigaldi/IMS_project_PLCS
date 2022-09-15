@@ -3,11 +3,7 @@
 class Myroutes {
   static String baseUrlMobile = '0';
   //static String IPaddress = '10.202.0.2';
-<<<<<<< HEAD
-  static String IPaddress = '172.22.78.51';
-=======
-  static String IPaddress = '10.202.0.2';
->>>>>>> 7d063fbcdab781e59be5e28fd613a3a94f92553a
+  static String IPaddress = '172.22.78.121';
   static String baseUrl = 'http://' + IPaddress + ':5000';
   static String webWelcomePage = "/web";
   static String totemWelcomePage = "/totem";

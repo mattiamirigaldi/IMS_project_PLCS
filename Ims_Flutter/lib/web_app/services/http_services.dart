@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/web_app/DataLists.dart';
 import 'package:ims/web_app/views/Operator/ListItemsOperator.dart';
-import 'package:ims/web_app/views/Operator/ManageCustomerPage.dart';
+import 'package:ims/web_app/views/Operator/ManageUsersPage.dart';
 import 'package:ims/web_app/views/Operator/ManageItemsPage.dart';
 import 'package:ims/web_app/views/ListItemsAdmin.dart';
 import 'package:ims/web_app/views/Operator/ListUserItems.dart';
@@ -253,6 +253,20 @@ class Httpservices {
         '/' +
         id));
     if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == "not_found") {
+        AllItems.clear();
+        await EasyLoading.showError(
+            "There are No Ietms for the selected branch");
+      } else {
+        AllItems.clear();
+        AllItems.addAll(json);
+        await EasyLoading.showSuccess(AllItems[0]['title']);
+      }
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const ListItemsOperator()));
+      // Navigator.push(context,
+      //     MaterialPageRoute(builder: (context) => const SelectListType()));
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Item edited successfully")));
       await Httpservices.List_Items('ALL', context);
@@ -521,7 +535,7 @@ class Httpservices {
   }
 
   // Add book method
-  static webAddbook(Titlee, Author, Genre, Publisher, Date, Loc, Description,
+  static webAddbook(Title, Author, Genre, Publisher, Date, Loc, Description,
       rfid_flag, context) async {
     http.Response response = await _client.post(
         AddBookUrl +
@@ -531,7 +545,7 @@ class Httpservices {
             '/' +
             TheWebUser[0]['role'],
         body: {
-          "Title": Titlee,
+          "Title": Title,
           "Author": Author,
           "Genre": Genre,
           "Publisher": Publisher,

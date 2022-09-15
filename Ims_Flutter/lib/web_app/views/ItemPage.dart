@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/web_app/model/item.dart';
-import 'package:ims/web_app/views/components/App_bar.dart';
 
 class ItemPage extends StatefulWidget {
   final Item item;
@@ -48,7 +47,7 @@ class _ItemPageState extends State<ItemPage> {
       ),
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
-          Divider(),
+          const Divider(),
           SizedBox(
             height: size.height,
             child: Stack(children: <Widget>[
@@ -56,7 +55,7 @@ class _ItemPageState extends State<ItemPage> {
                 margin: EdgeInsets.only(top: size.height * 0.3),
                 padding: EdgeInsets.only(
                     top: size.height * 0.12, left: 30, right: 30),
-                height: 500,
+                height: 530,
                 width: size.width,
                 decoration: const BoxDecoration(
                     color: Colors.white,
@@ -100,9 +99,9 @@ class _ItemPageState extends State<ItemPage> {
                     fontWeight: FontWeight.normal,
                     color: Colors.grey)),
             TextSpan(
-                text: item.title,
+                text: item.title.toUpperCase(),
                 style: const TextStyle(
-                  fontSize: 30,
+                  fontSize: 22,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 )),
@@ -116,9 +115,9 @@ class _ItemPageState extends State<ItemPage> {
                     fontWeight: FontWeight.normal,
                     color: Colors.grey)),
             TextSpan(
-                text: item.author,
+                text: item.author.toUpperCase(),
                 style: const TextStyle(
-                  fontSize: 30,
+                  fontSize: 22,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 )),
@@ -126,21 +125,21 @@ class _ItemPageState extends State<ItemPage> {
           RichText(
               text: TextSpan(children: [
             const TextSpan(
-                text: "Genre : ",
+                text: "Category : ",
                 style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.normal,
                     color: Colors.grey)),
             TextSpan(
-                text: item.category,
+                text: item.category.toUpperCase(),
                 style: const TextStyle(
-                  fontSize: 30,
+                  fontSize: 22,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 )),
           ])),
           const SizedBox(
-            height: 20,
+            height: 10,
           ),
           RichText(
               text: TextSpan(children: [
@@ -151,9 +150,9 @@ class _ItemPageState extends State<ItemPage> {
                     fontWeight: FontWeight.normal,
                     color: Colors.grey)),
             TextSpan(
-                text: item.location,
+                text: item.location.toUpperCase(),
                 style: const TextStyle(
-                  fontSize: 30,
+                  fontSize: 22,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 )),
@@ -175,14 +174,16 @@ class _ItemPageState extends State<ItemPage> {
         ]),
         Expanded(
             child: Hero(
-                tag: "${item.id}",
-                child: Image.network(item.urlImage, width: 350, height: 350)))
+                tag: item.id,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network(item.urlImage, width: 350, height: 350))))
       ]),
     );
   }
 
-  Container availableWithFav() {
-    return Container(
+  SizedBox availableWithFav() {
+    return SizedBox(
       height: 140,
       child:
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[

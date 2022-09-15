@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ims/web_app/DataLists.dart';
 import 'package:ims/web_app/views/components/App_bar.dart';
 import 'AddUserPage.dart';
-import './RemoveCustomerPage.dart';
+import 'RemoveUserPage.dart';
 import '../../services/http_services.dart';
 
 class manageCustomer extends StatelessWidget {
@@ -12,13 +12,20 @@ class manageCustomer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD:Ims_Flutter/lib/web_app/views/Operator/ManageCustomerPage.dart
     double width_screen = MediaQuery.of(context).size.width;
     double height_screen = MediaQuery.of(context).size.height;
     return Scaffold(
+=======
+    double widthScreen = MediaQuery.of(context).size.width;
+    double heightScreen = MediaQuery.of(context).size.height;
+    return Scaffold( 
+>>>>>>> 4c119cdef057dc1d68e1d6843b276d5f7c7e3f0f:Ims_Flutter/lib/web_app/views/Operator/ManageUsersPage.dart
         body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+<<<<<<< HEAD:Ims_Flutter/lib/web_app/views/Operator/ManageCustomerPage.dart
           Container(
             padding: const EdgeInsets.all(10),
             child: CustomAppBar(),
@@ -115,6 +122,102 @@ class manageCustomer extends StatelessWidget {
                   color: Colors.grey.withOpacity(0.15),
                   border: Border.all(color: Colors.black87),
                   borderRadius: BorderRadius.circular(20),
+=======
+              Container(
+                padding: const EdgeInsets.all(10),
+                child: CustomAppBar(),
+                //alignment: Alignment.topCenter,
+                width: double.infinity,
+                height: 150,
+              ),
+              const Center(
+                  child: Text(
+                "Please select a service : ",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+              )),
+              const SizedBox(height: 10),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AddCustomer()));
+                },
+                child: Center(
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 50, vertical: 30),
+                    child: const Center(
+                        child: Text("Add user",
+                            style: TextStyle(
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black))),
+                    height: heightScreen/6,
+                    width: widthScreen*0.8,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.15),
+                      border: Border.all(color: Colors.black87),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const RemoveCustomer()));
+                },
+                child: Center(
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 50, vertical: 30),
+                    child: const Center(
+                        child: Text("Remove user",
+                            style: TextStyle(
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black))),
+                    height: heightScreen/6,
+                    width: widthScreen*0.8,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.15),
+                      border: Border.all(color: Colors.black87),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () async {
+                  //await EasyLoading.showSuccess(TheWebUser.length.toString());
+                  await Httpservices.WebListCustomers("customers", context);
+                  //Navigator.push(
+                  //    context,
+                  //    MaterialPageRoute(
+                  //        builder: (context) => const RemoveCustomer()));
+                },
+                child: Center(
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 50, vertical: 30),
+                    child: const Center(
+                        child: Text("List all users",
+                            style: TextStyle(
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black))),
+                    height: heightScreen/6,
+                    width: widthScreen*0.8,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.15),
+                      border: Border.all(color: Colors.black87),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+>>>>>>> 4c119cdef057dc1d68e1d6843b276d5f7c7e3f0f:Ims_Flutter/lib/web_app/views/Operator/ManageUsersPage.dart
                 ),
               ),
             ),

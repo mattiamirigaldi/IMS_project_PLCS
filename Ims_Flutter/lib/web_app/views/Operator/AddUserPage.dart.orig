@@ -15,6 +15,11 @@ class AddCustomer extends StatefulWidget {
   _GenreListState createState() => _GenreListState();
 }
 
+// _RegisterPageState inherits the state of RegisterPage
+class _GenreListState extends State<AddCustomer> {
+  // Create a global key that uniquely identifies the Form widget
+  // and allows validation of the form
+  final _formKey = GlobalKey<FormState>();
   // Register form data
   late String email;
   late String firstName;
@@ -77,6 +82,20 @@ class AddCustomer extends StatefulWidget {
             width: width_screen * 0.7,
             child: Form(
               key: _formKey,
+<<<<<<< HEAD
+              child: ListView(children: <Widget>[
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                  child: Center(
+                    child: Text(
+                      "User details",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black.withOpacity(0.7)),
+                      textAlign: TextAlign.center,
+                      textScaleFactor: 3,
+=======
               child: ListView(
                   children: <Widget>[
                     Padding(
@@ -91,6 +110,7 @@ class AddCustomer extends StatefulWidget {
                           textScaleFactor: 3,
                         ),
                       ),
+>>>>>>> 4c119cdef057dc1d68e1d6843b276d5f7c7e3f0f
                     ),
                   ),
                 ),
@@ -265,6 +285,141 @@ class AddCustomer extends StatefulWidget {
                             if (branch == 'New Branch') {
                               if (role == 'operators') {
                                 ShowPopUp();
+=======
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                            hintText: "Enter username",
+                            labelText: 'Username',
+                            border: OutlineInputBorder()),
+                        onChanged: (value) async {
+                          setState(() {
+                            username = value;
+                          });
+                          user_chk_flag = await Httpservices.webAddCustomerCheck(
+                              role, username);
+                          //if (user_chk_flag ==
+                          //    "the entered username is used before") {
+                          //  await EasyLoading.showInfo(user_chk_flag);
+                          //}
+                        },
+                        validator: (String? value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter some text';
+                          } else if (user_chk_flag ==
+                              "the entered username is used before") {
+                            return user_chk_flag;
+                          } else {}
+                          return null;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                            hintText: "Enter email address",
+                            labelText: 'Email',
+                            border: OutlineInputBorder()),
+                        onChanged: (value) {
+                          setState(() {
+                            email = value;
+                          });
+                        },
+                        validator: (String? value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                            hintText: "Enter password",
+                            labelText: 'Password',
+                            border: OutlineInputBorder()),
+                        onChanged: (value) {
+                          setState(() {
+                            password = value;
+                          });
+                        },
+                        validator: (String? value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                            hintText: "Confirm password",
+                            labelText: 'Password validation',
+                            border: OutlineInputBorder()),
+                        validator: (String? value) {
+                          if (value != password) {
+                            return 'Password is not correct';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    selectRole(),
+                    const SizedBox(height: 20,),
+                    InkWell(
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 20),
+                          child: const Center(
+                              child: Text("SUBMIT NEW USER",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18))),
+                          height: 60,
+                          width: width_screen*0.6,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              gradient: const LinearGradient(
+                              colors: <Color>[
+                                Color.fromARGB(255, 22, 78, 163),
+                                Color(0xFF1976D2),
+                                Color.fromARGB(255, 36, 121, 190),
+                              ],
+                            ),
+                          )
+                        ),
+                        onTap: () async {
+                          if (_formKey.currentState != null) {
+                            if (_formKey.currentState!.validate()) {
+                              if (user_chk_flag == "username is valid") {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text("Register user data")));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => TAddCustomerRFID(
+                                              firstName: firstName,
+                                              lastName: lastName,
+                                              username: username,
+                                              email: email,
+                                              password: password,
+                                              role: role,
+                                              context: context,
+                                            )));
+>>>>>>> 4c119cdef057dc1d68e1d6843b276d5f7c7e3f0f
                               } else {
                                 await EasyLoading.showError(
                                     "Please choose another branch");

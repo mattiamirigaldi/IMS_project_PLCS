@@ -47,13 +47,13 @@ class _LoginPageState extends State<LoginPage> {
               key: _formKey,
               child: ListView(
                 children: <Widget>[
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
                     child: Center(
-                        child: Text("Sign in to your account",
+                        child: Text("Sign in to your account ".toUpperCase(),
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.deepOrangeAccent),
+                                color: Colors.deepOrangeAccent.withOpacity(0.8)),
                             textAlign: TextAlign.center,
                             textScaleFactor: 2)),
                   ),

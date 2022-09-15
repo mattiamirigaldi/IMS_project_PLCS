@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/web_app/model/item.dart';
 import 'package:ims/web_app/services/http_services.dart';
 //import 'package:ims/web_app/views/components/App_bar.dart';
@@ -27,7 +26,7 @@ class _ModifyItemPageState extends State<ModifyItemPage> {
   late String newLocation = item.location;
   late String newCategory = item.category;
   late String newUrlImage = item.urlImage;
-  late String UserUsername;
+  late String username;
   _ModifyItemPageState({required this.item});
   @override
   Widget build(BuildContext context) {
@@ -59,7 +58,7 @@ class _ModifyItemPageState extends State<ModifyItemPage> {
       ),
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
-          Divider(),
+          const Divider(),
           const SizedBox(height: 40),
           SizedBox(
             height: size.height,
@@ -78,7 +77,7 @@ class _ModifyItemPageState extends State<ModifyItemPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       SizedBox(
-                        height: size.height / 6,
+                        height: size.height / 5,
                         child: Padding(
                             padding: const EdgeInsets.only(top: 1),
                             child: TextFormField(
@@ -103,14 +102,14 @@ class _ModifyItemPageState extends State<ModifyItemPage> {
                                   newDescription = value;
                                 })),
                       ),
-                      EditOrRemove()
+                      editOrRemove()
                     ]),
               ),
               Align(
                 alignment: Alignment.topCenter,
-                child: Container(
+                child: SizedBox(
                   width: size.width * 0.9,
-                  height: 300,
+                  height: 800,
                   child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -129,25 +128,50 @@ class _ModifyItemPageState extends State<ModifyItemPage> {
     );
   }
 
-  Container itemPicture(Size size) {
-    return Container(
-        width: size.width * 0.25,
-        child: Hero(
-            tag: "${item.id}",
-            child: Stack(
-              //alignment: Alignment.bottomCenter,
-              children: [
-                Material(
-                  color: Colors.transparent,
-                  child: Ink.image(
-                    image: NetworkImage(item.urlImage),
-                    width: 230,
-                    height: 230,
-                    // to create a splash effect when image clicked
-                    child: InkWell(
-                        onTap: () {}), //Neded the rerout for change image
-                  ),
+  SizedBox itemPicture(Size size) {
+    return SizedBox(
+      width: size.width*0.25,
+      child: Hero(
+        tag: item.id,
+        child: Stack(
+          //alignment: Alignment.bottomCenter,
+          children: [
+            Material(
+              color: Colors.transparent,
+              child: Ink.image(
+                image: NetworkImage(item.urlImage),
+                width: 230,
+                height: 230,
+                child: InkWell(
+            onTap: () => showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text("Enter url of new image"),
+                content: TextFormField(
+                  decoration: const InputDecoration(hintText: 'url image'),
+                  onChanged: (value){
+                    newUrlImage = value;
+                  },
+                  validator: (String? value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
                 ),
+                actions: [
+                  TextButton(
+                    onPressed: (){
+                      Navigator.of(context).pop();
+                    }, 
+                    child: const Text("SUBMIT")
+                  )
+                ],
+              ),
+            )
+            ),
+              ),
+            ),
                 Positioned(
                   bottom: 5,
                   left: 185,
@@ -296,147 +320,121 @@ class _ModifyItemPageState extends State<ModifyItemPage> {
 
   Container itemInfo(Size size) {
     return Container(
-      height: 800,
-      width: size.width * 0.2,
-      margin: const EdgeInsets.only(left: 40, right: 40),
-      child: Form(
-        child: Column(children: <Widget>[
-          const SizedBox(height: 10),
-          TextFormField(
-            decoration: const InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black)),
-                labelText: "TITLE",
-                labelStyle: TextStyle(
-                  fontSize: 25,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+              height: 800,
+              width: size.width * 0.2,
+              margin: const EdgeInsets.only(left: 40, right: 40),
+              child : Form(
+                child: Column (
+                  children: <Widget>[
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                        labelText: "TITLE",
+                        labelStyle: TextStyle(
+                        fontSize: 25,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        ),
+                        border: OutlineInputBorder( ),
+                        hintText: "Please insert some text",
+                        hintStyle : TextStyle(
+                        fontSize: 10,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.normal,
+                    )
+                    ),
+                    initialValue: item.title,
+                    onChanged: (value) {
+                      newTitle = value;
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                        labelText: "AUTHOR",
+                        labelStyle: TextStyle(
+                        fontSize: 25,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        ),
+                        border: OutlineInputBorder( ),
+                        hintText: "Please insert some text",
+                        hintStyle : TextStyle(
+                        fontSize: 10,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.normal,
+                    )
+                    ),
+                    initialValue: item.author,
+                    onChanged: (value) {
+                      newAuthor = value;
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                        labelText: "CATEGORY",
+                        labelStyle: TextStyle(
+                        fontSize: 25,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        ),
+                        border: OutlineInputBorder( ),
+                        hintText: "Please insert some text",
+                        hintStyle : TextStyle(
+                        fontSize: 10,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.normal,
+                    )
+                    ),
+                    initialValue: item.category,
+                    onChanged: (value) {
+                      newCategory = value;
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                    ),
+                  ]
                 ),
-                border: OutlineInputBorder(),
-                hintText: "Please insert some text",
-                hintStyle: TextStyle(
-                  fontSize: 10,
-                  color: Colors.grey,
-                  fontWeight: FontWeight.normal,
-                )),
-            initialValue: item.title,
-            onChanged: (value) {
-              newTitle = value;
-            },
-            validator: (String? value) {
-              if (value!.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
-          const SizedBox(height: 20),
-          TextFormField(
-            decoration: const InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black)),
-                labelText: "AUTHOR",
-                labelStyle: TextStyle(
-                  fontSize: 25,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-                border: OutlineInputBorder(),
-                hintText: "Please insert some text",
-                hintStyle: TextStyle(
-                  fontSize: 10,
-                  color: Colors.grey,
-                  fontWeight: FontWeight.normal,
-                )),
-            initialValue: item.author,
-            onChanged: (value) {
-              newAuthor = value;
-            },
-            validator: (String? value) {
-              if (value!.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
-          const SizedBox(height: 20),
-          TextFormField(
-            decoration: const InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black)),
-                labelText: "CATEGORY",
-                labelStyle: TextStyle(
-                  fontSize: 25,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-                border: OutlineInputBorder(),
-                hintText: "Please insert some text",
-                hintStyle: TextStyle(
-                  fontSize: 10,
-                  color: Colors.grey,
-                  fontWeight: FontWeight.normal,
-                )),
-            initialValue: item.category,
-            onChanged: (value) {
-              newCategory = value;
-            },
-            validator: (String? value) {
-              if (value!.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
-          const SizedBox(height: 20),
-          TextFormField(
-            decoration: const InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black)),
-                labelText: "PUBLISHER",
-                labelStyle: TextStyle(
-                  fontSize: 25,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-                border: OutlineInputBorder(),
-                hintText: "Please insert some text",
-                hintStyle: TextStyle(
-                  fontSize: 10,
-                  color: Colors.grey,
-                  fontWeight: FontWeight.normal,
-                )),
-            initialValue: item.category,
-            onChanged: (value) {
-              newCategory = value;
-            },
-            validator: (String? value) {
-              if (value!.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
-        ]),
-      ),
-    );
+              ),
+            );
   }
+ 
 
-  Container EditOrRemove() {
-    return Container(
+  SizedBox editOrRemove() {
+    return SizedBox(
       height: 140,
       child:
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
         saveButton(),
         const SizedBox(width: 80),
-        RentReturn(),
+        rentReturn(),
         const SizedBox(width: 80),
         deleteButton(),
       ]),
     );
   }
 
-  ClipRRect RentReturn() {
+  ClipRRect rentReturn() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(4),
       child: Stack(
@@ -471,7 +469,7 @@ class _ModifyItemPageState extends State<ModifyItemPage> {
                           content: TextField(
                             onChanged: (value) {
                               setState(() {
-                                UserUsername = value;
+                                username = value;
                               });
                             },
                             //controller: _textFieldController,
@@ -506,7 +504,7 @@ class _ModifyItemPageState extends State<ModifyItemPage> {
                               onPressed: () {
                                 setState(() async {
                                   await Httpservices.item_rent(
-                                      item.id, UserUsername, context);
+                                      item.id, username, context);
                                   //codeDialog = valueText;
                                   Navigator.pop(context);
                                 });
@@ -618,7 +616,7 @@ class _ModifyItemPageState extends State<ModifyItemPage> {
                 primary: Colors.white,
                 textStyle: const TextStyle(fontSize: 20),
               ),
-              child: Text("DELETE IT"),
+              child: const Text("DELETE IT"),
               onPressed: () async {
                 await Httpservices.item_remove(item.id, context);
                 //setState(() {

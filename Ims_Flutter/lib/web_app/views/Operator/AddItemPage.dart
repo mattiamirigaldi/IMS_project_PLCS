@@ -58,7 +58,7 @@ class _GenreListState extends State<AddBook> {
                           EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                       child: Center(
                         child: Text(
-                          "Item details",
+                          "Item details".toUpperCase(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.black.withOpacity(0.7)),

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:ims/web_app/DataLists.dart';
+import 'package:ims/web_app/views/Guest/GuestDashboard.dart';
 import 'Searchbar.dart';
 import 'menu_item.dart';
 //import 'dart:developer' as devlog;
@@ -9,21 +10,25 @@ import 'package:ims/web_app/views/DashBoard.dart';
 
 class CustomAppBar extends StatelessWidget {
   static const _BrowseItems = [
-    "Subjects",
+    "Categories",
     "Trending",
     "Collections",
     "Random book",
   ];
-  static const _ServicesCustomerItems = ["Request book", "Help & support"];
+  static const _ServicesGuestItems = ["Help & support"];
+  static const _ServicesCustomerItems = ["Request item", "Help & support"];
   static const _ServicesOperatorItems = ["Manage users", "Manage items"];
   static const _ServicesAdminItems = ["Manage operators"];
+  static const _GuestItems =["Login"];
   static const _UserItems = ["My profile", "My loans", "Favorites", "Logout"];
   late List<String> _Services = [];
 
   CustomAppBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    if (TheWebUser[0]['role'] == 'customers') {
+    if (TheWebUser[0]['role'] == "guest"){
+      _Services = _ServicesGuestItems;
+    } else if (TheWebUser[0]['role'] == 'customers') {
       _Services = _ServicesCustomerItems;
     } else if (TheWebUser[0]['role'] == 'operators') {
       _Services = _ServicesOperatorItems + _ServicesCustomerItems;
@@ -55,12 +60,24 @@ class CustomAppBar extends StatelessWidget {
                         alignment: Alignment.center),
                     borderRadius: BorderRadius.circular(25),
                   )),
-              onTap: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const DashBoard()))),
+              onTap: () => (TheWebUser[0]['role'] != "guest") ?
+               Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const DashBoard()))
+               :  Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const GuestDashBoard()))
+          ),
           const SizedBox(width: 20),
-          Text("Welcome ".toUpperCase() + TheWebUser[0]['username'],
-              style:
-                  const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+          Row(
+            children: [
+              Text("Welcome ".toUpperCase(),
+                style:
+                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+              const SizedBox(width: 10),
+               Text(TheWebUser[0]['username'],
+                style:
+                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color : Colors.grey)),     
+            ],
+          ),
           const Spacer(),
           const SearchBar(),
           const MenuItems(
@@ -75,12 +92,12 @@ class CustomAppBar extends StatelessWidget {
             DropDownItems: _Services,
             //userName: TheUser[0]['username'],
           ),
-          const Padding(
-            padding: EdgeInsets.only(right: 70),
+          Padding(
+            padding: const EdgeInsets.only(right: 70),
             child: MenuItems(
               title: "",
               icon: Icons.manage_accounts,
-              DropDownItems: _UserItems,
+              DropDownItems: (TheWebUser[0]['role'] == "guest") ? _GuestItems : _UserItems,
               //userName: TheUser[0]['username'],
             ),
           )

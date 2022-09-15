@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:ims/web_app/views/CategoriesList.dart';
-import 'package:ims/web_app/services/http_services.dart';
-import 'package:ims/web_app/views/FavoriteItemsPage.dart';
-import 'package:ims/web_app/views/Operator/ManageCustomerPage.dart';
+import 'package:ims/web_app/views/MyLoansPage.dart';
+import 'package:ims/web_app/views/MyFavoriteItemsPage.dart';
+import 'package:ims/web_app/views/Operator/ManageUsersPage.dart';
 import 'package:ims/web_app/views/Operator/ManageItemsPage.dart';
 import 'package:ims/web_app/views/UserSettings.dart';
 import 'package:ims/web_app/views/WelcomPage.dart';
@@ -65,9 +65,9 @@ void choiceAction(String choice, BuildContext context) async {
   if (choice == "My profile") {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => const SettingPage()));
-  } else if (choice == "Subjects") {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const CategoriesListPage()));
+  } else if (choice == "Categories") {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const CategoriesListPage()));
   } else if (choice == "Manage users") {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => const manageCustomer()));
@@ -78,10 +78,14 @@ void choiceAction(String choice, BuildContext context) async {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const WelcomeHome()));
   } else if (choice == "My loans") {
-    await Httpservices.List_User_Items(context);
-  } else if (choice == "Favorites") {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const FavoriteItemsPage()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const MyLoansPage()));
+  }  else if (choice == "Favorites") {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const FavoriteItemsPage()));
+  }  else if (choice == "Login") {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const WelcomeHome()));
   } else {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(choice)));
   }
