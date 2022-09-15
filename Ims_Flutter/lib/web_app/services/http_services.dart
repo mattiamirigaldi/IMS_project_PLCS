@@ -107,10 +107,10 @@ class Httpservices {
         }
         //await EasyLoading.showSuccess(
         //    "Welcome dear " + TheWebUser[0]['firstname']);
-        //Navigator.push(context,
-        //    MaterialPageRoute(builder: (context) => const DashBoard()));
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const manageCustomer()));
+            MaterialPageRoute(builder: (context) => const DashBoard()));
+        //Navigator.push(context,
+        //    MaterialPageRoute(builder: (context) => const manageCustomer()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
@@ -263,8 +263,8 @@ class Httpservices {
         AllItems.addAll(json);
         await EasyLoading.showSuccess(AllItems[0]['title']);
       }
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const ListItemsOperator()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ListItemsOperator()));
       // Navigator.push(context,
       //     MaterialPageRoute(builder: (context) => const SelectListType()));
       ScaffoldMessenger.of(context).showSnackBar(

@@ -15,6 +15,11 @@ class AddCustomer extends StatefulWidget {
   _GenreListState createState() => _GenreListState();
 }
 
+// _RegisterPageState inherits the state of RegisterPage
+class _GenreListState extends State<AddCustomer> {
+  // Create a global key that uniquely identifies the Form widget
+  // and allows validation of the form
+  final _formKey = GlobalKey<FormState>();
   // Register form data
   late String email;
   late String firstName;
@@ -77,20 +82,18 @@ class AddCustomer extends StatefulWidget {
             width: width_screen * 0.7,
             child: Form(
               key: _formKey,
-              child: ListView(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                      child: Center(
-                        child: Text(
-                          "User details".toUpperCase(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black.withOpacity(0.7)),
-                          textAlign: TextAlign.center,
-                          textScaleFactor: 3,
-                        ),
-                      ),
+              child: ListView(children: <Widget>[
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                  child: Center(
+                    child: Text(
+                      "User details".toUpperCase(),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black.withOpacity(0.7)),
+                      textAlign: TextAlign.center,
+                      textScaleFactor: 3,
                     ),
                   ),
                 ),
@@ -125,7 +128,6 @@ class AddCustomer extends StatefulWidget {
                       labelText: 'Last Name',
                       border: OutlineInputBorder(),
                     ),
-<<<<<<< HEAD
                     onChanged: (value) {
                       setState(() {
                         lastName = value;
