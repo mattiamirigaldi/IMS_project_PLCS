@@ -29,21 +29,21 @@ class _ItemPageState extends State<ItemPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
-        ), 
-          title: (
-            Row(children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: const Image(
-                  image: AssetImage("images/ims.jpg"),
-                  width: 45,
-                  height: 45,
-                ),
-              ),
-              const SizedBox(width: 30,),
-              const Text("Item page")
-            ])
+        ),
+        title: (Row(children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: const Image(
+              image: AssetImage("images/ims.jpg"),
+              width: 45,
+              height: 45,
+            ),
           ),
+          const SizedBox(
+            width: 30,
+          ),
+          const Text("Item page")
+        ])),
       ),
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
@@ -176,8 +176,9 @@ class _ItemPageState extends State<ItemPage> {
             child: Hero(
                 tag: item.id,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(item.urlImage, width: 350, height: 350))))
+                    borderRadius: BorderRadius.circular(10),
+                    child:
+                        Image.network(item.urlImage, width: 350, height: 350))))
       ]),
     );
   }

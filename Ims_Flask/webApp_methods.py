@@ -199,7 +199,7 @@ def ListItems(role,id,branch):
         check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE branch = (?)"
         cursor.execute(check_query,branch)
     if role == "customers" :
-        check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE opr_id = (?)"
+        check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE branch = (?)"
         cursor.execute(check_query,branch)
     if cursor.rowcount == 0:
         cnxn.close()

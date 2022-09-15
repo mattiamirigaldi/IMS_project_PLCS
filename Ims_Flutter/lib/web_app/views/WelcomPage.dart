@@ -33,13 +33,13 @@ class WelcomeHome extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
               child: Center(
                   child: ClipRRect(
-                    child: Image.asset(
-                                  'images/ims.jpg',
-                                  width: 200,
-                                  height: 200,
-                                ),
-                    borderRadius: BorderRadius.circular(20),
-                  ))),
+                child: Image.asset(
+                  'images/ims.jpg',
+                  width: 200,
+                  height: 200,
+                ),
+                borderRadius: BorderRadius.circular(20),
+              ))),
           InkWell(
             onTap: () async {
               //await Httpservices.login('o1', 'o1', 'operators', context);
@@ -48,7 +48,7 @@ class WelcomeHome extends StatelessWidget {
               //    MaterialPageRoute(builder: (context) => const LoginPage()));
               // await Httpservices.login('c1', 'c1', 'customers', context);
               Navigator.push(context,
-                 MaterialPageRoute(builder: (context) => const LoginPage()));
+                  MaterialPageRoute(builder: (context) => const LoginPage()));
             },
             child: Center(
               child: Container(
@@ -88,8 +88,7 @@ class WelcomeHome extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                     color: const Color.fromARGB(255, 1, 154, 16)),
               ))),
-
-              InkWell(
+          InkWell(
               onTap: () {
                 Navigator.push(
                     context,

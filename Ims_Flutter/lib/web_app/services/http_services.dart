@@ -82,17 +82,7 @@ class Httpservices {
             'He is often considered a "goofy" boss by the employees of Dunder Mifflin. He is often the butt of everybodies jokes. Michael constantly tries to intermix his work life with his social life by inviting employees of Dunder Mifflin to come over house or get coffee';
         TheWebUser[0]['role'] = role;
         if (role == 'admins') {
-          http.Response response2 = await _client
-              .get(baseUrl + '/web/admins/' + TheWebUser[0]['id'].toString());
-          if (response2.statusCode == 200) {
-            var json2 = jsonDecode(response2.body);
-            if (json2[0] == "not_found") {
-              await EasyLoading.showError(json[0]);
-            } else {
-              AllOperators.clear();
-              AllOperators.addAll(json2);
-            }
-          }
+          await Httpservices.List_Items('ALL', context);
           http.Response response3 = await _client.get(
               baseUrl + '/web/admins/branch/' + TheWebUser[0]['id'].toString());
           if (response3.statusCode == 200) {
@@ -104,6 +94,8 @@ class Httpservices {
               AllBranches.addAll(json3);
             }
           }
+        } else {
+          await Httpservices.List_Items(TheWebUser[0]['branch'], context);
         }
         //await EasyLoading.showSuccess(
         //    "Welcome dear " + TheWebUser[0]['firstname']);

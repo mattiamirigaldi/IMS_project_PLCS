@@ -1,9 +1,10 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/web_app/DataLists.dart';
 import 'package:ims/web_app/model/item.dart';
-import 'package:ims/web_app/data/book_data.dart';
+//import 'package:ims/web_app/data/book_data.dart';
 import 'package:ims/web_app/model/category.dart';
 import 'package:ims/web_app/data/genre_data.dart';
 import 'package:ims/web_app/views/CategoryPage.dart';
@@ -19,18 +20,39 @@ class FeedDashBoard extends StatefulWidget {
 }
 
 class _FeedDashBoardState extends State<FeedDashBoard> {
+  static late List<Item> allitemslist = <Item>[];
+
   @override
   Widget build(BuildContext context) {
+    for (var i = 0; i < AllItems.length; i++) {
+      allitemslist.add(Item(
+          id: AllItems[i]['id'].toString(),
+          rfid: AllItems[i]['rfid'].toString(),
+          author: AllItems[i]['author'],
+          title: AllItems[i]['title'],
+          // urlImage: AllItems[i]['imagePath'],
+          urlImage:
+              'https://thumbs.dreamstime.com/z/old-mystery-book-icon-outline-style-old-mystery-book-icon-outline-old-mystery-book-vector-icon-web-design-isolated-white-198523618.jpg',
+          color: Color.fromARGB(255, 211, 255, 89),
+          price: 20.0,
+          description: AllItems[i]['description'],
+          avaflag: "avaflag[i]",
+          available: (AllItems[i]['cus_id'] == null),
+          favorite: false,
+          location: AllItems[i]['loc'],
+          category: AllItems[i]['genre']));
+    }
     return Column(children: <Widget>[
       InkWell(
         onTap: () async {
           if (TheWebUser[0]['role'] == 'customers') {
-            await Httpservices.List_Items(
-                TheWebUser[0]['opr_id'].toString(), context);
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const ListItemsCustomer()));
+            await EasyLoading.showError(allitemslist.length.toString());
+            //await Httpservices.List_Items(
+            //    TheWebUser[0]['branch'].toString(), context);
+            //Navigator.push(
+            //    context,
+            //    MaterialPageRoute(
+            //        builder: (context) => const ListItemsCustomer()));
           }
         },
         child: const Center(
@@ -46,10 +68,10 @@ class _FeedDashBoardState extends State<FeedDashBoard> {
           child: ListView.separated(
               padding: const EdgeInsets.all(22),
               scrollDirection: Axis.horizontal,
-              itemCount: allItems.length,
+              itemCount: allitemslist.length,
               separatorBuilder: (context, _) => const SizedBox(width: 15),
               itemBuilder: (context, index) =>
-                  buildCardItem(item: allItems[index], context: context))),
+                  buildCardItem(item: allitemslist[index], context: context))),
       const Text("Search by category",
           style: TextStyle(
               fontSize: 24,
