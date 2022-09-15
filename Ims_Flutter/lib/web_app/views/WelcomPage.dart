@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:ims/web_app/views/Guest/GuestDashboard.dart';
+import 'package:ims/web_app/services/http_services.dart';
 import './Login.dart';
 import './Register.dart';
 
@@ -41,6 +42,7 @@ class WelcomeHome extends StatelessWidget {
                   ))),
           InkWell(
             onTap: () async {
+              // await Httpservices.login('c1', 'c1', 'customers', context);
               Navigator.push(context,
                  MaterialPageRoute(builder: (context) => const LoginPage()));
             },
@@ -102,7 +104,7 @@ class WelcomeHome extends StatelessWidget {
                 width: 800,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Color.fromARGB(255, 224, 48, 48)),
+                    color: const Color.fromARGB(255, 224, 48, 48)),
               ))),
         ]));
   }

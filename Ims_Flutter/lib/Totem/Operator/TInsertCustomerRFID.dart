@@ -1,33 +1,30 @@
-// ignore_for_file: file_names, camel_case_types, non_constant_identifier_names
+// ignore_for_file: file_names, camel_case_types
 
 import 'package:flutter/material.dart';
 import './services/TOp_http_services.dart';
 
-class TAddBookRFID extends StatefulWidget {
-  final String Title;
-  final String Author;
-  final String Genre;
-  final String Publisher;
-  final String Date;
-  final String Loc;
-  final String Description;
+class TInsertCustomerRFID extends StatefulWidget {
+  final String FirstName;
+  final String LastName;
+  final String UserName;
+  final String Email;
 
-  const TAddBookRFID(
+  const TInsertCustomerRFID(
       {Key? key,
-      required this.Title,
-      required this.Author,
-      required this.Genre,
-      required this.Publisher,
-      required this.Date,
-      required this.Loc,
-      required this.Description,
-      context})
+      required this.FirstName,
+      required this.LastName,
+      required this.UserName,
+      required this.Email,
+      context,
+      lastName,
+      username,
+      email})
       : super(key: key);
   @override
   _GenreListState createState() => _GenreListState();
 }
 
-class _GenreListState extends State<TAddBookRFID> {
+class _GenreListState extends State<TInsertCustomerRFID> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,29 +39,22 @@ class _GenreListState extends State<TAddBookRFID> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               const Center(
-                  child: Text("scan Book's RFID and press the button",
+                  child: Text("scan RFID and press the button",
                       style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
                           color: Colors.black))),
               InkWell(
                 onTap: () async {
-                  await Httpservices.totemAddbook(
-                      widget.Title,
-                      widget.Author,
-                      widget.Genre,
-                      widget.Publisher,
-                      widget.Date,
-                      widget.Loc,
-                      widget.Description,
-                      context);
+                  await Httpservices.totemInsertCustomerRFID(widget.FirstName,
+                      widget.LastName, widget.UserName, widget.Email, context);
                 },
                 child: Center(
                   child: Container(
                     margin: const EdgeInsets.symmetric(
                         horizontal: 30, vertical: 20),
                     child: const Center(
-                        child: Text("Add New Item",
+                        child: Text("Add User RFID",
                             style: TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,

@@ -2,10 +2,8 @@
 
 import 'package:flutter/material.dart';
 //import 'package:ims/web_app/model/category.dart';
-import 'package:ims/web_app/data/book_data.dart';
 import 'package:ims/web_app/data/genre_data.dart';
 import 'package:ims/web_app/model/category.dart';
-import 'package:ims/web_app/model/item.dart';
 import 'package:ims/web_app/views/CategoryPage.dart';
 import 'package:ims/web_app/views/ItemPage.dart';
 
@@ -66,27 +64,25 @@ class _CategoriesListPageState extends State<CategoriesListPage> {
       );
 }
 
-Widget buildCardItem({required Category category, context}) => Container(
-      child: Column(children: [
-        Expanded(
-          child: AspectRatio(
-              aspectRatio: 4 / 3,
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Material(
-                    child: Ink.image(
-                      image: NetworkImage(category.urlImage),
-                      fit: BoxFit.contain,
-                      child: InkWell(
-                          onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => GenrePage(genre: category.name)))),
-                    ),
-                  ))),
-        ),
-        const SizedBox(height: 4),
-        Text(category.name,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-      ]),
-    );
+Widget buildCardItem({required Category category, context}) => Column(children: [
+  Expanded(
+    child: AspectRatio(
+        aspectRatio: 4 / 3,
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Material(
+              child: Ink.image(
+                image: NetworkImage(category.urlImage),
+                fit: BoxFit.contain,
+                child: InkWell(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => GenrePage(genre: category.name)))),
+              ),
+            ))),
+  ),
+  const SizedBox(height: 4),
+  Text(category.name,
+      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+]);

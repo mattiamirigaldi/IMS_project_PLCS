@@ -8,8 +8,7 @@ class GuestDashBoard extends StatelessWidget {
   const GuestDashBoard({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    double width_screen = MediaQuery.of(context).size.width;
-    double height_screen = MediaQuery.of(context).size.height;
+    double widthScreen = MediaQuery.of(context).size.width;
     TheWebUser.clear();
     var guest = {"username": "guest",  "role" : "guest", "firstname" : "guest"};
     TheWebUser.add(guest);
@@ -26,53 +25,7 @@ class GuestDashBoard extends StatelessWidget {
           child: Container(
               padding: const EdgeInsets.all(10),
               child: Row(children: <Widget>[
-                SizedBox(
-                    height: double.infinity,
-                    width: width_screen*0.3,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 100),
-                        const Padding(
-                          padding: EdgeInsets.all(20.0),
-                          child: Text("Login to access incredile functionalites", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                        ),
-                        const SizedBox(height: 50,),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
-                          child: Stack(children: <Widget>[
-                            Positioned.fill(
-                              child: Container(
-                                width: 300,
-                                height: 80,
-                                decoration: const BoxDecoration(
-                                  gradient: LinearGradient(
-                                  colors: <Color>[
-                                  Color(0xFF0D47A1),
-                                  Color(0xFF1976D2),
-                                  Color(0xFF42A5F5),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                              TextButton(
-                                style: TextButton.styleFrom(
-                                  padding: const EdgeInsets.all(20.0),
-                                  textStyle: const TextStyle(fontSize: 24),
-                                ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context, MaterialPageRoute(builder: (context) => const WelcomeHome()));
-                              },
-                              child: const Text(' LOGIN ', style: TextStyle(color: Colors.white),),
-                              ),
-                          ]
-                          ),
-                        ),
-                    ],)),
-                //GuestLoginButton(width_screen),
+                loginGuestButton(widthScreen, context),
                 const Expanded(
                     child: FeedDashBoard(),
                 ),
@@ -83,36 +36,52 @@ class GuestDashBoard extends StatelessWidget {
     );
   }
 
-  SizedBox GuestLoginButton(double width_screen) {
+  SizedBox loginGuestButton(double widthScreen, BuildContext context) {
     return SizedBox(
-                  //height: double.infinity,
-                  //width: width_screen*0.3,
+                  height: double.infinity,
+                  width: widthScreen*0.3,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget> [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
-                      child: Stack(
-                        children: <Widget>[
+                    children: [
+                      const SizedBox(height: 100),
+                      const Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: Text("Login to access incredile functionalites", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                      ),
+                      const SizedBox(height: 50,),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: Stack(children: <Widget>[
                           Positioned.fill(
                             child: Container(
-                            decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                            colors: <Color>[
-                               Color(0xFF0D47A1),
-                               Color(0xFF1976D2),
-                               Color(0xFF42A5F5),
-                            ],
+                              width: 300,
+                              height: 80,
+                              decoration: const BoxDecoration(
+                                gradient: LinearGradient(
+                                colors: <Color>[
+                                Color(0xFF0D47A1),
+                                Color(0xFF1976D2),
+                                Color(0xFF42A5F5),
+                                  ],
+                                ),
+                              ),
                             ),
+                          ),
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                padding: const EdgeInsets.all(20.0),
+                                textStyle: const TextStyle(fontSize: 24),
+                              ),
+                            onPressed: () {
+                              Navigator.push(
+                                context, MaterialPageRoute(builder: (context) => const WelcomeHome()));
+                            },
+                            child: const Text(' LOGIN ', style: TextStyle(color: Colors.white),),
                             ),
-                         ),
+                        ]
                         ),
-                      ]),
-                    ),
-                    const SizedBox(height: 30,),
-                    Text("To access to increadibile functionalites")
-                  ])
-              );
+                      ),
+                  ],));
   }
 }

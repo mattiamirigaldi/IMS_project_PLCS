@@ -11,8 +11,8 @@ class manageCustomer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width_screen = MediaQuery.of(context).size.width;
-    double height_screen = MediaQuery.of(context).size.height;
+    double widthScreen = MediaQuery.of(context).size.width;
+    double heightScreen = MediaQuery.of(context).size.height;
     return Scaffold( 
         body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,8 +48,8 @@ class manageCustomer extends StatelessWidget {
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black))),
-                    height: height_screen/6,
-                    width: width_screen*0.8,
+                    height: heightScreen/6,
+                    width: widthScreen*0.8,
                     decoration: BoxDecoration(
                       color: Colors.grey.withOpacity(0.15),
                       border: Border.all(color: Colors.black87),
@@ -75,8 +75,8 @@ class manageCustomer extends StatelessWidget {
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black))),
-                    height: height_screen/6,
-                    width: width_screen*0.8,
+                    height: heightScreen/6,
+                    width: widthScreen*0.8,
                     decoration: BoxDecoration(
                       color: Colors.grey.withOpacity(0.15),
                       border: Border.all(color: Colors.black87),
@@ -104,8 +104,8 @@ class manageCustomer extends StatelessWidget {
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black))),
-                    height: height_screen/6,
-                    width: width_screen*0.8,
+                    height: heightScreen/6,
+                    width: widthScreen*0.8,
                     decoration: BoxDecoration(
                       color: Colors.grey.withOpacity(0.15),
                       border: Border.all(color: Colors.black87),

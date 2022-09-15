@@ -7,8 +7,7 @@ class DashBoard extends StatelessWidget {
   const DashBoard({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    double width_screen = MediaQuery.of(context).size.width;
-    double height_screen = MediaQuery.of(context).size.height;
+    double widthScreen = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Column(children: <Widget>[
         Container(
@@ -24,7 +23,7 @@ class DashBoard extends StatelessWidget {
               child: Row(children: <Widget>[
                 SizedBox(
                     height: double.infinity,
-                    width: width_screen*0.3,
+                    width: widthScreen*0.3,
                     child: const UserDashBoard()),
                 const Expanded(
                     // ignore: prefer_const_constructors

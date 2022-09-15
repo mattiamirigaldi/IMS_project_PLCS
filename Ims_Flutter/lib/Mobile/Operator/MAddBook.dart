@@ -21,6 +21,8 @@ class _GenreListState extends State<MAddBook> {
   late String Author;
   late String Genre;
   late String RFID;
+  late String Loc;
+  late String Description;
 
   @override
   Widget build(BuildContext context) {
@@ -155,6 +157,50 @@ class _GenreListState extends State<MAddBook> {
                     },
                   ),
                 ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: "Enter the Book's Location",
+                      labelText: 'Location',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        Loc = value;
+                      });
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: "Enter the Book's Description",
+                      labelText: 'Description',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        Description = value;
+                      });
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
                 InkWell(
                     child: Container(
                       margin: const EdgeInsets.symmetric(
@@ -183,6 +229,8 @@ class _GenreListState extends State<MAddBook> {
                                         Genre: Genre,
                                         Publisher: Publisher,
                                         Date: Date,
+                                        Loc: Loc,
+                                        Description: Description,
                                         context: context,
                                       )));
                           ScaffoldMessenger.of(context).showSnackBar(

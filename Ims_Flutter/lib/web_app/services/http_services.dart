@@ -6,10 +6,11 @@ import 'package:http/http.dart' as http;
 // to display loading animation
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/web_app/DataLists.dart';
-import 'package:ims/web_app/views/Operator/ListItems.dart';
+import 'package:ims/web_app/views/Operator/ListItemsOperator.dart';
 import 'package:ims/web_app/views/Operator/ManageUsersPage.dart';
 import 'package:ims/web_app/views/Operator/ManageItemsPage.dart';
-import 'package:ims/web_app/views/SelectListType.dart';
+import 'package:ims/web_app/views/ListItemsAdmin.dart';
+import 'package:ims/web_app/views/Operator/ListUserItems.dart';
 
 // to route
 import '../../routes.dart';
@@ -28,6 +29,10 @@ String ListCustomersUrl = baseUrl + '/web/ListCustomers/';
 String SettingsUrl = baseUrl + '/web/settings/';
 String usrcheckUrl = baseUrl + '/web/usrcheck/';
 String UserEditUrl = baseUrl + '/web/user_edit/';
+String ItemEditUrl = baseUrl + '/web/item_edit/';
+String ItemRemoveUrl = baseUrl + '/web/item_remove/';
+String ItemRentUrl = baseUrl + '/web/item_rent/';
+String ItemReturnUrl = baseUrl + '/web/item_return/';
 String RemoveUserUrl = baseUrl + '/web/RemoveUser/';
 
 class Httpservices {
@@ -86,8 +91,6 @@ class Httpservices {
             } else {
               AllOperators.clear();
               AllOperators.addAll(json2);
-              //await EasyLoading.showSuccess(
-              //    "Welcome dear " + AllOperators[1]['firstname']);
             }
           }
         }
@@ -95,8 +98,8 @@ class Httpservices {
             "Welcome dear " + TheWebUser[0]['firstname']);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const DashBoard()));
-        // Navigator.push(context,
-        //     MaterialPageRoute(builder: (context) => const manageItems()));
+        //Navigator.push(context,
+        //    MaterialPageRoute(builder: (context) => const manageItems()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
@@ -208,12 +211,36 @@ class Httpservices {
     }
   }
 
-  static List_Items_admin(opr_id, context) async {
-    http.Response response = await _client.get(Uri.parse(baseUrl +
-        "/web/items/" +
+  static item_edit(oldid, newTitle, newAuthor, newDescription, newLocation,
+      newCategory, newRfid, context) async {
+    http.Response response =
+        await _client.post(Uri.parse(ItemEditUrl + oldid), body: {
+      "newTitle": newTitle,
+      "newAuthor": newAuthor,
+      "newDescription": newDescription,
+      "newLocation": newLocation,
+      "newCategory": newCategory,
+      "newRfid": newRfid,
+    });
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Item edited successfully")));
+      await Httpservices.List_Items('ALL', context);
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ListItemsOperator()));
+    } else {
+      await EasyLoading?.showError(
+          "Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  static item_remove(id, context) async {
+    http.Response response = await _client.post(Uri.parse(ItemRemoveUrl +
+        TheWebUser[0]['role'] +
+        '/' +
         TheWebUser[0]['id'].toString() +
         '/' +
-        opr_id));
+        id));
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "not_found") {
@@ -226,27 +253,109 @@ class Httpservices {
         await EasyLoading.showSuccess(AllItems[0]['title']);
       }
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const ListItems()));
+          context, MaterialPageRoute(builder: (context) => const ListItemsOperator()));
       // Navigator.push(context,
       //     MaterialPageRoute(builder: (context) => const SelectListType()));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Item edited successfully")));
+      await Httpservices.List_Items('ALL', context);
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ListItemsOperator()));
     } else {
       await EasyLoading?.showError(
           "Error Code : ${response.statusCode.toString()}");
     }
   }
 
-  static List_Items(context) async {
+  // item Rent
+  static item_rent(bookid, username, context) async {
+    http.Response response = await _client.get(Uri.parse(ItemRentUrl +
+        TheWebUser[0]['role'] +
+        '/' +
+        TheWebUser[0]['id'].toString() +
+        '/' +
+        username +
+        '/' +
+        bookid));
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == "User not found") {
+        await EasyLoading.showError(json[0]);
+      } else {
+        await EasyLoading.showSuccess(json[0]);
+        await Httpservices.List_Items('ALL', context);
+        //Navigator.pushReplacement(context,
+        //    MaterialPageRoute(builder: (context) => const TReturnPage()));
+      }
+    } else {
+      EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  // item Return
+  static item_return(bookid, context) async {
+    http.Response response = await _client.get(Uri.parse(ItemReturnUrl +
+        TheWebUser[0]['role'] +
+        '/' +
+        TheWebUser[0]['id'].toString() +
+        '/' +
+        bookid));
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == "User not found") {
+        await EasyLoading.showError(json[0]);
+      } else {
+        await EasyLoading.showSuccess(json[0]);
+        await Httpservices.List_Items('ALL', context);
+        //Navigator.pushReplacement(context,
+        //    MaterialPageRoute(builder: (context) => const TReturnPage()));
+      }
+    } else {
+      EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  //static List_Items_admin(opr_id, context) async {
+  //  http.Response response = await _client.get(Uri.parse(baseUrl +
+  //      "/web/items/" +
+  //      TheWebUser[0]['id'].toString() +
+  //      '/' +
+  //      opr_id.toString()));
+  //  if (response.statusCode == 200) {
+  //    var json = jsonDecode(response.body);
+  //    if (json[0] == "not_found") {
+  //      AllItems.clear();
+  //      await EasyLoading.showError(
+  //          "There are No Ietms for the selected branch");
+  //    } else {
+  //      AllItems.clear();
+  //      AllItems.addAll(json);
+  //      await EasyLoading.showSuccess(AllItems[0]['title']);
+  //    }
+  //    Navigator.push(context,
+  //        MaterialPageRoute(builder: (context) => const SelectListType()));
+  //  } else {
+  //    await EasyLoading?.showError(
+  //        "Error Code : ${response.statusCode.toString()}");
+  //  }
+  //}
+
+  static List_Items(opr_id, context) async {
     http.Response response = await _client.get(Uri.parse(baseUrl +
         "/web/items/" +
-        TheWebUser[0]['admin_id'].toString() +
+        TheWebUser[0]['role'] +
         '/' +
-        TheWebUser[0]['id'].toString()));
+        TheWebUser[0]['id'].toString() +
+        '/' +
+        opr_id));
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       AllItems.clear();
       AllItems.addAll(json);
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const ListItems()));
+      if (json[0] == "not_found") {
+        AllItems.clear();
+        await EasyLoading.showError("There are No Ietms");
+      }
     } else {
       await EasyLoading?.showError(
           "Error Code : ${response.statusCode.toString()}");
@@ -386,9 +495,34 @@ class Httpservices {
     }
   }
 
+// List the Rented Items
+  static List_User_Items(context) async {
+    http.Response response = await _client.get(Uri.parse(baseUrl +
+        "/web/UserItems/" +
+        TheWebUser[0]['admin_id'].toString() +
+        '/' +
+        TheWebUser[0]['opr_id'].toString() +
+        '/' +
+        TheWebUser[0]['rfid'].toString()));
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == "You don't have any Items") {
+        await EasyLoading.showError(json[0]);
+      } else {
+        await EasyLoading.showSuccess("You have some Items");
+        AllItems.clear();
+        AllItems.addAll(json);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const ListUserItems()));
+      }
+    } else {
+      EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
   // Add book method
-  static webAddbook(
-      Title, Author, Genre, Publisher, Date, rfid_flag, context) async {
+  static webAddbook(Title, Author, Genre, Publisher, Date, Loc, Description,
+      rfid_flag, context) async {
     http.Response response = await _client.post(
         AddBookUrl +
             TheWebUser[0]['admin_id'].toString() +
@@ -402,6 +536,8 @@ class Httpservices {
           "Genre": Genre,
           "Publisher": Publisher,
           "Date": Date,
+          "Loc": Loc,
+          "Description": Description,
           "rfid_flag": rfid_flag,
         });
     if (response.statusCode == 200) {

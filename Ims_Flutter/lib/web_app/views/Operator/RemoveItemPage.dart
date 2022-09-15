@@ -37,7 +37,7 @@ class _GenreListState extends State<RemoveBook> {
         ),
       body: Align(
         alignment: Alignment.topCenter,
-        child: Container(
+        child: SizedBox(
           width: width_screen*0.7,
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +49,7 @@ class _GenreListState extends State<RemoveBook> {
                   child: Column(
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
                         child: Center(
                             child: Text(
                                 "Please enter Title and Author of the item to remove".toUpperCase(),

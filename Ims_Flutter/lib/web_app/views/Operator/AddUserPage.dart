@@ -71,7 +71,7 @@ class _GenreListState extends State<AddCustomer> {
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                       child: Center(
                         child: Text(
-                          "User details",
+                          "User details".toUpperCase(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.black.withOpacity(0.7)),

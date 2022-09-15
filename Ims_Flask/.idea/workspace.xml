@@ -2,14 +2,62 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c0fe7fc-4b70-4f13-828c-0dcd61a577d3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TInsertCustomerRFID.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TInsertItemRFID.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/routes.dart.orig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/ListItemsCustomer.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/ListItemsOperator.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/connectionToDb.py" beforeDir="false" afterPath="$PROJECT_DIR$/connectionToDb.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile_methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/mobile_methods.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/totem_methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/totem_methods.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webApp_methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/webApp_methods.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/MWelcomePage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/MWelcomePage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/Operator/MAddBook.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/Operator/MAddBook.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/Operator/MAddBookRFID.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/Operator/MAddBookRFID.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/Operator/MHomePage_op.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/Operator/MHomePage_op.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/Operator/services/MOp_http_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/Operator/services/MOp_http_services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/User/MHomePage_us.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/User/MHomePage_us.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/User/services/MUs_http_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Mobile/User/services/MUs_http_services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TAddBook.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TAddBook.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TAddBookRFID.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TAddBookRFID.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TCustomersList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TCustomersList.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/THomePage_op.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/THomePage_op.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TItemsList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TItemsList.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TLoginOperator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/TLoginOperator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/services/TOp_http_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/Operator/services/TOp_http_services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/TLogin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/TLogin.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/TWelcomePage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/TWelcomePage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/User/THomePage_us.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/Totem/User/THomePage_us.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/routes.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/GuestDashboard.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/data/book_data.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/data/book_data.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/model/item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/model/item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/services/http_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/services/http_services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/CategoriesList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/CategoriesList.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/CategoryPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/CategoryPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/DashBoard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/DashBoard.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Guest/GuestDashboard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Guest/GuestDashboard.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/ItemPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/ItemPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/AddBookRFID.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/AddBookRFID.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/AddItemPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/AddItemPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/AddUserPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/AddUserPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/ListItems.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/ListUserItems.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/ManageItemsPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/ManageItemsPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/ManageUsersPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/ManageUsersPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/ModifyItemPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/ModifyItemPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/ModifyUserPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/ModifyUserPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/RemoveItemPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/RemoveItemPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/RemoveUserPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/RemoveUserPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/UserPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/UserPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Register.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Register.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/SelectListType.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/ListItemsAdmin.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/UserSettings.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/UserSettings.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/WelcomPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/WelcomPage.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/components/App_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/components/App_bar.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/components/menu_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/components/menu_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/components/FeedDashBoard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/components/FeedDashBoard.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/components/UserDashboard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/components/UserDashboard.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/components/profile_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/components/profile_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Totem/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Totem/test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -196,6 +244,7 @@
       <workItem from="1662884062500" duration="721000" />
       <workItem from="1663171451038" duration="1667000" />
       <workItem from="1663232446179" duration="238000" />
+      <workItem from="1663235764739" duration="705000" />
     </task>
     <servers />
   </component>
@@ -216,7 +265,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/app_py$flaskProject.coverage" NAME="flaskProject Coverage Results" MODIFIED="1657796470675" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/flaskProject$flaskProject.coverage" NAME="flaskProject Coverage Results" MODIFIED="1651571246353" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/app_py$app.coverage" NAME="app Coverage Results" MODIFIED="1663232492326" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/app_py$app.coverage" NAME="app Coverage Results" MODIFIED="1663235856658" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/app_py$totem_methods.coverage" NAME="totem_methods Coverage Results" MODIFIED="1657722470164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

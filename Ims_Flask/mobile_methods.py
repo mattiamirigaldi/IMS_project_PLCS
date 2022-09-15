@@ -308,6 +308,8 @@ def totem_AddBook(adminID,opr):
         Genre = request.form["Genre"]
         Publisher = request.form["Publisher"]
         Date = request.form["Date"]
+        Loc = request.form["Loc"]
+        Description = request.form["Description"]
         rfid_flag = request.form["rfid_flag"]
     check_query1 = " SELECT * FROM books WHERE rfid = (?)"
     cursor.execute(check_query1,rfid)
@@ -331,8 +333,8 @@ def totem_AddBook(adminID,opr):
                     if rfiddd == -1 : 
                         cnxn.close()
                         return jsonify(["Please Scan the RFID"])
-                insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?);'''
-                insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,adminID,opr,None,rfiddd,Title,"Book","Turin",0)
+                insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?);'''
+                insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,Loc,Description,adminID,opr,None,rfiddd,Title,"Book","Turin",0)
                 cursor.execute(insert_query, insert_value)
                 cnxn.commit()
                 #insert_query = '''INSERT INTO items VALUES (?,?,?,?,?,?,?,?);'''

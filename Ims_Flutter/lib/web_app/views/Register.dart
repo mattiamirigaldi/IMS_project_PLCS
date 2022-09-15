@@ -24,7 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
   late bool _obscureTextVal = true;
   @override
   Widget build(BuildContext context) {
-    double width_screen = MediaQuery.of(context).size.width;
+    double widthScreen = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
           title: (
@@ -43,8 +43,8 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
         body: Center(
-          child: Container(
-            width: width_screen*0.7,
+          child: SizedBox(
+            width: widthScreen*0.7,
             child: Form(
               key: _formKey,
               child: ListView(
@@ -52,7 +52,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   //mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                       child: Center(
                         child: Text(
                           "Register your  account".toUpperCase(),
@@ -169,7 +169,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         hintText: "Enter your password",
                         labelText: "Password",
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                       ),
                       onChanged: (value) {
                         password = value;
@@ -201,7 +201,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         hintText: "Confirm your password",
                         labelText: "Password validation",
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                       ),
                       obscureText: _obscureTextVal,
                       validator: (String? value) {

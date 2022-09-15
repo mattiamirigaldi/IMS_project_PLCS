@@ -23,8 +23,8 @@ class _UserPageState extends State<UserPage> {
    late String newUsername = user.username;
    late String newMail = user.mail;
    late String newRfid = user.rfid;
-   late String newAdmin_id = user.admin_id;
-   late String newOpr_id = user.opr_id;
+   late String newAdminId = user.admin_id;
+   late String newOprId = user.opr_id;
    late String newImagePath = user.imagePath;
    late String newNews =  user.news;
    late String newPwd = user.pwd;
@@ -69,12 +69,12 @@ class _UserPageState extends State<UserPage> {
                             user.news,
                             style: const TextStyle(height: 1.5))),
                       const SizedBox(height: 50),
-                      EditOrRemove()
+                      editOrRemove()
                     ]),
               ),
               Align(
                 alignment: Alignment.topCenter,
-                child: Container(
+                child: SizedBox(
                   width: size.width*0.8,
                   height: 800,
                   child: Row(
@@ -83,7 +83,7 @@ class _UserPageState extends State<UserPage> {
                     children: <Widget>[
                       userData(size),
                       const SizedBox(width: 100),
-                      UserIcon(size)
+                      userIcon(size)
                     ]),
                 ),
               )
@@ -94,11 +94,11 @@ class _UserPageState extends State<UserPage> {
     );
   }
 
-  Container UserIcon(Size size) {
-    return Container(
+  SizedBox userIcon(Size size) {
+    return SizedBox(
       width: size.width*0.25,
       child: Hero(
-        tag: "${user.username}",
+        tag: user.username,
         child: Stack(
           //alignment: Alignment.bottomCenter,
           children: [
@@ -259,8 +259,8 @@ class _UserPageState extends State<UserPage> {
             );
   }
  
-  Container EditOrRemove() {
-    return Container(
+  SizedBox editOrRemove() {
+    return SizedBox(
       height: 140,
       child:
         Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
@@ -295,7 +295,7 @@ class _UserPageState extends State<UserPage> {
                 primary: Colors.white,
                 textStyle: const TextStyle(fontSize: 20),
               ),
-              child: Text("SAVE CHANGES"),
+              child: const Text("SAVE CHANGES"),
               onPressed: () async {
                 setState(() {
                   if (_formKey.currentState != null) {
@@ -341,7 +341,7 @@ class _UserPageState extends State<UserPage> {
                 primary: Colors.white,
                 textStyle: const TextStyle(fontSize: 20),
               ),
-              child: Text("DELETE IT"),
+              child: const Text("DELETE IT"),
               onPressed: () {
                 setState(() {
                     EasyLoading.showSuccess("NEEDED DELETE HTTP METHOD");

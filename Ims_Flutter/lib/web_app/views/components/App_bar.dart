@@ -93,7 +93,7 @@ class CustomAppBar extends StatelessWidget {
             //userName: TheUser[0]['username'],
           ),
           Padding(
-            padding: EdgeInsets.only(right: 70),
+            padding: const EdgeInsets.only(right: 70),
             child: MenuItems(
               title: "",
               icon: Icons.manage_accounts,

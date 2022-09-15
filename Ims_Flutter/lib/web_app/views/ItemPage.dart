@@ -47,7 +47,7 @@ class _ItemPageState extends State<ItemPage> {
       ),
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
-          Divider(),
+          const Divider(),
           SizedBox(
             height: size.height,
             child: Stack(children: <Widget>[
@@ -174,7 +174,7 @@ class _ItemPageState extends State<ItemPage> {
         ]),
         Expanded(
             child: Hero(
-                tag: "${item.id}",
+                tag: item.id,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(item.urlImage, width: 350, height: 350))))
@@ -182,8 +182,8 @@ class _ItemPageState extends State<ItemPage> {
     );
   }
 
-  Container availableWithFav() {
-    return Container(
+  SizedBox availableWithFav() {
+    return SizedBox(
       height: 140,
       child:
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[

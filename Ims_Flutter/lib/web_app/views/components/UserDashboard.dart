@@ -22,6 +22,7 @@ class UserDashBoard extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                   textScaleFactor: 2)),
+          const SizedBox(height: 20),
           // Icon pic
           ProfileWidget(
             imagePath: TheWebUser[0]['imagePath'],

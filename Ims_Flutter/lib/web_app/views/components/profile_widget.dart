@@ -18,7 +18,7 @@ class ProfileWidget extends StatefulWidget {
 }
 
 class _ProfileWidgetState extends State<ProfileWidget> {
-  late String NewUrlImage;
+  late String newUrlImage;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -48,11 +48,11 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             onTap: () => showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                title: Text("Enter url of new image"),
+                title: const Text("Enter url of new image"),
                 content: TextFormField(
-                  decoration: InputDecoration(hintText: 'url image'),
+                  decoration: const InputDecoration(hintText: 'url image'),
                   onChanged: (value){
-                    NewUrlImage = value;
+                    newUrlImage = value;
                   },
                   validator: (String? value) {
                         if (value!.isEmpty) {
@@ -66,7 +66,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                     onPressed: (){
                       Navigator.of(context).pop();
                     }, 
-                    child: Text("SUBMIT")
+                    child: const Text("SUBMIT")
                   )
                 ],
               ),

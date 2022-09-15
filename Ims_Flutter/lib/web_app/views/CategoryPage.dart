@@ -80,29 +80,27 @@ class _GenrePageState extends State<GenrePage> {
       );
 }
 
-Widget buildCardItem({required Item item, context}) => Container(
-      child: Column(children: [
-        Expanded(
-          child: AspectRatio(
-              aspectRatio: 4 / 3,
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Material(
-                    child: Ink.image(
-                      image: NetworkImage(item.urlImage),
-                      fit: BoxFit.cover,
-                      child: InkWell(
-                          onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ItemPage(item: item)))),
-                    ),
-                  ))),
-        ),
-        const SizedBox(height: 4),
-        Text(item.title,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-        Text(item.author,
-            style: const TextStyle(fontSize: 20, color: Colors.grey))
-      ]),
-    );
+Widget buildCardItem({required Item item, context}) => Column(children: [
+  Expanded(
+    child: AspectRatio(
+        aspectRatio: 4 / 3,
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Material(
+              child: Ink.image(
+                image: NetworkImage(item.urlImage),
+                fit: BoxFit.cover,
+                child: InkWell(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ItemPage(item: item)))),
+              ),
+            ))),
+  ),
+  const SizedBox(height: 4),
+  Text(item.title,
+      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+  Text(item.author,
+      style: const TextStyle(fontSize: 20, color: Colors.grey))
+]);

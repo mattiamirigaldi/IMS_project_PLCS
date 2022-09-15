@@ -124,7 +124,7 @@ class _SettingPageState extends State<SettingPage> {
                   const SizedBox(height: 80),
                   InkWell(
                       child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 60),
+                        margin: const EdgeInsets.symmetric(horizontal: 60),
                         height: 50,
                         child: const Center(
                             child: Text("Save",

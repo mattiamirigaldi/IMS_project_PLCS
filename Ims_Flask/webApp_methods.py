@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 from tkinter.messagebox import NO
 from flask import Flask, Blueprint, render_template, redirect, json, jsonify, url_for, request
 import pyodbc
@@ -139,8 +140,6 @@ def settings(usr,role):
 #############################################################
 
 
-
-
 @webApp_methods.route("/web/user_edit/<usr>/<role>", methods=["GET", "POST"])
 def user_edit(usr,role):
     cnxn = db.connection()
@@ -166,25 +165,25 @@ def user_edit(usr,role):
     return jsonify("done")
 
 
-
-
-
-@webApp_methods.route("/web/items/<admin_id>/<opr_id>", methods=["GET", "POST"])
-def ListItems(admin_id,opr_id):
+@webApp_methods.route("/web/items/<role>/<id>/<opr_id>", methods=["GET", "POST"])
+def ListItems(role,id,opr_id):
     cnxn = db.connection()
     cursor = cnxn.cursor()
     print("Access to items url : Successful_1")
-    print('00000000000')
-    print(opr_id)
-    if opr_id == 'ALL':
-        print('111111111111')
-        check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?)"
-        value = (admin_id)
-    else:
-        print('222222222222')
-        check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?) AND opr_id = (?)"
-        value = (admin_id,opr_id)
-    cursor.execute(check_query,value)
+    if role == "admins" :
+        if opr_id == 'ALL':
+            check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?)"
+            value = (id)
+        else:
+            check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?) AND opr_id = (?)"
+            value = (id,opr_id)
+        cursor.execute(check_query,value)
+    if role == "operators" :
+        check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE opr_id = (?)"
+        cursor.execute(check_query,id)
+    if role == "customers" :
+        check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE opr_id = (?)"
+        cursor.execute(check_query,opr_id)
     if cursor.rowcount == 0:
         cnxn.close()
         print("There are no Items")
@@ -195,6 +194,76 @@ def ListItems(admin_id,opr_id):
     cnxn.close()
     return jsonify(data)
 
+@webApp_methods.route("/web/item_edit/<oldid>", methods=["GET", "POST"])
+def item_edit(oldid):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()   
+    if request.method == 'POST':
+        newTitle = request.form["newTitle"]
+        newAuthor = request.form["newAuthor"]
+        newDescription = request.form["newDescription"]
+        newLocation = request.form["newLocation"]
+        newCategory = request.form["newCategory"]
+        newRfid = request.form["newRfid"]
+    print("SETTINGS : newTitle is " + newTitle)
+    print("************************************")
+    insert_query = "UPDATE books SET title = (?), author = (?), genre = (?), rfid= (?), loc= (?), description = (?) WHERE id = (?)"
+    value = (newTitle, newAuthor, newCategory, newRfid, newLocation, newDescription, oldid)
+    cursor.execute(insert_query, value)
+    cnxn.commit()
+    cnxn.close()
+    return jsonify("done")
+
+@webApp_methods.route("/web/item_remove/<role_type>/<usr>/<id>", methods=["GET", "POST"])
+def item_remove(role_type,usr,id):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()   
+    if role_type == "admins":
+        delete_query = '''  DELETE FROM items WHERE id = (?) AND admin_id = (?);
+                            DELETE FROM books WHERE id = (?); '''
+    if role_type == "operators":
+        delete_query = '''  DELETE FROM items WHERE id = (?) AND opr_id = (?);
+                            DELETE FROM books WHERE id = (?); '''
+    print("111111111")
+    cursor.execute(delete_query,id,usr,id)
+    cnxn.commit()
+    cnxn.close()
+    return jsonify(["done"])
+
+@webApp_methods.route("/web/item_rent/<role_type>/<id>/<username>/<bookid>", methods=["GET", "POST"])
+def item_rent(role_type,id,username,bookid):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    print("111111111")
+    if role_type == "admins":
+        check_query = "SELECT * FROM customers WHERE username = (?) AND admin_id = (?) "
+        insert_query = "UPDATE items SET cus_id = (?) WHERE id = (?) AND admin_id = (?) "
+    if role_type == "operators":
+        check_query = "SELECT * FROM customers WHERE username = (?) AND opr_id = (?) "
+        insert_query = "UPDATE items SET cus_id = (?) WHERE id = (?) AND opr_id = (?) "
+    cursor.execute(check_query,username,id)
+    if cursor.rowcount == 0 :
+        cnxn.close()
+        return jsonify(["User not found"])
+    row = cursor.fetchone()
+    cursor.execute(insert_query,row[2],bookid,id)
+    cnxn.commit()
+    cnxn.close()
+    return jsonify(["done"])
+
+@webApp_methods.route("/web/item_return/<role_type>/<id>/<bookid>", methods=["GET", "POST"])
+def item_return(role_type,id,bookid):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    print("111111111")
+    if role_type == "admins":
+        insert_query = "UPDATE items SET cus_id = (?) WHERE id = (?) AND admin_id = (?) "
+    if role_type == "operators":
+        insert_query = "UPDATE items SET cus_id = (?) WHERE id = (?) AND opr_id = (?) "
+    cursor.execute(insert_query,None,bookid,id)
+    cnxn.commit()
+    cnxn.close()
+    return jsonify(["done"])
 
 @webApp_methods.route("/web/items", methods=["GET", "POST"])
 def items():
@@ -423,6 +492,8 @@ def totem_AddBook(adminID,rfid,role_type):
         Genre = request.form["Genre"]
         Publisher = request.form["Publisher"]
         Date = request.form["Date"]
+        Loc = request.form["Loc"]
+        Description = request.form["Description"]
         rfid_flag = request.form["rfid_flag"]
     if role_type == "operators":
         check_query1 = " SELECT * FROM books WHERE title = (?) AND author = (?)"
@@ -434,8 +505,8 @@ def totem_AddBook(adminID,rfid,role_type):
             if rfiddd == -1 : 
                 cnxn.close()
                 return jsonify(["Please Scan the RFID"])
-            insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?,?);'''
-            insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,adminID,rfid,None,rfiddd,Title,"Book","Turin",0,rfiddd)
+            insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?);'''
+            insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,Loc,Description,adminID,rfid,None,rfiddd,Title,"Book","Turin",0)
             cursor.execute(insert_query, insert_value)
             cnxn.commit()
             return jsonify(["done"])
@@ -452,8 +523,8 @@ def totem_AddBook(adminID,rfid,role_type):
             if rfiddd == -1 : 
                 cnxn.close()
                 return jsonify(["Please Scan the RFID"])
-            insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?,?);'''
-            insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,rfid,None,None,rfiddd,Title,"Book","Turin",0,rfiddd)
+            insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?);'''
+            insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,Loc,Description,rfid,None,None,rfiddd,Title,"Book","Turin",0)
             cursor.execute(insert_query, insert_value)
             cnxn.commit()
             return jsonify(["done"])
@@ -503,3 +574,21 @@ def totem_RemoveBook(adminID,rfid,role_type):
         return jsonify(["done"])
 
 #############################################################
+# List the User Items
+@webApp_methods.route("/web/UserItems/<adminID>/<opr>/<usr>", methods=["GET", "POST"])
+def mobile_ListUserItems(adminID,opr,usr):
+    print(adminID,opr,usr)
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id where admin_id = (?) AND opr_id = (?) AND items.cus_id = (?)"
+    cursor.execute(check_query,adminID,opr,usr)
+    if cursor.rowcount == 0:
+        cnxn.close()
+        print("User does not have any Item")
+        return jsonify(["You don't have any Items"])
+    column_names = [col[0] for col in cursor.description]
+    data = [dict(zip(column_names, row))  
+        for row in cursor.fetchall()]
+    print("There are some Items")
+    cnxn.close()
+    return jsonify(data)

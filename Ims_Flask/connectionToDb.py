@@ -9,7 +9,7 @@ def connection():
     ######## REZA DB ####################
     server = 'DESKTOP-CK2AQQI'
     database = 'ims_db'
-    ######## MATTIA DB ####################
+    # ######## MATTIA DB ####################
     # server = 'DESKTOP-I7POIMI\SQLEXPRESS'
     # database = 'SQLTest'
     # Cnxn : is the connection string
