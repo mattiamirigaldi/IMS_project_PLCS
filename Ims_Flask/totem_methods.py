@@ -376,7 +376,7 @@ def totem_RemoveBook(adminID,oprID):
 def totem_PendingItems(adminID,oprID):
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?) AND opr_id = (?) AND cus_id is null"
+    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?) AND opr_id = (?) AND cus_id is null AND rfid = 0"
     cursor.execute(check_query,adminID,oprID)
     if cursor.rowcount == 0 :
         cnxn.close()
@@ -410,7 +410,7 @@ def totem_PendingItems(adminID,oprID):
 def totem_PendingCustomers(adminID,oprID):
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM customers WHERE admin_id = (?) AND opr_id = (?) AND id is null"
+    check_query = "SELECT * FROM customers WHERE admin_id = (?) AND opr_id = (?) AND rfid = 0"
     cursor.execute(check_query,adminID,oprID)
     if cursor.rowcount == 0 :
         cnxn.close()
