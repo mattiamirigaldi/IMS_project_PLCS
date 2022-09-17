@@ -11,6 +11,7 @@ class MAddBookRFID extends StatefulWidget {
   final String Date;
   final String Loc;
   final String Description;
+  final String branch;
 
   const MAddBookRFID(
       {Key? key,
@@ -21,6 +22,7 @@ class MAddBookRFID extends StatefulWidget {
       required this.Date,
       required this.Loc,
       required this.Description,
+      required this.branch,
       context})
       : super(key: key);
   @override
@@ -58,6 +60,7 @@ class _GenreListState extends State<MAddBookRFID> {
                       widget.Loc,
                       widget.Description,
                       "no",
+                      widget.branch,
                       context);
                 },
                 child: Center(
