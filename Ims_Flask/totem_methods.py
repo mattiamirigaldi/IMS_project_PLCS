@@ -18,15 +18,17 @@ def totem():
         global mac  
         if request.method == 'POST':
             rfid_received = request.form['rfid']
-      #      mac = request.form['mac']
+            mac = request.form['mac']
             print(rfid_received)
             print(mac)
             cnxn = db.connection()
             cursor = cnxn.cursor()
-     #       cursor.execute("SELECT * FROM totems WHERE macAddress = (?)",mac)
+            cursor.execute("SELECT * FROM totems WHERE macAddress = (?)",mac)
             if cursor.rowcount == 0:
                 rfid = -1
+                print('111111')
             else:
+                print('222222')
                 rfid = rfid_received
         return ("nunn")
 
@@ -35,7 +37,7 @@ def totem():
 def UsrLoginRFID():
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM customers INNER JOIN totems ON customers.opr_id = totems.opr_id WHERE rfid = (?)"
+    check_query = "SELECT * FROM customers INNER JOIN totems ON customers.branch = totems.branch WHERE rfid = (?)"
     cursor.execute(check_query,rfid)
     row = cursor.fetchone()
     cnxn.close()
@@ -146,8 +148,8 @@ def totem_BookRent(adminID,oprID,cst):
 def totem_BookReturn(adminID,oprID,cst):
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id where items.rfid = (?) AND cus_id = (?) AND admin_id = (?) AND opr_id = (?)"
-    cursor.execute(check_query,rfid,cst,adminID,oprID)
+    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id where items.rfid = (?) AND cus_id = (?) AND admin_id = (?)"# AND opr_id = (?)"
+    cursor.execute(check_query,rfid,cst,adminID)
     if cursor.rowcount == 0:
         cnxn.close()
         print("Book Not found")
@@ -321,23 +323,20 @@ def totem_op_insert_item_rfid(adminID,oprID):
     cursor = cnxn.cursor()
     global user_add_flag
     print("1111111111111")
-
     if request.method == 'POST':
         name = request.form["name"]
-        Location = request.form["Location"]
-
+        #branch = request.form["branch"]
     print("2222222222222")
     print(name)
-
-        
     check_query = "SELECT * FROM items WHERE rfid = (?) and admin_id = (?) and opr_id = (?) "
     value = (rfid,adminID,oprID)
     cursor.execute(check_query, value)
     row = cursor.fetchone()
     print("3333333333333333333")
     if row == None:
-        insert_query = "UPDATE items SET rfid = (?),id=(?) WHERE name = (?) and location = (?)"  # the '?' are placeholders
-        value = (rfid,rfid,name, Location)
+        insert_query = '''  UPDATE items SET rfid = (?),id=(?) WHERE name = (?);
+                            UPDATE books SET item_id = (?),id=(?),rfid=(?) WHERE name = (?)'''  # the '?' are placeholders
+        value = (rfid,rfid,name,rfid,rfid,rfid,name)
         cursor.execute(insert_query, value)
         cnxn.commit()
         cnxn.close()

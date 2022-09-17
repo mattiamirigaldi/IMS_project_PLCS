@@ -2,7 +2,7 @@
 
 class Myroutes {
   static String baseUrlMobile = '0';
-  static String IPaddress = '192.168.1.8';
+  static String IPaddress = '172.20.10.2';
   static String baseUrl = 'http://' + IPaddress + ':5000';
   static String webWelcomePage = "/web";
   static String totemWelcomePage = "/totem";

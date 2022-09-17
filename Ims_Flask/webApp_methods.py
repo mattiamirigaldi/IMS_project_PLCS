@@ -496,7 +496,7 @@ def web_RemoveUser(adminID,rfid,role_type):
         return jsonify(["no"])
 
         ######################################################################
-
+tempid = 111
 # Add Book
 @webApp_methods.route("/web/AddBook/<adminID>/<rfid>/<role_type>", methods=["GET", "POST"])
 def totem_AddBook(adminID,rfid,role_type):
@@ -511,19 +511,17 @@ def totem_AddBook(adminID,rfid,role_type):
         Date = request.form["Date"]
         Loc = request.form["Loc"]
         Description = request.form["Description"]
-        rfid_flag = request.form["rfid_flag"]
+        
     if role_type == "operators":
         check_query1 = " SELECT * FROM books WHERE title = (?) AND author = (?)"
         cursor.execute(check_query1,Title,Author)
         print("check1: " + str(cursor.rowcount))
-        if cursor.rowcount == 0 or rfid_flag == "no": 
-            rfiddd = rfid
-            print("4444444 :  " + str(rfiddd))
-            if rfiddd == -1 : 
-                cnxn.close()
-                return jsonify(["Please Scan the RFID"])
+        if cursor.rowcount == 0: 
+            global tempid
+            print("book is new")
+            tempid += 1
             insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?);'''
-            insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,Loc,Description,adminID,rfid,None,rfiddd,Title,"Book","Turin",0)
+            insert_value = (tempid,tempid,Title,Author,Genre,Publisher,Date,0,Loc,Description,adminID,rfid,None,tempid,Title,"Book","branch_1",0)
             cursor.execute(insert_query, insert_value)
             cnxn.commit()
             return jsonify(["done"])
@@ -534,7 +532,7 @@ def totem_AddBook(adminID,rfid,role_type):
         check_query1 = " SELECT * FROM books WHERE title = (?) AND author = (?)"
         cursor.execute(check_query1,Title,Author)
         print("check1: " + str(cursor.rowcount))
-        if cursor.rowcount == 0 or rfid_flag == "no": 
+        if cursor.rowcount == 0: 
             rfiddd = rfid
             print("4444444 :  " + str(rfiddd))
             if rfiddd == -1 : 

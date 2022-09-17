@@ -1,26 +1,24 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import requests
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
+from getmac import get_mac_address as gma
 
+mac = gma()
+print(mac)
 reader = SimpleMFRC522()
-read_flag = True
+id , text = reader.read()
+old = i = 1
+url = 'http://192.168.115.252:5000/totem'
 
-id, text = reader.read()
-id_old = id
-
-while read_flag:
-        id, text = reader.read()
-        print(id)
-        print(text)
-
-        myobj = {'rfid': id}
-        
-        url = 'http://172.22.16.210:5000/totem'
-        x = requests.post(url, data = myobj)
-        
-        #print(x.text)
-        #if id_old == id :
-        #        read_flag = False
-
+while (i < 8) :
+       id, text = reader.read()
+       if (old != id):
+             print(id)
+             print(text)
+             old = id
+             i += 1
+             myobj = {'rfid':id , 'mac':mac}
+             x = requests.post(url, data=myobj)
+             print(x.text)
 GPIO.cleanup()
