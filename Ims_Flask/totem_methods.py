@@ -335,7 +335,7 @@ def totem_op_insert_item_rfid(adminID,oprID):
     print("3333333333333333333")
     if row == None:
         insert_query = '''  UPDATE items SET rfid = (?),id=(?) WHERE name = (?);
-                            UPDATE books SET item_id = (?),id=(?),rfid=(?) WHERE name = (?)'''  # the '?' are placeholders
+                            UPDATE books SET item_id = (?),id=(?),rfid=(?) WHERE title = (?)'''  # the '?' are placeholders
         value = (rfid,rfid,name,rfid,rfid,rfid,name)
         cursor.execute(insert_query, value)
         cnxn.commit()
@@ -376,7 +376,7 @@ def totem_RemoveBook(adminID,oprID):
 def totem_PendingItems(adminID,oprID):
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?) AND opr_id = (?) AND cus_id is null AND rfid = 0"
+    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?) AND opr_id = (?) AND cus_id is null AND items.rfid =0"
     cursor.execute(check_query,adminID,oprID)
     if cursor.rowcount == 0 :
         cnxn.close()
