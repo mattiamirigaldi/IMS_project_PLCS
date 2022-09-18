@@ -133,7 +133,7 @@ class HttpservicesOP {
     http.Response response = await _client.get(Uri.parse(ListCustomers +
         TheUser[0]['admin_id'].toString() +
         '/' +
-        TheUser[0]['rfid'].toString()));
+        TheUser[0]['branch'].toString()));
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "not_found") {
@@ -213,7 +213,7 @@ class HttpservicesOP {
         RemoveCustomer +
             TheUser[0]['admin_id'].toString() +
             '/' +
-            TheUser[0]['rfid'].toString(),
+            TheUser[0]['branch'].toString(),
         body: {"cst_username": cst_username, "usrn_rfid": usrn_rfid});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
@@ -294,7 +294,7 @@ class HttpservicesOP {
         MobileRmBook +
             TheUser[0]['admin_id'].toString() +
             '/' +
-            TheUser[0]['rfid'].toString(),
+            TheUser[0]['branch'].toString(),
         body: {
           "title": book_title,
           "author": book_author,

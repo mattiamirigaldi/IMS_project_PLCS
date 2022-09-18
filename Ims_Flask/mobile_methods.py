@@ -114,13 +114,13 @@ def OprLoginCredential():
 
 #############################################################
 # List Customers
-@mobile_methods.route("/mobile/ListCustomers/<admin_id>/<oprRFID>", methods=["GET", "POST"])
-def mobile_ListCustomers(admin_id,oprRFID):
-    print(admin_id,oprRFID)
+@mobile_methods.route("/mobile/ListCustomers/<admin_id>/<branch>", methods=["GET", "POST"])
+def mobile_ListCustomers(admin_id,branch):
+    print(admin_id,branch)
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM customers where admin_id = (?) AND opr_id = (?)"
-    cursor.execute(check_query,admin_id,oprRFID)
+    check_query = "SELECT * FROM customers where admin_id = (?) AND branch = (?)"
+    cursor.execute(check_query,admin_id,branch)
     if cursor.rowcount == 0:
         cnxn.close()
         print("There are no Customer for you")
@@ -236,34 +236,31 @@ def mobile_op_add_customer(adminID,opr,branch):
         pwd = request.form["password"]
         rfid_flag = request.form["rfid_flag"]
     print("11111111111")
+    rfiddd = None
     if rfid_flag == "yes" :
-        check_query = "SELECT * FROM customers WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?) and branch = (?)"
-        cursor.execute(check_query, rfid, adminID, opr, branch)
+        check_query = "SELECT * FROM customers WHERE rfid = (?) AND admin_id = (?) AND and branch = (?)"
+        cursor.execute(check_query, rfid, adminID, branch)
         rfiddd = rfid
-        row = cursor.fetchone()
-    else :
-        rfiddd = None
-        row = None
     print("22222222222")
-    if row == None:
+    if cursor.rowcount == 0 or rfid_flag == "no":
         insert_query = '''INSERT INTO customers VALUES (?,?,?,?,?,?,?,?,?,?);'''  # the '?' are placeholders
-        value = (adminID, opr, rfiddd, firstname, lastname, username, mail, pwd, 0,branch)
+        value = (adminID, opr, rfiddd, firstname, lastname, username, mail, pwd, rfiddd, branch)
         cursor.execute(insert_query, value)
         cnxn.commit()
         cnxn.close()
         user_add_flag = "new User added to the database successfully"
         print(user_add_flag)
         return jsonify([user_add_flag])
-    else:
-        user_add_flag = "RFID is already in the db"
-        print(user_add_flag)
-        return jsonify([user_add_flag])
+    cnxn.close()
+    user_add_flag = "RFID is already in the db"
+    print(user_add_flag)
+    return jsonify([user_add_flag])
 
 #############################################################
 
 # Remove Customer
-@mobile_methods.route("/mobile/RemoveCustomer/<adminID>/<opr>", methods=["GET", "POST"])
-def mobile_RemoveCustomer(adminID,opr):
+@mobile_methods.route("/mobile/RemoveCustomer/<admin_id>/<branch>", methods=["GET", "POST"])
+def mobile_RemoveCustomer(admin_id,branch):
     cnxn = db.connection()
     cursor = cnxn.cursor()
     print("33333333")
@@ -271,28 +268,29 @@ def mobile_RemoveCustomer(adminID,opr):
         cst_username = request.form["cst_username"]
         usrn_rfid = request.form["usrn_rfid"]
     if usrn_rfid == "usrn" :
-        check_query = "SELECT * FROM customers WHERE username = (?) AND admin_id = (?) AND opr_id = (?)"
-        value = (cst_username,adminID,opr)
-        delete_query = "DELETE FROM customers WHERE username = (?) AND admin_id = (?) AND opr_id = (?)"
-        delete_value = (cst_username,adminID,opr)
+        print("4444444")
+        check_query = "SELECT * FROM customers WHERE username = (?) AND admin_id = (?) AND branch = (?)"
+        value = (cst_username,admin_id,branch)
+        delete_query = "DELETE FROM customers WHERE username = (?) AND admin_id = (?) AND branch = (?)"
+        delete_value = (cst_username,admin_id,branch)
     else :
-        check_query = "SELECT * FROM customers WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?)"        
-        value = (rfid,adminID,opr)
-        delete_query = "DELETE FROM customers WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?)"
-        delete_value = (rfid,adminID,opr)
+        check_query = "SELECT * FROM customers WHERE rfid = (?) AND admin_id = (?) AND branch = (?)"        
+        value = (rfid,admin_id,branch)
+        delete_query = "DELETE FROM customers WHERE rfid = (?) AND admin_id = (?) AND branch = (?)"
+        delete_value = (rfid,admin_id,branch)
     cursor.execute(check_query, value)
-    row = cursor.fetchone()
     print("66666666")
-    if row != None :
-        cursor.execute(delete_query, delete_value)
-        cnxn.commit()
-        cnxn.close()
-        print("Operator removed a User successfully")
-        return jsonify(["Done"])
-    else:
+    if cursor.rowcount == 0 :
         cnxn.close()
         print("user not found")
         return jsonify(["no"])
+    cursor.execute(delete_query, delete_value)
+    cnxn.commit()
+    cnxn.close()
+    print("Operator removed a User successfully")
+    return jsonify(["Done"])
+    
+        
 
 #############################################################
 
@@ -355,8 +353,8 @@ def totem_AddBook(adminID,opr,branch):
 
 
 # Remove Book
-@mobile_methods.route("/mobile/RemoveBook/<adminID>/<opr>", methods=["GET", "POST"])
-def totem_RemoveBook(adminID,opr):
+@mobile_methods.route("/mobile/RemoveBook/<adminID>/<branch>", methods=["GET", "POST"])
+def totem_RemoveBook(adminID,branch):
     cnxn = db.connection()
     cursor = cnxn.cursor()
     print("000000000")
@@ -365,17 +363,17 @@ def totem_RemoveBook(adminID,opr):
         author = request.form["author"]
         rfid_flag = request.form["rfid_flag"]
     if rfid_flag == "yes" :
-        check_query = "SELECT * FROM items WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?)"
-        delete_query1 = "DELETE FROM items WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?)"
+        check_query = "SELECT * FROM items WHERE rfid = (?) AND admin_id = (?) AND branch = (?)"
+        delete_query1 = "DELETE FROM items WHERE rfid = (?) AND admin_id = (?) AND branch = (?)"
         delete_query2 = "DELETE FROM books WHERE rfid = (?)"
-        value = (rfid,adminID,opr)
+        value = (rfid,adminID,branch)
         value2 = (rfid)
         cursor.execute(check_query,value)
     else :
         check_query = "SELECT * FROM books WHERE author = (?) AND title = (?)"
-        delete_query1 = "DELETE FROM items WHERE name = (?) AND admin_id = (?) AND opr_id = (?)"
+        delete_query1 = "DELETE FROM items WHERE name = (?) AND admin_id = (?) AND branch = (?)"
         delete_query2 = "DELETE FROM books WHERE title = (?) AND author = (?)"
-        value = (title,adminID,opr)
+        value = (title,adminID,branch)
         value2 = (title,author)
         cursor.execute(check_query,author,title)
     print("111111111")

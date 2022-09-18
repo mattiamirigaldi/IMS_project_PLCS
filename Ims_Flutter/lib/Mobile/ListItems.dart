@@ -1,11 +1,20 @@
-// ignore_for_file: file_names, use_key_in_widget_constructors
+// ignore_for_file: file_names, use_key_in_widget_constructors, non_constant_identifier_names
 import 'DataLists.dart';
 import 'package:flutter/material.dart';
 
 class ListItems extends StatelessWidget {
   const ListItems();
+  static late List avaflag = [];
   @override
   Widget build(BuildContext context) {
+    avaflag.clear();
+    for (var i = 0; i < AllItems.length; i++) {
+      if (AllItems[i]['cus_id'] == null) {
+        avaflag.add('yes');
+      } else {
+        avaflag.add(AllItems[i]['cus_id'].toString());
+      }
+    }
     return Scaffold(
         appBar: AppBar(title: const Text("Available Titles")),
         body: ListView(
@@ -14,12 +23,11 @@ class ListItems extends StatelessWidget {
           children: <Widget>[
             for (var i = 0; i < AllItems.length; i++)
               ProductBox(
-                title: AllItems[i]['title'],
-                author: AllItems[i]['author'],
-                genre: AllItems[i]['genre'],
+                name: AllItems[i]['name'],
+                category: AllItems[i]['category'],
+                location: AllItems[i]['loc'],
                 rfid: AllItems[i]['rfid'].toString(),
-                date: AllItems[i]['date'].toString(),
-                publisher: AllItems[i]['publisher'],
+                availability: avaflag[i],
               ),
           ],
         ));
@@ -29,29 +37,29 @@ class ListItems extends StatelessWidget {
 class ProductBox extends StatelessWidget {
   const ProductBox({
     Key? key,
-    required this.title,
-    required this.author,
-    required this.genre,
+    required this.name,
+    required this.category,
+    required this.location,
     required this.rfid,
-    required this.date,
-    required this.publisher,
+    required this.availability,
   }) : super(key: key);
-  final String title;
-  final String author;
-  final String genre;
+  final String name;
+  final String category;
+  final String location;
   final String rfid;
-  final String date;
-  final String publisher;
+  final String availability;
 
   @override
   Widget build(BuildContext context) {
-    // String TextToShow;
-    // if (Avalible == null) {
-    //   TextToShow = "Book is not Avalible";
-    // } else {
-    //   TextToShow = "Location is: " + Location;
-    // }
-    // ;
+    late String TextToShow;
+    TextStyle sty1;
+    if (availability == 'yes') {
+      TextToShow = "Book is Avalible";
+      sty1 = const TextStyle(fontWeight: FontWeight.bold, color: Colors.green);
+    } else {
+      TextToShow = "Rented by user " + availability;
+      sty1 = const TextStyle(fontWeight: FontWeight.bold, color: Colors.red);
+    }
     return Container(
         padding: const EdgeInsets.all(2),
         height: 120,
@@ -65,14 +73,13 @@ class ProductBox extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Text(title,
+                          Text(name,
                               style:
                                   const TextStyle(fontWeight: FontWeight.bold)),
-                          Text("By " + author),
-                          Text("Genre: " + genre),
+                          Text("Category: " + category),
+                          Text("Location: " + location),
                           Text("RFID: " + rfid),
-                          Text("date: " + date),
-                          Text("Publisher: " + publisher),
+                          Text(TextToShow, style: sty1),
                         ],
                       )))
             ])));

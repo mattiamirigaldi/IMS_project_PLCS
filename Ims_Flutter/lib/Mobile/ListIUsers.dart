@@ -7,7 +7,7 @@ class ListUsers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Available Titles")),
+        appBar: AppBar(title: const Text("Customers")),
         body: ListView(
           shrinkWrap: true,
           padding: const EdgeInsets.fromLTRB(2.0, 10.0, 2.0, 10.0),

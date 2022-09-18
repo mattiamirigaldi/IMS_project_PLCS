@@ -24,7 +24,7 @@ class MmodifyBook extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const SizedBox(height: 80),
+              const SizedBox(height: 20),
               const Center(
                   child: Text(
                 "Please select a service",
