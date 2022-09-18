@@ -152,12 +152,12 @@ def mobile_ListUserItems(adminID,opr,usr):
     return jsonify(data)
 
 # List All the Items
-@mobile_methods.route("/mobile/AllItems/<adminID>/<oprID>", methods=["GET", "POST"])
-def mobile_ListAllItems(adminID,oprID):
+@mobile_methods.route("/mobile/AllItems/<adminID>/<branch>", methods=["GET", "POST"])
+def mobile_ListAllItems(adminID,branch):
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?) AND opr_id = (?)"
-    cursor.execute(check_query,adminID,oprID)
+    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?) AND branch = (?) "
+    cursor.execute(check_query,adminID,branch)
     if cursor.rowcount == 0:
         cnxn.close()
         print("The are No items")
@@ -206,8 +206,8 @@ def settings(role,usr):
     
 #############################################################
 # add customer check
-@mobile_methods.route("/mobile/AddCustomerCheck/<adminID>/<opr>", methods=["GET", "POST"])
-def mobile_op_add_customer_check(adminID,opr):
+@mobile_methods.route("/mobile/AddCustomerCheck/<adminID>/<opr>/<branch>", methods=["GET", "POST"])
+def mobile_op_add_customer_check(adminID,opr,branch):
     cnxn = db.connection()
     cursor = cnxn.cursor()
     if request.method == 'POST':
@@ -223,8 +223,8 @@ def mobile_op_add_customer_check(adminID,opr):
 
 
 # add customer
-@mobile_methods.route("/mobile/AddCustomer/<adminID>/<opr>", methods=["GET", "POST"])
-def mobile_op_add_customer(adminID,opr):
+@mobile_methods.route("/mobile/AddCustomer/<adminID>/<opr>/<branch>", methods=["GET", "POST"])
+def mobile_op_add_customer(adminID,opr,branch):
     cnxn = db.connection()
     cursor = cnxn.cursor()
     global user_add_flag
@@ -237,8 +237,8 @@ def mobile_op_add_customer(adminID,opr):
         rfid_flag = request.form["rfid_flag"]
     print("11111111111")
     if rfid_flag == "yes" :
-        check_query = "SELECT * FROM customers WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?)"
-        cursor.execute(check_query, rfid, adminID, opr)
+        check_query = "SELECT * FROM customers WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?) and branch = (?)"
+        cursor.execute(check_query, rfid, adminID, opr, branch)
         rfiddd = rfid
         row = cursor.fetchone()
     else :
@@ -246,8 +246,8 @@ def mobile_op_add_customer(adminID,opr):
         row = None
     print("22222222222")
     if row == None:
-        insert_query = '''INSERT INTO customers VALUES (?,?,?,?,?,?,?,?,?);'''  # the '?' are placeholders
-        value = (adminID, opr, rfiddd, firstname, lastname, username, mail, pwd, rfiddd)
+        insert_query = '''INSERT INTO customers VALUES (?,?,?,?,?,?,?,?,?,?);'''  # the '?' are placeholders
+        value = (adminID, opr, rfiddd, firstname, lastname, username, mail, pwd, 0,branch)
         cursor.execute(insert_query, value)
         cnxn.commit()
         cnxn.close()
@@ -297,8 +297,8 @@ def mobile_RemoveCustomer(adminID,opr):
 #############################################################
 
 # Add Book
-@mobile_methods.route("/mobile/AddBook/<adminID>/<opr>", methods=["GET", "POST"])
-def totem_AddBook(adminID,opr):
+@mobile_methods.route("/mobile/AddBook/<adminID>/<opr>/<branch>", methods=["GET", "POST"])
+def totem_AddBook(adminID,opr,branch):
     global rfid_counter
     cnxn = db.connection()
     cursor = cnxn.cursor()
@@ -334,7 +334,7 @@ def totem_AddBook(adminID,opr):
                         cnxn.close()
                         return jsonify(["Please Scan the RFID"])
                 insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?);'''
-                insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,Loc,Description,adminID,opr,None,rfiddd,Title,"Book","Turin",0)
+                insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,Loc,Description,adminID,opr,None,rfiddd,Title,"Book",branch,0)
                 cursor.execute(insert_query, insert_value)
                 cnxn.commit()
                 #insert_query = '''INSERT INTO items VALUES (?,?,?,?,?,?,?,?);'''

@@ -181,6 +181,7 @@ def user_edit(usr,role):
     cnxn.close()
     return jsonify("done")
 
+#List all items
 
 @webApp_methods.route("/web/items/<role>/<id>/<branch>", methods=["GET", "POST"])
 def ListItems(role,id,branch):
@@ -401,13 +402,13 @@ def web_op_add_customer(adminID,rfid,role_type):
         if role_type == "admins":
             if role == 'operators':
                 insert_query = '''INSERT INTO %s VALUES (?,?,?,?,?,?,?,?,?);''' %role
-                value = (rfid, rfiddd, firstname, lastname, username, mail, pwd, rfiddd, branch)
+                value = (rfid, rfiddd, firstname, lastname, username, mail, pwd, 0, branch)
             if role == 'customers':
                 insert_query = '''INSERT INTO %s VALUES (?,?,?,?,?,?,?,?,?,?);''' %role
-                value = (rfid,rfiddd, rfiddd, firstname, lastname, username, mail, pwd, rfiddd, branch)
+                value = (rfid,rfiddd, rfiddd, firstname, lastname, username, mail, pwd, 0, branch)
         if role_type == "operators":
             insert_query = '''INSERT INTO %s VALUES (?,?,?,?,?,?,?,?,?,?);''' %role
-            value = (adminID, rfid, rfiddd, firstname, lastname, username, mail, pwd, rfiddd, branch)
+            value = (adminID, rfid, rfiddd, firstname, lastname, username, mail, pwd, 0, branch)
         cursor.execute(insert_query, value)
         cnxn.commit()
         cnxn.close()
@@ -511,6 +512,7 @@ def totem_AddBook(adminID,rfid,role_type):
         Date = request.form["Date"]
         Loc = request.form["Loc"]
         Description = request.form["Description"]
+        branch = request.form["branch"]
         
     if role_type == "operators":
         check_query1 = " SELECT * FROM books WHERE title = (?) AND author = (?)"
@@ -521,7 +523,7 @@ def totem_AddBook(adminID,rfid,role_type):
             print("book is new")
             tempid += 1
             insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?);'''
-            insert_value = (tempid,tempid,Title,Author,Genre,Publisher,Date,0,Loc,Description,adminID,rfid,None,tempid,Title,"Book","branch_1",0)
+            insert_value = (tempid,tempid,Title,Author,Genre,Publisher,Date,0,Loc,Description,adminID,rfid,None,tempid,Title,"Book",branch,0)
             cursor.execute(insert_query, insert_value)
             cnxn.commit()
             return jsonify(["done"])
@@ -539,7 +541,7 @@ def totem_AddBook(adminID,rfid,role_type):
                 cnxn.close()
                 return jsonify(["Please Scan the RFID"])
             insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?);'''
-            insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,Loc,Description,rfid,None,None,rfiddd,Title,"Book","Turin",0)
+            insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,Loc,Description,rfid,None,None,rfiddd,Title,"Book",branch,0)
             cursor.execute(insert_query, insert_value)
             cnxn.commit()
             return jsonify(["done"])
@@ -595,8 +597,8 @@ def mobile_ListUserItems(adminID,opr,usr):
     print(adminID,opr,usr)
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id where admin_id = (?) AND opr_id = (?) AND items.cus_id = (?)"
-    cursor.execute(check_query,adminID,opr,usr)
+    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id where admin_id = (?)  AND items.cus_id = (?)"
+    cursor.execute(check_query,adminID,usr)
     if cursor.rowcount == 0:
         cnxn.close()
         print("User does not have any Item")

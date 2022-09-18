@@ -143,7 +143,7 @@ class Httpservices {
         "/mobile/AllItems/" +
         TheUser[0]['admin_id'].toString() +
         '/' +
-        TheUser[0]['opr_id'].toString()));
+        TheUser[0]['branch'].toString()));
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "The are No items") {

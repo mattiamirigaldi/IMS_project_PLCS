@@ -156,7 +156,9 @@ class HttpservicesOP {
         AddCustomerCheck +
             TheUser[0]['admin_id'].toString() +
             '/' +
-            TheUser[0]['rfid'].toString(),
+            TheUser[0]['rfid'].toString() +
+            '/' +
+            TheUser[0]['branch'].toString(),
         body: {"username": username});
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
@@ -180,7 +182,9 @@ class HttpservicesOP {
         AddCustomer +
             TheUser[0]['admin_id'].toString() +
             '/' +
-            TheUser[0]['rfid'].toString(),
+            TheUser[0]['rfid'].toString() +
+            '/' +
+            TheUser[0]['branch'].toString(),
         body: {
           "firstName": firstName,
           "lastName": lastName,
@@ -231,7 +235,7 @@ class HttpservicesOP {
         "/mobile/AllItems/" +
         TheUser[0]['admin_id'].toString() +
         '/' +
-        TheUser[0]['rfid'].toString()));
+        TheUser[0]['branch'].toString()));
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "The are No items") {
@@ -257,7 +261,9 @@ class HttpservicesOP {
         MobileAddBook +
             TheUser[0]['admin_id'].toString() +
             '/' +
-            TheUser[0]['rfid'].toString(),
+            TheUser[0]['rfid'].toString() +
+            '/' +
+            TheUser[0]['branch'].toString(),
         body: {
           "Title": Titlee,
           "Author": Author,

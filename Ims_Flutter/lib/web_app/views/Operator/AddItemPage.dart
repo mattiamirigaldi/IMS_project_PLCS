@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:ims/web_app/DataLists.dart';
 import 'package:ims/web_app/views/Operator/AddBookRFID.dart';
 
 class AddBook extends StatefulWidget {
@@ -23,9 +24,27 @@ class _GenreListState extends State<AddBook> {
   late String RFID;
   late String Loc;
   late String Description;
+  late String branch;
+  static final _branchOp = [
+    TheWebUser[0]['branch'].toString(),
+  ];
+  late List<String> _branch = [];
+  static List<String> branchlist = [];
+  static late String dropdownvaluebranch = 'New Branch';
 
   @override
   Widget build(BuildContext context) {
+    if (TheWebUser[0]['role'] == 'operators') {
+      _branch = _branchOp;
+      branch = _branchOp[0];
+    } else if (TheWebUser[0]['role'] == 'admins') {
+      branchlist.clear();
+      for (var i = 0; i < AllBranches.length; i++) {
+        branchlist.add(AllBranches[i]);
+      }
+      branchlist.add('New Branch');
+      _branch = branchlist;
+    }
     double width_screen = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
@@ -221,6 +240,14 @@ class _GenreListState extends State<AddBook> {
                         },
                       ),
                     ),
+                    (TheWebUser[0]['role'] == 'admins')
+                        ? (selectBranch())
+                        : (const SizedBox(
+                            height: 20,
+                          )),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     const SizedBox(
                       height: 20,
                     ),
@@ -261,6 +288,7 @@ class _GenreListState extends State<AddBook> {
                                             Date: Date,
                                             Loc: Loc,
                                             Description: Description,
+                                            branch: branch,
                                             context: context,
                                           )));
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -274,5 +302,42 @@ class _GenreListState extends State<AddBook> {
             ),
           ),
         ));
+  }
+
+  Row selectBranch() {
+    return Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+      const SizedBox(width: 25),
+      const Text(
+        "Select branch : ",
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+      ),
+      DropdownButton<String>(
+        value: dropdownvaluebranch,
+        icon: const Icon(Icons.arrow_downward),
+        underline: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Container(
+              alignment: Alignment.centerLeft,
+              height: 5,
+              width: 100,
+              color: Colors.lightBlue),
+        ),
+        onChanged: (String? newValue) {
+          setState(() {
+            dropdownvaluebranch = newValue!;
+            branch = dropdownvaluebranch;
+          });
+        },
+        items: _branch.map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                child: Text(value)),
+            value: value,
+          );
+        }).toList(),
+      ),
+    ]);
   }
 }

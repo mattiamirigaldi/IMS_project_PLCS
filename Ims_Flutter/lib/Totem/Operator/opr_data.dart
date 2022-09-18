@@ -7,11 +7,13 @@ class opr_data {
   String mail;
   String rfid;
   String adminID;
+  String branch;
   opr_data(
       {required this.firstname,
       required this.lastname,
       required this.username,
       required this.mail,
       required this.rfid,
-      required this.adminID});
+      required this.adminID,
+      required this.branch});
 }
