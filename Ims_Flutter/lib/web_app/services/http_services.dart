@@ -106,7 +106,7 @@ class Httpservices {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const DashBoard()));
         //Navigator.push(context,
-        //    MaterialPageRoute(builder: (context) => const manageCustomer()));
+        //   MaterialPageRoute(builder: (context) => const manageCustomer()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");

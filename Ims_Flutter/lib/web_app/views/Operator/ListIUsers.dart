@@ -89,7 +89,7 @@ class _ListUsersState extends State<ListUsers> {
                     firstname: AllUsers[i]['firstname'],
                     lastname: AllUsers[i]['lastname'],
                     username: AllUsers[i]['username'],
-                    mail: AllUsers[i]['mail'],
+                    branch: AllUsers[i]['branch'],
                     rfid: AllUsers[i]['rfid'].toString(),
                   ),
                   onTap: () {
@@ -109,7 +109,7 @@ class _ListUsersState extends State<ListUsers> {
                       opr_id: AllUsers[i]['opr_id'].toString(),
                       color: Color.fromARGB(255, 99, 181, 221),
                     );
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => ModifyUserPage(user: user)));
@@ -198,13 +198,13 @@ class ProductBox extends StatelessWidget {
     required this.firstname,
     required this.lastname,
     required this.username,
-    required this.mail,
+    required this.branch,
     required this.rfid,
   }) : super(key: key);
   final String firstname;
   final String lastname;
   final String username;
-  final String mail;
+  final String branch;
   final String rfid;
 
   @override
@@ -227,7 +227,7 @@ class ProductBox extends StatelessWidget {
                                   const TextStyle(fontWeight: FontWeight.bold)),
                           Text("lastname " + lastname),
                           Text("username: " + username),
-                          Text("mail: " + mail),
+                          Text("branch: " + branch),
                           Text("rfid: " + rfid),
                         ],
                       )))

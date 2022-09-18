@@ -266,7 +266,7 @@ class Httpservices {
 
   static PendingItems(context) async {
     http.Response response = await _client
-        .get(totemPendingItems + opr_buffer.adminID + '/' + opr_buffer.rfid);
+        .get(totemPendingItems + opr_buffer.adminID + '/' + opr_buffer.branch);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "no") {
@@ -290,7 +290,7 @@ class Httpservices {
 
   static PendingCustomers(context) async {
     http.Response response = await _client.get(
-        totemPendingCustomers + opr_buffer.adminID + '/' + opr_buffer.rfid);
+        totemPendingCustomers + opr_buffer.adminID + '/' + opr_buffer.branch);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "no") {

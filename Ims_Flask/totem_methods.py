@@ -373,12 +373,12 @@ def totem_RemoveBook(adminID,oprID):
 #############################################################
 
 # Pending Items
-@totem_methods.route("/totem/Operator/PendingItems/<adminID>/<oprID>", methods=["GET", "POST"])
-def totem_PendingItems(adminID,oprID):
+@totem_methods.route("/totem/Operator/PendingItems/<adminID>/<branch>", methods=["GET", "POST"])
+def totem_PendingItems(adminID,branch):
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?) AND opr_id = (?) AND cus_id is null AND items.rfid =0"
-    cursor.execute(check_query,adminID,oprID)
+    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?) AND branch = (?) AND cus_id is null AND items.rfid =0"
+    cursor.execute(check_query,adminID,branch)
     if cursor.rowcount == 0 :
         cnxn.close()
         print("Pending List is Empty")
@@ -407,12 +407,13 @@ def totem_PendingItems(adminID,oprID):
     return jsonify([tit, aut, gen, rfid, usr, loc])
 
 # Pending Customers
-@totem_methods.route("/totem/Operator/PendingCustomers/<adminID>/<oprID>", methods=["GET", "POST"])
-def totem_PendingCustomers(adminID,oprID):
+@totem_methods.route("/totem/Operator/PendingCustomers/<adminID>/<branch>", methods=["GET", "POST"])
+def totem_PendingCustomers(adminID,branch):
+    print(adminID,branch)
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM customers WHERE admin_id = (?) AND opr_id = (?) AND rfid =0"
-    cursor.execute(check_query,adminID,oprID)
+    check_query = "SELECT * FROM customers WHERE admin_id = (?) AND branch = (?) AND rfid is NULL"
+    cursor.execute(check_query,adminID,branch)
     if cursor.rowcount == 0 :
         cnxn.close()
         print("Pending List is Empty")
