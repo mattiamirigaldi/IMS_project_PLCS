@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/web_app/DataLists.dart';
 import 'package:ims/web_app/views/Operator/ListItemsOperator.dart';
+import 'package:ims/web_app/views/Operator/ManageTotemsPage.dart';
 import 'package:ims/web_app/views/Operator/ManageUsersPage.dart';
 import 'package:ims/web_app/views/Operator/ManageItemsPage.dart';
 import 'package:ims/web_app/views/ListItemsAdmin.dart';
@@ -34,6 +35,9 @@ String ItemRemoveUrl = baseUrl + '/web/item_remove/';
 String ItemRentUrl = baseUrl + '/web/item_rent/';
 String ItemReturnUrl = baseUrl + '/web/item_return/';
 String RemoveUserUrl = baseUrl + '/web/RemoveUser/';
+String ListTotemURL = baseUrl + '/web/ListTotem/';
+String AddTotemURL = baseUrl + '/web/AddTotem/';
+String RemoveTotemURL = baseUrl + '/web/RemoveTotem/';
 
 class Httpservices {
   static final _client = http.Client();
@@ -102,7 +106,7 @@ class Httpservices {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const DashBoard()));
         //Navigator.push(context,
-        //    MaterialPageRoute(builder: (context) => const manageCustomer()));
+        //    MaterialPageRoute(builder: (context) => const manageTotems()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
@@ -583,6 +587,63 @@ class Httpservices {
             MaterialPageRoute(builder: (context) => const manageItems()));
       } else {
         await EasyLoading.showError("The Book is not in the database");
+      }
+    } else {
+      EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+    }
+  }
+
+  static webListTotems(branch, context) async {
+    http.Response response = await _client
+        .get(ListTotemURL + TheWebUser[0]['id'].toString() + '/' + branch);
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == "not_found") {
+        await EasyLoading.showError("There are no Totems");
+        AllTotems.clear();
+      } else {
+        AllTotems.clear();
+        AllTotems.addAll(json);
+      }
+    } else {
+      EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+    }
+  }
+
+  static webRemoveTotem(macaddress, context) async {
+    http.Response response = await _client.get(
+        RemoveTotemURL + TheWebUser[0]['id'].toString() + '/' + macaddress);
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == "not_found") {
+        await EasyLoading.showError("Totem not found");
+      } else {
+        await EasyLoading.showSuccess("Totem Removed successfully");
+        await Httpservices.webListTotems('ALL', context);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const manageTotems()));
+      }
+    } else {
+      EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+    }
+  }
+
+  static webAddTotem(branch, macaddress, context) async {
+    http.Response response = await _client.get(AddTotemURL +
+        TheWebUser[0]['id'].toString() +
+        '/' +
+        branch +
+        '/' +
+        macaddress);
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json[0] == "found") {
+        await EasyLoading.showError("Totem is already in the database");
+      } else {
+        await EasyLoading.showSuccess("Totem added successfully");
+        await Httpservices.webListTotems('ALL', context);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const manageTotems()));
       }
     } else {
       EasyLoading.showError("Error code : ${response.statusCode.toString()}");

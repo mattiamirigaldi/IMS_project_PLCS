@@ -18,15 +18,15 @@ class CustomAppBar extends StatelessWidget {
   static const _ServicesGuestItems = ["Help & support"];
   static const _ServicesCustomerItems = ["Request item", "Help & support"];
   static const _ServicesOperatorItems = ["Manage users", "Manage items"];
-  static const _ServicesAdminItems = ["Manage operators"];
-  static const _GuestItems =["Login"];
+  static const _ServicesAdminItems = ["Manage totems"];
+  static const _GuestItems = ["Login"];
   static const _UserItems = ["My profile", "My loans", "Favorites", "Logout"];
   late List<String> _Services = [];
 
   CustomAppBar({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    if (TheWebUser[0]['role'] == "guest"){
+    if (TheWebUser[0]['role'] == "guest") {
       _Services = _ServicesGuestItems;
     } else if (TheWebUser[0]['role'] == 'customers') {
       _Services = _ServicesCustomerItems;
@@ -60,22 +60,27 @@ class CustomAppBar extends StatelessWidget {
                         alignment: Alignment.center),
                     borderRadius: BorderRadius.circular(25),
                   )),
-              onTap: () => (TheWebUser[0]['role'] != "guest") ?
-               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const DashBoard()))
-               :  Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const GuestDashBoard()))
-          ),
+              onTap: () => (TheWebUser[0]['role'] != "guest")
+                  ? Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const DashBoard()))
+                  : Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const GuestDashBoard()))),
           const SizedBox(width: 20),
           Row(
             children: [
               Text("Welcome ".toUpperCase(),
-                style:
-                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                  style: const TextStyle(
+                      fontSize: 22, fontWeight: FontWeight.bold)),
               const SizedBox(width: 10),
-               Text(TheWebUser[0]['username'],
-                style:
-                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color : Colors.grey)),     
+              Text(TheWebUser[0]['username'],
+                  style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey)),
             ],
           ),
           const Spacer(),
@@ -97,7 +102,8 @@ class CustomAppBar extends StatelessWidget {
             child: MenuItems(
               title: "",
               icon: Icons.manage_accounts,
-              DropDownItems: (TheWebUser[0]['role'] == "guest") ? _GuestItems : _UserItems,
+              DropDownItems:
+                  (TheWebUser[0]['role'] == "guest") ? _GuestItems : _UserItems,
               //userName: TheUser[0]['username'],
             ),
           )

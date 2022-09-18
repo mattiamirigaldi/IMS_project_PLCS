@@ -5,6 +5,7 @@ import 'package:ims/web_app/services/http_services.dart';
 import 'package:ims/web_app/views/CategoriesList.dart';
 import 'package:ims/web_app/views/MyLoansPage.dart';
 import 'package:ims/web_app/views/MyFavoriteItemsPage.dart';
+import 'package:ims/web_app/views/Operator/ManageTotemsPage.dart';
 import 'package:ims/web_app/views/Operator/ManageUsersPage.dart';
 import 'package:ims/web_app/views/Operator/ManageItemsPage.dart';
 import 'package:ims/web_app/views/UserSettings.dart';
@@ -75,6 +76,10 @@ void choiceAction(String choice, BuildContext context) async {
   } else if (choice == "Manage items") {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const manageItems()));
+  } else if (choice == "Manage totems") {
+    await Httpservices.webListTotems('ALL', context);
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const manageTotems()));
   } else if (choice == "Logout") {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const WelcomeHome()));

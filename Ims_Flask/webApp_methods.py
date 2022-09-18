@@ -609,3 +609,57 @@ def mobile_ListUserItems(adminID,opr,usr):
     print("There are some Items")
     cnxn.close()
     return jsonify(data)
+
+#############################################################
+# Totems Manaagement
+@webApp_methods.route("/web/ListTotem/<adminID>/<branch>", methods=["GET", "POST"])
+def ListTotems(adminID,branch):
+    print(adminID)
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    if branch == 'ALL':
+        cursor.execute("SELECT * FROM totems where admin_id = (?)",adminID)
+    else :
+        cursor.execute("SELECT * FROM totems where admin_id = (?) AND branch = (?)",adminID,branch)
+    if cursor.rowcount == 0:
+        cnxn.close()
+        print("Admin does not have any totem")
+        return jsonify(["not_found"])
+    column_names = [col[0] for col in cursor.description]
+    data = [dict(zip(column_names, row))  
+        for row in cursor.fetchall()]
+    print("There are some Totems")
+    cnxn.close()
+    return jsonify(data)
+
+@webApp_methods.route("/web/RemoveTotem/<adminID>/<macAddress>", methods=["GET", "POST"])
+def RemoveTotem(adminID,macAddress):
+    print(adminID)
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    cursor.execute("SELECT * FROM totems where admin_id = (?) AND macAddress = (?)",adminID,macAddress)
+    if cursor.rowcount == 0:
+        cnxn.close()
+        print("Admin does not have any totem")
+        return jsonify(["not_found"])
+    cursor.execute("DELETE FROM totems where admin_id = (?) AND macAddress = (?)",adminID,macAddress)
+    cnxn.commit()
+    cnxn.close()
+    print("Totem Removed successfully")
+    return jsonify(["done"])
+
+@webApp_methods.route("/web/AddTotem/<adminID>/<branch>/<macAddress>", methods=["GET", "POST"])
+def AddTotem(adminID,branch,macAddress):
+    print(adminID)
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    cursor.execute("SELECT * FROM totems where admin_id = (?) AND macAddress = (?)",adminID,macAddress)
+    if cursor.rowcount == 0:
+        cursor.execute("INSERT INTO totems VALUES (?,?,?,?)",adminID,None,macAddress,branch)
+        cnxn.commit()
+        cnxn.close()
+        print("Totem Added successfully")
+        return jsonify(["done"])
+    cnxn.close()
+    print("Totem is already in the database")
+    return jsonify(["found"])
