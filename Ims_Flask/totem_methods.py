@@ -15,21 +15,21 @@ def totem():
         return render_template('index.html')
     else :  
         global rfid
-        global mac  
+        #global mac  
         if request.method == 'POST':
             rfid_received = request.form['rfid']
-            mac = request.form['mac']
+           # mac = request.form['mac']
             print(rfid_received)
-            print(mac)
-            cnxn = db.connection()
-            cursor = cnxn.cursor()
-            cursor.execute("SELECT * FROM totems WHERE macAddress = (?)",mac)
-            if cursor.rowcount == 0:
-                rfid = -1
-                print('111111')
-            else:
-                print('222222')
-                rfid = rfid_received
+           # print(mac)
+          #  cnxn = db.connection()
+          # cursor = cnxn.cursor()
+           # cursor.execute("SELECT * FROM totems WHERE macAddress = (?)",mac)
+          #  if cursor.rowcount == 0:
+           #     rfid = -1
+           #     print('111111')
+           # else:
+           #     print('222222')
+        rfid = rfid_received
         return ("nunn")
 
 # User login RFID
@@ -75,6 +75,7 @@ def UsrLoginCredential():
 def OprLoginRFID():
     cnxn = db.connection()
     cursor = cnxn.cursor()  
+    print(rfid)
     check_query = "SELECT * FROM operators WHERE rfid = (?) "
     cursor.execute(check_query, rfid)
     row = cursor.fetchone()
@@ -85,7 +86,7 @@ def OprLoginRFID():
         o_opr_id = row.id
         o_admin_id = row.admin_id
         print("Operator Found : Firstname is " + row.firstname)
-        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid), str(row.admin_id))
+        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid), str(row.admin_id),str(row.branch))
         
     else:
         print("Operator_not_found")
@@ -110,7 +111,7 @@ def OprLoginCredential():
     o_opr_id = row.id
     if row != None:
         print("operator Found : firstname is " + row.firstname)
-        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid), str(row.admin_id))
+        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid), str(row.admin_id),str(row.branch))
     else:
         print("operator Not found")
         return jsonify(["not_found"])
@@ -165,14 +166,14 @@ def totem_BookReturn(adminID,oprID,cst):
 #############################################################
 
 # add customer check
-@totem_methods.route("/totem/Operator/AddCustomerCheck/<adminID>/<oprID>", methods=["GET", "POST"])
-def totem_op_add_customer_check(adminID,oprID):
+@totem_methods.route("/totem/Operator/AddCustomerCheck/<adminID>/<branch>", methods=["GET", "POST"])
+def totem_op_add_customer_check(adminID,branch):
     cnxn = db.connection()
     cursor = cnxn.cursor()
     if request.method == 'POST':
         username = request.form["username"]
-    check_query = "SELECT * FROM customers WHERE username = (?) AND opr_id = (?) AND admin_id = (?)"
-    value = (username,oprID,adminID)
+    check_query = "SELECT * FROM customers WHERE username = (?) AND branch = (?) AND admin_id = (?)"
+    value = (username,branch,adminID)
     cursor.execute(check_query, value)
     row = cursor.fetchone()
     cnxn.close()
@@ -183,8 +184,8 @@ def totem_op_add_customer_check(adminID,oprID):
 
 
 # add customer
-@totem_methods.route("/totem/Operator/AddCustomer/<adminID>/<oprID>", methods=["GET", "POST"])
-def totem_op_add_customer(adminID,oprID):
+@totem_methods.route("/totem/Operator/AddCustomer/<adminID>/<id>/<branch>", methods=["GET", "POST"])
+def totem_op_add_customer(adminID,id,branch):
     cnxn = db.connection()
     cursor = cnxn.cursor()
     global user_add_flag
@@ -196,14 +197,14 @@ def totem_op_add_customer(adminID,oprID):
         mail = request.form["email"]
         password = request.form["password"]
 
-    check_query = "SELECT * FROM customers WHERE rfid = (?) and admin_id = (?) and opr_id = (?) "
-    value = (rfid,adminID,oprID)
+    check_query = "SELECT * FROM customers WHERE rfid = (?) and admin_id = (?) and branch = (?) "
+    value = (rfid,adminID,branch)
     cursor.execute(check_query, value)
     row = cursor.fetchone()
 
     if row == None:
-        insert_query = "INSERT INTO customers VALUES (?,?,?,?,?,?,?,?,?);"  # the '?' are placeholders
-        value = (adminID,oprID,rfid,firstName, lastName, username, mail, password, rfid)
+        insert_query = "INSERT INTO customers VALUES (?,?,?,?,?,?,?,?,?,?);"  # the '?' are placeholders
+        value = (adminID,id,rfid,firstName, lastName, username, mail, password, rfid,branch)
         cursor.execute(insert_query, value)
         cnxn.commit()
         cnxn.close()
@@ -277,8 +278,8 @@ def RemoveCustomer(adminID,oprID):
 #############################################################
 
 # Add Book
-@totem_methods.route("/totem/Operator/AddBook/<adminID>/<oprID>", methods=["GET", "POST"])
-def totem_AddBook(adminID,oprID):
+@totem_methods.route("/totem/Operator/AddBook/<adminID>/<oprID>/<branch>", methods=["GET", "POST"])
+def totem_AddBook(adminID,oprID,branch):
     cnxn = db.connection()
     cursor = cnxn.cursor()
     if request.method == 'POST':
@@ -289,8 +290,8 @@ def totem_AddBook(adminID,oprID):
         Date = request.form["Date"]
         Loc = request.form["Loc"]
         Description = request.form["Description"]
-    check_query1 = " SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE books.rfid = (?) AND admin_id = (?) and opr_id = (?)"
-    cursor.execute(check_query1,rfid,adminID,oprID)
+    check_query1 = " SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE books.rfid = (?) AND admin_id = (?) and opr_id = (?) and branch = (?)"
+    cursor.execute(check_query1,rfid,adminID,oprID,branch)
     print("check1: " + str(cursor.rowcount))
     returnMSG = "The book is already in the Database"
     if cursor.rowcount == 0:
@@ -309,7 +310,7 @@ def totem_AddBook(adminID,oprID):
                 if rfid != -1 : 
                     returnMSG = "done"
                     insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?);INSERT INTO items VALUES (?,?,?,?,?,?,?,?)'''
-                    insert_value = (rfid,rfid,Title,Author,Genre,Publisher,Date,rfid,Loc,Description,adminID,oprID,None,rfid,Title,"BK","Turin",rfid)
+                    insert_value = (rfid,rfid,Title,Author,Genre,Publisher,Date,rfid,Loc,Description,adminID,oprID,None,rfid,Title,"book",branch,rfid)
                     cursor.execute(insert_query, insert_value)
                     cnxn.commit()
     cnxn.close()
@@ -410,7 +411,7 @@ def totem_PendingItems(adminID,oprID):
 def totem_PendingCustomers(adminID,oprID):
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM customers WHERE admin_id = (?) AND opr_id = (?) AND rfid = 0"
+    check_query = "SELECT * FROM customers WHERE admin_id = (?) AND opr_id = (?) AND rfid =0"
     cursor.execute(check_query,adminID,oprID)
     if cursor.rowcount == 0 :
         cnxn.close()

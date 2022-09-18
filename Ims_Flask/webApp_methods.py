@@ -402,13 +402,13 @@ def web_op_add_customer(adminID,rfid,role_type):
         if role_type == "admins":
             if role == 'operators':
                 insert_query = '''INSERT INTO %s VALUES (?,?,?,?,?,?,?,?,?);''' %role
-                value = (rfid, rfiddd, firstname, lastname, username, mail, pwd, rfiddd, branch)
+                value = (rfid, rfiddd, firstname, lastname, username, mail, pwd, 0, branch)
             if role == 'customers':
                 insert_query = '''INSERT INTO %s VALUES (?,?,?,?,?,?,?,?,?,?);''' %role
-                value = (rfid,rfiddd, rfiddd, firstname, lastname, username, mail, pwd, rfiddd, branch)
+                value = (rfid,rfiddd, rfiddd, firstname, lastname, username, mail, pwd, 0, branch)
         if role_type == "operators":
             insert_query = '''INSERT INTO %s VALUES (?,?,?,?,?,?,?,?,?,?);''' %role
-            value = (adminID, rfid, rfiddd, firstname, lastname, username, mail, pwd, rfiddd, branch)
+            value = (adminID, rfid, rfiddd, firstname, lastname, username, mail, pwd, 0, branch)
         cursor.execute(insert_query, value)
         cnxn.commit()
         cnxn.close()

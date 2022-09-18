@@ -38,6 +38,7 @@ class Httpservices {
       lastname: '',
       firstname: '',
       rfid: '',
+      branch: '',
       adminID: '');
 
   // Login with rfid method
@@ -54,6 +55,7 @@ class Httpservices {
         opr_buffer.mail = json[4];
         opr_buffer.rfid = json[5];
         opr_buffer.adminID = json[6];
+        opr_buffer.branch = json[7];
         await EasyLoading.showSuccess("Welcome dear Operator");
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const hmpage_op()));
@@ -78,6 +80,7 @@ class Httpservices {
         opr_buffer.mail = json[4];
         opr_buffer.rfid = json[5];
         opr_buffer.adminID = json[6];
+        opr_buffer.branch = json[7];
         await EasyLoading.showSuccess("Welcome Back " + json[1]);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const hmpage_op()));
@@ -109,14 +112,20 @@ class Httpservices {
     password,
     context,
   ) async {
-    http.Response response = await _client
-        .post(totemAddCst + opr_buffer.adminID + '/' + opr_buffer.rfid, body: {
-      "firstName": firstName,
-      "lastName": lastName,
-      "email": email,
-      "username": username,
-      "password": password
-    });
+    http.Response response = await _client.post(
+        totemAddCst +
+            opr_buffer.adminID +
+            '/' +
+            opr_buffer.rfid +
+            '/' +
+            opr_buffer.branch,
+        body: {
+          "firstName": firstName,
+          "lastName": lastName,
+          "email": email,
+          "username": username,
+          "password": password
+        });
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "new User added to the database successfully") {
@@ -153,7 +162,12 @@ class Httpservices {
   static totemAddbook(
       Titlee, Author, Genre, Publisher, Date, Loc, Description, context) async {
     http.Response response = await _client.post(
-        totemAddBookUrl + opr_buffer.adminID + '/' + opr_buffer.rfid,
+        totemAddBookUrl +
+            opr_buffer.adminID +
+            '/' +
+            opr_buffer.rfid +
+            '/' +
+            opr_buffer.branch,
         body: {
           "Title": Titlee,
           "Author": Author,
@@ -250,7 +264,6 @@ class Httpservices {
     }
   }
 
-  // Remove book method
   static PendingItems(context) async {
     http.Response response = await _client
         .get(totemPendingItems + opr_buffer.adminID + '/' + opr_buffer.rfid);
