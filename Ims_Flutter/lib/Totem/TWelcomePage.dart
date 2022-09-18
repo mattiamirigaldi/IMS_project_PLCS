@@ -9,14 +9,11 @@ class TWelcome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Colors.green,
-            title:
-
-                //Text("HELLO DEAR BOOK LOVER!"),
-                const Image(
-              image: AssetImage('images/logo.png'),
-              height: 50,
-            )),
+          backgroundColor: Colors.green,
+          //title: const Image(
+          //  image: AssetImage('images/logo.png'),
+          //  height: 50,)
+        ),
         body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -25,18 +22,18 @@ class TWelcome extends StatelessWidget {
                   child: Text("Hello dear book lover!",
                       textAlign: TextAlign.center,
                       style: TextStyle(fontWeight: FontWeight.bold),
-                      textScaleFactor: 4)),
+                      textScaleFactor: 2)),
               const Center(
                   child: Text("Welcome to ",
                       textAlign: TextAlign.center,
                       style: TextStyle(fontWeight: FontWeight.bold),
-                      textScaleFactor: 2)),
+                      textScaleFactor: 1.5)),
               Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
                   child: Center(
-                      child: Image.asset('images/bookies.png',
-                          width: 500, height: 300))),
+                      child: Image.asset('images/ims.jpg',
+                          width: 500, height: 100))),
               InkWell(
                 onTap: () {
                   Navigator.push(
@@ -46,16 +43,16 @@ class TWelcome extends StatelessWidget {
                 },
                 child: Center(
                   child: Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 30),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
                     child: const Center(
                         child: Text("Enter",
                             style: TextStyle(
-                                fontSize: 50,
+                                fontSize: 40,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black))),
-                    height: 100,
-                    width: 1500,
+                    height: 80,
+                    width: 1000,
                     decoration: BoxDecoration(
                       color: Colors.green,
                       borderRadius: BorderRadius.circular(20),

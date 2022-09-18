@@ -27,17 +27,17 @@ class _TLoginPageState extends State<TLoginPage> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 5),
                 child: Center(
                     child: Image(
-                        image: AssetImage('images/ims.jpg'),
-                        height: 200,
+                        image: AssetImage('images/bookies.png'),
+                        height: 50,
                         width: 200))),
-            const Center(
-                child: Text("Welcome ",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                    textScaleFactor: 3)),
+            //const Center(
+            //    child: Text("Welcome ",
+            //        textAlign: TextAlign.center,
+            //        style: TextStyle(fontWeight: FontWeight.bold),
+            //        textScaleFactor: 3)),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
               child: Center(
@@ -48,7 +48,7 @@ class _TLoginPageState extends State<TLoginPage> {
             ),
             // If wanted to implement with inf loop :
             const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 child: Center(
                     child: CircularProgressIndicator(
                         valueColor:
@@ -85,7 +85,7 @@ class _TLoginPageState extends State<TLoginPage> {
                 child: const Text("> Login with credentials",
                     style: TextStyle(
                         decoration: TextDecoration.underline,
-                        fontSize: 25,
+                        fontSize: 20,
                         color: Colors.blue)),
                 onTap: () {
                   Navigator.push(
@@ -95,14 +95,14 @@ class _TLoginPageState extends State<TLoginPage> {
                 },
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             Align(
               alignment: Alignment.bottomLeft,
               child: InkWell(
                 child: const Text("> Login as operator",
                     style: TextStyle(
                         decoration: TextDecoration.underline,
-                        fontSize: 25,
+                        fontSize: 20,
                         color: Colors.blue)),
                 onTap: () {
                   Navigator.push(

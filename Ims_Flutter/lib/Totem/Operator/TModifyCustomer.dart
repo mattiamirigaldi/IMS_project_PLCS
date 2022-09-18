@@ -24,7 +24,8 @@ class TmodifyCustomer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const Center(child: Text("Please select a service")),
+              const Center(
+                  child: Text("Please select a service", textScaleFactor: 1.5)),
               InkWell(
                 onTap: () {
                   Navigator.push(
@@ -35,14 +36,14 @@ class TmodifyCustomer extends StatelessWidget {
                 child: Center(
                   child: Container(
                     margin: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 30),
+                        horizontal: 50, vertical: 10),
                     child: const Center(
                         child: Text("Add customer",
                             style: TextStyle(
-                                fontSize: 50,
+                                fontSize: 30,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black))),
-                    height: 100,
+                    height: 80,
                     width: 1500,
                     decoration: BoxDecoration(
                       color: Colors.green,
@@ -61,14 +62,14 @@ class TmodifyCustomer extends StatelessWidget {
                 child: Center(
                   child: Container(
                     margin: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 30),
+                        horizontal: 50, vertical: 10),
                     child: const Center(
                         child: Text("Remove customer",
                             style: TextStyle(
-                                fontSize: 50,
+                                fontSize: 30,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black))),
-                    height: 100,
+                    height: 80,
                     width: 1500,
                     decoration: BoxDecoration(
                       color: Colors.green,
@@ -84,14 +85,14 @@ class TmodifyCustomer extends StatelessWidget {
                 child: Center(
                   child: Container(
                     margin: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 30),
+                        horizontal: 50, vertical: 10),
                     child: const Center(
                         child: Text("Pending list",
                             style: TextStyle(
-                                fontSize: 50,
+                                fontSize: 30,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black))),
-                    height: 100,
+                    height: 80,
                     width: 1500,
                     decoration: BoxDecoration(
                       color: Colors.green,

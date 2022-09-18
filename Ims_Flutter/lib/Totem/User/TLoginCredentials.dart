@@ -24,18 +24,17 @@ class _TLoginCredentials extends State<TLoginCredentials> {
           child: ListView(
             children: <Widget>[
               const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Center(
                     child: Text("Sign in to your account",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green),
+                            fontWeight: FontWeight.bold, color: Colors.green),
                         textAlign: TextAlign.center,
                         textScaleFactor: 2)),
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: TextFormField(
                   decoration: const InputDecoration(
                       hintText: "Enter your username",
@@ -56,7 +55,7 @@ class _TLoginCredentials extends State<TLoginCredentials> {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: TextFormField(
                   decoration: const InputDecoration(
                     hintText: "Enter your password",
@@ -76,8 +75,8 @@ class _TLoginCredentials extends State<TLoginCredentials> {
               ),
               InkWell(
                   child: Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 20),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     child: const Center(
                         child: Text("SUBMIT",
                             textAlign: TextAlign.center,
@@ -93,7 +92,8 @@ class _TLoginCredentials extends State<TLoginCredentials> {
                   onTap: () async {
                     if (_formKey.currentState != null) {
                       if (_formKey.currentState!.validate()) {
-                        await Httpservices.totemLoginCredentialUs(username, password, context);
+                        await Httpservices.totemLoginCredentialUs(
+                            username, password, context);
                         // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Login Success")));
                       }
                     } else {}

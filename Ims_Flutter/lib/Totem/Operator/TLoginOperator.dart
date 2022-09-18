@@ -29,22 +29,22 @@ class _TLoginOperatorState extends State<TLoginOperator> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            const Center(
-                child: Text("Welcome ",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                    textScaleFactor: 3)),
+            //const Center(
+            //    child: Text("Welcome ",
+            //        textAlign: TextAlign.center,
+            //        style: TextStyle(fontWeight: FontWeight.bold),
+            //        textScaleFactor: 3)),
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               child: Center(
                   child: Text("Please scan your RFID then click LOGIN button",
                       textAlign: TextAlign.center,
                       style: TextStyle(fontWeight: FontWeight.bold),
-                      textScaleFactor: 2)),
+                      textScaleFactor: 1.5)),
             ),
             // If wanted to implement with inf loop :
             const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Center(
                     child: CircularProgressIndicator(
                         valueColor:
@@ -53,7 +53,7 @@ class _TLoginOperatorState extends State<TLoginOperator> {
                 child: Center(
                     child: Container(
                   margin:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   child: const Center(
                       child: Text("LOGIN",
                           textAlign: TextAlign.center,
@@ -81,7 +81,7 @@ class _TLoginOperatorState extends State<TLoginOperator> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black),
                             textAlign: TextAlign.center,
-                            textScaleFactor: 2)),
+                            textScaleFactor: 1.5)),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -106,7 +106,7 @@ class _TLoginOperatorState extends State<TLoginOperator> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 20),
+                        horizontal: 30, vertical: 10),
                     child: TextFormField(
                       decoration: const InputDecoration(
                         hintText: "Enter your password",
@@ -127,7 +127,7 @@ class _TLoginOperatorState extends State<TLoginOperator> {
                   InkWell(
                       child: Container(
                         margin: const EdgeInsets.symmetric(
-                            horizontal: 30, vertical: 20),
+                            horizontal: 30, vertical: 5),
                         child: const Center(
                             child: Text("SUBMIT CREDENTIALS",
                                 textAlign: TextAlign.center,
@@ -145,7 +145,6 @@ class _TLoginOperatorState extends State<TLoginOperator> {
                           if (_formKey.currentState!.validate()) {
                             await Httpservices.totemLoginCredentialOp(
                                 username, password, context);
-                            // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Login Success")));
                           }
                         } else {}
                       })
