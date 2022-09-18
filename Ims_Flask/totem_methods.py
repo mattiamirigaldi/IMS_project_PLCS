@@ -15,21 +15,21 @@ def totem():
         return render_template('index.html')
     else :  
         global rfid
-        #global mac  
+        global mac  
         if request.method == 'POST':
             rfid_received = request.form['rfid']
-           # mac = request.form['mac']
+            mac = request.form['mac']
             print(rfid_received)
-           # print(mac)
-          #  cnxn = db.connection()
-          # cursor = cnxn.cursor()
-           # cursor.execute("SELECT * FROM totems WHERE macAddress = (?)",mac)
-          #  if cursor.rowcount == 0:
-           #     rfid = -1
-           #     print('111111')
-           # else:
-           #     print('222222')
-        rfid = rfid_received
+            print(mac)
+            cnxn = db.connection()
+            cursor = cnxn.cursor()
+            cursor.execute("SELECT * FROM totems WHERE macAddress = (?)",mac)
+            if cursor.rowcount == 0:
+                rfid = -1
+                print('111111')
+            else:
+                print('222222')
+            rfid = rfid_received
         return ("nunn")
 
 # User login RFID
