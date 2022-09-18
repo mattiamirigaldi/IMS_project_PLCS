@@ -243,18 +243,15 @@ class _GenreListState extends State<AddBook> {
                     (TheWebUser[0]['role'] == 'admins')
                         ? (selectBranch())
                         : (const SizedBox(
-                            height: 20,
+                            height: 5,
                           )),
                     const SizedBox(
-                      height: 20,
-                    ),
-                    const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     InkWell(
                         child: Container(
                             margin: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 20),
+                                horizontal: 20, vertical: 5),
                             child: const Center(
                                 child: Text("SUBMIT NEW ITEM",
                                     textAlign: TextAlign.center,

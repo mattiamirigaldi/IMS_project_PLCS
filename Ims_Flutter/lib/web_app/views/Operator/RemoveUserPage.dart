@@ -35,25 +35,25 @@ class _GenreListState extends State<RemoveCustomer> {
     double height_screen = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-          title: (
-            Row(children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: const Image(
-                  image: AssetImage("images/ims.jpg"),
-                  width: 45,
-                  height: 45,
-                ),
-              ),
-              const SizedBox(width: 30,),
-              const Text("Delete user page")
-            ])
+        title: (Row(children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: const Image(
+              image: AssetImage("images/ims.jpg"),
+              width: 45,
+              height: 45,
+            ),
           ),
-        ),  
+          const SizedBox(
+            width: 30,
+          ),
+          const Text("Delete user page")
+        ])),
+      ),
       body: Align(
         alignment: Alignment.topCenter,
         child: SizedBox(
-          width: width_screen*0.7,
+          width: width_screen * 0.7,
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -64,10 +64,12 @@ class _GenreListState extends State<RemoveCustomer> {
                   child: Column(
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 40),
                         child: Center(
                             child: Text(
-                                "Please enter username of the user you'd like to remove".toUpperCase(),
+                                "Please enter username of the user you'd like to remove"
+                                    .toUpperCase(),
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black.withOpacity(0.7)),
@@ -95,48 +97,12 @@ class _GenreListState extends State<RemoveCustomer> {
                           },
                         ),
                       ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            const SizedBox(width: 35),
-                            const Text(
-                              "Select user role : ",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.normal),
-                            ),
-                            DropdownButton<String>(
-                              value: dropdownvalue,
-                              icon: const Icon(Icons.arrow_downward),
-                              underline: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 30),
-                                  child: Container(
-                                      alignment: Alignment.centerLeft,
-                                      height: 5,
-                                      width: 100,
-                                      color: Colors.black.withOpacity(0.4))),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  dropdownvalue = newValue!;
-                                  role = dropdownvalue;
-                                });
-                              },
-                              items: _roles
-                                  .map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 30, vertical: 10),
-                                      child: Text(value)),
-                                  value: value,
-                                );
-                              }).toList(),
-                            ),
-                          ]),
-                      const SizedBox(height: 40),
+                      (TheWebUser[0]['role'] == 'admins')
+                          ? (selectRole())
+                          : (const SizedBox(
+                              height: 5,
+                            )),
+                      const SizedBox(height: 5),
                       InkWell(
                           child: Container(
                             margin: const EdgeInsets.symmetric(
@@ -169,5 +135,41 @@ class _GenreListState extends State<RemoveCustomer> {
         ),
       ),
     );
+  }
+
+  Row selectRole() {
+    return Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+      const SizedBox(width: 35),
+      const Text(
+        "Select user role : ",
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+      ),
+      DropdownButton<String>(
+        value: dropdownvalue,
+        icon: const Icon(Icons.arrow_downward),
+        underline: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Container(
+                alignment: Alignment.centerLeft,
+                height: 5,
+                width: 100,
+                color: Colors.black.withOpacity(0.4))),
+        onChanged: (String? newValue) {
+          setState(() {
+            dropdownvalue = newValue!;
+            role = dropdownvalue;
+          });
+        },
+        items: _roles.map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                child: Text(value)),
+            value: value,
+          );
+        }).toList(),
+      ),
+    ]);
   }
 }

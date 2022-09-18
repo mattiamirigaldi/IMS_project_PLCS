@@ -101,12 +101,12 @@ class Httpservices {
         } else {
           await Httpservices.List_Items(TheWebUser[0]['branch'], context);
         }
-        //await EasyLoading.showSuccess(
-        //    "Welcome dear " + TheWebUser[0]['firstname']);
+        await EasyLoading.showSuccess(
+            "Welcome dear " + TheWebUser[0]['firstname']);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const DashBoard()));
         //Navigator.push(context,
-        //    MaterialPageRoute(builder: (context) => const manageTotems()));
+        //    MaterialPageRoute(builder: (context) => const manageCustomer()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");

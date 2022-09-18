@@ -229,19 +229,18 @@ class _GenreListState extends State<AddCustomer> {
                     },
                   ),
                 ),
-                selectRole(),
                 (TheWebUser[0]['role'] == 'admins')
                     ? (selectBranch())
                     : (const SizedBox(
-                        height: 20,
+                        height: 5,
                       )),
                 const SizedBox(
-                  height: 20,
+                  height: 5,
                 ),
                 InkWell(
                     child: Container(
                         margin: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 20),
+                            horizontal: 20, vertical: 5),
                         child: const Center(
                             child: Text("SUBMIT NEW USER",
                                 textAlign: TextAlign.center,
@@ -308,11 +307,11 @@ class _GenreListState extends State<AddCustomer> {
         value: dropdownvalue,
         icon: const Icon(Icons.arrow_downward),
         underline: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Container(
               alignment: Alignment.centerLeft,
               height: 5,
-              width: 100,
+              width: 50,
               color: Colors.lightBlue),
         ),
         onChanged: (String? newValue) {
@@ -336,7 +335,8 @@ class _GenreListState extends State<AddCustomer> {
 
   Row selectBranch() {
     return Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-      const SizedBox(width: 25),
+      selectRole(),
+      const SizedBox(width: 150),
       const Text(
         "Select branch : ",
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
@@ -345,11 +345,11 @@ class _GenreListState extends State<AddCustomer> {
         value: dropdownvaluebranch,
         icon: const Icon(Icons.arrow_downward),
         underline: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Container(
               alignment: Alignment.centerLeft,
               height: 5,
-              width: 100,
+              width: 50,
               color: Colors.lightBlue),
         ),
         onChanged: (String? newValue) {
