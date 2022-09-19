@@ -219,7 +219,7 @@ class Httpservices {
   }
 
   static item_edit(oldid, newTitle, newAuthor, newDescription, newLocation,
-      newCategory, newRfid, context) async {
+      newCategory, newRfid, newUrlImage, context) async {
     http.Response response =
         await _client.post(Uri.parse(ItemEditUrl + oldid), body: {
       "newTitle": newTitle,
@@ -228,6 +228,7 @@ class Httpservices {
       "newLocation": newLocation,
       "newCategory": newCategory,
       "newRfid": newRfid,
+      "newImage": newUrlImage,
     });
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(

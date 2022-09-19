@@ -223,10 +223,11 @@ def item_edit(oldid):
         newLocation = request.form["newLocation"]
         newCategory = request.form["newCategory"]
         newRfid = request.form["newRfid"]
+        newImage = request.form["newImage"]
     print("SETTINGS : newTitle is " + newTitle)
     print("************************************")
-    insert_query = "UPDATE books SET title = (?), author = (?), genre = (?), rfid= (?), loc= (?), description = (?) WHERE id = (?)"
-    value = (newTitle, newAuthor, newCategory, newRfid, newLocation, newDescription, oldid)
+    insert_query = "UPDATE books SET title = (?), author = (?), genre = (?), rfid= (?), loc= (?), description = (?) WHERE id = (?); UPDATE items SET image = (?), name = (?) where id = (?)"
+    value = (newTitle, newAuthor, newCategory, newRfid, newLocation, newDescription, oldid,newImage,newTitle,oldid)
     cursor.execute(insert_query, value)
     cnxn.commit()
     cnxn.close()
@@ -522,8 +523,8 @@ def totem_AddBook(adminID,rfid,role_type):
             global tempid
             print("book is new")
             tempid += 1
-            insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?);'''
-            insert_value = (tempid,tempid,Title,Author,Genre,Publisher,Date,0,Loc,Description,adminID,rfid,None,tempid,Title,"Book",branch,0)
+            insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?,?);'''
+            insert_value = (tempid,tempid,Title,Author,Genre,Publisher,Date,0,Loc,Description,adminID,rfid,None,tempid,Title,"Book",branch,0,"https://smallimg.pngkey.com/png/small/12-122439_book-icon-book-flat-icon-png.png")
             cursor.execute(insert_query, insert_value)
             cnxn.commit()
             return jsonify(["done"])
@@ -540,8 +541,8 @@ def totem_AddBook(adminID,rfid,role_type):
             if rfiddd == -1 : 
                 cnxn.close()
                 return jsonify(["Please Scan the RFID"])
-            insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?);'''
-            insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,Loc,Description,rfid,None,None,rfiddd,Title,"Book",branch,0)
+            insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?,?);'''
+            insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,Loc,Description,rfid,None,None,rfiddd,Title,"Book",branch,0,"https://smallimg.pngkey.com/png/small/12-122439_book-icon-book-flat-icon-png.png")
             cursor.execute(insert_query, insert_value)
             cnxn.commit()
             return jsonify(["done"])

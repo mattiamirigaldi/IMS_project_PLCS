@@ -130,48 +130,47 @@ class _ModifyItemPageState extends State<ModifyItemPage> {
 
   SizedBox itemPicture(Size size) {
     return SizedBox(
-      width: size.width*0.25,
-      child: Hero(
-        tag: item.id,
-        child: Stack(
-          //alignment: Alignment.bottomCenter,
-          children: [
-            Material(
-              color: Colors.transparent,
-              child: Ink.image(
-                image: NetworkImage(item.urlImage),
-                width: 230,
-                height: 230,
-                child: InkWell(
-            onTap: () => showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: const Text("Enter url of new image"),
-                content: TextFormField(
-                  decoration: const InputDecoration(hintText: 'url image'),
-                  onChanged: (value){
-                    newUrlImage = value;
-                  },
-                  validator: (String? value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
+        width: size.width * 0.25,
+        child: Hero(
+            tag: item.id,
+            child: Stack(
+              //alignment: Alignment.bottomCenter,
+              children: [
+                Material(
+                  color: Colors.transparent,
+                  child: Ink.image(
+                    image: NetworkImage(item.urlImage),
+                    width: 230,
+                    height: 230,
+                    child: InkWell(
+                        onTap: () => showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text("Enter url of new image"),
+                                content: TextFormField(
+                                  decoration: const InputDecoration(
+                                      hintText: 'url image'),
+                                  onChanged: (value) {
+                                    newUrlImage = value;
+                                  },
+                                  validator: (String? value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please enter some text';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text("SUBMIT"))
+                                ],
+                              ),
+                            )),
+                  ),
                 ),
-                actions: [
-                  TextButton(
-                    onPressed: (){
-                      Navigator.of(context).pop();
-                    }, 
-                    child: const Text("SUBMIT")
-                  )
-                ],
-              ),
-            )
-            ),
-              ),
-            ),
                 Positioned(
                   bottom: 5,
                   left: 185,
@@ -320,105 +319,102 @@ class _ModifyItemPageState extends State<ModifyItemPage> {
 
   Container itemInfo(Size size) {
     return Container(
-              height: 800,
-              width: size.width * 0.2,
-              margin: const EdgeInsets.only(left: 40, right: 40),
-              child : Form(
-                child: Column (
-                  children: <Widget>[
-                    const SizedBox(height: 10),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                        labelText: "TITLE",
-                        labelStyle: TextStyle(
-                        fontSize: 25,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        ),
-                        border: OutlineInputBorder( ),
-                        hintText: "Please insert some text",
-                        hintStyle : TextStyle(
-                        fontSize: 10,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.normal,
-                    )
-                    ),
-                    initialValue: item.title,
-                    onChanged: (value) {
-                      newTitle = value;
-                    },
-                    validator: (String? value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                        labelText: "AUTHOR",
-                        labelStyle: TextStyle(
-                        fontSize: 25,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        ),
-                        border: OutlineInputBorder( ),
-                        hintText: "Please insert some text",
-                        hintStyle : TextStyle(
-                        fontSize: 10,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.normal,
-                    )
-                    ),
-                    initialValue: item.author,
-                    onChanged: (value) {
-                      newAuthor = value;
-                    },
-                    validator: (String? value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                        labelText: "CATEGORY",
-                        labelStyle: TextStyle(
-                        fontSize: 25,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        ),
-                        border: OutlineInputBorder( ),
-                        hintText: "Please insert some text",
-                        hintStyle : TextStyle(
-                        fontSize: 10,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.normal,
-                    )
-                    ),
-                    initialValue: item.category,
-                    onChanged: (value) {
-                      newCategory = value;
-                    },
-                    validator: (String? value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                    ),
-                  ]
+      height: 800,
+      width: size.width * 0.2,
+      margin: const EdgeInsets.only(left: 40, right: 40),
+      child: Form(
+        child: Column(children: <Widget>[
+          const SizedBox(height: 10),
+          TextFormField(
+            decoration: const InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black)),
+                labelText: "TITLE",
+                labelStyle: TextStyle(
+                  fontSize: 25,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
                 ),
-              ),
-            );
+                border: OutlineInputBorder(),
+                hintText: "Please insert some text",
+                hintStyle: TextStyle(
+                  fontSize: 10,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.normal,
+                )),
+            initialValue: item.title,
+            onChanged: (value) {
+              newTitle = value;
+            },
+            validator: (String? value) {
+              if (value!.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 20),
+          TextFormField(
+            decoration: const InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black)),
+                labelText: "AUTHOR",
+                labelStyle: TextStyle(
+                  fontSize: 25,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+                border: OutlineInputBorder(),
+                hintText: "Please insert some text",
+                hintStyle: TextStyle(
+                  fontSize: 10,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.normal,
+                )),
+            initialValue: item.author,
+            onChanged: (value) {
+              newAuthor = value;
+            },
+            validator: (String? value) {
+              if (value!.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 20),
+          TextFormField(
+            decoration: const InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black)),
+                labelText: "CATEGORY",
+                labelStyle: TextStyle(
+                  fontSize: 25,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+                border: OutlineInputBorder(),
+                hintText: "Please insert some text",
+                hintStyle: TextStyle(
+                  fontSize: 10,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.normal,
+                )),
+            initialValue: item.category,
+            onChanged: (value) {
+              newCategory = value;
+            },
+            validator: (String? value) {
+              if (value!.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+          ),
+        ]),
+      ),
+    );
   }
- 
 
   SizedBox editOrRemove() {
     return SizedBox(
@@ -577,8 +573,16 @@ class _ModifyItemPageState extends State<ModifyItemPage> {
               ),
               child: const Text("SAVE CHANGES"),
               onPressed: () async {
-                await Httpservices.item_edit(item.id, newTitle, newAuthor,
-                    newDescription, newLocation, newCategory, newId, context);
+                await Httpservices.item_edit(
+                    item.id,
+                    newTitle,
+                    newAuthor,
+                    newDescription,
+                    newLocation,
+                    newCategory,
+                    newId,
+                    newUrlImage,
+                    context);
                 //if (_formKey.currentState != null) {
                 //  if (_formKey.currentState!.validate()) {
                 //    ScaffoldMessenger.of(context).showSnackBar(

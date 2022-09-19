@@ -95,8 +95,7 @@ class _ListUsersState extends State<ListItemsAdmin> {
                       author: AllItems[i]['author'],
                       title: AllItems[i]['title'],
                       // urlImage: AllItems[i]['imagePath'],
-                      urlImage:
-                          'https://thumbs.dreamstime.com/z/old-mystery-book-icon-outline-style-old-mystery-book-icon-outline-old-mystery-book-vector-icon-web-design-isolated-white-198523618.jpg',
+                      urlImage: AllItems[i]['image'],
                       color: Color.fromARGB(255, 211, 255, 89),
                       price: 20.0,
                       description: AllItems[i]['description'],
