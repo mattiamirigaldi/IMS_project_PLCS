@@ -20,7 +20,7 @@ class _TLoginPageState extends State<TLoginPage> {
           image: AssetImage('images/logo.png'),
           height: 50,
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.blue,
       ),
       body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,7 +52,7 @@ class _TLoginPageState extends State<TLoginPage> {
                 child: Center(
                     child: CircularProgressIndicator(
                         valueColor:
-                            AlwaysStoppedAnimation<Color>(Colors.green)))),
+                            AlwaysStoppedAnimation<Color>(Colors.blue)))),
             InkWell(
                 child: Center(
                     child: Container(
@@ -68,7 +68,7 @@ class _TLoginPageState extends State<TLoginPage> {
                   width: 800,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: Colors.green),
+                      color: Colors.blue),
                 )),
                 onTap: () async {
                   // if(_formKey.currentState != null) {

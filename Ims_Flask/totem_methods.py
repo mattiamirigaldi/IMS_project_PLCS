@@ -412,7 +412,7 @@ def totem_PendingCustomers(adminID,branch):
     print(adminID,branch)
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM customers WHERE admin_id = (?) AND branch = (?) AND rfid is NULL"
+    check_query = "SELECT * FROM customers WHERE admin_id = (?) AND branch = (?) AND rfid = 0"
     cursor.execute(check_query,adminID,branch)
     if cursor.rowcount == 0 :
         cnxn.close()

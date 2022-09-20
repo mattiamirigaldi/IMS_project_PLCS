@@ -16,7 +16,7 @@ class _GenreListState extends State<TRemoveCustomer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.blue,
           title: const Image(
             image: AssetImage('images/logo.png'),
             height: 50,
@@ -49,7 +49,7 @@ class _GenreListState extends State<TRemoveCustomer> {
                   width: 800,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: Colors.green),
+                      color: Colors.blue),
                 )),
                 onTap: () async {
                   await Httpservices.totemRemoveCustomer(context);
