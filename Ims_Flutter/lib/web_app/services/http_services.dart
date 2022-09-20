@@ -219,7 +219,7 @@ class Httpservices {
   }
 
   static item_edit(oldid, newTitle, newAuthor, newDescription, newLocation,
-      newCategory, newRfid, newUrlImage, context) async {
+      newCategory, newId, newRfid, newUrlImage, context) async {
     http.Response response =
         await _client.post(Uri.parse(ItemEditUrl + oldid), body: {
       "newTitle": newTitle,
@@ -227,6 +227,7 @@ class Httpservices {
       "newDescription": newDescription,
       "newLocation": newLocation,
       "newCategory": newCategory,
+      "newId": newId,
       "newRfid": newRfid,
       "newImage": newUrlImage,
     });

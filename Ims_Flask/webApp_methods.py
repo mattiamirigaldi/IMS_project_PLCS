@@ -222,12 +222,14 @@ def item_edit(oldid):
         newDescription = request.form["newDescription"]
         newLocation = request.form["newLocation"]
         newCategory = request.form["newCategory"]
+        newId = request.form["newId"]
         newRfid = request.form["newRfid"]
         newImage = request.form["newImage"]
     print("SETTINGS : newTitle is " + newTitle)
+    print("new rfid is : "+newRfid)
     print("************************************")
-    insert_query = "UPDATE books SET title = (?), author = (?), genre = (?), rfid= (?), loc= (?), description = (?) WHERE id = (?); UPDATE items SET image = (?), name = (?) where id = (?)"
-    value = (newTitle, newAuthor, newCategory, newRfid, newLocation, newDescription, oldid,newImage,newTitle,oldid)
+    insert_query = "UPDATE books SET title = (?), author = (?), genre = (?), rfid= (?), loc= (?), description = (?) WHERE id = (?); UPDATE items SET image = (?), name = (?),rfid=(?),id=(?) where id = (?);"
+    value = (newTitle, newAuthor, newCategory, newRfid, newLocation, newDescription, newId,newImage,newTitle,newRfid,newId,newId)
     cursor.execute(insert_query, value)
     cnxn.commit()
     cnxn.close()

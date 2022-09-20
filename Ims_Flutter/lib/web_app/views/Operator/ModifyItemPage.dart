@@ -581,6 +581,7 @@ class _ModifyItemPageState extends State<ModifyItemPage> {
                     newLocation,
                     newCategory,
                     newId,
+                    newRfid,
                     newUrlImage,
                     context);
                 //if (_formKey.currentState != null) {
