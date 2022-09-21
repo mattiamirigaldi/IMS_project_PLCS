@@ -12,7 +12,7 @@ class TmodifyBook extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.blue,
             title:
                 //Text("HELLO DEAR BOOK LOVER!"),
                 const Image(
@@ -45,7 +45,7 @@ class TmodifyBook extends StatelessWidget {
                     height: 80,
                     width: 1500,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: Colors.blue,
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
@@ -71,7 +71,7 @@ class TmodifyBook extends StatelessWidget {
                     height: 80,
                     width: 1500,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: Colors.blue,
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
@@ -94,7 +94,7 @@ class TmodifyBook extends StatelessWidget {
                     height: 80,
                     width: 1500,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: Colors.blue,
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),

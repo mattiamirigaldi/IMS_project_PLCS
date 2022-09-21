@@ -333,8 +333,8 @@ def totem_AddBook(adminID,opr,branch):
                     if rfiddd == -1 : 
                         cnxn.close()
                         return jsonify(["Please Scan the RFID"])
-                insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?);'''
-                insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,Loc,Description,adminID,opr,None,rfiddd,Title,"Book",branch,0)
+                insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?,?);'''
+                insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,Loc,Description,adminID,opr,None,rfiddd,Title,"Book",branch,0,"https://smallimg.pngkey.com/png/small/12-122439_book-icon-book-flat-icon-png.png")
                 cursor.execute(insert_query, insert_value)
                 cnxn.commit()
                 #insert_query = '''INSERT INTO items VALUES (?,?,?,?,?,?,?,?);'''

@@ -12,7 +12,7 @@ class TmodifyCustomer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.blue,
             title:
 
                 //Text("HELLO DEAR BOOK LOVER!"),
@@ -46,7 +46,7 @@ class TmodifyCustomer extends StatelessWidget {
                     height: 80,
                     width: 1500,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: Colors.blue,
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
@@ -72,7 +72,7 @@ class TmodifyCustomer extends StatelessWidget {
                     height: 80,
                     width: 1500,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: Colors.blue,
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
@@ -95,7 +95,7 @@ class TmodifyCustomer extends StatelessWidget {
                     height: 80,
                     width: 1500,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: Colors.blue,
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),

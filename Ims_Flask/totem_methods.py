@@ -309,8 +309,8 @@ def totem_AddBook(adminID,oprID,branch):
                 returnMSG = "Please Scan the RFID"
                 if rfid != -1 : 
                     returnMSG = "done"
-                    insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?);INSERT INTO items VALUES (?,?,?,?,?,?,?,?)'''
-                    insert_value = (rfid,rfid,Title,Author,Genre,Publisher,Date,rfid,Loc,Description,adminID,oprID,None,rfid,Title,"book",branch,rfid)
+                    insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?);INSERT INTO items VALUES (?,?,?,?,?,?,?,?,?)'''
+                    insert_value = (rfid,rfid,Title,Author,Genre,Publisher,Date,rfid,Loc,Description,adminID,oprID,None,rfid,Title,"book",branch,rfid,"https://smallimg.pngkey.com/png/small/12-122439_book-icon-book-flat-icon-png.png")
                     cursor.execute(insert_query, insert_value)
                     cnxn.commit()
     cnxn.close()
@@ -412,7 +412,7 @@ def totem_PendingCustomers(adminID,branch):
     print(adminID,branch)
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM customers WHERE admin_id = (?) AND branch = (?) AND rfid is NULL"
+    check_query = "SELECT * FROM customers WHERE admin_id = (?) AND branch = (?) AND rfid = 0"
     cursor.execute(check_query,adminID,branch)
     if cursor.rowcount == 0 :
         cnxn.close()
