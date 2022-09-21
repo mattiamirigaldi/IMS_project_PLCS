@@ -1,5 +1,8 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe, non_constant_identifier_names, file_names
 
+import 'dart:math';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -8,6 +11,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/Mobile/DataLists.dart';
 import 'package:ims/Mobile/MLogin.dart';
 import 'package:ims/Mobile/MWelcomePage.dart';
+import 'package:nfc_manager/nfc_manager.dart';
+import 'package:nfc_manager/platform_tags.dart';
 // to route
 import '../../../routes.dart';
 import 'package:ims/Mobile/User/MHomePage_us.dart';
@@ -17,16 +22,15 @@ import '../../ListItems.dart';
 import '../MHomePage_us.dart';
 
 //import 'package:validator/validator.dart';
+late int res = 0;
+late List<int> mergedList = [];
 
-//String baseUrlMobile = Myroutes.baseUrlMobile;
 String baseUrlMobile = 'http://' + (Myroutes.baseUrlMobile) + ':5000';
-//String baseUrlMobile = Myroutes.baseUrl;
+String MobileLoginNFCurl = baseUrlMobile + '/mobile/UsrLoginNFC/';
 
 class Httpservices {
   static final _client = http.Client();
   static final _totemWelcomeUrl = Uri.parse(baseUrlMobile + '/mobile');
-  static final _totemUsrLoginRFIDUrl =
-      Uri.parse(baseUrlMobile + '/mobile/UsrLoginRFID');
   static final _MobileUsrLoginCredentialUrl =
       Uri.parse(baseUrlMobile + '/mobile/UsrLoginCredential');
   static final _totemRentUrl =
@@ -70,12 +74,13 @@ class Httpservices {
   }
 
   // Login with rfid method
-  static MobileLoginUs(context) async {
-    http.Response response = await _client.get(_totemUsrLoginRFIDUrl);
+  static MobileLoginNFC(nfc, context) async {
+    http.Response response =
+        await _client.get(MobileLoginNFCurl + nfc.toString());
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json[0] == "not found") {
-        await EasyLoading.showError("User not fount");
+        await EasyLoading.showError("User not found");
       } else {
         TheUser.clear();
         TheUser.addAll(json);
@@ -86,6 +91,31 @@ class Httpservices {
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  static RfidReader(context) async {
+    if (await NfcManager.instance.isAvailable()) {
+      NfcManager.instance.startSession(
+        onDiscovered: (NfcTag tag) async {
+          var ppphex = (NfcA.from(tag)?.identifier ?? Uint8List(0));
+          res = 0;
+          mergedList = [for (var sublist in ppphex) sublist];
+          for (int i = 0; i < 4; i++) {
+            int temp = mergedList[3 - i] * pow(2, 8 * i).toInt();
+            res += temp;
+          }
+          NfcManager.instance.stopSession();
+        },
+      );
+      if (res == 0) {
+        await EasyLoading.showSuccess("The card has not been scanned");
+      } else {
+        await EasyLoading.showSuccess("res: " + res.toString());
+        await Httpservices.MobileLoginNFC(res, context);
+      }
+    } else {
+      await EasyLoading.showError("NFC sensor not detected");
     }
   }
 
