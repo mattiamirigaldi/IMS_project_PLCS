@@ -1,0 +1,14 @@
+// ignore_for_file: non_constant_identifier_names
+
+class Myroutes {
+  static String baseUrlMobile = '0';
+<<<<<<< HEAD
+  static String IPaddress = '172.22.33.7';
+=======
+  static String IPaddress = '192.168.1.72';
+>>>>>>> 63aafb9de11a4818b5985dba32050e137dd83a7f
+  static String baseUrl = 'http://' + IPaddress + ':5000';
+  static String webWelcomePage = "/web";
+  static String totemWelcomePage = "/totem";
+  static String mobileWelcomePage = "/mobile";
+}
