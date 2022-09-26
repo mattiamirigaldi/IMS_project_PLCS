@@ -27,6 +27,7 @@ class _FeedDashBoardState extends State<FeedDashBoard> {
 
   @override
   Widget build(BuildContext context) {
+    allitemslist.clear();
     for (var i = 0; i < AllItems.length; i++) {
       allitemslist.add(Item(
           id: AllItems[i]['id'].toString(),
@@ -47,7 +48,8 @@ class _FeedDashBoardState extends State<FeedDashBoard> {
     return Column(children: <Widget>[
       InkWell(
         onTap: () async {
-          await EasyLoading.showError(allitemslist.length.toString());
+          await EasyLoading.showError("The number of available items is : " +
+              allitemslist.length.toString());
           if (TheWebUser[0]['role'] == 'customers') {
             Navigator.push(
                 context,
