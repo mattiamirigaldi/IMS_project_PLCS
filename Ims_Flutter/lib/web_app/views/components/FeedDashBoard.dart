@@ -108,22 +108,21 @@ Widget buildCardItem({required Item item, context}) => SizedBox(
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Material(
-                    child: Hero(
-                      tag: item.id,
-                      child: Ink.image(
-                        image: NetworkImage(item.urlImage),
-                        fit: BoxFit.fill,
-                        child: InkWell(
-                            onTap: () => Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                    transitionDuration:
-                                        const Duration(milliseconds: 350),
-                                    pageBuilder: (context, __, ___) =>
-                                        ItemPage(item: item)))),
+                    child: Ink.image(
+                      image: NetworkImage(item.urlImage),
+                      fit: BoxFit.fill,
+                      child: InkWell(
+                        onTap: () => Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            transitionDuration:const Duration(milliseconds: 350),
+                            pageBuilder: (context, __, ___) => ItemPage(item: item))
+                        )
                       ),
                     ),
-                  ))),
+                  ),
+              )
+          ),
         ),
         const SizedBox(height: 4),
         Text(item.title,

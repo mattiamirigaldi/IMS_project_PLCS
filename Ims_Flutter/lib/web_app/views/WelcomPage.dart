@@ -20,7 +20,7 @@ class WelcomeHome extends StatelessWidget {
             height: 80,
           ),
           const Center(
-              child: Text("Welcome to your",
+              child: Text("Welcome to ",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontWeight: FontWeight.bold),
                   textScaleFactor: 2)),

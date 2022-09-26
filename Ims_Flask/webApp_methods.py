@@ -188,6 +188,7 @@ def ListItems(role,id,branch):
     cnxn = db.connection()
     cursor = cnxn.cursor()
     print("Access to List Items url")
+    print(branch)
     if role == "admins" :
         if branch == 'ALL':
             check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?)"
