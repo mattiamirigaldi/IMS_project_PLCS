@@ -89,11 +89,10 @@ class WelcomeHome extends StatelessWidget {
                     color: const Color.fromARGB(255, 1, 154, 16)),
               ))),
           InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const GuestDashBoard()));
+              onTap: () async {
+                // await EasyLoading.showSuccess("guest method clicked");
+
+                await Httpservices.List_guest_Items("ALL", context);
               },
               child: Center(
                   child: Container(
