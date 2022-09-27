@@ -12,6 +12,7 @@ import 'package:ims/web_app/services/http_services.dart';
 import 'package:ims/web_app/views/ItemPage.dart';
 import 'package:ims/web_app/views/ListItemsAdmin.dart';
 import 'package:ims/web_app/views/ListItemsCustomer.dart';
+import 'package:ims/web_app/views/ListItemsGuest.dart';
 import 'package:ims/web_app/views/Operator/ListItemsOperator.dart';
 
 class FeedDashBoard extends StatefulWidget {
@@ -26,6 +27,7 @@ class _FeedDashBoardState extends State<FeedDashBoard> {
 
   @override
   Widget build(BuildContext context) {
+    allitemslist.clear();
     for (var i = 0; i < AllItems.length; i++) {
       allitemslist.add(Item(
           id: AllItems[i]['id'].toString(),
@@ -46,7 +48,8 @@ class _FeedDashBoardState extends State<FeedDashBoard> {
     return Column(children: <Widget>[
       InkWell(
         onTap: () async {
-          await EasyLoading.showError(allitemslist.length.toString());
+          await EasyLoading.showError("The number of available items is : " +
+              allitemslist.length.toString());
           if (TheWebUser[0]['role'] == 'customers') {
             Navigator.push(
                 context,
@@ -57,11 +60,16 @@ class _FeedDashBoardState extends State<FeedDashBoard> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => const ListItemsOperator()));
-          } else {
+          } else if (TheWebUser[0]['role'] == 'admins') {
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => const ListItemsAdmin()));
+          } else {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ListItemsGuest()));
           }
         },
         child: const Center(
@@ -106,24 +114,22 @@ Widget buildCardItem({required Item item, context}) => SizedBox(
           child: AspectRatio(
               aspectRatio: 4 / 3,
               child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Material(
-                    child: Hero(
-                      tag: item.id,
-                      child: Ink.image(
-                        image: NetworkImage(item.urlImage),
-                        fit: BoxFit.fill,
-                        child: InkWell(
-                            onTap: () => Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                    transitionDuration:
-                                        const Duration(milliseconds: 350),
-                                    pageBuilder: (context, __, ___) =>
-                                        ItemPage(item: item)))),
-                      ),
-                    ),
-                  ))),
+                borderRadius: BorderRadius.circular(20),
+                child: Material(
+                  child: Ink.image(
+                    image: NetworkImage(item.urlImage),
+                    fit: BoxFit.fill,
+                    child: InkWell(
+                        onTap: () => Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                                transitionDuration:
+                                    const Duration(milliseconds: 350),
+                                pageBuilder: (context, __, ___) =>
+                                    ItemPage(item: item)))),
+                  ),
+                ),
+              )),
         ),
         const SizedBox(height: 4),
         Text(item.title,

@@ -188,6 +188,7 @@ def ListItems(role,id,branch):
     cnxn = db.connection()
     cursor = cnxn.cursor()
     print("Access to List Items url")
+    print(branch)
     if role == "admins" :
         if branch == 'ALL':
             check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE admin_id = (?)"
@@ -202,6 +203,15 @@ def ListItems(role,id,branch):
     if role == "customers" :
         check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE branch = (?)"
         cursor.execute(check_query,branch)
+    if role == "guest" :
+        print("guest")
+        if branch == 'ALL':
+            check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id "
+            value=()
+        else:
+            check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id WHERE AND branch = (?)"
+            value = (branch)
+        cursor.execute(check_query,value)
     if cursor.rowcount == 0:
         cnxn.close()
         print("There are no Items")

@@ -1,6 +1,8 @@
 // ignore_for_file: non_constant_identifier_names, no_logic_in_create_state
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:ims/web_app/DataLists.dart';
 import 'package:ims/web_app/services/http_services.dart';
 import 'package:ims/web_app/views/CategoriesList.dart';
 import 'package:ims/web_app/views/MyLoansPage.dart';
@@ -81,6 +83,8 @@ void choiceAction(String choice, BuildContext context) async {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const manageTotems()));
   } else if (choice == "Logout") {
+    TheWebUser.clear();
+    AllItems.clear();
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const WelcomeHome()));
   } else if (choice == "My loans") {

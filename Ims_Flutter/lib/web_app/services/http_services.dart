@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 // to display loading animation
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/web_app/DataLists.dart';
+import 'package:ims/web_app/views/Guest/GuestDashboard.dart';
 import 'package:ims/web_app/views/Operator/ListItemsOperator.dart';
 import 'package:ims/web_app/views/Operator/ManageTotemsPage.dart';
 import 'package:ims/web_app/views/Operator/ManageUsersPage.dart';
@@ -361,6 +362,31 @@ class Httpservices {
       var json = jsonDecode(response.body);
       AllItems.clear();
       AllItems.addAll(json);
+      if (json[0] == "not_found") {
+        AllItems.clear();
+        await EasyLoading.showError("There are No Ietms");
+      }
+    } else {
+      await EasyLoading?.showError(
+          "Error Code : ${response.statusCode.toString()}");
+    }
+  }
+
+  //list guest items
+  static List_guest_Items(branch, context) async {
+    http.Response response = await _client.get(Uri.parse(
+        baseUrl + "/web/items/" + 'guest' + '/' + '9' + '/' + branch));
+    await EasyLoading.showSuccess("guest method reached");
+
+    if (response.statusCode == 200) {
+      await EasyLoading.showSuccess("guest method returned from server");
+
+      var json = jsonDecode(response.body);
+      AllItems.clear();
+      AllItems.addAll(json);
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const GuestDashBoard()));
+
       if (json[0] == "not_found") {
         AllItems.clear();
         await EasyLoading.showError("There are No Ietms");

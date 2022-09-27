@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:ims/web_app/DataLists.dart';
 import 'package:ims/web_app/model/item.dart';
 
 class ItemPage extends StatefulWidget {
@@ -173,13 +174,11 @@ class _ItemPageState extends State<ItemPage> {
           ]))
         ]),
         Expanded(
-            child: Hero(
-                tag: item.id,
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child:
-                        Image.network(item.urlImage, width: 350, height: 350))))
-      ]),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.network(item.urlImage, width: 350, height: 350))
+        )
+      ])
     );
   }
 
@@ -223,9 +222,11 @@ class _ItemPageState extends State<ItemPage> {
                     : const Text("NOT AVAILABLE"),
                 onPressed: () {
                   setState(() {
-                    if (item.available) {
+                    if (item.available && TheWebUser[0]['role'] != 'guest') {
                       EasyLoading.showSuccess("Item reserved");
                       item.available = !item.available;
+                    } else {
+                      EasyLoading.showError("Please login to reserve an intem");
                     }
                   });
                 },
@@ -248,13 +249,18 @@ class _ItemPageState extends State<ItemPage> {
                     icon: const Icon(Icons.favorite),
                     onPressed: () {
                       setState(() {
-                        if (item.favorite) {
-                          item.favorite = !item.favorite;
-                          EasyLoading.showSuccess("Item removed from favorite");
+                        if (TheWebUser[0]['role'] != 'guest'){
+                          if (item.favorite) {
+                            item.favorite = !item.favorite;
+                            EasyLoading.showSuccess("Item removed from favorite");
+                          } else {
+                            item.favorite = !item.favorite;
+                            EasyLoading.showSuccess("Item added to favorite");
+                          }
                         } else {
-                          item.favorite = !item.favorite;
-                          EasyLoading.showSuccess("Item added to favorite");
+                          EasyLoading.showError("Please login to add item to your favorites");
                         }
+                        
                       });
                     })))
       ]),
