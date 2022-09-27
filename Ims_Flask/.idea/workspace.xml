@@ -4,20 +4,10 @@
     <list default="true" id="1c0fe7fc-4b70-4f13-828c-0dcd61a577d3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/connectionToDb.py" beforeDir="false" afterPath="$PROJECT_DIR$/connectionToDb.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webApp_methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/webApp_methods.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/routes.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/routes_BASE_756.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/routes_LOCAL_756.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/routes_REMOTE_756.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/ItemPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/ItemPage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/AddUserPage.dart.orig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/Operator/ManageUsersPage.dart.orig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/WelcomPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/lib/web_app/views/WelcomPage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ims_Flutter/windows/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/windows/flutter/generated_plugin_registrant.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Ims_Flutter/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../Ims_Flutter/windows/flutter/generated_plugins.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Pics/BrowseShortcut.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Pics/BrowseShortcut.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Pics/ReturnTotem.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Pics/ReturnTotem.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Pics/loginOpTotem.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Pics/loginOpTotem.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,7 +198,9 @@
       <workItem from="1663669380114" duration="2555000" />
       <workItem from="1663928643096" duration="3508000" />
       <workItem from="1664034185632" duration="610000" />
-      <workItem from="1664188081363" duration="1189000" />
+      <workItem from="1664188081363" duration="1192000" />
+      <workItem from="1664204928337" duration="1201000" />
+      <workItem from="1664210966764" duration="526000" />
     </task>
     <servers />
   </component>
@@ -229,7 +221,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/app_py$flaskProject.coverage" NAME="flaskProject Coverage Results" MODIFIED="1657796470675" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/flaskProject$flaskProject.coverage" NAME="flaskProject Coverage Results" MODIFIED="1651571246353" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/app_py$app.coverage" NAME="app Coverage Results" MODIFIED="1664188820029" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/app_py$app.coverage" NAME="app Coverage Results" MODIFIED="1664210991170" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/app_py$totem_methods.coverage" NAME="totem_methods Coverage Results" MODIFIED="1657722470164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
