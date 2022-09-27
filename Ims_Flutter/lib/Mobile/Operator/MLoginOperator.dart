@@ -149,6 +149,7 @@ class _TLoginOperatorState extends State<TLoginOperator> {
                       color: Colors.green),
                 )),
                 onTap: () async {
+                  await HttpservicesOP.RfidReader(context);
                   showDialog(
                       context: context,
                       builder: (context) {
@@ -179,8 +180,7 @@ class _TLoginOperatorState extends State<TLoginOperator> {
                                           Colors.white)),
                               child: const Text('OK'),
                               onPressed: () async {
-                                await HttpservicesOP.RfidReader(context);
-                                Navigator.pop(context);
+                                await HttpservicesOP.MobileLoginNFCOP(context);
                               },
                             ),
                           ],

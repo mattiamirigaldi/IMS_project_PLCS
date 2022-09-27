@@ -52,11 +52,13 @@ class hmpage_op extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(
                         horizontal: 50, vertical: 20),
                     child: const Center(
-                        child: Text("Customers management",
-                            style: TextStyle(
-                                fontSize: 50,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black))),
+                        child: Center(
+                      child: Text("Customers management",
+                          style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black)),
+                    )),
                     height: 100,
                     width: 1500,
                     decoration: BoxDecoration(
@@ -80,7 +82,7 @@ class hmpage_op extends StatelessWidget {
                     child: const Center(
                         child: Text("Item management",
                             style: TextStyle(
-                                fontSize: 50,
+                                fontSize: 30,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black))),
                     height: 100,
@@ -100,7 +102,7 @@ class hmpage_op extends StatelessWidget {
                     child: const Center(
                         child: Text("Settings",
                             style: TextStyle(
-                                fontSize: 50,
+                                fontSize: 30,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black))),
                     height: 100,

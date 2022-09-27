@@ -25,7 +25,7 @@ import '../MHomePage_us.dart';
 late int res = 0;
 late List<int> mergedList = [];
 
-String baseUrlMobile = 'http://' + (Myroutes.baseUrlMobile) + ':5000';
+String baseUrlMobile = 'http://' + (Myroutes.IPaddress) + ':5000';
 String MobileLoginNFCurl = baseUrlMobile + '/mobile/UsrLoginNFC/';
 
 class Httpservices {
@@ -74,23 +74,28 @@ class Httpservices {
   }
 
   // Login with rfid method
-  static MobileLoginNFC(nfc, context) async {
-    http.Response response =
-        await _client.get(MobileLoginNFCurl + nfc.toString());
-    if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
-      if (json[0] == "not found") {
-        await EasyLoading.showError("User not found");
-      } else {
-        TheUser.clear();
-        TheUser.addAll(json);
-        await EasyLoading.showSuccess(
-            "Welcome Back " + TheUser[0]['firstname']);
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const hmpage_us()));
-      }
+  static MobileLoginNFC(context) async {
+    if (res == 0) {
+      await EasyLoading.showSuccess("The card has not been scanned");
     } else {
-      EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+      http.Response response =
+          await _client.get(MobileLoginNFCurl + res.toString());
+      if (response.statusCode == 200) {
+        var json = jsonDecode(response.body);
+        if (json[0] == "not found") {
+          await EasyLoading.showError("User not found");
+        } else {
+          TheUser.clear();
+          TheUser.addAll(json);
+          await EasyLoading.showSuccess(
+              "Welcome Back " + TheUser[0]['firstname']);
+          Navigator.pop(context);
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const hmpage_us()));
+        }
+      } else {
+        EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+      }
     }
   }
 
@@ -108,12 +113,6 @@ class Httpservices {
           NfcManager.instance.stopSession();
         },
       );
-      if (res == 0) {
-        await EasyLoading.showSuccess("The card has not been scanned");
-      } else {
-        await EasyLoading.showSuccess("res: " + res.toString());
-        await Httpservices.MobileLoginNFC(res, context);
-      }
     } else {
       await EasyLoading.showError("NFC sensor not detected");
     }

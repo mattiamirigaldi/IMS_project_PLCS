@@ -71,6 +71,7 @@ class _TLoginPageState extends State<MLoginPage> {
                       color: Colors.green),
                 )),
                 onTap: () async {
+                  await Httpservices.RfidReader(context);
                   showDialog(
                       context: context,
                       builder: (context) {
@@ -101,8 +102,9 @@ class _TLoginPageState extends State<MLoginPage> {
                                           Colors.white)),
                               child: const Text('OK'),
                               onPressed: () async {
-                                await Httpservices.RfidReader(context);
-                                Navigator.pop(context);
+                                await Httpservices.MobileLoginNFC(context);
+                                //await Httpservices.RfidReader(context);
+                                //Navigator.pop(context);
                               },
                             ),
                           ],
