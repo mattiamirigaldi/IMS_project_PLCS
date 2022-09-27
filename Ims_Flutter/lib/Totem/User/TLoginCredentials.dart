@@ -28,7 +28,7 @@ class _TLoginCredentials extends State<TLoginCredentials> {
                 child: Center(
                     child: Text("Sign in to your account",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.green),
+                            fontWeight: FontWeight.bold, color: Colors.blue),
                         textAlign: TextAlign.center,
                         textScaleFactor: 2)),
               ),
@@ -87,7 +87,7 @@ class _TLoginCredentials extends State<TLoginCredentials> {
                     width: double.infinity,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Colors.green),
+                        color: Colors.blue),
                   ),
                   onTap: () async {
                     if (_formKey.currentState != null) {

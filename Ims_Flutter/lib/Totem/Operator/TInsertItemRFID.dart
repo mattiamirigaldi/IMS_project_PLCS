@@ -19,7 +19,7 @@ class _GenreListState extends State<TInsertItemRFID> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.blue,
             title: const Image(
               image: AssetImage('images/logo.png'),
               height: 50,
@@ -52,7 +52,7 @@ class _GenreListState extends State<TInsertItemRFID> {
                     height: 100,
                     width: 1500,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: Colors.blue,
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),

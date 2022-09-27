@@ -1,9 +1,15 @@
 // ignore_for_file: file_names
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'dart:typed_data';
 import 'package:ims/Mobile/User/MLoginCredentials.dart';
+import 'package:nfc_manager/platform_tags.dart';
 import 'Operator/MLoginOperator.dart';
 import './User/services/MUs_http_services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:nfc_manager/nfc_manager.dart';
 
 class MLoginPage extends StatefulWidget {
   const MLoginPage({Key? key}) : super(key: key);
@@ -65,7 +71,45 @@ class _TLoginPageState extends State<MLoginPage> {
                       color: Colors.green),
                 )),
                 onTap: () async {
-                  await Httpservices.MobileLoginUs(context);
+                  await Httpservices.RfidReader(context);
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('TAG READER'),
+                          content: const Text('Please scan your Tag'),
+                          actions: <Widget>[
+                            TextButton(
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.red),
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white)),
+                              child: const Text('CANCEL'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            TextButton(
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all<
+                                          Color>(
+                                      const Color.fromARGB(255, 68, 156, 71)),
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white)),
+                              child: const Text('OK'),
+                              onPressed: () async {
+                                await Httpservices.MobileLoginNFC(context);
+                                //await Httpservices.RfidReader(context);
+                                //Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        );
+                      });
                 }),
             // If wanted to implement with inf loop :
             const Padding(

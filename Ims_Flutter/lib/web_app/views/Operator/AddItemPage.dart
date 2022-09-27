@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:ims/web_app/DataLists.dart';
+import 'package:ims/web_app/services/http_services.dart';
 import 'package:ims/web_app/views/Operator/AddBookRFID.dart';
+import 'package:ims/web_app/views/Operator/ManageItemsPage.dart';
 
 class AddBook extends StatefulWidget {
   const AddBook({Key? key}) : super(key: key);
@@ -25,6 +27,8 @@ class _GenreListState extends State<AddBook> {
   late String Loc;
   late String Description;
   late String branch;
+  late String urlImage;
+
   static final _branchOp = [
     TheWebUser[0]['branch'].toString(),
   ];
@@ -64,13 +68,11 @@ class _GenreListState extends State<AddBook> {
           ])),
         ),
         body: Center(
-          child: Container(
+          child: SizedBox(
             width: width_screen * 0.7,
             child: Form(
               key: _formKey,
               child: ListView(
-                  //crossAxisAlignment: CrossAxisAlignment.start,
-                  //mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Padding(
                       padding:
@@ -240,6 +242,28 @@ class _GenreListState extends State<AddBook> {
                         },
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          hintText: "Enter the url of the image",
+                          labelText: 'Image url',
+                          border: OutlineInputBorder(),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            urlImage = value;
+                          });
+                        },
+                        validator: (String? value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
                     (TheWebUser[0]['role'] == 'admins')
                         ? (selectBranch())
                         : (const SizedBox(
@@ -248,58 +272,67 @@ class _GenreListState extends State<AddBook> {
                     const SizedBox(
                       height: 10,
                     ),
-                    InkWell(
-                        child: Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 5),
-                            child: const Center(
-                                child: Text("SUBMIT NEW ITEM",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20))),
-                            height: 60,
-                            width: width_screen * 0.6,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              gradient: const LinearGradient(
-                                colors: <Color>[
-                                  Color.fromARGB(255, 22, 78, 163),
-                                  Color(0xFF1976D2),
-                                  Color.fromARGB(255, 36, 121, 190),
-                                ],
-                              ),
-                            )),
-                        onTap: () async {
-                          if (_formKey.currentState != null) {
-                            if (_formKey.currentState!.validate()) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => MAddBookRFID(
-                                            Title: Title,
-                                            Author: Author,
-                                            Genre: Genre,
-                                            Publisher: Publisher,
-                                            Date: Date,
-                                            Loc: Loc,
-                                            Description: Description,
-                                            branch: branch,
-                                            context: context,
-                                          )));
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content:
-                                          Text("Register item data success")));
-                            }
-                          } else {}
-                        })
+                    SubmitItem(context, width_screen)
                   ]),
             ),
           ),
         ));
   }
+
+  TextButton SubmitItem(BuildContext context, double width_screen) {
+    return TextButton(
+      onPressed: () {
+        if (_formKey.currentState != null) {
+          if (_formKey.currentState!.validate()) {
+            showDialog<String> (
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text('Item confirmation'),
+                content: const Text('Are you sure you want to add the item withouth rfid ?'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'OK'),
+                    child: const Text('Cancel'),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      await Httpservices.webAddbook(
+                        Title, Author, Genre, Publisher, Date, Loc, Description, "no", branch,context
+                      );
+                    },
+                    child: const Text('Confirm'),
+                  ),
+                ],
+              ),
+            );
+          } 
+        }
+      },
+      child:  Container(
+        margin: const EdgeInsets.symmetric(
+            horizontal: 20, vertical: 5),
+        child: const Center(
+            child: Text("SUBMIT NEW ITEM",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20))),
+        height: 60,
+        width: width_screen * 0.6,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          gradient: const LinearGradient(
+            colors: <Color>[
+              Color.fromARGB(255, 22, 78, 163),
+              Color(0xFF1976D2),
+              Color.fromARGB(255, 36, 121, 190),
+            ],
+          ),
+        )),
+    );
+  }
+
 
   Row selectBranch() {
     return Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
@@ -337,4 +370,8 @@ class _GenreListState extends State<AddBook> {
       ),
     ]);
   }
+
+  
+
 }
+

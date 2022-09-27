@@ -15,7 +15,7 @@ const RESOURCES = {
 "assets/images/Mystery.png": "35ddde59842a4a68c989877ce0362a6d",
 "assets/images/Romance.png": "8dfedd704904c8808c3d32b2bf2df4d4",
 "assets/images/Si-Fi.png": "85464f9a465eb266346600c70d8a1704",
-"assets/NOTICES": "ff1c7bb2ff8d0bbef71b329ca0f27ce5",
+"assets/NOTICES": "55408ae8b66937b652bce9aaeecb4c07",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "6d342eb68f170c97609e9da345464e5e",
 "canvaskit/canvaskit.js": "c2b4e5f3d7a3d82aed024e7249a78487",
 "canvaskit/canvaskit.wasm": "4b83d89d9fecbea8ca46f2f760c5a9ba",
@@ -26,9 +26,9 @@ const RESOURCES = {
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
-"index.html": "52dc60d2799fa66db716e9dbcbbd32b4",
-"/": "52dc60d2799fa66db716e9dbcbbd32b4",
-"main.dart.js": "566fc489b7acd6c20260a21cb758283b",
+"index.html": "9d0c0eb7b9e898a3c8020b77c66e15f4",
+"/": "9d0c0eb7b9e898a3c8020b77c66e15f4",
+"main.dart.js": "e6a889b7c8dcc4ed5953570a65000060",
 "manifest.json": "449abf8fb9467f99e4f6ccabde97da47",
 "version.json": "e43c29f4f8fd9b38cbab75c2ce6ebd37"
 };

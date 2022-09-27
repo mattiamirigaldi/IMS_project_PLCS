@@ -55,7 +55,7 @@ class ListItemsOperator extends StatelessWidget {
                       title: AllItems[i]['title'],
                       // urlImage: AllItems[i]['imagePath'],
                       urlImage: AllItems[i]['image'],
-                      color: Color.fromARGB(255, 211, 255, 89),
+                      color: const Color.fromARGB(255, 38, 145, 87),
                       price: 20.0,
                       description: AllItems[i]['description'],
                       avaflag: avaflag[i],

@@ -1,5 +1,8 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe, non_constant_identifier_names, file_names, avoid_types_as_parameter_names
 
+import 'dart:math';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -7,6 +10,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/Mobile/DataLists.dart';
 import 'package:ims/Mobile/Operator/MModifyBook.dart';
+import 'package:nfc_manager/nfc_manager.dart';
+import 'package:nfc_manager/platform_tags.dart';
 // to route
 import '../../../routes.dart';
 import '../../ListIUsers.dart';
@@ -14,39 +19,65 @@ import '../../ListItems.dart';
 import '../MHomePage_op.dart';
 import '../MRemoveCustomer.dart';
 
-String baseUrlMobile = 'http://' + (Myroutes.baseUrlMobile) + ':5000';
+late int res = 0;
+late List<int> mergedList = [];
+
+String baseUrlMobile = 'http://' + (Myroutes.IPaddress) + ':5000';
 String ListCustomers = baseUrlMobile + '/mobile/ListCustomers/';
 String AddCustomerCheck = baseUrlMobile + '/mobile/AddCustomerCheck/';
 String AddCustomer = baseUrlMobile + '/mobile/AddCustomer/';
 String RemoveCustomer = baseUrlMobile + '/mobile/RemoveCustomer/';
 String MobileAddBook = baseUrlMobile + '/mobile/AddBook/';
 String MobileRmBook = baseUrlMobile + '/mobile/RemoveBook/';
+String MobileLoginNFCopurl = baseUrlMobile + '/mobile/OprLoginNFC/';
 
 class HttpservicesOP {
   static final _client = http.Client();
-  static final _totemOprLoginRFIDUrl =
-      Uri.parse(baseUrlMobile + '/mobile/OprLoginRFID');
   static final _MobileOprLoginCredentialUrl =
       Uri.parse(baseUrlMobile + '/mobile/OprLoginCredential');
 
   // Login with rfid method
-  static totemLoginOp(context) async {
-    http.Response response = await _client.get(_totemOprLoginRFIDUrl);
-    if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
-      if (json[0] == "not found") {
-        await EasyLoading.showError(json[0]);
-      } else {
-        TheUser.clear();
-        TheUser.addAll(json);
-        await EasyLoading.showSuccess(
-            "Welcome Back " + TheUser[0]['firstname']);
-        await EasyLoading.showSuccess("Welcome dear Operator");
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const hmpage_op()));
-      }
+  static MobileLoginNFCOP(context) async {
+    if (res == 0) {
+      await EasyLoading.showSuccess("The card has not been scanned");
     } else {
-      EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+      http.Response response =
+          await _client.get(MobileLoginNFCopurl + res.toString());
+      if (response.statusCode == 200) {
+        var json = jsonDecode(response.body);
+        if (json[0] == "not found") {
+          await EasyLoading.showError("User not found");
+        } else {
+          TheUser.clear();
+          TheUser.addAll(json);
+          await EasyLoading.showSuccess(
+              "Welcome Back " + TheUser[0]['firstname']);
+          Navigator.pop(context);
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const hmpage_op()));
+        }
+      } else {
+        EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+      }
+    }
+  }
+
+  static RfidReader(context) async {
+    if (await NfcManager.instance.isAvailable()) {
+      NfcManager.instance.startSession(
+        onDiscovered: (NfcTag tag) async {
+          var ppphex = (NfcA.from(tag)?.identifier ?? Uint8List(0));
+          res = 0;
+          mergedList = [for (var sublist in ppphex) sublist];
+          for (int i = 0; i < 4; i++) {
+            int temp = mergedList[3 - i] * pow(2, 8 * i).toInt();
+            res += temp;
+          }
+          NfcManager.instance.stopSession();
+        },
+      );
+    } else {
+      await EasyLoading.showError("NFC sensor not detected");
     }
   }
 

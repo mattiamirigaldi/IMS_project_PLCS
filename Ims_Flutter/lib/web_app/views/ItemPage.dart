@@ -93,49 +93,49 @@ class _ItemPageState extends State<ItemPage> {
           const SizedBox(height: 100),
           RichText(
               text: TextSpan(children: [
-            const TextSpan(
-                text: "Title : ",
-                style: TextStyle(
+            TextSpan(
+                text: "Title : ".toUpperCase(),
+                style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.normal,
-                    color: Colors.grey)),
+                    color: Colors.black45)),
             TextSpan(
-                text: item.title.toUpperCase(),
-                style: const TextStyle(
+                text: item.title,
+                style: TextStyle(
                   fontSize: 22,
-                  color: Colors.white,
+                  color: Colors.black.withOpacity(0.75),
                   fontWeight: FontWeight.bold,
                 )),
           ])),
           RichText(
               text: TextSpan(children: [
-            const TextSpan(
-                text: "Author : ",
-                style: TextStyle(
+            TextSpan(
+                text: "Author : ".toUpperCase(),
+                style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.normal,
-                    color: Colors.grey)),
+                    color: Colors.black45)),
             TextSpan(
-                text: item.author.toUpperCase(),
-                style: const TextStyle(
+                text: item.author,
+                style: TextStyle(
                   fontSize: 22,
-                  color: Colors.white,
+                  color: Colors.black.withOpacity(0.75),
                   fontWeight: FontWeight.bold,
                 )),
           ])),
           RichText(
               text: TextSpan(children: [
-            const TextSpan(
-                text: "Category : ",
-                style: TextStyle(
+            TextSpan(
+                text: "Category : ".toUpperCase(),
+                style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.normal,
-                    color: Colors.grey)),
+                    color: Colors.black45)),
             TextSpan(
-                text: item.category.toUpperCase(),
-                style: const TextStyle(
+                text: item.category,
+                style: TextStyle(
                   fontSize: 22,
-                  color: Colors.white,
+                  color: Colors.black.withOpacity(0.75),
                   fontWeight: FontWeight.bold,
                 )),
           ])),
@@ -144,17 +144,17 @@ class _ItemPageState extends State<ItemPage> {
           ),
           RichText(
               text: TextSpan(children: [
-            const TextSpan(
-                text: "Location : ",
-                style: TextStyle(
+            TextSpan(
+                text: "Location : ".toUpperCase(),
+                style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.normal,
-                    color: Colors.grey)),
+                    color: Colors.black45)),
             TextSpan(
-                text: item.location.toUpperCase(),
-                style: const TextStyle(
+                text: item.location,
+                style: TextStyle(
                   fontSize: 22,
-                  color: Colors.white,
+                  color: Colors.black.withOpacity(0.75),
                   fontWeight: FontWeight.bold,
                 )),
           ])),

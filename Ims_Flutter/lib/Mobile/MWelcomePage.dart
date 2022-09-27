@@ -79,7 +79,7 @@ class MWelcome extends StatelessWidget {
                   if (URLaddress.isEmpty) {
                     await EasyLoading.showError("Please Enter the URL!");
                   } else {
-                    Myroutes.baseUrlMobile = URLaddress;
+                    Myroutes.IPaddress = URLaddress;
                     await Httpservices.mobileurl(context);
                     //await Httpservices.MobileLoginCredentialUs(
                     //    'c1', 'c1', context);

@@ -34,12 +34,13 @@ def totem():
         return ("nunn")
 
 # Customer login RFID
-@mobile_methods.route('/mobile/UsrLoginRFID', methods=["GET", "POST"])
-def UsrLoginRFID():
+@mobile_methods.route('/mobile/UsrLoginNFC/<nfc>', methods=["GET", "POST"])
+def UsrLoginNFC(nfc):
+    print(nfc)
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM [customers] WHERE rfid = (?) "
-    cursor.execute(check_query, rfid)
+    check_query = "SELECT * FROM customers WHERE rfid = (?)"
+    cursor.execute(check_query, nfc)
     if cursor.rowcount == 0:
         cnxn.close()
         print("not found")
@@ -74,12 +75,13 @@ def UsrLoginCredential():
     return jsonify(data)
 
 # Operator login RFID
-@mobile_methods.route("/mobile/OprLoginRFID", methods=["GET", "POST"])
-def OprLoginRFID():
+@mobile_methods.route("/mobile/OprLoginNFC/<nfc>", methods=["GET", "POST"])
+def OprLoginRFID(nfc):
+    print(nfc)
     cnxn = db.connection()
     cursor = cnxn.cursor()  
-    check_query = "SELECT * FROM [operators] WHERE rfid = (?) "
-    cursor.execute(check_query, rfid)
+    check_query = "SELECT * FROM operators WHERE rfid = (?) "
+    cursor.execute(check_query, nfc)
     if cursor.rowcount == 0:
         cnxn.close()
         print("not found")

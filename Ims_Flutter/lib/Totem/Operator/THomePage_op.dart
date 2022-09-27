@@ -15,7 +15,7 @@ class hmpage_op extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.blue,
             title:
 
                 //Text("HELLO DEAR BOOK LOVER!"),
@@ -32,7 +32,7 @@ class hmpage_op extends StatelessWidget {
                           builder: (context) => const TWelcome()));
                 },
                 child: const Icon(Icons.exit_to_app_rounded),
-                backgroundColor: const Color.fromARGB(255, 28, 67, 29),
+                backgroundColor: const Color.fromARGB(255, 28, 29, 67),
               ),
             ]),
         body: Column(
@@ -61,7 +61,7 @@ class hmpage_op extends StatelessWidget {
                     height: 80,
                     width: 1500,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: Colors.blue,
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
@@ -87,7 +87,7 @@ class hmpage_op extends StatelessWidget {
                     height: 80,
                     width: 1500,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: Colors.blue,
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),

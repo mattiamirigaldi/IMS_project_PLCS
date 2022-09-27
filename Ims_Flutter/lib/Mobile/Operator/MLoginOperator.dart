@@ -149,7 +149,43 @@ class _TLoginOperatorState extends State<TLoginOperator> {
                       color: Colors.green),
                 )),
                 onTap: () async {
-                  await HttpservicesOP.totemLoginOp(context);
+                  await HttpservicesOP.RfidReader(context);
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('TAG READER'),
+                          content: const Text('Please scan your Tag'),
+                          actions: <Widget>[
+                            TextButton(
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.red),
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white)),
+                              child: const Text('CANCEL'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            TextButton(
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all<
+                                          Color>(
+                                      const Color.fromARGB(255, 68, 156, 71)),
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white)),
+                              child: const Text('OK'),
+                              onPressed: () async {
+                                await HttpservicesOP.MobileLoginNFCOP(context);
+                              },
+                            ),
+                          ],
+                        );
+                      });
                   //ScaffoldMessenger.of(context).showSnackBar(
                   //    const SnackBar(content: Text("Login Success")));
                 }),

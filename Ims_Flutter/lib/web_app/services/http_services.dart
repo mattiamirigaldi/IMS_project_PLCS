@@ -84,7 +84,7 @@ class Httpservices {
         TheWebUser[0]['imagePath'] =
             'https://img.icons8.com/ios-filled/50/000000/user-male-circle.png';
         TheWebUser[0]['news'] =
-            'He is often considered a "goofy" boss by the employees of Dunder Mifflin. He is often the butt of everybodies jokes. Michael constantly tries to intermix his work life with his social life by inviting employees of Dunder Mifflin to come over house or get coffee';
+            '... there are no news ';
         TheWebUser[0]['role'] = role;
         if (role == 'admins') {
           await Httpservices.List_Items('ALL', context);
@@ -220,7 +220,7 @@ class Httpservices {
   }
 
   static item_edit(oldid, newTitle, newAuthor, newDescription, newLocation,
-      newCategory, newRfid, newUrlImage, context) async {
+      newCategory, newId, newRfid, newUrlImage, context) async {
     http.Response response =
         await _client.post(Uri.parse(ItemEditUrl + oldid), body: {
       "newTitle": newTitle,
@@ -228,6 +228,7 @@ class Httpservices {
       "newDescription": newDescription,
       "newLocation": newLocation,
       "newCategory": newCategory,
+      "newId": newId,
       "newRfid": newRfid,
       "newImage": newUrlImage,
     });
