@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:ims/web_app/DataLists.dart';
+import 'package:ims/web_app/services/http_services.dart';
 import 'package:ims/web_app/views/Guest/GuestDashboard.dart';
+import 'package:ims/web_app/views/components/UserDashboard.dart';
 import 'Searchbar.dart';
 import 'menu_item.dart';
 //import 'dart:developer' as devlog;
@@ -60,15 +62,35 @@ class CustomAppBar extends StatelessWidget {
                         alignment: Alignment.center),
                     borderRadius: BorderRadius.circular(25),
                   )),
-              onTap: () => (TheWebUser[0]['role'] != "guest")
-                  ? Navigator.push(
+              onTap: () async {
+                if (TheWebUser[0]['role'] == 'operators') {
+                  await Httpservices.List_Items(
+                      TheWebUser[0]['branch'], context);
+                  Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const DashBoard()))
-                  : Navigator.push(
+                          builder: (context) => const DashBoard()));
+                } else if (TheWebUser[0]['role'] == 'admins') {
+                  await Httpservices.List_Items('ALL', context);
+                  Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const GuestDashBoard()))),
+                          builder: (context) => const DashBoard()));
+                } else if (TheWebUser[0]['role'] == 'customers') {
+                  await Httpservices.List_Items(
+                      TheWebUser[0]['branch'], context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const DashBoard()));
+                } else if (TheWebUser[0]['role'] == 'guest') {
+                  await Httpservices.List_Items('ALL', context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const GuestDashBoard()));
+                }
+              }),
           const SizedBox(width: 20),
           Row(
             children: [

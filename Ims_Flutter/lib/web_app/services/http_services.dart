@@ -258,10 +258,7 @@ class Httpservices {
         '/' +
         id));
     if (response.statusCode == 200) {
-      //  await EasyLoading.showError("There are No Items for the selected branch");
       var json = jsonDecode(response.body);
-      //await EasyLoading.showError("error" + json[0].toString());
-
       if (json[0].toString() == "not_found") {
         AllItems.clear();
       } else {
@@ -280,7 +277,6 @@ class Httpservices {
               MaterialPageRoute(
                   builder: (context) => const ListItemsOperator()));
         }
-        //await EasyLoading.showSuccess(AllItems[0]['title']);
       }
     } else {
       await EasyLoading?.showError(
@@ -328,38 +324,11 @@ class Httpservices {
       } else {
         await EasyLoading.showSuccess(json[0]);
         await Httpservices.List_Items('ALL', context);
-        //Navigator.pushReplacement(context,
-        //    MaterialPageRoute(builder: (context) => const TReturnPage()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
     }
   }
-
-  //static List_Items_admin(opr_id, context) async {
-  //  http.Response response = await _client.get(Uri.parse(baseUrl +
-  //      "/web/items/" +
-  //      TheWebUser[0]['id'].toString() +
-  //      '/' +
-  //      opr_id.toString()));
-  //  if (response.statusCode == 200) {
-  //    var json = jsonDecode(response.body);
-  //    if (json[0] == "not_found") {
-  //      AllItems.clear();
-  //      await EasyLoading.showError(
-  //          "There are No Ietms for the selected branch");
-  //    } else {
-  //      AllItems.clear();
-  //      AllItems.addAll(json);
-  //      await EasyLoading.showSuccess(AllItems[0]['title']);
-  //    }
-  //    Navigator.push(context,
-  //        MaterialPageRoute(builder: (context) => const SelectListType()));
-  //  } else {
-  //    await EasyLoading?.showError(
-  //        "Error Code : ${response.statusCode.toString()}");
-  //  }
-  //}
 
   static List_Items(branch, context) async {
     http.Response response = await _client.get(Uri.parse(baseUrl +
@@ -375,7 +344,7 @@ class Httpservices {
       AllItems.addAll(json);
       if (json[0] == "not_found") {
         AllItems.clear();
-        await EasyLoading.showError("There are No Ietms");
+        await EasyLoading.showError("There are No Items");
       }
     } else {
       await EasyLoading?.showError(
@@ -387,11 +356,8 @@ class Httpservices {
   static List_guest_Items(branch, context) async {
     http.Response response = await _client.get(Uri.parse(
         baseUrl + "/web/items/" + 'guest' + '/' + '9' + '/' + branch));
-    await EasyLoading.showSuccess("guest method reached");
 
     if (response.statusCode == 200) {
-      await EasyLoading.showSuccess("guest method returned from server");
-
       var json = jsonDecode(response.body);
       AllItems.clear();
       AllItems.addAll(json);
@@ -400,7 +366,7 @@ class Httpservices {
 
       if (json[0] == "not_found") {
         AllItems.clear();
-        await EasyLoading.showError("There are No Ietms");
+        await EasyLoading.showError("There are No Items");
       }
     } else {
       await EasyLoading?.showError(
