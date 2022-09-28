@@ -41,7 +41,7 @@ class MmodifyBook extends StatelessWidget {
                     child: const Center(
                         child: Text("List All Items",
                             style: TextStyle(
-                                fontSize: 50,
+                                fontSize: 30,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black))),
                     height: 100,
@@ -67,7 +67,7 @@ class MmodifyBook extends StatelessWidget {
                     child: const Center(
                         child: Text("Add an Item",
                             style: TextStyle(
-                                fontSize: 50,
+                                fontSize: 30,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black))),
                     height: 100,
@@ -93,7 +93,7 @@ class MmodifyBook extends StatelessWidget {
                     child: const Center(
                         child: Text("Remove an Item",
                             style: TextStyle(
-                                fontSize: 50,
+                                fontSize: 30,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black))),
                     height: 100,

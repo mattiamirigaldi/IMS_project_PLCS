@@ -29,7 +29,9 @@ String AddCustomer = baseUrlMobile + '/mobile/AddCustomer/';
 String RemoveCustomer = baseUrlMobile + '/mobile/RemoveCustomer/';
 String MobileAddBook = baseUrlMobile + '/mobile/AddBook/';
 String MobileRmBook = baseUrlMobile + '/mobile/RemoveBook/';
+String MobileRmBookNFC = baseUrlMobile + '/mobile/RemoveBookNFC/';
 String MobileLoginNFCopurl = baseUrlMobile + '/mobile/OprLoginNFC/';
+String MobileAddItemCheckurl = baseUrlMobile + '/mobile/AddItemCheck/';
 
 class HttpservicesOP {
   static final _client = http.Client();
@@ -287,7 +289,7 @@ class HttpservicesOP {
 
   // Add book method
   static MobileAddbook(Titlee, Author, Genre, Publisher, Date, Loc, Description,
-      rfid_flag, context) async {
+      ImageUrl, rfid_flag, context) async {
     http.Response response = await _client.post(
         MobileAddBook +
             TheUser[0]['admin_id'].toString() +
@@ -303,7 +305,9 @@ class HttpservicesOP {
           "Date": Date,
           "Loc": Loc,
           "Description": Description,
+          "ImageUrl": ImageUrl,
           "rfid_flag": rfid_flag,
+          "rfid_value": '0',
         });
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
@@ -342,6 +346,91 @@ class HttpservicesOP {
       }
     } else {
       EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+    }
+  }
+
+  // Remove book NFC
+  static MobileRemoveItemNFC(context) async {
+    if (res == 0) {
+      await EasyLoading.showSuccess("The Item has not been scanned");
+    } else {
+      http.Response response = await _client.get(
+        MobileRmBookNFC +
+            TheUser[0]['admin_id'].toString() +
+            '/' +
+            TheUser[0]['branch'].toString() +
+            '/' +
+            res.toString(),
+      );
+      if (response.statusCode == 200) {
+        var json = jsonDecode(response.body);
+        if (json[0] == "done") {
+          await EasyLoading.showSuccess("Book removed successfully");
+          Navigator.pop(context);
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const MmodifyBook()));
+        } else {
+          Navigator.pop(context);
+          await EasyLoading.showError("The Book is not in the database");
+        }
+      } else {
+        EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+      }
+    }
+  }
+
+  // Add Item with NFC
+  static MobileAddItemNFC(Titlee, Author, Genre, Publisher, Date, Loc,
+      Description, ImageUrl, rfid_flag, context) async {
+    if (res == 0) {
+      await EasyLoading.showSuccess("The Item has not been scanned");
+    } else {
+      http.Response response = await _client.get(MobileAddItemCheckurl +
+          TheUser[0]['admin_id'].toString() +
+          '/' +
+          TheUser[0]['branch'].toString() +
+          '/' +
+          res.toString());
+      if (response.statusCode == 200) {
+        var json = jsonDecode(response.body);
+        if (json[0] == "not found") {
+          await EasyLoading.showSuccess("RFID is new");
+          http.Response response1 = await _client.post(
+              MobileAddBook +
+                  TheUser[0]['admin_id'].toString() +
+                  '/' +
+                  TheUser[0]['rfid'].toString() +
+                  '/' +
+                  TheUser[0]['branch'].toString(),
+              body: {
+                "Title": Titlee,
+                "Author": Author,
+                "Genre": Genre,
+                "Publisher": Publisher,
+                "Date": Date,
+                "Loc": Loc,
+                "Description": Description,
+                "ImageUrl": ImageUrl,
+                "rfid_flag": rfid_flag,
+                "rfid_value": res.toString(),
+              });
+          if (response1.statusCode == 200) {
+            await EasyLoading.showSuccess(
+                "The Item has been registered successfully");
+            Navigator.pop(context);
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const MmodifyBook()));
+          } else {
+            EasyLoading.showError(
+                "Error Code : ${response.statusCode.toString()}");
+          }
+        } else {
+          await EasyLoading.showError(json[0]);
+          Navigator.pop(context);
+        }
+      } else {
+        EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+      }
     }
   }
 }

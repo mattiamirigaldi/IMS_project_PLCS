@@ -11,6 +11,7 @@ class MAddBookRFID extends StatefulWidget {
   final String Date;
   final String Loc;
   final String Description;
+  final String ImageUrl;
 
   const MAddBookRFID(
       {Key? key,
@@ -21,6 +22,7 @@ class MAddBookRFID extends StatefulWidget {
       required this.Date,
       required this.Loc,
       required this.Description,
+      required this.ImageUrl,
       context})
       : super(key: key);
   @override
@@ -49,16 +51,53 @@ class _GenreListState extends State<MAddBookRFID> {
                           color: Colors.black))),
               InkWell(
                 onTap: () async {
-                  await HttpservicesOP.MobileAddbook(
-                      widget.Title,
-                      widget.Author,
-                      widget.Genre,
-                      widget.Publisher,
-                      widget.Date,
-                      widget.Loc,
-                      widget.Description,
-                      "yes",
-                      context);
+                  await HttpservicesOP.RfidReader(context);
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('RFID READER'),
+                          content: const Text("Please scan the Book's RFID"),
+                          actions: <Widget>[
+                            TextButton(
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.red),
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white)),
+                              child: const Text('CANCEL'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            TextButton(
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all<
+                                          Color>(
+                                      const Color.fromARGB(255, 68, 156, 71)),
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white)),
+                              child: const Text('OK'),
+                              onPressed: () async {
+                                await HttpservicesOP.MobileAddItemNFC(
+                                    widget.Title,
+                                    widget.Author,
+                                    widget.Genre,
+                                    widget.Publisher,
+                                    widget.Date,
+                                    widget.Loc,
+                                    widget.Description,
+                                    widget.ImageUrl,
+                                    "yes",
+                                    context);
+                              },
+                            ),
+                          ],
+                        );
+                      });
                 },
                 child: Center(
                   child: Container(
@@ -89,6 +128,7 @@ class _GenreListState extends State<MAddBookRFID> {
                       widget.Date,
                       widget.Loc,
                       widget.Description,
+                      widget.ImageUrl,
                       "no",
                       context);
                 },

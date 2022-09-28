@@ -23,6 +23,7 @@ class _GenreListState extends State<MAddBook> {
   late String RFID;
   late String Loc;
   late String Description;
+  late String ImageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -201,6 +202,30 @@ class _GenreListState extends State<MAddBook> {
                     },
                   ),
                 ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: "Enter the Book's Image url",
+                      labelText: 'Image',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        ImageUrl = value;
+                      });
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        ImageUrl =
+                            "https://smallimg.pngkey.com/png/small/12-122439_book-icon-book-flat-icon-png.png";
+                        //return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
                 InkWell(
                     child: Container(
                       margin: const EdgeInsets.symmetric(
@@ -231,6 +256,7 @@ class _GenreListState extends State<MAddBook> {
                                         Date: Date,
                                         Loc: Loc,
                                         Description: Description,
+                                        ImageUrl: ImageUrl,
                                         context: context,
                                       )));
                           ScaffoldMessenger.of(context).showSnackBar(

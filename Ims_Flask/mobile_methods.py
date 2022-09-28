@@ -295,7 +295,24 @@ def mobile_RemoveCustomer(admin_id,branch):
         
 
 #############################################################
-
+# Add Item check NFC
+@mobile_methods.route("/mobile/AddItemCheck/<adminID>/<branch>/<NewRfid>", methods=["GET", "POST"])
+def mobile_op_add_item_check(adminID,branch,NewRfid):
+    print(adminID,branch,NewRfid)
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    check_query = ''' SELECT * FROM items WHERE admin_id = (?) AND branch = (?) AND rfid = (?) ;
+                    SELECT * FROM customers WHERE admin_id = (?) AND branch = (?) AND rfid = (?) ;
+                    SELECT * FROM operators WHERE admin_id = (?) AND branch = (?) AND rfid = (?) ;'''
+    cursor.execute(check_query,adminID,branch,NewRfid,adminID,branch,NewRfid,adminID,branch,NewRfid)
+    row = cursor.fetchone()
+    cnxn.close()
+    if row != None:
+        print("the scanned RFID is already in the database")
+        return jsonify(["the scanned RFID is already in the database"])
+    else:
+        return jsonify(["not found"])
+        
 # Add Book
 @mobile_methods.route("/mobile/AddBook/<adminID>/<opr>/<branch>", methods=["GET", "POST"])
 def totem_AddBook(adminID,opr,branch):
@@ -310,48 +327,21 @@ def totem_AddBook(adminID,opr,branch):
         Date = request.form["Date"]
         Loc = request.form["Loc"]
         Description = request.form["Description"]
+        ImageUrl = request.form["ImageUrl"]
         rfid_flag = request.form["rfid_flag"]
+        rfid_value = int(request.form["rfid_value"])
+    print(adminID,opr,branch,rfid_flag,str(rfid_value))
+    if rfid_flag == "no" :
+        rfid_counter += 1
+        insert_value = (rfid_counter,rfid_counter,Title,Author,Genre,Publisher,Date,0,Loc,Description,adminID,opr,None,rfid_counter,Title,"Book",branch,0,ImageUrl)
+    else :
+        insert_value = (rfid_value,rfid_value,Title,Author,Genre,Publisher,Date,rfid_value,Loc,Description,adminID,opr,None,rfid_value,Title,"Book",branch,rfid_value,ImageUrl)
+    insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?,?);'''
+    cursor.execute(insert_query, insert_value)
     check_query1 = " SELECT * FROM books WHERE rfid = (?)"
     cursor.execute(check_query1,rfid)
-    print("check1: " + str(cursor.rowcount))
-    if cursor.rowcount == 0 or rfid_flag == "no":
-        check_query2 = " SELECT * FROM operators WHERE rfid = (?)"
-        cursor.execute(check_query2,rfid)
-        print("check2: " + str(cursor.rowcount))
-        if cursor.rowcount == 0 or rfid_flag == "no":
-            check_query3 = " SELECT * FROM customers WHERE rfid = (?)"
-            cursor.execute(check_query3,rfid)
-            print("check3: " + str(cursor.rowcount))
-            if cursor.rowcount == 0 or rfid_flag == "no":
-                print("33333333333")
-                if rfid_flag == "no" :
-                    rfid_counter += 1
-                    rfiddd = rfid_counter
-                else : 
-                    rfiddd = rfid
-                    print("4444444 :  " + str(rfiddd))
-                    if rfiddd == -1 : 
-                        cnxn.close()
-                        return jsonify(["Please Scan the RFID"])
-                insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?,?);'''
-                insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,Loc,Description,adminID,opr,None,rfiddd,Title,"Book",branch,0,"https://smallimg.pngkey.com/png/small/12-122439_book-icon-book-flat-icon-png.png")
-                cursor.execute(insert_query, insert_value)
-                cnxn.commit()
-                #insert_query = '''INSERT INTO items VALUES (?,?,?,?,?,?,?,?);'''
-                #insert_value = (adminID,opr,None,rfiddd,Title,"Book","Turin",0)
-                #cursor.execute(insert_query, insert_value)
-                #cnxn.commit()
-                return jsonify(["done"])
-            else :
-                cnxn.close()
-                return jsonify(["The RFID is for a User"])
-        else :
-            cnxn.close()
-            return jsonify(["The RFID is for an Operator"])
-    else :
-        cnxn.close()
-        return jsonify(["The book is already in the Database"])
-
+    cnxn.commit()
+    return jsonify(["done"])
 
 
 # Remove Book
@@ -392,6 +382,29 @@ def totem_RemoveBook(adminID,branch):
         cnxn.close()
         return jsonify(["done"])
 
+# Remove Book with NFC
+@mobile_methods.route("/mobile/RemoveBookNFC/<adminID>/<branch>/<rfidvalue>", methods=["GET", "POST"])
+def mobile_RemoveBookNFC(adminID,branch,rfidvalue):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    print(adminID,branch,rfidvalue)
+    check_query = "SELECT * FROM items WHERE rfid = (?) AND admin_id = (?) AND branch = (?)"
+    delete_query1 = "DELETE FROM items WHERE rfid = (?) AND admin_id = (?) AND branch = (?)"
+    delete_query2 = "DELETE FROM books WHERE rfid = (?)"
+    value = (rfidvalue,adminID,branch)
+    cursor.execute(check_query,value)
+    if cursor.rowcount == 0 :
+        cnxn.close()
+        print("2222222")
+        return jsonify(["no"])
+    else :
+        print("33333333")
+        cursor.execute(delete_query1,value)
+        cnxn.commit()
+        cursor.execute(delete_query2,rfidvalue)
+        cnxn.commit()
+        cnxn.close()
+        return jsonify(["done"])
 #############################################################
 
 @mobile_methods.route("/get", methods=["GET", "POST"])

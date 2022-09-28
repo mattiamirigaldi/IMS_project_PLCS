@@ -141,8 +141,44 @@ class _GenreListState extends State<MRemoveBook> {
                       color: Colors.green),
                 )),
                 onTap: () async {
-                  await HttpservicesOP.MobileRemoveBook(
-                      "title", "author", "yes", context);
+                  await HttpservicesOP.RfidReader(context);
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('RFID READER'),
+                          content: const Text("Please scan the Book's RFID"),
+                          actions: <Widget>[
+                            TextButton(
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.red),
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white)),
+                              child: const Text('CANCEL'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            TextButton(
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all<
+                                          Color>(
+                                      const Color.fromARGB(255, 68, 156, 71)),
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white)),
+                              child: const Text('OK'),
+                              onPressed: () async {
+                                await HttpservicesOP.MobileRemoveItemNFC(
+                                    context);
+                              },
+                            ),
+                          ],
+                        );
+                      });
                 }),
           ]),
     );
