@@ -83,8 +83,7 @@ class Httpservices {
         TheWebUser.addAll(json);
         TheWebUser[0]['imagePath'] =
             'https://img.icons8.com/ios-filled/50/000000/user-male-circle.png';
-        TheWebUser[0]['news'] =
-            '... there are no news ';
+        TheWebUser[0]['news'] = '... there are no news ';
         TheWebUser[0]['role'] = role;
         if (role == 'admins') {
           await Httpservices.List_Items('ALL', context);
@@ -235,9 +234,16 @@ class Httpservices {
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Item edited successfully")));
-      await Httpservices.List_Items('ALL', context);
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const ListItemsOperator()));
+      if (TheWebUser[0]['role'] == 'admins' ||
+          TheWebUser[0]['role'] == 'guest') {
+        await Httpservices.List_Items('ALL', context);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const ListItemsAdmin()));
+      } else {
+        await Httpservices.List_Items(TheWebUser[0]['branch'], context);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const ListItemsOperator()));
+      }
     } else {
       await EasyLoading?.showError(
           "Error Code : ${response.statusCode.toString()}");
