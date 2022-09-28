@@ -237,26 +237,17 @@ def mobile_op_add_customer(adminID,opr,branch):
         mail = request.form["email"]
         pwd = request.form["password"]
         rfid_flag = request.form["rfid_flag"]
-    print("11111111111")
-    rfiddd = None
-    if rfid_flag == "yes" :
-        check_query = "SELECT * FROM customers WHERE rfid = (?) AND admin_id = (?) AND and branch = (?)"
-        cursor.execute(check_query, rfid, adminID, branch)
-        rfiddd = rfid
-    print("22222222222")
-    if cursor.rowcount == 0 or rfid_flag == "no":
-        insert_query = '''INSERT INTO customers VALUES (?,?,?,?,?,?,?,?,?,?);'''  # the '?' are placeholders
-        value = (adminID, opr, rfiddd, firstname, lastname, username, mail, pwd, rfiddd, branch)
-        cursor.execute(insert_query, value)
-        cnxn.commit()
-        cnxn.close()
-        user_add_flag = "new User added to the database successfully"
-        print(user_add_flag)
-        return jsonify([user_add_flag])
+        rfid_value = int(request.form["rfid_value"])
+    print(adminID,opr,branch,str(rfid_value))
+    value = (adminID, opr, rfid_value, firstname, lastname, username, mail, pwd, rfid_value, branch)
+    if rfid_flag == "no":
+        value = (adminID, opr, None, firstname, lastname, username, mail, pwd, None, branch)
+    insert_query = "INSERT INTO customers VALUES (?,?,?,?,?,?,?,?,?,?)"
+    cursor.execute(insert_query, value)
+    cnxn.commit()
     cnxn.close()
-    user_add_flag = "RFID is already in the db"
-    print(user_add_flag)
-    return jsonify([user_add_flag])
+    print("new User added to the database successfully")
+    return jsonify(["done"])
 
 #############################################################
 
@@ -292,7 +283,25 @@ def mobile_RemoveCustomer(admin_id,branch):
     print("Operator removed a User successfully")
     return jsonify(["Done"])
     
-        
+ # Remove Customer with NFC
+@mobile_methods.route("/mobile/RemoveCustomerNFC/<adminID>/<branch>/<rfidvalue>", methods=["GET", "POST"])
+def mobile_RemoveCustomerNFC(adminID,branch,rfidvalue):
+    cnxn = db.connection()
+    cursor = cnxn.cursor()
+    print(adminID,branch,rfidvalue)
+    check_query = "SELECT * FROM customers WHERE rfid = (?) AND admin_id = (?) AND branch = (?)"
+    delete_query = "DELETE FROM customers WHERE rfid = (?) AND admin_id = (?) AND branch = (?)"
+    value = (rfidvalue,adminID,branch)
+    cursor.execute(check_query,value)
+    if cursor.rowcount == 0 :
+        cnxn.close()
+        print("Customer Not found")
+        return jsonify(["no"])
+    print("Customer removed successfully")
+    cursor.execute(delete_query,value)
+    cnxn.commit()
+    cnxn.close()
+    return jsonify(["done"])       
 
 #############################################################
 # Add Item check NFC

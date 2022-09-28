@@ -38,7 +38,7 @@ class modifyCustomer extends StatelessWidget {
                     child: const Center(
                         child: Text("List all customers",
                             style: TextStyle(
-                                fontSize: 50,
+                                fontSize: 30,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black))),
                     height: 100,
@@ -64,7 +64,7 @@ class modifyCustomer extends StatelessWidget {
                     child: const Center(
                         child: Text("Add customer",
                             style: TextStyle(
-                                fontSize: 50,
+                                fontSize: 30,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black))),
                     height: 100,
@@ -90,7 +90,7 @@ class modifyCustomer extends StatelessWidget {
                     child: const Center(
                         child: Text("Remove customer",
                             style: TextStyle(
-                                fontSize: 50,
+                                fontSize: 30,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black))),
                     height: 100,

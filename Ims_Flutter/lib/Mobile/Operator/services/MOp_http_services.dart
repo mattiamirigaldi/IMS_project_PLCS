@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ims/Mobile/DataLists.dart';
 import 'package:ims/Mobile/Operator/MModifyBook.dart';
+import 'package:ims/Mobile/Operator/MModifyCustomer.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:nfc_manager/platform_tags.dart';
 // to route
@@ -25,8 +26,10 @@ late List<int> mergedList = [];
 String baseUrlMobile = 'http://' + (Myroutes.IPaddress) + ':5000';
 String ListCustomers = baseUrlMobile + '/mobile/ListCustomers/';
 String AddCustomerCheck = baseUrlMobile + '/mobile/AddCustomerCheck/';
+String AddCustomerCheckNFC = baseUrlMobile + '/mobile/AddItemCheck/';
 String AddCustomer = baseUrlMobile + '/mobile/AddCustomer/';
 String RemoveCustomer = baseUrlMobile + '/mobile/RemoveCustomer/';
+String RemoveCustomerNFC = baseUrlMobile + '/mobile/RemoveCustomerNFC/';
 String MobileAddBook = baseUrlMobile + '/mobile/AddBook/';
 String MobileRmBook = baseUrlMobile + '/mobile/RemoveBook/';
 String MobileRmBookNFC = baseUrlMobile + '/mobile/RemoveBookNFC/';
@@ -99,7 +102,7 @@ class HttpservicesOP {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const hmpage_op()));
         //Navigator.push(context,
-        //    MaterialPageRoute(builder: (context) => const MmodifyBook()));
+        //    MaterialPageRoute(builder: (context) => const modifyCustomer()));
       }
     } else {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
@@ -202,7 +205,7 @@ class HttpservicesOP {
   }
 
   // Add customer method
-  static totemAddCustomer(
+  static MobileAddCustomer(
     firstName,
     lastName,
     username,
@@ -225,6 +228,7 @@ class HttpservicesOP {
           "username": username,
           "password": password,
           "rfid_flag": rfid_flag,
+          "rfid_value": "0",
         });
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
@@ -237,6 +241,67 @@ class HttpservicesOP {
       }
     } else {
       EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+    }
+  }
+
+  // Add customer with NFC
+  static MobileAddCustomerNFC(
+    firstName,
+    lastName,
+    username,
+    email,
+    password,
+    rfid_flag,
+    context,
+  ) async {
+    if (res == 0) {
+      await EasyLoading.showSuccess("The Item has not been scanned");
+    } else {
+      http.Response response = await _client.get(AddCustomerCheckNFC +
+          TheUser[0]['admin_id'].toString() +
+          '/' +
+          TheUser[0]['branch'].toString() +
+          '/' +
+          res.toString());
+      if (response.statusCode == 200) {
+        var json = jsonDecode(response.body);
+        if (json[0] == "not found") {
+          await EasyLoading.showSuccess("RFID is new");
+          http.Response response1 = await _client.post(
+              AddCustomer +
+                  TheUser[0]['admin_id'].toString() +
+                  '/' +
+                  TheUser[0]['rfid'].toString() +
+                  '/' +
+                  TheUser[0]['branch'].toString(),
+              body: {
+                "firstName": firstName,
+                "lastName": lastName,
+                "email": email,
+                "username": username,
+                "password": password,
+                "rfid_flag": rfid_flag,
+                "rfid_value": res.toString(),
+              });
+          if (response1.statusCode == 200) {
+            await EasyLoading.showSuccess(
+                "The Item has been registered successfully");
+            Navigator.pop(context);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const modifyCustomer()));
+          } else {
+            EasyLoading.showError(
+                "Error Code : ${response1.statusCode.toString()}");
+          }
+        } else {
+          await EasyLoading.showError(json[0]);
+          Navigator.pop(context);
+        }
+      } else {
+        EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
+      }
     }
   }
 
@@ -261,6 +326,38 @@ class HttpservicesOP {
       EasyLoading.showError("Error Code : ${response.statusCode.toString()}");
     }
   }
+
+  // Remove Customer NFC
+  static MobileRemoveCustomerNFC(context) async {
+    if (res == 0) {
+      await EasyLoading.showSuccess("The Item has not been scanned");
+    } else {
+      http.Response response = await _client.get(
+        RemoveCustomerNFC +
+            TheUser[0]['admin_id'].toString() +
+            '/' +
+            TheUser[0]['branch'].toString() +
+            '/' +
+            res.toString(),
+      );
+      if (response.statusCode == 200) {
+        var json = jsonDecode(response.body);
+        if (json[0] == "done") {
+          await EasyLoading.showSuccess("Customer removed successfully");
+          Navigator.pop(context);
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const modifyCustomer()));
+        } else {
+          Navigator.pop(context);
+          await EasyLoading.showError("The Customer is not in the database");
+        }
+      } else {
+        EasyLoading.showError("Error code : ${response.statusCode.toString()}");
+      }
+    }
+  }
+
+//#############################################################################
 
   // List ALL Items
   static List_All_Items(context) async {
