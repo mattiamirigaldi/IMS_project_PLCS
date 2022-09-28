@@ -296,39 +296,6 @@ def item_return(role_type,id,bookid):
     cnxn.close()
     return jsonify(["done"])
 
-#@webApp_methods.route("/web/items", methods=["GET", "POST"])
-#def items():
-#    cnxn = db.connection()
-#    cursor = cnxn.cursor()
-#    if request.method == 'GET':
-#        print("GET request")
-#    print("Access to items url : Successful_1")
-#    check_query = 'SELECT * FROM [Items]'
-#    cursor.execute(check_query)
-#    j = 0
-#    tit = []
-#    aut = []
-#    gen = []
-#    rfid = []
-#    usr = []
-#    loc = []
-#    data = []
-#    for row in cursor:
-#        print("Access to items url : Successful_3")
-#        books = {"Title": row[0], "Author": row[1], "Genre": row[2], "RFID": row[3], "userName": row[4], "Location": row[5]}
-#        data.append(books)
-#    for i in data:
-#        tit.append(data[j]["Title"])
-#        aut.append(data[j]["Author"])
-#        gen.append(data[j]["Genre"])
-#        rfid.append(data[j]["RFID"])
-#        usr.append(data[j]["userName"])
-#        loc.append(data[j]["Location"])
-#        j += 1
-#    cnxn.close()
-#    return jsonify(tit, aut, gen, rfid, usr, loc)
-
-
 # List Users
 @webApp_methods.route("/web/ListUsers/<role>/<id>/<table_adminID>/<branch>", methods=["GET", "POST"])
 def mobile_ListUsers(role,id,table_adminID,branch):

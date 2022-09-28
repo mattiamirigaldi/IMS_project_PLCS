@@ -258,25 +258,30 @@ class Httpservices {
         '/' +
         id));
     if (response.statusCode == 200) {
+      //  await EasyLoading.showError("There are No Items for the selected branch");
       var json = jsonDecode(response.body);
-      if (json[0] == "not_found") {
+      //await EasyLoading.showError("error" + json[0].toString());
+
+      if (json[0].toString() == "not_found") {
         AllItems.clear();
-        await EasyLoading.showError(
-            "There are No Ietms for the selected branch");
       } else {
         AllItems.clear();
         AllItems.addAll(json);
-        await EasyLoading.showSuccess(AllItems[0]['title']);
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Item Removed successfully")));
+        if (TheWebUser[0]['role'] == 'admins') {
+          await Httpservices.List_Items('ALL', context);
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const ListItemsAdmin()));
+        } else {
+          await Httpservices.List_Items(TheWebUser[0]['branch'], context);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const ListItemsOperator()));
+        }
+        //await EasyLoading.showSuccess(AllItems[0]['title']);
       }
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const ListItemsOperator()));
-      // Navigator.push(context,
-      //     MaterialPageRoute(builder: (context) => const SelectListType()));
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Item edited successfully")));
-      await Httpservices.List_Items('ALL', context);
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const ListItemsOperator()));
     } else {
       await EasyLoading?.showError(
           "Error Code : ${response.statusCode.toString()}");
