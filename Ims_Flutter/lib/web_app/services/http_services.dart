@@ -92,7 +92,7 @@ class Httpservices {
           if (response3.statusCode == 200) {
             var json3 = jsonDecode(response3.body);
             if (json3[0] == "not_found") {
-              await EasyLoading.showError(json[0]);
+              AllBranches.clear();
             } else {
               AllBranches.clear();
               AllBranches.addAll(json3);

@@ -88,7 +88,7 @@ class manageCustomer extends StatelessWidget {
             onTap: () async {
               //await EasyLoading.showSuccess(TheWebUser.length.toString());
               if (TheWebUser[0]['role'] == 'admins') {
-                await Httpservices.WebListUsers("customers", 'ALL', context);
+                await Httpservices.WebListUsers("operators", 'ALL', context);
               } else {
                 await Httpservices.WebListUsers(TheWebUser[0]['admin_id'],
                     TheWebUser[0]['branch'], context);

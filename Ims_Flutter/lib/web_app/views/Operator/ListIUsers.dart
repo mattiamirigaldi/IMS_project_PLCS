@@ -12,7 +12,7 @@ class ListUsers extends StatefulWidget {
 }
 
 List<String> branches = ['ALL'];
-List<String> roles = ['customers', 'operators'];
+List<String> roles = ['operators', 'customers'];
 String dropdownvalueBranch = 'ALL';
 String dropdownvalueTable = roles[0];
 
