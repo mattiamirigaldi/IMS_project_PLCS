@@ -47,7 +47,7 @@ class ProductBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         padding: const EdgeInsets.all(2),
-        height: 120,
+        height: 150,
         child: Card(
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -61,11 +61,11 @@ class ProductBox extends StatelessWidget {
                           Text(title,
                               style:
                                   const TextStyle(fontWeight: FontWeight.bold)),
-                          Text("By " + author),
-                          Text("Genre: " + genre),
-                          Text("RFID: " + rfid),
-                          Text("date: " + date),
-                          Text("Publisher: " + publisher),
+                          Text("Author : " + author),
+                          Text("Genre : " + genre),
+                          Text("RFID : " + rfid),
+                          Text("date : " + date),
+                          Text("Publisher : " + publisher),
                         ],
                       )))
             ])));

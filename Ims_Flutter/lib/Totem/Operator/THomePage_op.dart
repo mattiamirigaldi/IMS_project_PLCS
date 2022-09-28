@@ -32,7 +32,7 @@ class hmpage_op extends StatelessWidget {
                           builder: (context) => const TWelcome()));
                 },
                 child: const Icon(Icons.exit_to_app_rounded),
-                backgroundColor: Color.fromARGB(255, 28, 29, 67),
+                backgroundColor: const Color.fromARGB(255, 28, 29, 67),
               ),
             ]),
         body: Column(

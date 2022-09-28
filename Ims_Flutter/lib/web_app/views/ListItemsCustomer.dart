@@ -55,7 +55,7 @@ class ListItemsCustomer extends StatelessWidget {
                       title: AllItems[i]['title'],
                       // urlImage: AllItems[i]['imagePath'],
                       urlImage: AllItems[i]['image'],
-                      color: Color.fromARGB(255, 211, 255, 89),
+                      color: Color.fromARGB(255, 236, 234, 152),
                       price: 20.0,
                       description: AllItems[i]['description'],
                       avaflag: avaflag[i],
@@ -66,7 +66,7 @@ class ListItemsCustomer extends StatelessWidget {
                   Navigator.push(
                       context,
                       PageRouteBuilder(
-                          transitionDuration: Duration(milliseconds: 350),
+                          transitionDuration: const Duration(milliseconds: 350),
                           pageBuilder: (context, __, ___) =>
                               ItemPage(item: item)));
                 },

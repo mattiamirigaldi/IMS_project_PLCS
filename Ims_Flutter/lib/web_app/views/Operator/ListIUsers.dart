@@ -27,8 +27,6 @@ class _ListUsersState extends State<ListUsers> {
     for (var i = 0; i < AllBranches.length; i++) {
       branches.add(AllBranches[i]);
     }
-    double width_screen = MediaQuery.of(context).size.width;
-    double height_screen = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: AppBar(
           title: (Row(children: [
