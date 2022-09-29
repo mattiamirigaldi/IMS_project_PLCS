@@ -43,7 +43,7 @@ def UsrLoginRFID():
     cnxn.close()
     if row != None:
         print("User Found : FIRSTNAME is " + row.firstname)
-        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid), str(row.admin_id), str(row.opr_id))
+        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid), str(row.admin_id), str(row.opr_id), row.branch)
     else:
         print (rfid)
         print("User Not found")
@@ -65,7 +65,7 @@ def UsrLoginCredential():
     if row != None:
         print("User Found : FIRSTNAME is " + row.firstname)
         print("User Found : RFID is " + str(row.rfid))
-        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid), str(row.admin_id), str(row.opr_id))
+        return jsonify(["found"], row.firstname, row.lastname, row.username, row.mail, str(row.rfid), str(row.admin_id), str(row.opr_id),row.branch)
     else:
         print("User Not found")
         return jsonify(["not found"])
@@ -119,21 +119,21 @@ def OprLoginCredential():
 #############################################################
 
 # book Rent
-@totem_methods.route("/totem/BookRent/<adminID>/<oprID>/<cst>", methods=["GET", "POST"])
-def totem_BookRent(adminID,oprID,cst):
+@totem_methods.route("/totem/BookRent/<adminID>/<branch>/<cst>", methods=["GET", "POST"])
+def totem_BookRent(adminID,branch,cst):
     cnxn = db.connection()
     cursor = cnxn.cursor()
     print (rfid)
-    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id where items.rfid = (?) AND admin_id = (?) AND opr_id = (?)"
-    cursor.execute(check_query,rfid,adminID,oprID)
+    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id where items.rfid = (?) AND admin_id = (?)"
+    cursor.execute(check_query,rfid,adminID)
     if cursor.rowcount == 0:
         cnxn.close()
         return jsonify(["The Item is not in the Database"])
     else :
         row = cursor.fetchone()
         if row.cus_id == None :
-            rent_query = "UPDATE items SET cus_id = (?) WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?)"
-            cursor.execute(rent_query,cst,rfid,adminID,oprID)
+            rent_query = "UPDATE items SET cus_id = (?) WHERE rfid = (?) AND admin_id = (?)"
+            cursor.execute(rent_query,cst,rfid,adminID)
             cnxn.commit()
             cnxn.close()
             print("Book rented successfully")
@@ -145,8 +145,8 @@ def totem_BookRent(adminID,oprID,cst):
 
 
 # book Return
-@totem_methods.route("/totem/BookReturn/<adminID>/<oprID>/<cst>", methods=["GET", "POST"])
-def totem_BookReturn(adminID,oprID,cst):
+@totem_methods.route("/totem/BookReturn/<adminID>/<branch>/<cst>", methods=["GET", "POST"])
+def totem_BookReturn(adminID,branch,cst):
     cnxn = db.connection()
     cursor = cnxn.cursor()
     check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id where items.rfid = (?) AND cus_id = (?) AND admin_id = (?)"# AND opr_id = (?)"
@@ -157,8 +157,8 @@ def totem_BookReturn(adminID,oprID,cst):
         return jsonify(["Book Not found"])
     else:
         print("Book found")
-        return_query = "UPDATE items SET cus_id = (?) WHERE rfid = (?) AND admin_id = (?) AND opr_id = (?)"
-        cursor.execute(return_query,None,rfid,adminID,oprID)
+        return_query = "UPDATE items SET cus_id = (?) WHERE rfid = (?) AND admin_id = (?)"
+        cursor.execute(return_query,None,rfid,adminID)
         cnxn.commit()
         cnxn.close()
         return jsonify(["Book Returned successfully"])

@@ -132,7 +132,9 @@ Widget buildCardItem({required Item item, context}) => SizedBox(
         ),
         const SizedBox(height: 4),
         Text(item.title,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            style: const TextStyle(
+              fontSize: 18,
+            )),
         Text(item.author,
             style: const TextStyle(fontSize: 20, color: Colors.grey))
       ]),
@@ -163,6 +165,6 @@ Widget buildCardCategory({required Category item, context}) => SizedBox(
         ),
         const SizedBox(height: 4),
         Text(item.name,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold))
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold))
       ]),
     );

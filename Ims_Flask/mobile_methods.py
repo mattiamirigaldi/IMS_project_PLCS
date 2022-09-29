@@ -135,13 +135,13 @@ def mobile_ListCustomers(admin_id,branch):
 
 #############################################################
 # List the User Items
-@mobile_methods.route("/mobile/UserItems/<adminID>/<opr>/<usr>", methods=["GET", "POST"])
-def mobile_ListUserItems(adminID,opr,usr):
-    print(adminID,opr,usr)
+@mobile_methods.route("/mobile/UserItems/<adminID>/<branch>/<usr>", methods=["GET", "POST"])
+def mobile_ListUserItems(adminID,branch,usr):
+    print(adminID,branch,usr)
     cnxn = db.connection()
     cursor = cnxn.cursor()
-    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id where admin_id = (?) AND opr_id = (?) AND items.cus_id = (?)"
-    cursor.execute(check_query,adminID,opr,usr)
+    check_query = "SELECT * FROM books INNER JOIN items ON books.item_id = items.id where admin_id = (?) AND branch = (?) AND items.cus_id = (?)"
+    cursor.execute(check_query,adminID,branch,usr)
     if cursor.rowcount == 0:
         cnxn.close()
         print("User does not have any Item")
@@ -214,8 +214,8 @@ def mobile_op_add_customer_check(adminID,opr,branch):
     cursor = cnxn.cursor()
     if request.method == 'POST':
         username = request.form["username"]
-    check_query = "SELECT * FROM customers WHERE username = (?) AND admin_id = (?) AND opr_id = (?) "
-    cursor.execute(check_query,username,adminID,opr)
+    check_query = "SELECT * FROM customers WHERE username = (?) AND admin_id = (?) AND branch = (?) "
+    cursor.execute(check_query,username,adminID,branch)
     row = cursor.fetchone()
     cnxn.close()
     if row != None:

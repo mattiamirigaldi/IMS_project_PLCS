@@ -146,7 +146,7 @@ class Httpservices {
         "/mobile/UserItems/" +
         TheUser[0]['admin_id'].toString() +
         '/' +
-        TheUser[0]['opr_id'].toString() +
+        TheUser[0]['branch'].toString() +
         '/' +
         TheUser[0]['rfid'].toString()));
     if (response.statusCode == 200) {

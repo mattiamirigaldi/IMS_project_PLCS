@@ -282,16 +282,13 @@ def item_rent(role_type,id,username,bookid):
     cnxn.close()
     return jsonify(["done"])
 
-@webApp_methods.route("/web/item_return/<role_type>/<id>/<bookid>", methods=["GET", "POST"])
-def item_return(role_type,id,bookid):
+@webApp_methods.route("/web/item_return/<branch>/<bookid>", methods=["GET", "POST"])
+def item_return(branch,bookid):
     cnxn = db.connection()
     cursor = cnxn.cursor()
     print("111111111")
-    if role_type == "admins":
-        insert_query = "UPDATE items SET cus_id = (?) WHERE id = (?) AND admin_id = (?) "
-    if role_type == "operators":
-        insert_query = "UPDATE items SET cus_id = (?) WHERE id = (?) AND opr_id = (?) "
-    cursor.execute(insert_query,None,bookid,id)
+    insert_query = "UPDATE items SET cus_id = (?) WHERE id = (?) AND branch = (?)"
+    cursor.execute(insert_query,None,bookid,branch)
     cnxn.commit()
     cnxn.close()
     return jsonify(["done"])

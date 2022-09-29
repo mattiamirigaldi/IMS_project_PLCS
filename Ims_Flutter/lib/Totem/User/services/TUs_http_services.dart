@@ -36,13 +36,15 @@ class Httpservices {
   }
 
   static final user_buffer = user_data(
-      mail: '',
-      username: '',
-      lastname: '',
-      firstname: '',
-      rfid: '',
-      admin_id: '',
-      opr_id: '');
+    mail: '',
+    username: '',
+    lastname: '',
+    firstname: '',
+    rfid: '',
+    admin_id: '',
+    opr_id: '',
+    branch: '',
+  );
   // Login with rfid method
   static totemLoginUs(context) async {
     http.Response response = await _client.get(_totemUsrLoginRFIDUrl);
@@ -58,6 +60,7 @@ class Httpservices {
         user_buffer.rfid = json[5];
         user_buffer.admin_id = json[6];
         user_buffer.opr_id = json[7];
+        user_buffer.branch = json[8];
         await EasyLoading.showSuccess("Welcome dear " + json[1]);
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const hmpage_us()));
@@ -83,6 +86,7 @@ class Httpservices {
         user_buffer.rfid = json[5];
         user_buffer.admin_id = json[6];
         user_buffer.opr_id = json[7];
+        user_buffer.branch = json[8];
         await EasyLoading.showSuccess("Welcome Back " + json[1]);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const hmpage_us()));

@@ -8,6 +8,7 @@ class user_data {
   String rfid;
   String admin_id;
   String opr_id;
+  String branch;
   user_data(
       {required this.firstname,
       required this.lastname,
@@ -15,5 +16,6 @@ class user_data {
       required this.mail,
       required this.rfid,
       required this.admin_id,
-      required this.opr_id});
+      required this.opr_id,
+      required this.branch});
 }
