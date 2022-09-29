@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:ims/web_app/DataLists.dart';
 import 'package:ims/web_app/services/http_services.dart';
-import 'package:ims/web_app/views/Operator/AddBookRFID.dart';
 
 class AddTotemPage extends StatefulWidget {
   const AddTotemPage({Key? key}) : super(key: key);

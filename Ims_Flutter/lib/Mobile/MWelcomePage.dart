@@ -60,7 +60,7 @@ class MWelcome extends StatelessWidget {
                   textAlign: TextAlign.center,
                   decoration: const InputDecoration(
                       hintText: "Enter IP address to access the server",
-                      labelText: "Server URL",
+                      labelText: "Server IP",
                       border: OutlineInputBorder()),
                   onChanged: (String value) {
                     {

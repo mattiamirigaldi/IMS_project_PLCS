@@ -238,8 +238,8 @@ def item_edit(oldid):
     print("SETTINGS : newTitle is " + newTitle)
     print("new rfid is : "+newRfid)
     print("************************************")
-    insert_query = "UPDATE books SET title = (?), author = (?), genre = (?), rfid= (?), loc= (?), description = (?) WHERE id = (?); UPDATE items SET image = (?), name = (?),rfid=(?),id=(?) where id = (?);"
-    value = (newTitle, newAuthor, newCategory, newRfid, newLocation, newDescription, newId,newImage,newTitle,newRfid,newId,newId)
+    insert_query = "UPDATE books SET title = (?), author = (?), genre = (?), rfid= (?), loc= (?), description = (?), item_id = (?), id = (?) WHERE id = (?); UPDATE items SET image = (?), name = (?),rfid=(?),id=(?) where id = (?);"
+    value = (newTitle, newAuthor, newCategory, newRfid, newLocation, newDescription,newId,newId,oldid,newImage,newTitle,newRfid,newId,oldid)
     cursor.execute(insert_query, value)
     cnxn.commit()
     cnxn.close()
@@ -493,7 +493,7 @@ def totem_AddBook(adminID,rfid,role_type):
         Loc = request.form["Loc"]
         Description = request.form["Description"]
         branch = request.form["branch"]
-        
+        urlImage = request.form["urlImage"]
     if role_type == "operators":
         check_query1 = " SELECT * FROM books WHERE title = (?) AND author = (?)"
         cursor.execute(check_query1,Title,Author)
@@ -503,7 +503,7 @@ def totem_AddBook(adminID,rfid,role_type):
             print("book is new")
             tempid += 1
             insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?,?);'''
-            insert_value = (tempid,tempid,Title,Author,Genre,Publisher,Date,0,Loc,Description,adminID,rfid,None,tempid,Title,"Book",branch,0,"https://smallimg.pngkey.com/png/small/12-122439_book-icon-book-flat-icon-png.png")
+            insert_value = (tempid,tempid,Title,Author,Genre,Publisher,Date,0,Loc,Description,adminID,rfid,None,tempid,Title,"books",branch,0,urlImage)
             cursor.execute(insert_query, insert_value)
             cnxn.commit()
             return jsonify(["done"])
@@ -515,13 +515,8 @@ def totem_AddBook(adminID,rfid,role_type):
         cursor.execute(check_query1,Title,Author)
         print("check1: " + str(cursor.rowcount))
         if cursor.rowcount == 0: 
-            rfiddd = rfid
-            print("4444444 :  " + str(rfiddd))
-            if rfiddd == -1 : 
-                cnxn.close()
-                return jsonify(["Please Scan the RFID"])
             insert_query = '''INSERT INTO books VALUES (?,?,?,?,?,?,?,?,?,?); INSERT INTO items VALUES (?,?,?,?,?,?,?,?,?);'''
-            insert_value = (rfiddd,rfiddd,Title,Author,Genre,Publisher,Date,0,Loc,Description,rfid,None,None,rfiddd,Title,"Book",branch,0,"https://smallimg.pngkey.com/png/small/12-122439_book-icon-book-flat-icon-png.png")
+            insert_value = (tempid,tempid,Title,Author,Genre,Publisher,Date,0,Loc,Description,rfid,None,None,tempid,Title,"books",branch,0,urlImage)
             cursor.execute(insert_query, insert_value)
             cnxn.commit()
             return jsonify(["done"])

@@ -29,7 +29,7 @@ def totem():
                 print('111111')
             else:
                 print('222222')
-            rfid = rfid_received
+                rfid = rfid_received
         return ("nunn")
 
 # User login RFID

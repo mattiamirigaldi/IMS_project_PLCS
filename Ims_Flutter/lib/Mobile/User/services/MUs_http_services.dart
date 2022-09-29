@@ -83,6 +83,7 @@ class Httpservices {
       if (response.statusCode == 200) {
         var json = jsonDecode(response.body);
         if (json[0] == "not found") {
+          Navigator.pop(context);
           await EasyLoading.showError("User not found");
         } else {
           TheUser.clear();

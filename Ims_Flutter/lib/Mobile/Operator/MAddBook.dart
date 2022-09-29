@@ -219,7 +219,7 @@ class _GenreListState extends State<MAddBook> {
                     validator: (String? value) {
                       if (value!.isEmpty) {
                         ImageUrl =
-                            "https://smallimg.pngkey.com/png/small/12-122439_book-icon-book-flat-icon-png.png";
+                            'https://smallimg.pngkey.com/png/small/12-122439_book-icon-book-flat-icon-png.png';
                         //return 'Please enter some text';
                       }
                       return null;

@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:ims/web_app/DataLists.dart';
 import 'package:ims/web_app/services/http_services.dart';
-import 'package:ims/web_app/views/Operator/AddBookRFID.dart';
 import 'package:ims/web_app/views/Operator/ManageItemsPage.dart';
 
 class AddBook extends StatefulWidget {
@@ -72,208 +71,207 @@ class _GenreListState extends State<AddBook> {
             width: width_screen * 0.7,
             child: Form(
               key: _formKey,
-              child: ListView(
-                  children: <Widget>[
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                      child: Center(
-                        child: Text(
-                          "Item details".toUpperCase(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black.withOpacity(0.7)),
-                          textAlign: TextAlign.center,
-                          textScaleFactor: 3,
-                        ),
-                      ),
+              child: ListView(children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                  child: Center(
+                    child: Text(
+                      "Item details".toUpperCase(),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black.withOpacity(0.7)),
+                      textAlign: TextAlign.center,
+                      textScaleFactor: 3,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: "Enter the Book's Title",
-                          labelText: 'Title',
-                          border: OutlineInputBorder(),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            Title = value;
-                          });
-                        },
-                        validator: (String? value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                      ),
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: "Enter the Book's Title",
+                      labelText: 'Title',
+                      border: OutlineInputBorder(),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: "Enter the Book's Author",
-                          labelText: 'Author',
-                          border: OutlineInputBorder(),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            Author = value;
-                          });
-                        },
-                        validator: (String? value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                      ),
+                    onChanged: (value) {
+                      setState(() {
+                        Title = value;
+                      });
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: "Enter the Book's Author",
+                      labelText: 'Author',
+                      border: OutlineInputBorder(),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: "Enter the Book's Genre",
-                          labelText: 'Genre',
-                          border: OutlineInputBorder(),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            Genre = value;
-                          });
-                        },
-                        validator: (String? value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                      ),
+                    onChanged: (value) {
+                      setState(() {
+                        Author = value;
+                      });
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: "Enter the Book's Genre",
+                      labelText: 'Genre',
+                      border: OutlineInputBorder(),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: "Enter the Book's Publisher",
-                          labelText: 'Publisher',
-                          border: OutlineInputBorder(),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            Publisher = value;
-                          });
-                        },
-                        validator: (String? value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                      ),
+                    onChanged: (value) {
+                      setState(() {
+                        Genre = value;
+                      });
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: "Enter the Book's Publisher",
+                      labelText: 'Publisher',
+                      border: OutlineInputBorder(),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: "Enter the Book's Date",
-                          labelText: 'Date',
-                          border: OutlineInputBorder(),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            Date = value;
-                          });
-                        },
-                        validator: (String? value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                      ),
+                    onChanged: (value) {
+                      setState(() {
+                        Publisher = value;
+                      });
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: "Enter the Book's Date",
+                      labelText: 'Date',
+                      border: OutlineInputBorder(),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: "Enter the Book's Location",
-                          labelText: 'Location',
-                          border: OutlineInputBorder(),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            Loc = value;
-                          });
-                        },
-                        validator: (String? value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                      ),
+                    onChanged: (value) {
+                      setState(() {
+                        Date = value;
+                      });
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: "Enter the Book's Location",
+                      labelText: 'Location',
+                      border: OutlineInputBorder(),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: "Enter the Book's Description",
-                          labelText: 'Description',
-                          border: OutlineInputBorder(),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            Description = value;
-                          });
-                        },
-                        validator: (String? value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                      ),
+                    onChanged: (value) {
+                      setState(() {
+                        Loc = value;
+                      });
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: "Enter the Book's Description",
+                      labelText: 'Description',
+                      border: OutlineInputBorder(),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          hintText: "Enter the url of the image",
-                          labelText: 'Image url',
-                          border: OutlineInputBorder(),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            urlImage = value;
-                          });
-                        },
-                        validator: (String? value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                      ),
+                    onChanged: (value) {
+                      setState(() {
+                        Description = value;
+                      });
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: "Enter the url of the image",
+                      labelText: 'Image url',
+                      border: OutlineInputBorder(),
                     ),
-                    (TheWebUser[0]['role'] == 'admins')
-                        ? (selectBranch())
-                        : (const SizedBox(
-                            height: 5,
-                          )),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    SubmitItem(context, width_screen)
-                  ]),
+                    onChanged: (value) {
+                      setState(() {
+                        urlImage = value;
+                      });
+                    },
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        urlImage =
+                            'https://smallimg.pngkey.com/png/small/12-122439_book-icon-book-flat-icon-png.png';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                (TheWebUser[0]['role'] == 'admins')
+                    ? (selectBranch())
+                    : (const SizedBox(
+                        height: 5,
+                      )),
+                const SizedBox(
+                  height: 10,
+                ),
+                SubmitItem(context, width_screen)
+              ]),
             ),
           ),
         ));
@@ -284,11 +282,12 @@ class _GenreListState extends State<AddBook> {
       onPressed: () {
         if (_formKey.currentState != null) {
           if (_formKey.currentState!.validate()) {
-            showDialog<String> (
+            showDialog<String>(
               context: context,
               builder: (BuildContext context) => AlertDialog(
                 title: const Text('Item confirmation'),
-                content: const Text('Are you sure you want to add the item withouth rfid ?'),
+                content: const Text(
+                    'Are you sure you want to add the item withouth rfid ?'),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () => Navigator.pop(context, 'OK'),
@@ -297,42 +296,49 @@ class _GenreListState extends State<AddBook> {
                   TextButton(
                     onPressed: () async {
                       await Httpservices.webAddbook(
-                        Title, Author, Genre, Publisher, Date, Loc, Description, "no", branch,context
-                      );
+                          Title,
+                          Author,
+                          Genre,
+                          Publisher,
+                          Date,
+                          Loc,
+                          Description,
+                          "no",
+                          branch,
+                          urlImage,
+                          context);
                     },
                     child: const Text('Confirm'),
                   ),
                 ],
               ),
             );
-          } 
+          }
         }
       },
-      child:  Container(
-        margin: const EdgeInsets.symmetric(
-            horizontal: 20, vertical: 5),
-        child: const Center(
-            child: Text("SUBMIT NEW ITEM",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20))),
-        height: 60,
-        width: width_screen * 0.6,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          gradient: const LinearGradient(
-            colors: <Color>[
-              Color.fromARGB(255, 22, 78, 163),
-              Color(0xFF1976D2),
-              Color.fromARGB(255, 36, 121, 190),
-            ],
-          ),
-        )),
+      child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          child: const Center(
+              child: Text("SUBMIT NEW ITEM",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20))),
+          height: 60,
+          width: width_screen * 0.6,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            gradient: const LinearGradient(
+              colors: <Color>[
+                Color.fromARGB(255, 22, 78, 163),
+                Color(0xFF1976D2),
+                Color.fromARGB(255, 36, 121, 190),
+              ],
+            ),
+          )),
     );
   }
-
 
   Row selectBranch() {
     return Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
@@ -370,8 +376,4 @@ class _GenreListState extends State<AddBook> {
       ),
     ]);
   }
-
-  
-
 }
-

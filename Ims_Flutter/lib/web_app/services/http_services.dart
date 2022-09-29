@@ -331,6 +331,17 @@ class Httpservices {
   }
 
   static List_Items(branch, context) async {
+    http.Response response3 = await _client
+        .get(baseUrl + '/web/admins/branch/' + TheWebUser[0]['id'].toString());
+    if (response3.statusCode == 200) {
+      var json3 = jsonDecode(response3.body);
+      if (json3[0] == "not_found") {
+        AllBranches.clear();
+      } else {
+        AllBranches.clear();
+        AllBranches.addAll(json3);
+      }
+    }
     http.Response response = await _client.get(Uri.parse(baseUrl +
         "/web/items/" +
         TheWebUser[0]['role'] +
@@ -376,6 +387,17 @@ class Httpservices {
 
   // List Customers
   static WebListUsers(table_adminID, branch, context) async {
+    http.Response response3 = await _client
+        .get(baseUrl + '/web/admins/branch/' + TheWebUser[0]['id'].toString());
+    if (response3.statusCode == 200) {
+      var json3 = jsonDecode(response3.body);
+      if (json3[0] == "not_found") {
+        AllBranches.clear();
+      } else {
+        AllBranches.clear();
+        AllBranches.addAll(json3);
+      }
+    }
     http.Response response = await _client.get(ListUsersUrl +
         TheWebUser[0]['role'] +
         '/' +
@@ -537,7 +559,7 @@ class Httpservices {
 
   // Add book method
   static webAddbook(Title, Author, Genre, Publisher, Date, Loc, Description,
-      rfid_flag, branch, context) async {
+      rfid_flag, branch, urlImage, context) async {
     http.Response response = await _client.post(
         AddBookUrl +
             TheWebUser[0]['admin_id'].toString() +
@@ -555,6 +577,7 @@ class Httpservices {
           "Description": Description,
           "rfid_flag": rfid_flag,
           "branch": branch,
+          "urlImage": urlImage
         });
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
